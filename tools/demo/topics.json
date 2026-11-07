@@ -1,0 +1,21 @@
+{
+  "schema": "ulearnbetter.demo-topics/0.1",
+  "note": "演示数据的主题配置：视频 → 笔记目录 → 编译产物。compileAt 取该主题在学习者脚本里加入的日期（编译时间先于登记）。",
+  "topics": [
+    {
+      "id": "nn-basics", "name": "神经网络入门", "folder": "机器学习", "compileAt": "2026-10-14T00:00:00+00:00",
+      "videos": ["aircAruvnKk", "IHZwWFHWa-w", "Ilg3gGewQ5U"], "maxVariation": 3
+    },
+    {
+      "id": "git-basics", "name": "Git版本控制", "folder": "编程", "compileAt": "2026-10-18T00:00:00+00:00",
+      "videos": ["HkdAHXoRtos", "ecK3EnyGD8o"], "maxVariation": 2
+    },
+    {
+      "id": "kelly-sizing", "name": "凯利公式与仓位管理", "folder": "量化交易", "compileAt": "2026-10-24T00:00:00+00:00",
+      "videos": ["THYLv5_0Vm8"], "maxVariation": 2
+    }
+  ],
+  "unparsedVideos": [
+    { "url": "https://www.youtube.com/watch?v=-9JM9suCIHs", "reason": "字幕接口 HTTP 429（多次重试），未取到转写；按技能规则不写笔记，只作为视频链接登记（排队中）" }
+  ]
+}

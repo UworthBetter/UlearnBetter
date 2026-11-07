@@ -1,0 +1,5 @@
+{"id":"f0d6b823-89d5-493e-889e-89aa2669adce","at":"2026-10-15T12:25:00.000Z","target":"item:i-061ff1f0-144d-43f4-9015-2436725496f8","op":"attach_idea","value":{"conceptRef":"concept:nn-basics/神经元与激活"},"reason":null}
+{"id":"0bd0ed39-dc6c-4d53-b02f-cf529516e247","at":"2026-10-19T12:37:00.000Z","target":"item:i-667052f1-8619-4835-854f-c523071c8534","op":"attach_idea","value":{"conceptRef":"concept:git-basics/提交-commit"},"reason":null}
+{"id":"ce1b9484-72b8-49ee-9ad9-e42dba9f5e5f","at":"2026-10-24T12:24:00.000Z","target":"item:i-765f5f6a-e203-42a1-8d29-03a154ed59dd","op":"attach_idea","value":{"conceptRef":"concept:kelly-sizing/仓位与风险换算"},"reason":null}
+{"id":"63ad78c8-8656-4c5a-8d5a-8d2c7865ffe6","at":"2026-10-31T12:28:00.000Z","target":"item:i-b74a121c-ef1f-4152-8f24-9a1953ce68da","op":"attach_idea","value":{"conceptRef":"concept:git-basics/二分排查-bisect"},"reason":null}
+{"id":"4fdd7e4f-b01a-417a-be15-a56d8a09e2a1","at":"2026-11-05T12:12:00.000Z","target":"item:i-753a28bf-db24-4be4-b44f-4224f4d92706","op":"attach_idea","value":{"conceptRef":"concept:nn-basics/反向传播"},"reason":null}

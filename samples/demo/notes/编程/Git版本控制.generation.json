@@ -1,0 +1,383 @@
+{
+  "schema": "ulearnbetter.demo-notes-generation/0.1",
+  "tool": "demo-notes/0.1",
+  "promptVersion": "notes-from-ingest/0.1",
+  "skill": "youtube-obsidian-notes",
+  "model": "glm-5.3-flash",
+  "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+  "mock": false,
+  "generatedAt": "2026-11-07T19:10:52+00:00",
+  "topic": {
+    "name": "Git版本控制",
+    "id": "git-basics",
+    "folder": "编程"
+  },
+  "videos": [
+    {
+      "videoId": "HkdAHXoRtos",
+      "url": "https://www.youtube.com/watch?v=HkdAHXoRtos",
+      "title": "Git It? How to use Git and Github",
+      "channel": "Fireship",
+      "durationSec": 739,
+      "uploadDate": "20181026",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "15/15",
+      "ingestedAt": "2026-11-07T10:52:55"
+    },
+    {
+      "videoId": "ecK3EnyGD8o",
+      "url": "https://www.youtube.com/watch?v=ecK3EnyGD8o",
+      "title": "13 Advanced (but useful) Git Techniques and Shortcuts",
+      "channel": "Fireship",
+      "durationSec": 486,
+      "uploadDate": "20210907",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "15/15",
+      "ingestedAt": "2026-11-07T10:53:01"
+    }
+  ],
+  "plan": {
+    "chapterNotes": [
+      "ch01 认识 Git 与初始化仓库",
+      "ch02 忽略文件、暂存与提交",
+      "ch03 分支与快进合并",
+      "ch04 Stash 与合并策略",
+      "ch05 推送 GitHub 与开源协作",
+      "ch06 快速提交与命令别名",
+      "ch07 修补与撤销提交",
+      "ch08 云端开发与 Stash 进阶",
+      "ch09 日志美化与历史排查",
+      "ch10 钩子、清理与快速切换"
+    ],
+    "concepts": [
+      "提交 Commit",
+      "暂存区",
+      "忽略文件",
+      "分支 Branch",
+      "快进合并",
+      "合并冲突",
+      "变基与压缩",
+      "贮藏 Stash",
+      "修补提交 Amend",
+      "撤销提交 Revert",
+      "二分排查 Bisect"
+    ],
+    "checklists": [
+      "新仓库上手清单",
+      "Git 提效与自救清单"
+    ]
+  },
+  "variationAnnotations": [
+    {
+      "concept": "二分排查 Bisect",
+      "accepted": false,
+      "reason": "inputs 数量不合法"
+    },
+    {
+      "concept": "变基与压缩",
+      "accepted": false,
+      "reason": "inputs 数量不合法"
+    }
+  ],
+  "linkFixes": [],
+  "brokenLinksAfterRepair": 0,
+  "calls": [
+    {
+      "purpose": "plan",
+      "requestId": "20261108030421bfcaec05e5534f00",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 19917,
+      "completionTokens": 12037,
+      "latencyMs": 149863,
+      "thinking": true
+    },
+    {
+      "purpose": "chapter:ch03 分支与快进合并",
+      "requestId": "20261108030651665e93584fa24936",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5528,
+      "completionTokens": 765,
+      "latencyMs": 12235,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch02 忽略文件、暂存与提交",
+      "requestId": "20261108030651a44412955a734321",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6094,
+      "completionTokens": 1073,
+      "latencyMs": 15564,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch04 Stash 与合并策略",
+      "requestId": "202611080307037b3213e21e4e4f3b",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6576,
+      "completionTokens": 1041,
+      "latencyMs": 15881,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch05 推送 GitHub 与开源协作",
+      "requestId": "2026110803070686e57340f2274265",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6686,
+      "completionTokens": 1154,
+      "latencyMs": 16948,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch06 快速提交与命令别名",
+      "requestId": "20261108030719e9980b8cf0af4679",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5602,
+      "completionTokens": 747,
+      "latencyMs": 11407,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch01 认识 Git 与初始化仓库",
+      "requestId": "20261108030723c95975d38700470e",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6346,
+      "completionTokens": 1125,
+      "latencyMs": 15867,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch07 修补与撤销提交",
+      "requestId": "202611080307230aa413bd2877465f",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5321,
+      "completionTokens": 996,
+      "latencyMs": 15818,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch08 云端开发与 Stash 进阶",
+      "requestId": "20261108030730622fccd1d9894ac8",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5746,
+      "completionTokens": 1103,
+      "latencyMs": 16705,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch10 钩子、清理与快速切换",
+      "requestId": "202611080307396794897587bb4272",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5790,
+      "completionTokens": 867,
+      "latencyMs": 11899,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch09 日志美化与历史排查",
+      "requestId": "202611080307381cb83a22363f4b9b",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5827,
+      "completionTokens": 1140,
+      "latencyMs": 15829,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:提交 Commit",
+      "requestId": "20261108030747a002948594884c8c",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5937,
+      "completionTokens": 947,
+      "latencyMs": 14410,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:暂存区",
+      "requestId": "202611080307519faed469ffa54539",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5941,
+      "completionTokens": 826,
+      "latencyMs": 12707,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:忽略文件",
+      "requestId": "202611080307547fd1e0795cef4797",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5942,
+      "completionTokens": 715,
+      "latencyMs": 11756,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:分支 Branch",
+      "requestId": "20261108030802ea49f86f66ed4606",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5402,
+      "completionTokens": 770,
+      "latencyMs": 12315,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:快进合并",
+      "requestId": "20261108030804ec40b983e023410d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5412,
+      "completionTokens": 850,
+      "latencyMs": 13317,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:合并冲突",
+      "requestId": "202611080308069344bc0574d44541",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6414,
+      "completionTokens": 811,
+      "latencyMs": 13309,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:变基与压缩",
+      "requestId": "202611080308146906fdb742824077",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5662,
+      "completionTokens": 884,
+      "latencyMs": 13009,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:修补提交 Amend",
+      "requestId": "20261108030819dba1eed8b13c4fe6",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5171,
+      "completionTokens": 826,
+      "latencyMs": 12553,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:贮藏 Stash",
+      "requestId": "20261108030818c8507a61e41a4815",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7748,
+      "completionTokens": 947,
+      "latencyMs": 15725,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:撤销提交 Revert",
+      "requestId": "20261108030827c93677eeeaab4a79",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5172,
+      "completionTokens": 658,
+      "latencyMs": 12710,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:二分排查 Bisect",
+      "requestId": "20261108030831013aa94cf96a4260",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5664,
+      "completionTokens": 691,
+      "latencyMs": 10661,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:新仓库上手清单",
+      "requestId": "2026110803083322e44dfd77ab42a0",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 20008,
+      "completionTokens": 854,
+      "latencyMs": 14643,
+      "thinking": false
+    },
+    {
+      "purpose": "home:00-Home",
+      "requestId": "20261108030843a1bb292b1f82478e",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5441,
+      "completionTokens": 717,
+      "latencyMs": 8880,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:Git 提效与自救清单",
+      "requestId": "2026110803084045f70e99b5664c6d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 20019,
+      "completionTokens": 945,
+      "latencyMs": 15151,
+      "thinking": false
+    },
+    {
+      "purpose": "readme:README",
+      "requestId": "20261108030848e77280d5cd144eca",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4911,
+      "completionTokens": 796,
+      "latencyMs": 10034,
+      "thinking": false
+    },
+    {
+      "purpose": "glossary:术语表",
+      "requestId": "202611080308519fa6f8b3f7db4180",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 19253,
+      "completionTokens": 819,
+      "latencyMs": 12627,
+      "thinking": false
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "20261108030904179c94d78f734826",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 18733,
+      "completionTokens": 6732,
+      "latencyMs": 108072,
+      "thinking": true
+    }
+  ],
+  "usage": {
+    "calls": 28,
+    "promptTokens": 232263,
+    "completionTokens": 41836
+  },
+  "videoLinkFixes": [
+    {
+      "note": "00-Home.md",
+      "action": "about_to_abstract_callout"
+    },
+    {
+      "note": "00-Home.md",
+      "action": "about_strip_highlight"
+    }
+  ]
+}

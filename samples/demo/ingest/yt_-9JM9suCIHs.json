@@ -1,0 +1,57 @@
+{
+  "schema": "learning.vault.ingest/0.1",
+  "generated_at": "2026-11-07T10:56:26",
+  "tool": "video_ingest 0.1.0",
+  "platform": "youtube",
+  "id": "-9JM9suCIHs",
+  "url": "https://www.youtube.com/watch?v=-9JM9suCIHs",
+  "title": "The Kelly Criterion",
+  "channel": "Mutual Information",
+  "upload_date": "20220419",
+  "duration_sec": 540,
+  "description": "Reach out to us :) https://truetheta.io\n\nThe Kelly Criterion provides the optimal strategy when betting on random outcomes with known probabilities. \n\nSOCIAL MEDIA\n\nLinkedIn : https://www.linkedin.com/in/dj-rich-90b91753/\nTwitter : https://twitter.com/DuaneJRich\nGithub: https://github.com/Duane321\n\nEnjoy learning this way? Want me to make more videos? Consider supporting me on Patreon: https://www.patreon.com/MutualInformation\n\nTIMESTAMPS\n0:00 Intro/The Game\n1:16 Growth Rates\n3:43 People Play Terribly \n4:46 The Best Strategy Possible \n7:10 The Kelly Formula Is Dangerous\n\nCODE\n\nhttps://github.com/Duane321/mutual_information/tree/main/videos/kelly_criterion\n\nSOURCES\n\nI first came across the Kelly Criterion in [1], which features it as a powerful example of the relevance and usefulness of information theory. In chapter 6, you'll find an exact and more general discussion of this idea.\n\nWikipedia, [2], was also useful, as it is frequently. That's where I learned about [3], which was an interesting case study about how bad we are at this game. As an aside, I actually ran the experiment on a friend and didn't find similar results - I guess she was pretty smart! She bet about 3-5 dollars on each flip, with the wagers moving to the larger side of this range as the wealth increased.\n\n[4] is the original paper. It's a nice explanation, but relies on some background knowledge of information theory. If you're curious about the connection to information theory, this is the place to look.\n\n--------------------------------\n\n[1] T. M. Cover and J. A. Thomas. Elements of Information Theory. 2nd edition. John Wiley, 2006.\n\n[2] Kelly Criterion, Wikipedia, https://en.wikipedia.org/wiki/Kelly_criterion\n\n[3] V. Haghani, R Dewey, \"Rational Decision-Making Under Uncertainty: Observed Betting Patterns on a Biased Coin\", Journal of Portfolio Management, 2016\n\n[4] J. L. Kelly Jr,  \"A New Interpretation of Information Rate\", Bell System Technical Journal, 1956",
+  "thumbnail": "https://i.ytimg.com/vi/-9JM9suCIHs/maxresdefault.jpg",
+  "chapters": [
+    {
+      "start": 0.0,
+      "end": 76.0,
+      "title": "Intro/The Game",
+      "origin": "official"
+    },
+    {
+      "start": 76.0,
+      "end": 223.0,
+      "title": "Growth Rates",
+      "origin": "official"
+    },
+    {
+      "start": 223.0,
+      "end": 286.0,
+      "title": "People Play Terribly",
+      "origin": "official"
+    },
+    {
+      "start": 286.0,
+      "end": 430.0,
+      "title": "The Best Strategy Possible",
+      "origin": "official"
+    },
+    {
+      "start": 430.0,
+      "end": 540.0,
+      "title": "The Kelly Formula Is Dangerous",
+      "origin": "official"
+    }
+  ],
+  "transcript": null,
+  "quality_flags": {
+    "chapters_total": 5,
+    "chapters_matched": 0,
+    "per_chapter": [],
+    "trusted": false,
+    "transcript_source": null,
+    "notes": [
+      "未取到转写：可重试加 --asr 或 --cookies-from-browser（B站 AI 字幕需登录）"
+    ]
+  }
+}
