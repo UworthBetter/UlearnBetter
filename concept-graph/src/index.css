@@ -1,0 +1,217 @@
+:root {
+  color: #eaf2ff;
+  background: #05070d;
+  font-family: "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+}
+
+button, input { font: inherit; }
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 280px minmax(340px, 440px) minmax(420px, 1fr);
+  background:
+    radial-gradient(ellipse at 78% 45%, rgba(56, 189, 248, 0.05), transparent 42%),
+    #05070d;
+}
+
+.col {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #171717;
+}
+
+.graph-col { border-right: 0; }
+
+.col-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #171717;
+  background: rgba(8, 10, 16, 0.92);
+}
+
+.eyebrow {
+  color: #34d399;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.head-title {
+  margin-top: 2px;
+  color: #f8fbff;
+  font-family: Palatino, "Palatino Linotype", "Songti SC", serif;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.concept-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+.concept-row {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid #141820;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.concept-row:hover { background: #0c121c; }
+.concept-row.active { background: #101826; box-shadow: inset 2px 0 0 #34d399; }
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.row-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.row-name { font-size: 14px; line-height: 1.35; }
+.row-meta {
+  display: flex;
+  gap: 8px;
+  color: #8ca3c4;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.detail-body {
+  padding: 22px 22px 32px;
+  overflow: auto;
+}
+
+.importance {
+  margin: 0 0 8px;
+  color: #8ca3c4;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.detail-body h1 {
+  margin: 0 0 12px;
+  font-family: Palatino, "Palatino Linotype", "Songti SC", serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.summary {
+  margin: 0 0 22px;
+  color: #c5d4ea;
+  line-height: 1.6;
+}
+
+.detail-body h2 {
+  margin: 0 0 8px;
+  color: #8ca3c4;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+}
+
+.question, .task {
+  margin: 0 0 20px;
+  line-height: 1.55;
+}
+
+.task {
+  padding: 12px 14px;
+  border: 1px solid #243044;
+  border-radius: 10px;
+  background: #0b1018;
+}
+
+.primary {
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  background: #34d399;
+  color: #05281f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary:hover { background: #6ee7b7; }
+
+.graph-head { justify-content: space-between; }
+.head-copy { flex: 1; min-width: 0; }
+.head-count {
+  margin-left: 8px;
+  color: #8ca3c4;
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+  font-size: 12px;
+}
+
+.nav-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #243044;
+  border-radius: 8px;
+  background: transparent;
+  color: #eaf2ff;
+  cursor: pointer;
+}
+
+.nav-btn:disabled {
+  color: #3d4b60;
+  cursor: default;
+}
+
+.graph-stage { position: relative; flex: 1; min-height: 0; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 8px 14px 10px;
+  border-top: 1px solid #171717;
+  color: #8ca3c4;
+  font-size: 12px;
+}
+
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.swatch.red { background: #fb7185; }
+.swatch.yellow { background: #f5c451; }
+.swatch.green { background: #34d399; }
+.swatch.gray { background: #8b95a7; }
+
+@media (max-width: 980px) {
+  .app { grid-template-columns: 220px minmax(260px, 1fr) minmax(280px, 1fr); }
+  .detail-body h1 { font-size: 26px; }
+}

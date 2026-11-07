@@ -10,3 +10,6 @@ venv/
 # 系统
 .DS_Store
 Thumbs.db
+
+# WordLink 参考检出（Windows 上 con.md 会导致检出不完整）
+/_ref/
