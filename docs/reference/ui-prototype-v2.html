@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UlearnBetter 原型</title>
+<style>
+/* ====== 视觉语言：沿用 concept-graph/src/star-dive/star-dive.css 的 token ====== */
+:root{
+  --bg0:#040919; --bg1:#0a1536; --bg2:#13224f;
+  --amber:#ffb547; --amber2:#ffd48a; --amber3:#ff9a5a; --cyan:#86dcff; --cyan2:#bfeaff;
+  --ink:#f3f5ff; --ink2:rgba(230,236,255,.78); --ink3:rgba(200,212,250,.52); --ink4:rgba(200,212,250,.32);
+  --line:rgba(255,222,170,.16);
+  --glass:linear-gradient(150deg,rgba(46,66,128,.50),rgba(18,28,66,.44));
+  --glass-b:rgba(255,222,170,.2);
+  --pending:#c9b6ff;
+  --font:"Inter","SF Pro Text","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Noto Sans SC","Source Han Sans SC","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","SF Mono","Fira Code",ui-monospace,Menlo,Consolas,"Noto Sans Mono CJK SC",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg0);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+#sky{position:fixed;inset:0;z-index:0;display:block}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 80% 70% at 50% 48%,transparent 55%,rgba(2,5,16,.55) 100%)}
+#view{position:fixed;inset:0;z-index:2}
+#overlay{position:fixed;inset:0;z-index:20;pointer-events:none}
+#overlay>*{pointer-events:auto}
+
+/* ---------- glass / 通用 ---------- */
+.glass{background:var(--glass);border:1px solid var(--glass-b);border-radius:20px;
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 24px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.09),0 0 50px rgba(255,170,70,.07)}
+.eyebrow{font-size:11px;letter-spacing:.32em;color:var(--amber);font-weight:600;text-transform:uppercase}
+.tag{font-size:11px;letter-spacing:.08em;padding:3px 9px;border-radius:999px;border:1px solid rgba(255,190,110,.35);color:var(--amber2);background:rgba(255,170,70,.08);white-space:nowrap}
+.tag.ghost{border-color:rgba(255,255,255,.12);color:var(--ink3);background:none}
+.tag.cyan{border-color:rgba(134,220,255,.45);color:var(--cyan2);background:rgba(134,220,255,.1)}
+.tag.pend{border-color:rgba(201,182,255,.5);color:#e0d6ff;background:rgba(160,130,255,.12);border-style:dashed}
+.tag.mock{border-color:rgba(255,140,90,.4);color:#ffd0b0;background:rgba(255,120,80,.1)}
+.tag.user{border-color:rgba(134,255,190,.4);color:#c4ffe0;background:rgba(80,220,150,.1)}
+.chip{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);border-radius:999px;padding:4px 11px;font-size:12.5px;
+  color:var(--ink2);transition:all .2s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.chip:hover{border-color:rgba(255,190,110,.55);color:var(--amber2);background:rgba(255,170,70,.1)}
+.chip.ts{font-family:var(--mono);font-size:11.5px}
+.chip.ts::before{content:"";width:0;height:0;border-left:6px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;opacity:.8}
+.chip.on{border-color:rgba(255,190,110,.6);color:var(--amber2);background:rgba(255,170,70,.14)}
+.chip.on::after{content:"✓";font-size:11px}
+.chip.on.cy{border-color:rgba(134,220,255,.6);color:var(--cyan2);background:rgba(134,220,255,.13)}
+.chip.add{border-style:dashed;color:var(--ink3)}
+.btn{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);border-radius:10px;padding:7px 14px;font-size:13px;color:var(--ink2);transition:all .2s;white-space:nowrap}
+.btn:hover{border-color:rgba(255,190,110,.55);color:var(--amber2)}
+.btn.pri{background:linear-gradient(180deg,rgba(255,185,80,.95),rgba(245,150,50,.95));color:#2a1700;border-color:transparent;font-weight:650}
+.btn.pri:hover{color:#2a1700;filter:brightness(1.08)}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:8px}
+.btn.txt{border:0;background:none;padding:4px 6px;color:var(--ink3)}
+.btn.txt:hover{color:var(--amber2)}
+.sect{font-size:11px;letter-spacing:.14em;color:var(--ink3);margin:0 0 10px}
+.mono{font-family:var(--mono)}
+.muted{color:var(--ink3)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes bloom{0%{opacity:0;transform:scale(.6);filter:blur(8px)}60%{opacity:1;filter:blur(0)}100%{transform:none}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.18);opacity:1}}
+@keyframes ringPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.7);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.rise{animation:rise .55s cubic-bezier(.2,.9,.25,1) both}
+
+/* ---------- 顶部：品牌 + 极简导航 ---------- */
+.topbar{position:fixed;left:32px;right:32px;top:24px;z-index:10;display:flex;align-items:center;gap:18px;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.brand{font-size:11px;letter-spacing:.32em;color:var(--amber);font-weight:600;text-transform:uppercase;cursor:pointer}
+.brand b{color:var(--ink3);font-weight:500;letter-spacing:.12em;margin-left:8px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:4px;padding:4px;border-radius:999px;background:rgba(10,18,44,.45);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px)}
+.nav a{font-size:13px;color:var(--ink3);text-decoration:none;padding:5px 14px;border-radius:999px;cursor:pointer;transition:all .2s;position:relative}
+.nav a:hover{color:var(--ink)}
+.nav a.on{color:var(--ink);background:rgba(255,255,255,.08)}
+.nav a .dot{position:absolute;right:6px;top:5px;width:6px;height:6px;border-radius:50%;background:var(--pending);box-shadow:0 0 8px var(--pending)}
+.sample-badge{font-size:11px;color:#ffd0b0;border:1px solid rgba(255,140,90,.35);background:rgba(255,120,80,.1);padding:3px 10px;border-radius:999px;letter-spacing:.06em}
+
+/* ---------- 底部 Agent 栏（唯一入口） ---------- */
+.agent{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(760px,calc(100vw - 32px));z-index:30}
+.agent .bar{display:flex;align-items:center;gap:10px;height:58px;padding:0 10px 0 18px;border-radius:20px;
+  background:linear-gradient(150deg,rgba(40,58,118,.72),rgba(16,26,62,.72));border:1px solid rgba(255,222,170,.24);
+  backdrop-filter:blur(20px) saturate(140%);box-shadow:0 18px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1),0 0 40px rgba(255,170,70,.08);transition:border-color .3s, box-shadow .3s}
+.agent .bar:focus-within{border-color:rgba(255,190,110,.55);box-shadow:0 18px 60px rgba(0,0,0,.5),0 0 0 4px rgba(255,180,80,.08),0 0 50px rgba(255,170,70,.16)}
+.agent.drop .bar{border-style:dashed;border-color:rgba(255,190,110,.7);box-shadow:0 0 0 6px rgba(255,180,80,.1),0 0 80px rgba(255,170,70,.25)}
+.agent .orb{width:22px;height:22px;flex:none;border-radius:50%;position:relative;
+  background:radial-gradient(circle at 40% 38%,#fff 0%,var(--amber) 50%,#b8641a 100%);box-shadow:0 0 12px 2px rgba(255,180,80,.55),0 0 26px 6px rgba(255,170,70,.2)}
+.agent.busy .orb::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--amber2);animation:spin 1s linear infinite}
+.agent input{flex:1;background:none;border:0;outline:0;color:var(--ink);font-size:15px;font-family:var(--font);min-width:0}
+.agent input::placeholder{color:var(--ink3)}
+.agent .ctx{font-size:11.5px;color:var(--ink3);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:3px 10px;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.agent .ctx i{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+.agent .icon{width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);display:grid;place-items:center;color:var(--ink2);flex:none}
+.agent .icon:hover{color:var(--amber2);border-color:rgba(255,190,110,.45)}
+.agent .send{background:linear-gradient(180deg,rgba(255,185,80,.95),rgba(245,150,50,.95));color:#2a1700;border-color:transparent}
+.agent .send:hover{color:#2a1700}
+.agent .hint{text-align:center;font-size:11px;color:var(--ink4);margin-top:7px;letter-spacing:.04em}
+.agent .hint kbd{font-family:var(--mono);font-size:10.5px;border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:0 5px;margin:0 2px;color:var(--ink3)}
+/* agent 卡：出现在栏上方，不是聊天流 */
+.agent .stack{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.nudge{display:flex;align-items:center;gap:14px;padding:14px 16px 14px 18px;border-radius:16px;animation:rise .6s cubic-bezier(.2,.9,.25,1) both}
+.nudge .t{flex:1;font-size:14px;line-height:1.55;color:var(--ink2)}
+.nudge .t b{color:var(--ink);font-weight:600}
+.nudge .t small{display:block;font-size:11.5px;color:var(--ink3);margin-top:2px}
+.nudge.compact{padding:9px 10px 9px 16px;border-radius:14px}
+.nudge.compact .t{font-size:13px}
+.nudge .star{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber);flex:none}
+.answer{padding:20px 22px 16px;border-radius:18px;animation:rise .6s cubic-bezier(.2,.9,.25,1) both;max-height:440px;overflow:auto}
+.answer .q{font-size:12.5px;color:var(--ink3);margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.answer .q b{color:var(--ink2);font-weight:500}
+.answer p{margin:0 0 10px;font-size:14.5px;line-height:1.75;color:var(--ink2)}
+.answer p b{color:var(--ink)}
+.answer ol{margin:0 0 12px;padding-left:20px;font-size:14.5px;line-height:1.75;color:var(--ink2)}
+.answer ol li{margin-bottom:6px}
+.answer .cite{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px}
+.answer .foot{display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.07);padding-top:12px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;top:76px;transform:translateX(-50%);z-index:40;padding:10px 18px;border-radius:999px;font-size:13px;color:var(--ink2);
+  background:rgba(14,24,58,.85);border:1px solid rgba(134,255,190,.3);backdrop-filter:blur(10px);animation:rise .4s both;display:flex;gap:10px;align-items:center}
+.toast i{width:7px;height:7px;border-radius:50%;background:#7dffb8;box-shadow:0 0 8px #7dffb8}
+
+/* ---------- 首次使用 ---------- */
+.first{position:absolute;left:50%;top:44%;translate:-50% -50%;text-align:center;width:min(640px,calc(100vw - 32px))}
+.first h1{font-size:40px;font-weight:700;letter-spacing:.02em;margin:18px 0 12px}
+.first p{font-size:15.5px;line-height:1.8;color:var(--ink2);margin:0 auto 26px;max-width:520px}
+.first .kinds{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.first .kind{font-size:12.5px;color:var(--ink3);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:3px;min-width:132px;background:rgba(255,255,255,.02)}
+.first .kind b{color:var(--ink2);font-weight:600;font-size:13.5px}
+.first .kind.soon{opacity:.55}
+.first .seed{width:9px;height:9px;border-radius:50%;margin:0 auto;background:var(--amber);box-shadow:0 0 14px 4px rgba(255,180,80,.5),0 0 40px 12px rgba(255,170,70,.18);animation:breathe 3s ease-in-out infinite}
+.first .promise{font-size:12px;color:var(--ink3);display:flex;gap:18px;justify-content:center}
+.first .promise span::before{content:"·";margin-right:6px;color:var(--amber)}
+
+/* ---------- 整理中 ---------- */
+.org{position:absolute;left:50%;top:44%;translate:-50% -50%;width:min(880px,calc(100vw - 32px));display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}
+.org .pipe{padding:20px 20px 16px}
+.pipe .it{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pipe .it:last-child{border-bottom:0}
+.pipe .it .n{font-size:13.5px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
+.pipe .it .n span{font-weight:400;color:var(--ink3);font-size:11.5px;font-family:var(--mono)}
+.pipe .steps{display:flex;gap:4px;margin-top:8px}
+.pipe .steps i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+.pipe .steps i.d{background:linear-gradient(90deg,var(--amber3),var(--amber))}
+.pipe .steps i.w::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--amber2),transparent);animation:slide 1.2s linear infinite}
+@keyframes slide{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.pipe .idn{font-size:11.5px;color:var(--ink3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pipe .lbls{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink4);margin-top:5px}
+.org .prop{padding:24px 26px 20px;animation:bloom .9s cubic-bezier(.2,.9,.25,1.05) both;animation-delay:.25s}
+.org .prop h2{margin:10px 0 6px;font-size:24px}
+.org .prop .sub{font-size:13.5px;color:var(--ink2);line-height:1.6;margin-bottom:16px}
+.goalprop{border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.03)}
+.goalprop .h{display:flex;align-items:center;gap:10px}
+.goalprop .h input{background:none;border:0;border-bottom:1px dashed rgba(255,255,255,.2);color:var(--ink);font:inherit;font-size:16px;font-weight:650;outline:0;padding:2px 0;width:200px}
+.goalprop .h input:focus{border-bottom-color:var(--amber)}
+.goalprop .conf{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--ink3)}
+.goalprop .why{font-size:12.5px;color:var(--ink3);margin:6px 0 10px;line-height:1.55}
+.goalprop .chips{display:flex;gap:6px;flex-wrap:wrap}
+.swatch{width:10px;height:10px;border-radius:50%;flex:none}
+.sw-a{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.sw-b{background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.org .acts{display:flex;gap:8px;align-items:center;margin-top:14px}
+
+/* ---------- 今天（总控台） ---------- */
+.home{position:absolute;left:0;right:0;top:0;bottom:0;padding:74px 64px 0;overflow:hidden}
+.home .head{display:flex;align-items:flex-end;gap:24px;margin-bottom:18px}
+.home h1{margin:6px 0 4px;font-size:28px;font-weight:700;letter-spacing:.01em}
+.home .meta{font-size:13px;color:var(--ink3)}
+.home .meta b{color:var(--ink2);font-weight:500}
+.home .rule{margin-left:auto;font-size:12px;color:var(--ink3);text-align:right;line-height:1.6}
+.today{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.tcard{padding:18px 18px 16px;border-radius:18px;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;min-height:172px;animation:rise .6s both}
+.tcard:hover{transform:translateY(-3px);border-color:rgba(255,190,110,.55);box-shadow:0 24px 70px rgba(0,0,0,.45),0 0 36px rgba(255,170,70,.18)}
+.tcard .top{display:flex;align-items:center;gap:8px}
+.tcard .min{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tcard h3{margin:10px 0 2px;font-size:19px;font-weight:700;letter-spacing:.01em}
+.tcard .from{font-size:12px;color:var(--ink3)}
+.tcard .why{margin:9px 0 10px;font-size:13px;line-height:1.6;color:var(--ink2);flex:1}
+.tcard .why::before{content:"为什么 ";color:var(--amber);font-size:11px;letter-spacing:.1em}
+.tcard .bot{display:flex;gap:6px;align-items:center}
+.tcard .go{margin-left:auto;font-size:12.5px;color:var(--amber2)}
+.tcard.done{opacity:.5}
+.goals{display:grid;grid-template-columns:1fr 1fr 330px;gap:16px}
+.gcard{padding:16px 20px;border-radius:18px;display:grid;grid-template-columns:150px 1fr;gap:18px;animation:rise .7s both;animation-delay:.1s;cursor:pointer;transition:border-color .25s}
+.gcard:hover{border-color:rgba(255,190,110,.5)}
+.gcard .mini{height:150px;border-radius:12px;background:radial-gradient(ellipse at 50% 50%,rgba(255,180,80,.08),transparent 70%);position:relative}
+.gcard.b .mini{background:radial-gradient(ellipse at 50% 50%,rgba(134,220,255,.08),transparent 70%)}
+.gcard h3{margin:0 0 3px;font-size:18px;display:flex;align-items:center;gap:8px}
+.gcard .intent{font-size:12.5px;color:var(--ink3);margin-bottom:8px}
+.gcard .stats{display:flex;gap:16px;margin-bottom:8px}
+.gcard .stats div{font-size:11px;color:var(--ink3);letter-spacing:.06em}
+.gcard .stats b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600;letter-spacing:0}
+.prog{height:5px;border-radius:3px;background:rgba(255,255,255,.08);display:flex;overflow:hidden;margin-bottom:8px}
+.prog i{display:block;height:100%}
+.prog .r{background:var(--amber)} .prog .l{background:rgba(255,190,110,.4)}
+.gcard.b .prog .r{background:var(--cyan)} .gcard.b .prog .l{background:rgba(134,220,255,.4)}
+.gcard .topics{display:flex;flex-direction:column;gap:3px}
+.gcard .topics div{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink2)}
+.gcard .topics div span{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.trail{padding:16px 20px;border-radius:18px;animation:rise .7s both;animation-delay:.2s}
+.trail ul{list-style:none;margin:0;padding:0;position:relative}
+.trail ul::before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:1px;background:rgba(255,255,255,.1)}
+.trail li{position:relative;padding:0 0 7px 20px;font-size:12.5px;color:var(--ink2);line-height:1.45}
+.trail li::before{content:"";position:absolute;left:0;top:5px;width:9px;height:9px;border-radius:50%;background:#0d1838;border:1.5px solid var(--amber)}
+.trail li.f::before{border-color:#ff8a7a}
+.trail li.q::before{border-color:var(--cyan)}
+.trail li small{display:block;color:var(--ink3);font-size:11px}
+
+/* ---------- 星图（总览 + 潜航） ---------- */
+.sky-layer{position:absolute;inset:0}
+.sky-layer svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.st{position:absolute;width:0;height:0;cursor:pointer;transition:opacity .5s,filter .5s}
+.st .hit{position:absolute;left:-18px;top:-18px;width:36px;height:36px;border-radius:50%}
+.st .halo,.st .core{opacity:var(--a,1)}
+.st .halo{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,var(--glow) 0%,transparent 68%);animation:breathe 5s ease-in-out infinite;animation-delay:var(--d)}
+.st .core{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 40% 38%,#fff 0%,var(--c) 55%,var(--deep) 100%);box-shadow:0 0 10px 2px var(--glow)}
+.st .lab{position:absolute;top:14px;left:0;transform:translateX(-50%);white-space:nowrap;text-align:center;pointer-events:none}
+.st .lab b{display:block;font-weight:600;font-size:12.5px;color:rgba(246,240,228,.9);text-shadow:0 0 10px rgba(4,9,25,.95)}
+.st .lab i{display:block;font-style:normal;font-size:10px;color:var(--ink3);letter-spacing:.05em;text-shadow:0 0 8px rgba(4,9,25,.95)}
+.st.big .lab{top:20px}.st.big .lab b{font-size:14px}
+.st:hover .lab b{color:var(--amber2)}
+.st .pring{position:absolute;left:-15px;top:-15px;width:30px;height:30px;border-radius:50%;border:1.5px dashed var(--pending);opacity:.9;animation:spin 9s linear infinite}
+.st .rring{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,190,100,.8);animation:ringPulse 2.2s ease-out infinite}
+.st.dim{opacity:.18;filter:saturate(.4)}
+.st.dim .lab{opacity:0}
+.const-label{position:absolute;transform:translate(-50%,0);padding:7px 14px 7px 12px;border-radius:999px;font-size:13px;white-space:nowrap;display:flex;gap:10px;align-items:center;cursor:pointer;
+  background:rgba(14,24,58,.6);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);transition:border-color .2s}
+.const-label:hover{border-color:rgba(255,190,110,.55)}
+.const-label b{font-weight:600}
+.const-label span{font-size:11.5px;color:var(--ink3);font-family:var(--mono)}
+.const-label.pend{border:1px dashed rgba(201,182,255,.6)}
+.goal-name{position:absolute;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.goal-name .eyebrow{font-size:10.5px}
+.goal-name h2{margin:4px 0 0;font-size:28px;font-weight:300;letter-spacing:.24em;color:rgba(255,232,200,.42)}
+.goal-name.b .eyebrow{color:var(--cyan)}
+.goal-name.b h2{color:rgba(190,234,255,.42)}
+.map-legend{position:fixed;right:40px;bottom:166px;z-index:6;display:flex;flex-direction:column;gap:8px;font-size:11.5px;color:var(--ink3);padding:12px 14px;border-radius:12px;background:rgba(10,18,44,.35);border:1px solid rgba(255,255,255,.06)}
+.map-legend span{min-height:14px}
+.map-legend span{display:flex;align-items:center;gap:6px}
+.map-legend em{display:inline-block;border-radius:50%}
+.hud{position:fixed;z-index:6;left:32px;top:62px;pointer-events:none}
+.hud h1{margin:6px 0 4px;font-size:22px;font-weight:650}
+.hud .meta{font-size:12.5px;color:var(--ink3)}
+.hud .crumb{font-size:11px;letter-spacing:.2em;color:var(--amber);font-weight:600}
+.hud .crumb a{color:var(--ink3);pointer-events:auto;cursor:pointer;text-decoration:none}
+.hud .crumb a:hover{color:var(--amber2)}
+.unassigned{position:fixed;right:40px;bottom:116px;z-index:6;font-size:12px;color:var(--ink3);border:1px dashed rgba(255,255,255,.15);border-radius:12px;padding:8px 14px}
+/* 潜航：主卡 + 环绕卡 */
+.focus-dim{position:absolute;inset:0;background:radial-gradient(ellipse 52% 48% at 50% 46%,rgba(6,12,34,.66),transparent 75%);pointer-events:none}
+.main-card{position:absolute;left:50%;top:44%;width:410px;transform:translate(-50%,-50%)}
+.main-card .inner{padding:22px 26px 20px;animation:bloom .9s cubic-bezier(.2,.9,.25,1.05) both}
+.main-card h2{margin:12px 0 2px;font-size:26px;font-weight:700;letter-spacing:.02em}
+.main-card .en{font-size:13px;color:var(--ink3);letter-spacing:.05em}
+.main-card p.sum{margin:12px 0 14px;font-size:14.5px;line-height:1.75;color:var(--ink2)}
+.main-card .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.mc-foot{display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.07);padding-top:12px;margin-top:6px;font-size:12px;color:var(--ink3)}
+.mastery{display:flex;gap:3px}
+.mastery i{width:14px;height:4px;border-radius:2px;background:rgba(255,255,255,.12)}
+.mastery i.on{background:var(--amber);box-shadow:0 0 6px rgba(255,180,80,.5)}
+.orbit-card{position:absolute;width:186px;min-height:92px;padding:14px 15px 13px;border-radius:16px;cursor:pointer;animation:bloom .9s cubic-bezier(.2,.9,.25,1.1) both;translate:-50% -50%}
+.orbit-card:hover{border-color:rgba(255,190,110,.6)}
+.oc-top{display:flex;align-items:center;gap:9px}
+.oc-ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;background:rgba(255,181,71,.16);color:var(--amber2);font-size:14px}
+.oc-act{font-size:15px;font-weight:650;letter-spacing:.03em}
+.oc-title{font-size:12px;color:var(--ink3);margin-top:8px;line-height:1.45}
+.timeline{position:fixed;left:50%;bottom:120px;transform:translateX(-50%);width:min(640px,calc(100vw - 32px));z-index:5}
+.tl-bar{position:relative;height:20px}
+.tl-seg{position:absolute;top:8px;height:3px;border-radius:2px;background:rgba(160,180,240,.18)}
+.tl-dot{position:absolute;top:5px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;background:rgba(255,230,190,.55);box-shadow:0 0 6px rgba(255,200,120,.5)}
+.tl-dot.on{background:var(--amber);transform:scale(1.35)}
+.tl-ends{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.back-btn{position:fixed;left:32px;bottom:32px;z-index:31;background:rgba(20,30,66,.55);border:1px solid var(--line);border-radius:999px;padding:8px 16px 8px 12px;font-size:13px;backdrop-filter:blur(10px);color:var(--ink2)}
+.back-btn:hover{color:var(--amber2);border-color:rgba(255,190,110,.4)}
+/* 离星回忆 */
+.recall{position:absolute;width:360px;padding:18px 20px 16px;border-radius:18px;animation:bloom .7s cubic-bezier(.2,.9,.25,1.05) both}
+.recall::before{content:"";position:absolute;left:-7px;top:30px;width:12px;height:12px;transform:rotate(45deg);background:rgba(40,58,118,.8);border-left:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b)}
+.recall .q{font-size:15px;line-height:1.65;margin:10px 0 14px}
+.recall .opts{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}
+.recall .opt{text-align:left;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);border-radius:10px;padding:9px 12px;font-size:13.5px;color:var(--ink2);transition:all .2s}
+.recall .opt:hover{border-color:rgba(255,190,110,.55);color:var(--amber2)}
+.recall .opt.ok{border-color:rgba(125,255,184,.6);color:#c4ffe0;background:rgba(80,220,150,.1)}
+.recall .alt{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink3);white-space:nowrap}
+
+/* ---------- 调整归类（提议卡片组） ---------- */
+.scrim{position:fixed;inset:0;background:rgba(3,7,20,.55);backdrop-filter:blur(3px);z-index:19;animation:rise .3s both}
+.sheet{position:fixed;left:50%;top:28px;translate:-50% 0;width:min(820px,calc(100vw - 32px));max-height:calc(100vh - 150px);overflow:auto;padding:24px 26px 20px;z-index:21;animation:bloom .6s cubic-bezier(.2,.9,.25,1.05) both}
+.sheet::-webkit-scrollbar{width:8px}.sheet::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+.sheet .h{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.sheet h2{margin:6px 0 4px;font-size:22px}
+.sheet .src{font-size:12px;color:var(--ink3);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.x{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);font-size:18px;line-height:1;color:var(--ink2);flex:none}
+.x:hover{color:var(--amber2);border-color:rgba(255,190,110,.5)}
+.chg{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:rgba(255,255,255,.03);display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:start}
+.chg.hot{border-color:rgba(201,182,255,.45);background:rgba(160,130,255,.06)}
+.chg .what{font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chg .what .arrow{color:var(--ink3);font-weight:400}
+.chg .why{grid-column:1/2;font-size:12.5px;color:var(--ink3);line-height:1.6}
+.chg .why q{color:var(--ink2);quotes:"「" "」"}
+.chg .goalsel{grid-column:1/2;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chg .goalsel small{font-size:11px;color:var(--ink3);margin-right:4px}
+.chg .side{grid-row:1/4;grid-column:2;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.conf{font-family:var(--mono);font-size:11px;color:var(--ink3);display:flex;align-items:center;gap:6px}
+.conf .bar{width:54px;height:4px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden}
+.conf .bar i{display:block;height:100%;background:var(--amber)}
+.chg .acts{display:flex;gap:6px}
+.chg.done{opacity:.55}
+.sheet .foot{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.sheet .foot .note{font-size:12px;color:var(--ink3);flex:1;line-height:1.5}
+
+/* ---------- v1 笔记抽屉样式（v2 起并入「资料」，.seg / .pin 仍在用） ---------- */
+body.with-rail .agent{left:calc((100vw - 380px)/2);width:min(700px,calc(100vw - 412px))}
+body.with-drawer .agent{left:calc((100vw - 572px)/2);width:min(660px,calc(100vw - 604px))}
+.drawer{position:fixed;right:16px;top:16px;bottom:16px;width:540px;z-index:21;padding:22px 22px 18px;display:flex;flex-direction:column;animation:drawerIn .45s cubic-bezier(.2,.9,.25,1) both}
+@keyframes drawerIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+.drawer .h{display:flex;align-items:flex-start;gap:12px}
+.drawer h2{margin:6px 0 4px;font-size:21px}
+.drawer .sub{font-size:12.5px;color:var(--ink3);line-height:1.55}
+.seg{display:flex;gap:4px;margin:14px 0 12px;padding:3px;border-radius:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);width:max-content}
+.seg a{font-size:12.5px;color:var(--ink3);padding:5px 12px;border-radius:8px;cursor:pointer}
+.seg a.on{background:rgba(255,255,255,.09);color:var(--ink)}
+.seg a em{font-style:normal;font-family:var(--mono);font-size:11px;margin-left:4px;color:var(--pending)}
+.tree{flex:1;overflow:auto;margin:0 -8px;padding:0 8px}
+.tree::-webkit-scrollbar{width:6px}.tree::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+.tg{margin-bottom:14px}
+.tg-h{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.12em;color:var(--ink3);margin:4px 0 8px}
+.tg-h b{color:var(--ink2);letter-spacing:.04em;font-size:13px}
+.tp{border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-bottom:8px;background:rgba(255,255,255,.03)}
+.tp.open{border-color:rgba(255,190,110,.35)}
+.tp-row{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer}
+.tp-row .car{color:var(--ink3);font-size:10px;width:10px;transition:transform .2s}
+.tp.open .tp-row .car{transform:rotate(90deg)}
+.tp-row .nm{font-size:14px;font-weight:600}
+.tp-row .nm small{display:block;font-weight:400;font-size:11px;color:var(--ink3);margin-top:1px}
+.tp-row .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.tp-body{padding:0 14px 12px 34px}
+.tp-goals{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px;font-size:11.5px;color:var(--ink3)}
+.cr{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:9px;font-size:13px;color:var(--ink2)}
+.cr:hover{background:rgba(255,255,255,.04)}
+.cr .md{width:8px;height:8px;border-radius:50%;flex:none}
+.cr .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr .nm small{color:var(--ink3);font-size:11px;margin-left:6px}
+.cr .imp{display:flex;gap:2px;cursor:pointer}
+.cr .imp i{font-style:normal;font-size:12px;color:rgba(255,255,255,.18)}
+.cr .imp i.on{color:var(--amber)}
+.cr .ia{display:flex;gap:2px;opacity:.0;transition:opacity .2s}
+.cr:hover .ia,.cr.hl .ia{opacity:1}
+.cr .ia button{border:0;background:none;color:var(--ink3);font-size:12px;padding:2px 6px;border-radius:6px}
+.cr .ia button:hover{color:var(--amber2);background:rgba(255,255,255,.06)}
+.cr.hidden .nm{text-decoration:line-through;opacity:.5}
+.cr.hl{background:rgba(255,170,70,.07)}
+.pin{font-size:10.5px;color:#c4ffe0;border:1px solid rgba(134,255,190,.35);border-radius:6px;padding:0 5px;flex:none}
+.drawer .foot{border-top:1px solid rgba(255,255,255,.07);padding-top:12px;margin-top:8px;font-size:12px;color:var(--ink3);line-height:1.6}
+.drawer .foot b{color:var(--ink2);font-weight:500}
+
+
+/* ================= v2：统计条 / 学习统计层 ================= */
+.kstrip{margin-left:auto;display:flex;align-items:center;gap:20px;padding:12px 18px;border-radius:16px;cursor:pointer;transition:border-color .25s}
+.kstrip:hover{border-color:rgba(255,190,110,.55)}
+.kstrip .k{font-size:11px;color:var(--ink3);letter-spacing:.06em;white-space:nowrap}
+.kstrip .k b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600;letter-spacing:0}
+.kstrip .k b small{font-size:11px;color:var(--ink3);margin-left:2px;font-weight:400}
+.kstrip .heat{display:flex;gap:3px;align-items:flex-end}
+.kstrip .heat i{width:10px;height:10px}
+.kstrip .heatwrap{font-size:10.5px;color:var(--ink3);display:flex;flex-direction:column;gap:5px;letter-spacing:.04em}
+.kstrip .go{font-size:12.5px;color:var(--amber2);white-space:nowrap}
+.hc{display:block;border-radius:2px;background:rgba(255,255,255,.06)}
+.hc.l1{background:rgba(255,181,71,.28)}.hc.l2{background:rgba(255,181,71,.5)}.hc.l3{background:rgba(255,181,71,.75)}.hc.l4{background:#ffb547}
+.hc.pre{background:none;outline:1px dashed rgba(255,255,255,.1);outline-offset:-1px}
+.hc.fut{background:none}
+.stats-sheet{width:min(1060px,calc(100vw - 32px))}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
+.kpi{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+.kpi .l{font-size:11.5px;color:var(--ink3);letter-spacing:.06em}
+.kpi b{display:block;font-family:var(--mono);font-size:24px;font-weight:600;margin:3px 0 1px}
+.kpi b small{font-size:13px;color:var(--ink3);font-weight:400}
+.kpi .d{font-size:11.5px;color:var(--ink3)}
+.srow{display:grid;gap:12px;margin-bottom:12px}
+.pnl{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);min-width:0}
+.pnl .ph{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pnl .ph h4{margin:0;font-size:13.5px;font-weight:600}
+.pnl .ph span{font-size:11.5px;color:var(--ink3)}
+.lgd{display:flex;gap:14px;font-size:11.5px;color:var(--ink2);margin-left:auto}
+.lgd i{display:inline-block;width:12px;height:2px;border-radius:1px;vertical-align:middle;margin-right:5px}
+.heatgrid{display:grid;grid-template-columns:18px repeat(5,26px);grid-template-rows:14px repeat(7,20px);gap:4px;font-size:10.5px;color:var(--ink3)}
+.heatgrid .hc{border-radius:4px}
+.heatgrid .hc:not(.fut):hover{outline:1.5px solid var(--amber2);outline-offset:0}
+.heatlgd{display:flex;gap:4px;align-items:center;font-size:10.5px;color:var(--ink3);margin-top:10px}
+.heatlgd .hc{width:12px;height:12px;border-radius:3px}
+.chart rect.hov{fill:transparent;cursor:crosshair}
+.chart rect.hov:hover{fill:rgba(255,255,255,.05)}
+.hbar{display:grid;grid-template-columns:104px 1fr 64px;gap:10px;align-items:center;font-size:12.5px;color:var(--ink2);margin-bottom:10px}
+.hbar .t{height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden}
+.hbar .t i{display:block;height:100%;border-radius:4px;background:#c4801f}
+.hbar span{font-family:var(--mono);font-size:11.5px;color:var(--ink3);text-align:right}
+.mini-list{list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--ink2)}
+.mini-list li{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);align-items:baseline}
+.mini-list li:last-child{border-bottom:0}
+.mini-list li small{margin-left:auto;color:var(--ink3);font-size:11px;white-space:nowrap}
+.dtable{width:100%;border-collapse:collapse;font-size:12px;color:var(--ink2)}
+.dtable th,.dtable td{padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;font-family:var(--mono)}
+.dtable th:first-child,.dtable td:first-child{text-align:left;font-family:var(--font)}
+.dtable th{color:var(--ink3);font-weight:500;font-family:var(--font)}
+
+/* 今天：智能体整理卡 */
+.arow{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.arow:last-child{border-bottom:0}
+.arow .aic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:rgba(255,255,255,.06);flex:none;font-size:11px;color:var(--ink2)}
+.arow .an{min-width:0;font-size:12.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .an small{display:block;font-size:11px;color:var(--ink3)}
+.arow .an small.pend{color:#e0d6ff}.arow .an small.run{color:var(--amber2)}
+
+/* ================= v2：资料（智能体整理收件箱 + 修正层） ================= */
+.lib{position:absolute;inset:0;padding:74px 64px 0}
+.lib .head{display:flex;align-items:flex-end;gap:20px;margin-bottom:14px}
+.lib h1{margin:6px 0 4px;font-size:28px}
+.lib .meta{font-size:13px;color:var(--ink3);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.lib .meta b{color:var(--ink2);font-weight:500}
+.lib .filters{margin-left:auto;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.lib .filters .seg{margin:0}
+.lib-body{display:grid;grid-template-columns:520px 1fr;gap:16px;height:calc(100vh - 74px - 92px - 124px)}
+.lib-list{overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.mrow{display:grid;grid-template-columns:34px 1fr auto;gap:3px 12px;padding:12px 14px;border-radius:14px;cursor:pointer;background:rgba(20,32,74,.5);border:1px solid rgba(255,255,255,.08);transition:border-color .2s;backdrop-filter:blur(10px)}
+.mrow:hover{border-color:rgba(255,190,110,.4)}
+.mrow.on{border-color:rgba(255,190,110,.6);background:rgba(46,66,128,.55)}
+.mrow .ic{grid-row:1/4;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.06);color:var(--ink2);font-size:14px}
+.mrow .tt{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .id{grid-column:2/4;font-size:12px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mrow .id b{color:var(--ink2);font-weight:500}
+.mrow .gl{grid-column:2/4;display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--ink3);white-space:nowrap}
+.stp{font-size:11px;padding:2px 9px;border-radius:999px;white-space:nowrap;display:inline-flex;gap:6px;align-items:center;height:20px}
+.stp.run{color:var(--amber2);border:1px solid rgba(255,190,110,.4)}
+.stp.run::before{content:"";width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(255,212,138,.3);border-top-color:var(--amber2);animation:spin 1s linear infinite}
+.stp.pend{color:#e0d6ff;border:1px dashed rgba(201,182,255,.55);background:rgba(160,130,255,.1)}
+.stp.done{color:var(--ink3);border:1px solid rgba(255,255,255,.12)}
+.gdot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
+.lib-detail{overflow:auto;padding:20px 22px;border-radius:18px}
+.lib-detail::-webkit-scrollbar{width:8px}.lib-detail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+.lib-detail h2{margin:8px 0 4px;font-size:22px}
+.lib-detail .src{font-size:12.5px;color:var(--ink3);margin-bottom:16px}
+.blk{margin-bottom:18px}
+.kv{display:grid;grid-template-columns:76px 1fr;gap:6px 12px;font-size:13px;line-height:1.6;margin:0}
+.kv dt{color:var(--ink3)}
+.kv dd{margin:0;color:var(--ink2)}
+.flow{display:flex;align-items:flex-start;max-width:560px}
+.flow .s{flex:1;position:relative;text-align:center;font-size:11.5px;color:var(--ink3)}
+.flow .s::before{content:"";position:absolute;top:7px;left:-50%;right:50%;height:2px;background:rgba(255,255,255,.1)}
+.flow .s:first-child::before{display:none}
+.flow .s i{position:relative;z-index:1;display:block;width:16px;height:16px;margin:0 auto 6px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:#0d1838}
+.flow .s.d i{border-color:var(--amber);background:#3a2608}
+.flow .s.d::before{background:linear-gradient(90deg,var(--amber3),var(--amber))}
+.flow .s.p i{border:2px dashed var(--pending);background:rgba(160,130,255,.15)}
+.flow .s.w i{border-color:var(--amber2);border-top-color:transparent;animation:spin 1s linear infinite}
+.flow .s.x{opacity:.45}
+.flow .s b{display:block;color:var(--ink2);font-weight:500}
+.asg{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.asg small{font-size:11.5px;color:var(--ink3)}
+.asg .why{flex-basis:100%;font-size:12.5px;color:var(--ink3);line-height:1.6}
+.cgrp{margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cgrp>small{font-size:11px;color:var(--ink3);width:72px;flex:none}
+.cchip{font-size:12px;padding:3px 10px 3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);color:var(--ink2);display:inline-flex;gap:6px;align-items:center;background:rgba(255,255,255,.03);cursor:pointer}
+.cchip:hover{border-color:rgba(255,190,110,.5)}
+.cchip i{width:7px;height:7px;border-radius:50%}
+.dfoot{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:12px}
+.hint2{font-size:11.5px;color:var(--ink3);margin:2px 0 10px}
+
+/* ================= v2：学习全景图 ================= */
+.rail{position:fixed;right:24px;top:76px;bottom:128px;width:332px;z-index:6;padding:18px 18px 14px;overflow:auto;border-radius:18px}
+.rail::-webkit-scrollbar{width:6px}.rail::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+.rail h3{margin:6px 0 2px;font-size:17px}
+.rail .sub{font-size:12px;color:var(--ink3);margin-bottom:12px}
+.rail .sect{margin:16px 0 6px}
+.rg{margin-bottom:10px}
+.rg .n{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;margin-bottom:5px}
+.rg .n .r{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3);font-weight:400}
+.sbar{display:flex;height:8px;gap:2px}
+.sbar i{display:block;height:100%}
+.sbar i:first-child{border-radius:4px 0 0 4px}.sbar i:last-child{border-radius:0 4px 4px 0}
+.sbar-l{display:flex;gap:10px;font-size:10.5px;color:var(--ink3);margin-top:4px}
+.ritem{display:flex;gap:10px;padding:7px 10px;border-radius:10px;cursor:pointer;font-size:12.5px;color:var(--ink2);line-height:1.45;margin:0 -10px}
+.ritem:hover{background:rgba(255,255,255,.05)}
+.ritem b{color:var(--ink);font-weight:600}
+.ritem small{display:block;color:var(--ink3);font-size:11px}
+.ritem .num{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-family:var(--mono);background:var(--amber);color:#2a1700}
+.ritem .gapm{width:14px;height:14px;flex:none;margin-top:2px;border-radius:50%;border:1.5px dashed rgba(255,150,130,.8)}
+.ritem .lnk{width:14px;flex:none;margin-top:9px;border-top:1.5px dashed var(--pending);height:0}
+.rlegend{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;font-size:11px;color:var(--ink3);border-top:1px solid rgba(255,255,255,.07);padding-top:10px;margin-top:14px}
+.rlegend span{display:flex;align-items:center;gap:6px}
+.rlegend em{display:inline-block;flex:none}
+.zoom{position:fixed;left:32px;top:70px;z-index:6;display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--ink3)}
+.zoom .seg{margin:0}
+.nextbadge{position:absolute;width:18px;height:18px;margin:-30px 0 0 6px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;font-family:var(--mono);color:#2a1700;background:var(--amber);box-shadow:0 0 12px rgba(255,180,80,.7);pointer-events:none;z-index:3}
+.gaplabel{position:absolute;transform:translate(-50%,-50%);font-size:11.5px;color:#ffc4b6;padding:3px 10px;border-radius:999px;border:1px dashed rgba(255,150,130,.55);background:rgba(40,16,30,.5);white-space:nowrap;cursor:pointer;z-index:2}
+
+/* ---------- 原型导航（截图时隐藏） ---------- */
+.proto-nav{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;flex-direction:column;gap:4px;padding:10px;border-radius:12px;background:rgba(0,0,0,.6);border:1px dashed rgba(255,140,90,.4);font-size:11.5px;max-width:170px}
+.proto-nav b{color:#ffd0b0;font-weight:600;font-size:11px;letter-spacing:.06em;margin-bottom:2px}
+.proto-nav a{color:var(--ink3);text-decoration:none}
+.proto-nav a:hover,.proto-nav a.on{color:var(--amber2)}
+.proto-nav.min a{display:none}
+body.shot .proto-nav{display:none}
+/* 截图模式：关闭入场动画，保证截图确定 */
+body.shot *,body.shot *::before,body.shot *::after{animation:none!important;transition:none!important}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<div class="vignette"></div>
+<div id="view"></div>
+<div id="overlay"></div>
+
+<script>
+/* =====================================================================
+ * UlearnBetter 页面原型（静态、自包含）
+ * 所有数据均为示例：取自 _notes_input 的三份笔记（双均线交易系统、
+ * 趋势交易全攻略、AI量化交易系统）。掌握度、学习痕迹、归类提议、
+ * 置信度、学习统计、两条新资料（视频链接、一句想法）都是编造的示意值；
+ * Agent 回复为写死的模拟响应，未调用任何模型。
+ * ===================================================================== */
+
+// ---------- 示例数据 ----------
+const GOALS = {
+  a:{id:'a', title:'量化交易', intent:'读懂均线与趋势，能独立判断进出场', color:'amber'},
+  b:{id:'b', title:'AI 工具与前沿', intent:'会用 Claude Code + MCP 把想法搭成系统', color:'cyan'},
+};
+// m: 掌握 0 未学 / 1 看过 / 2 回忆过 / 3 稳定；imp: 重要性 1–3
+const TOPICS = {
+  ma:{id:'ma', title:'双均线交易系统', src:'LEI · 10:41', goals:['a'], conf:.93, concepts:[
+    {n:'市场平均成本', imp:2, m:3},{n:'MA 简单移动平均线', imp:2, m:2},{n:'EMA 指数移动平均线', imp:2, m:2},
+    {n:'抵扣价', imp:3, m:1, due:true},{n:'双均线系统', imp:3, m:0}]},
+  tr:{id:'tr', title:'趋势交易全攻略', src:'LEI · 16:45', goals:['a'], conf:.91, concepts:[
+    {n:'时钟方向（趋势斜率）', imp:3, m:2},{n:'趋势的五种类型', imp:3, m:2},{n:'密集成交区', imp:2, m:1},
+    {n:'斜率加速行情', imp:2, m:2},{n:'顶部构造与底部构造', imp:1, m:0},{n:'双均线系统（MA+EMA）', imp:2, m:1},
+    {n:'多头排列与空头排列', imp:1, m:1},{n:'关键性波动', imp:3, m:0, pin:true},{n:'抵扣价原理', imp:2, m:0},
+    {n:'周期扩散原理', imp:1, m:0},{n:'破线·拐头·交叉', imp:2, m:0},{n:'均线回撤入场法', imp:2, m:0}]},
+  ai:{id:'ai', title:'AI量化交易系统', src:'Lewis Jackson · 1:20:04', goals:['a','b'], pending:true, conf:.58, concepts:[
+    {n:'系统与策略 System vs Strategy', imp:3, m:2},{n:'Trade Intent', imp:2, m:2},{n:'学习循环 Learning Loop', imp:1, m:0},
+    {n:'Claude Code', imp:2, m:3},{n:'MCP（Model Context Protocol）', imp:3, m:2},{n:'API', imp:1, m:3},
+    {n:'TradingView 与 Pine Script', imp:1, m:1},{n:'Alpha Vantage', imp:1, m:0},{n:'Alpaca 模拟交易', imp:1, m:0},
+    {n:'Claude Code Skills', imp:2, m:1},{n:'回测', imp:3, m:1},{n:'前视偏差 Lookahead Bias', imp:3, m:0},
+    {n:'滑点与费用', imp:2, m:0},{n:'回测验证方法', imp:2, m:0},{n:'金叉策略 Golden Cross', imp:2, m:0},
+    {n:'Kelly 公式', imp:2, m:0},{n:'回撤熔断与风险限额', imp:2, m:0, hidden:false},{n:'News Guard 新闻封锁', imp:1, m:0},{n:'Regime 市场状态机', imp:1, m:0}]},
+};
+const TODAY = [
+  {kind:'复习', c:'抵扣价', t:'ma', min:4, why:'3 天前离星回忆选了「忘了」，今天到期。', ev:'7:46', go:'#dive'},
+  {kind:'新学', c:'关键性波动', t:'tr', min:8, why:'趋势交易第三步；前一颗「斜率加速行情」已回忆。笔记标为全片题眼，你也置顶了它。', ev:'10:51', go:'#dive'},
+  {kind:'实操', c:'双均线系统观察清单', t:'ma', min:6, why:'已勾 3/10。下一项：找出当前周期的抵扣价。', ev:null, go:'#dive'},
+  {kind:'新学', c:'前视偏差 Lookahead Bias', t:'ai', min:10, why:'AI 量化第三阶段（笔记标为全课精华）；前一颗「回测」已看过。', ev:'34:08', go:'#dive'},
+];
+const TRAIL = [
+  {c:'f', t:'离星回忆 · 抵扣价 → 忘了', at:'11月4日 22:10'},
+  {c:'', t:'离星回忆 · 斜率加速行情 → 记得', at:'11月5日 21:42'},
+  {c:'q', t:'问助手：EMA 为什么比 MA 敏感？', at:'11月5日 21:50'},
+  {c:'', t:'实操勾选 · 观察清单 3/10', at:'11月6日 20:31'},
+  {c:'', t:'你置顶了「关键性波动」', at:'11月6日 20:40'},
+];
+
+// 主题内的分组（取自各「学习主页」的「核心概念卡」表，顺序与 concepts 一致）
+const GROUPS={ma:[['成本视角',1],['两种算法',2],['核心机制',1],['系统整合',1]],
+  tr:[['分类框架',2],['形态',3],['工具',2],['动作依据',5]],
+  ai:[['心智模型',3],['工具',7],['回测与验证',5],['风险与执行',4]]};
+Object.entries(GROUPS).forEach(([id,gs])=>{let i=0;gs.forEach(([g,n],gi)=>{for(let k=0;k<n;k++)TOPICS[id].concepts[i++].grp=gi})});
+
+// 资料：用户丢进来的每一份东西，以及智能体把它识别成了什么（示例）
+const MATERIALS=[
+  {id:'v1', kind:'video', ic:'▶', title:'趨勢轉折與發展的關鍵步驟', status:'run', at:'今天 09:12',
+   src:'YouTube · LEI（老雷｜投資人）· 你粘贴的链接（youtu.be/TM74mQAXpW0）',
+   ident:'中文技术分析课 · 与「趋势交易全攻略」同一系列', goalText:'预计 → 量化交易', conText:'正在抽取概念'},
+  {id:'i1', kind:'idea', ic:'✎', title:'均线拐头前，能不能用抵扣价提前判断？', status:'pend', at:'11月6日 21:05',
+   src:'你在 Agent 栏里随手记的一句话',
+   ident:'对「抵扣价」的疑问 · 只挂到已有的星', goalText:'→ 抵扣价（双均线）？', conText:'挂到 1 颗星'},
+  {id:'ai', kind:'notes', ic:'▤', title:'AI量化交易系统', topic:'ai', status:'pend', at:'10月30日',
+   src:'Obsidian 主题目录 · 源自 Lewis Jackson《The Complete AI Trading System (Full Course)》1:20:04',
+   ident:'13 章 · 19 张概念卡 · 3 份实操清单 · 英文课程'},
+  {id:'tr', kind:'notes', ic:'▤', title:'趋势交易全攻略', topic:'tr', status:'done', at:'10月31日',
+   src:'Obsidian 主题目录 · 源自 LEI《趨勢交易全攻略》16:45',
+   ident:'8 章 · 12 张概念卡 · 2 份实操清单 · 中文课程'},
+  {id:'ma', kind:'notes', ic:'▤', title:'双均线交易系统', topic:'ma', status:'done', at:'10月31日',
+   src:'Obsidian 主题目录 · 源自 LEI《移動平均線原理｜雙均線交易系統》10:41',
+   ident:'5 章 · 5 张概念卡 · 1 份实操清单 · 中文课程'},
+];
+const KIND={video:'视频',idea:'想法',notes:'课程笔记',article:'文章'};
+// 智能体识别结果。「讲什么」「学习路线」取自各笔记学习主页的一句话总结和路线
+const IDENT={
+  ai:[['是什么','课程笔记（Obsidian 主题目录）：13 章笔记、19 张概念卡、3 份实操清单'],
+      ['讲什么','用 Claude Code + 一条 One-Shot Prompt 搭交易系统：策略只提出 Trade Intent，系统负责回测验证、风控裁决和新闻封锁，最后在 Alpaca 模拟盘成交'],
+      ['学习路线','4 个阶段：心智模型 → 动手环境 → 回测的真相（全课精华）→ 全系统安装与实战'],
+      ['和已有的','「金叉策略」可能与「双均线系统」有关（提议，未确认）']],
+  tr:[['是什么','课程笔记：8 章、12 张概念卡、2 份实操清单'],
+      ['讲什么','把趋势斜率类比成时钟方向，归纳出五种趋势，每类给出应对；进出场只在关键性波动处做'],
+      ['学习路线','3 步：建立分类框架 → 配好观察工具 → 逐类掌握应对'],
+      ['和已有的','与「双均线交易系统」同一作者；2 个同名概念候选（抵扣价、双均线系统）']],
+  ma:[['是什么','课程笔记：5 章、5 张概念卡、1 份实操清单'],
+      ['讲什么','价格围绕市场平均成本波动；用 MA 与 EMA 相互印证，读出趋势方向与转折的第一步'],
+      ['学习路线','3 个阶段：打基础 → 两个关键机制 → 合成系统'],
+      ['和已有的','笔记写明它是「趋势交易全攻略」的底层机制']],
+  v1:[['是什么','YouTube 视频 · LEI · 中文字幕'],
+      ['讲什么','还在读字幕，读完再写，不先猜'],
+      ['和已有的','「趋势交易全攻略」笔记的作者系列表里，它是「讓交易更簡單」第 3 集，所以预计归入「量化交易」']],
+  i1:[['原话','「均线拐头前，能不能用抵扣价提前判断？」'],
+      ['识别为','对「抵扣价」的疑问'],
+      ['怎么处理','想法不拆成新概念，只挂到已有的星，出现在那颗星的「💭 我的思考」里']],
+};
+
+// 学习统计（示例：10月30日 开始使用；全部由学习痕迹算出）
+const DAYS=['10-30','10-31','11-01','11-02','11-03','11-04','11-05','11-06','11-07'];
+const MINS={'10-30':35,'10-31':52,'11-01':0,'11-02':28,'11-03':41,'11-04':46,'11-05':38,'11-06':47,'11-07':0};
+const RECALLED={a:[1,3,3,5,7,8,9,11,11], b:[1,2,2,3,3,4,4,5,5]}; // 各目标累计「回忆过」的概念数（共享主题两边都计）
+const RECALL_ACC=[['ma',4,6],['tr',5,6],['ai',4,6]];          // [主题, 回忆答对, 回忆次数]
+const fmtMin=m=>m>=60?`${Math.floor(m/60)} 小时 ${m%60} 分`:`${m} 分`;
+const dlab=d=>{const [mo,da]=d.split('-');return `${+mo}月${+da}日`};
+function heatLevel(m){return m<=0?'':m<=20?'l1':m<=35?'l2':m<=45?'l3':'l4'}
+function statNums(){
+  const all=Object.values(TOPICS).flatMap(t=>t.concepts);
+  const week=['11-02','11-03','11-04','11-05','11-06','11-07'].reduce((a,d)=>a+MINS[d],0);
+  const total=DAYS.reduce((a,d)=>a+MINS[d],0);
+  const ok=RECALL_ACC.reduce((a,r)=>a+r[1],0),cnt=RECALL_ACC.reduce((a,r)=>a+r[2],0);
+  let streak=0;for(let i=DAYS.length-2;i>=0&&MINS[DAYS[i]]>0;i--)streak++; // 今天还没学，从昨天往回数
+  return {n:all.length,l:all.filter(c=>c.m>=1).length,r:all.filter(c=>c.m>=2).length,s:all.filter(c=>c.m>=3).length,week,total,ok,cnt,acc:Math.round(ok/cnt*100),streak};
+}
+function mstat(m){if(m.id==='ai')return state.adjusted?'done':'pend';if(m.id==='i1')return state.ideaDone?'done':'pend';return m.status}
+const STLAB={run:'整理中',pend:'待确认',done:'已整理'};
+const goalsOf=id=>id==='ai'?state.aiGoals:TOPICS[id].goals;
+
+// ---------- 星空背景（与星图同源的视觉） ----------
+function rng(seed){let s=seed>>>0;return()=>((s=(s*1664525+1013904223)>>>0)/4294967296)}
+function drawSky(){
+  const c=document.getElementById('sky'),x=c.getContext('2d'),W=innerWidth,H=innerHeight,dpr=devicePixelRatio||1;
+  c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';x.scale(dpr,dpr);
+  const g=x.createRadialGradient(W*.5,H*.45,0,W*.5,H*.45,Math.max(W,H)*.75);
+  g.addColorStop(0,'#16285c');g.addColorStop(.45,'#0c1a42');g.addColorStop(1,'#040919');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  const neb=(px,py,r,col)=>{const n=x.createRadialGradient(px,py,0,px,py,r);n.addColorStop(0,col);n.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=n;x.fillRect(0,0,W,H)};
+  neb(W*.82,H*.62,W*.32,'rgba(70,50,140,.22)');neb(W*.18,H*.3,W*.28,'rgba(40,70,150,.18)');
+  const r=rng(7);
+  for(let i=0;i<380;i++){const px=r()*W,py=r()*H,s=r()**3*1.6+.3,a=.25+r()*.6;
+    x.fillStyle=r()<.15?`rgba(255,220,170,${a})`:`rgba(220,230,255,${a})`;x.beginPath();x.arc(px,py,s,0,7);x.fill()}
+}
+addEventListener('resize',()=>{drawSky();render()});
+
+// ---------- 小工具 ----------
+const $=s=>document.querySelector(s);
+const short=n=>n.replace(/（[A-Za-z].*$/,'').replace(/ [A-Za-z].*$/,'');
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const state={adjusted:false, ideaDone:false, aiGoals:['a','b'], recalled:false, toast:null, libSel:'ai', statsTable:false, answerQ:null};
+const COL={amber:{c:'#ffc469',deep:'#c06a1c',glow:'rgba(255,175,70,.55)'},cyan:{c:'#9fe3ff',deep:'#2b78b8',glow:'rgba(120,200,255,.5)'},violet:{c:'#d9ccff',deep:'#6b55c8',glow:'rgba(180,160,255,.5)'}};
+function starHTML({x,y,label,sub,imp=2,m=1,col='amber',pending=false,ring=false,big=false,cls='',d=0,on=''}){
+  const C=COL[col],size=[0,4,6,8][imp]+(big?3:0),alpha=[.32,.6,.85,1][m],glow=[10,18,26,34][m]+imp*4;
+  return `<div class="st ${big?'big':''} ${cls}" style="left:${x}px;top:${y}px;--a:${alpha};--c:${C.c};--deep:${C.deep};--glow:${C.glow};--d:${d}s" ${on?`onclick="${on}"`:''}>
+    <div class="halo" style="left:${-glow/2}px;top:${-glow/2}px;width:${glow}px;height:${glow}px"></div>
+    <div class="core" style="left:${-size/2}px;top:${-size/2}px;width:${size}px;height:${size}px"></div>
+    ${pending?'<div class="pring"></div>':''}${ring?'<div class="rring"></div>':''}
+    <div class="hit"></div>${label?`<div class="lab"><b>${esc(label)}</b>${sub?`<i>${esc(sub)}</i>`:''}</div>`:''}</div>`;
+}
+function constellation(topic,cx,cy,rx,ry,seed,col){
+  const r=rng(seed),pts=[];
+  topic.concepts.forEach((c,i)=>{let px,py,tries=0;
+    do{const a=r()*Math.PI*2,d=Math.sqrt(r());px=cx+Math.cos(a)*rx*d;py=cy+Math.sin(a)*ry*d;tries++}
+    while(tries<40&&pts.some(p=>Math.hypot(p.x-px,p.y-py)<46));
+    pts.push({x:px,y:py,c})});
+  const links=[];pts.forEach((p,i)=>{const near=pts.map((q,j)=>({j,d:Math.hypot(p.x-q.x,p.y-q.y)})).filter(o=>o.j!==i).sort((a,b)=>a.d-b.d).slice(0,1+(i%2));
+    near.forEach(o=>{if(!links.some(l=>(l[0]===o.j&&l[1]===i)))links.push([i,o.j])})});
+  return {pts,links,col};
+}
+
+// ---------- Agent 栏 ----------
+function agentBar({ctx='今天', placeholder='丢链接、笔记文件夹，或问我任何事…', stack='', busy=false, drop=false, hint=true}={}){
+  return `<div class="agent ${busy?'busy':''} ${drop?'drop':''}" id="agent">
+    <div class="stack">${stack}</div>
+    <form class="bar" onsubmit="return agentSubmit(event)">
+      <span class="orb" title="学习助手"></span>
+      <input id="agentInput" placeholder="${esc(placeholder)}" autocomplete="off">
+      ${ctx?`<span class="ctx" title="助手当前理解的场景"><i></i>${esc(ctx)}</span>`:''}
+      <button type="button" class="icon" title="添加材料" onclick="go('#organizing')">＋</button>
+      <button class="icon send" title="发送">↑</button>
+    </form>
+    ${hint?`<div class="hint"><kbd>/</kbd> 唤起 · 拖入文件或粘贴链接即开始整理 · 助手看得到你当前所在的${ctx?'「'+esc(ctx)+'」':'页面'}</div>`:''}
+  </div>`;
+}
+function agentSubmit(e){e.preventDefault();const v=$('#agentInput').value.trim();
+  if(/^https?:|youtube|bilibili/.test(v)){go('#organizing');return false}
+  state.answerQ=v||'为什么今天先复习抵扣价？';go('#ask');return false}
+function topbar(active){
+  const pend=(state.adjusted?0:1)+(state.ideaDone?0:1);
+  return `<div class="topbar">
+    <span class="brand" onclick="go('#home')">UlearnBetter<b>学习记录</b></span>
+    <span class="sample-badge">示例数据 · 非真实学习记录</span>
+    <nav class="nav">
+      <a class="${active==='home'?'on':''}" onclick="go('#home')">今天</a>
+      <a class="${active==='map'?'on':''}" onclick="go('#panorama')">全景</a>
+      <a class="${active==='library'?'on':''}" onclick="go('#library')">资料${pend?`<span class="dot" title="${pend} 处待确认"></span>`:''}</a>
+    </nav>
+  </div>`;
+}
+function nudge(compact){
+  if(state.adjusted||state.overlay) return '';
+  if(compact) return `<div class="nudge glass compact"><span class="star"></span><div class="t">「AI量化交易系统」我放进了两个目标，要调整吗？</div><button class="btn sm" onclick="state.adjusted=true;toast('已接受全部归类');render()">没问题</button><button class="btn sm pri" onclick="go('#adjust')">看看</button></div>`;
+  return `<div class="nudge glass"><span class="star"></span>
+    <div class="t">我已经帮你归类好了：<b>3 份课程笔记 → 2 个目标、36 颗星</b>，今天丢进来的视频还在整理。「AI量化交易系统」我同时放进了两个目标，要调整吗？
+      <small>整理组件：mock-organizer（模拟，未调用真实模型） · 11月6日 23:12</small></div>
+    <button class="btn sm" onclick="state.adjusted=true;toast('已接受全部归类');render()">没问题</button>
+    <button class="btn sm pri" onclick="go('#adjust')">看看</button></div>`;
+}
+function toast(t){state.toast=t;setTimeout(()=>{state.toast=null;const el=$('.toast');el&&el.remove()},2600)}
+
+// ---------- 屏幕 ----------
+const SCREENS={};
+
+SCREENS.first=()=>`
+  <div class="topbar"><span class="brand">UlearnBetter<b>学习记录</b></span><span class="sample-badge" style="margin-left:auto">原型 · 首次使用</span></div>
+  <div class="first rise">
+    <div class="seed"></div>
+    <h1>把在学的东西丢进来</h1>
+    <p>视频链接、整理好的笔记文件夹都可以。我会把它们整理成<b style="color:var(--ink)">目标、星图和今天要学的事</b>；整理结果你随时能改，不改也能直接学。</p>
+    <div class="kinds">
+      <div class="kind"><b>▶ 视频链接</b>YouTube · B 站</div>
+      <div class="kind"><b>▤ 笔记文件夹</b>Obsidian 主题目录</div>
+      <div class="kind"><b>✎ 一段想法</b>挂到已有的星</div>
+      <div class="kind soon"><b>▦ 文章 / PDF</b>下一轮</div>
+    </div>
+    <button class="btn" onclick="go('#organizing')">没有材料？用 3 份示例笔记试试</button>
+    <div class="promise" style="margin-top:26px"><span>不改写你的原笔记</span><span>每张卡都能跳回视频那一秒</span><span>你改过的归类不会被覆盖</span></div>
+  </div>
+  ${agentBar({ctx:'', placeholder:'粘贴视频链接，或把笔记文件夹拖到这里…', drop:true})}`;
+
+SCREENS.organizing=()=>{
+  const items=[['双均线交易系统','5 概念 · 5 章',4,'课程笔记 · 源自 LEI 视频课 10:41'],['趋势交易全攻略','12 概念 · 8 章',4,'课程笔记 · 同一作者的系列课 16:45'],['AI量化交易系统','19 概念 · 13 章',3,'课程笔记 · 英文课程 1:20:04 · 工具 + 交易']];
+  return `
+  <div class="topbar"><span class="brand">UlearnBetter<b>学习记录</b></span><span class="sample-badge" style="margin-left:auto">示例数据 · 模拟整理</span></div>
+  <div class="org">
+    <div class="pipe glass rise">
+      <div class="sect">正在整理 3 份材料</div>
+      ${items.map(([n,s,k,idn])=>`<div class="it"><div class="n">${n}<span>${s}</span></div><div class="idn">识别为：${idn}</div>
+        <div class="steps">${[0,1,2,3].map(i=>`<i class="${i<k?'d':i===k?'w':''}"></i>`).join('')}</div>
+        <div class="lbls"><span>读取</span><span>抽概念</span><span>归类</span><span>编译星图</span></div></div>`).join('')}
+    </div>
+    <div class="prop glass">
+      <div style="display:flex;gap:8px;align-items:center"><span class="tag">目标提议</span><span class="tag mock">模拟组件 · 未调用真实模型</span></div>
+      <h2>我猜你在学这两条线</h2>
+      <div class="sub">目标是你的意图，我只能猜。名字可以直接改；确认一次之后，新材料会自动往里归。</div>
+      <div class="goalprop"><div class="h"><span class="swatch sw-a"></span><input value="量化交易"><span class="conf">置信 0.91</span></div>
+        <div class="why">依据：两份 LEI 课程都在讲均线、趋势与进出场（来自笔记标题与概念卡）</div>
+        <div class="chips"><span class="chip on">双均线交易系统</span><span class="chip on">趋势交易全攻略</span><span class="chip on">AI量化交易系统</span></div></div>
+      <div class="goalprop"><div class="h"><span class="swatch sw-b"></span><input value="AI 工具与前沿"><span class="conf">置信 0.62</span></div>
+        <div class="why">依据：Claude Code、MCP、Skills 等 7 张工具概念卡</div>
+        <div class="chips"><span class="chip on cy">AI量化交易系统</span><span class="chip add">＋ 加入主题</span></div></div>
+      <div class="acts"><button class="btn pri" onclick="go('#home')">就这样</button><button class="btn">再加一个目标</button><span class="muted" style="margin-left:auto;font-size:12px">不确认也行：材料会先放进「未归属」</span></div>
+    </div>
+  </div>
+  ${agentBar({ctx:'整理中', busy:true, placeholder:'整理中…也可以继续丢材料', hint:false})}`;
+};
+
+SCREENS.home=()=>{
+  const S=statNums();
+  const tcards=TODAY.map((t,i)=>`<div class="tcard glass" style="animation-delay:${i*.06}s" onclick="go('${t.go}')">
+      <div class="top"><span class="tag ${t.kind==='复习'?'':t.kind==='实操'?'ghost':'cyan'}">${t.kind}</span><span class="min">约 ${t.min} 分钟</span></div>
+      <h3>${esc(t.c)}</h3><div class="from">${TOPICS[t.t].title}</div>
+      <div class="why">${esc(t.why)}</div>
+      <div class="bot">${t.ev?`<span class="chip ts">${t.ev}</span>`:'<span class="chip">清单 3/10</span>'}<span class="go">进入 →</span></div></div>`).join('');
+  const gstat=g=>{const ts=Object.values(TOPICS).filter(t=>goalsOf(t.id).includes(g));
+    const cs=ts.flatMap(t=>t.concepts);return{ts,n:cs.length,l:cs.filter(c=>c.m>=1).length,r:cs.filter(c=>c.m>=2).length}};
+  const gcard=(g,cls)=>{const s=gstat(g.id);return `<div class="gcard glass ${cls}" onclick="go('#panorama')">
+      <div class="mini">${miniSky(s.ts,g.color)}</div>
+      <div><h3><span class="swatch ${cls==='b'?'sw-b':'sw-a'}"></span>${g.title}</h3><div class="intent">${g.intent}</div>
+        <div class="stats"><div><b>${s.n}</b>颗星</div><div><b>${s.l}</b>已学</div><div><b>${s.r}</b>已回忆</div></div>
+        <div class="prog"><i class="r" style="width:${s.r/s.n*100}%"></i><i class="l" style="width:${(s.l-s.r)/s.n*100}%"></i></div>
+        <div class="topics">${s.ts.map(t=>`<div>${t.title}${t.id==='ai'&&!state.adjusted?' <span class="tag pend" style="margin-left:4px;font-family:var(--font)">待确认</span>':''}<span>${t.concepts.filter(c=>c.m>=1).length}/${t.concepts.length}</span></div>`).join('')}</div></div></div>`};
+  const mtxt=m=>{const st=mstat(m);
+    if(st==='run')return '整理中 · '+m.conText;
+    if(m.id==='i1')return st==='pend'?'待确认 · 挂到「抵扣价」？':'已挂到「抵扣价」';
+    if(m.id==='ai'&&st==='pend')return '待确认 · 同时属于两个目标？';
+    return `已整理 · ${TOPICS[m.topic].concepts.length} 颗星 → ${goalsOf(m.topic).map(g=>GOALS[g].title).join('、')}`};
+  const agentCard=`<div class="trail glass" style="cursor:pointer" onclick="go('#library')">
+      <div class="sect" style="display:flex">智能体整理<span style="margin-left:auto;color:var(--amber2);letter-spacing:0">全部 ${MATERIALS.length} 份资料 →</span></div>
+      ${MATERIALS.slice(0,4).map(m=>`<div class="arow"><span class="aic">${m.ic}</span><span class="an">${esc(m.title)}<small class="${mstat(m)}">${esc(mtxt(m))}</small></span></div>`).join('')}</div>`;
+  return `${topbar('home')}
+  <div class="home">
+    <div class="head rise"><div><div class="eyebrow">Today · 11月7日 周六</div><h1>今天学 4 件事，约 28 分钟</h1>
+      <div class="meta">排序：到期复习 → 沿学习路线的下一颗 → 进行中的实操 · 不调用模型，每条都写明为什么</div></div>
+      <div class="kstrip glass" onclick="go('#stats')" title="打开学习统计">
+        <div class="heatwrap">近 9 天<div class="heat">${DAYS.map(d=>`<i class="hc ${heatLevel(MINS[d])}" title="${dlab(d)} · ${MINS[d]} 分钟"></i>`).join('')}</div></div>
+        <div class="k"><b>${(S.week/60).toFixed(1)}<small>小时</small></b>本周学习</div>
+        <div class="k"><b>${S.streak}<small>天</small></b>连续学习</div>
+        <div class="k"><b>${S.acc}<small>%</small></b>回忆正确率</div>
+        <div class="k"><b>${S.l}<small>/${S.n}</small></b>已学概念</div>
+        <span class="go">统计 →</span>
+      </div></div>
+    <div class="today">${tcards}</div>
+    <div class="goals">${gcard(GOALS.a,'a')}${gcard(GOALS.b,'b')}${agentCard}</div>
+  </div>
+  ${state.toast?`<div class="toast"><i></i>${esc(state.toast)}</div>`:''}
+  ${agentBar({ctx:'今天', stack:nudge()})}`;
+};
+function miniSky(ts,col){
+  let h='';const W=150,H=150;const centers=[[45,50],[105,95],[70,115],[110,40]];
+  ts.forEach((t,ti)=>{const [cx,cy]=centers[ti%4];const k=constellation(t,cx,cy,30,26,ti*31+3);
+    const c=t.id==='ai'&&col==='amber'?'violet':(t.id==='ai'?'cyan':col);
+    h+=k.pts.map(p=>{const C=COL[c],s=[1.4,2,2.6,3.2][p.c.m]+p.c.imp*.3,a=[.3,.6,.85,1][p.c.m];
+      return `<i style="position:absolute;left:${p.x-s}px;top:${p.y-s}px;width:${s*2}px;height:${s*2}px;border-radius:50%;background:${C.c};opacity:${a};box-shadow:0 0 ${4+p.c.m*3}px ${C.glow}"></i>`}).join('')});
+  return h;
+}
+
+// 按主题内分组布星：同一组的星聚在一起，缺口才看得出来
+function constellationG(topic,cx,cy,rx,ry,seed){
+  const r=rng(seed),gs=GROUPS[topic.id],k=gs.length,pts=[],centers=[];const off=r()*Math.PI*2;
+  gs.forEach(([name,n],gi)=>{const th=off+gi*2*Math.PI/k;centers.push({x:cx+Math.cos(th)*rx*.56,y:cy+Math.sin(th)*ry*.56,name,n})});
+  topic.concepts.forEach((c,i)=>{const g=centers[c.grp];let px,py,t=0;
+    do{const a=r()*Math.PI*2,d=Math.sqrt(r());px=g.x+Math.cos(a)*rx*.38*d;py=g.y+Math.sin(a)*ry*.38*d;t++}
+    while(t<80&&pts.some(p=>Math.hypot(p.x-px,p.y-py)<34));
+    pts.push({x:px,y:py,c,i})});
+  const links=[],dist=(u,v)=>Math.hypot(u.x-v.x,u.y-v.y);
+  centers.forEach((g,gi)=>{const ps=pts.filter(p=>p.c.grp===gi);for(let a=1;a<ps.length;a++){const prev=ps.slice(0,a).sort((u,v)=>dist(u,ps[a])-dist(v,ps[a]))[0];links.push([prev.i,ps[a].i])}});
+  for(let gi=1;gi<k;gi++){let best=null;pts.filter(p=>p.c.grp===gi).forEach(p=>pts.filter(q=>q.c.grp===gi-1).forEach(q=>{const d=dist(p,q);if(!best||d<best.d)best={d,a:p.i,b:q.i}}));if(best)links.push([best.a,best.b])}
+  return {pts,links,centers,rx,ry};
+}
+function panoLayout(){
+  const W=innerWidth-360,H=innerHeight;
+  return {W,H,
+    ma:constellationG(TOPICS.ma,W*.17,H*.38,112,80,11),
+    tr:constellationG(TOPICS.tr,W*.41,H*.585,190,100,23),
+    ai:constellationG(TOPICS.ai,W*.77,H*.44,205,140,37),
+    pos:{ma:[W*.17,H*.38-114],tr:[W*.41,H*.585+118],ai:[W*.77,H*.44+164]},
+    goal:{a:[W*.30,H*.17],b:[W*.80,H*.17]},
+  };
+}
+// 缺口：一整组还没开始（全部未学，且至少 3 颗）
+function gapsOf(id){return GROUPS[id].map(([name,n],gi)=>({id,gi,name,n,cs:TOPICS[id].concepts.filter(c=>c.grp===gi)})).filter(g=>g.n>=3&&g.cs.every(c=>c.m===0))}
+const NEXT=[['ma',3,'复习'],['tr',7,'新学'],['ai',11,'新学']]; // 与「今天」的前几条一致
+function panoRail(){
+  const S=statNums();
+  const bar=(g,hue)=>{const cs=Object.values(TOPICS).filter(t=>goalsOf(t.id).includes(g)).flatMap(t=>t.concepts);
+    const c=[3,2,1,0].map(m=>cs.filter(x=>x.m===m).length),al=[1,.62,.34];
+    return `<div class="rg"><div class="n"><span class="swatch ${g==='b'?'sw-b':'sw-a'}"></span>${GOALS[g].title}<span class="r">已学 ${cs.length-c[3]}/${cs.length}</span></div>
+      <div class="sbar">${c.map((v,i)=>v?`<i style="flex:${v};background:${i<3?hue:'rgba(255,255,255,.08)'};opacity:${i<3?al[i]:1}" title="${['已掌握','回忆过','看过','未学'][i]} ${v}"></i>`:'').join('')}</div>
+      <div class="sbar-l"><span>掌握 ${c[0]}</span><span>回忆过 ${c[1]}</span><span>看过 ${c[2]}</span><span>未学 ${c[3]}</span></div></div>`};
+  const gaps=['tr','ai'].flatMap(gapsOf);
+  const gapNote={tr:'含全片题眼「关键性波动」，已排进今天',ai:'前一块「回测与验证」还剩 4 颗没学'};
+  const nx=NEXT.map(([t,i,k],n)=>`<div class="ritem" onclick="go('#dive')"><span class="num">${n+1}</span><span><b>${esc(short(TOPICS[t].concepts[i].n))}</b> · ${k}<small>${TOPICS[t].title}</small></span></div>`).join('');
+  return `<aside class="rail glass">
+    <div class="eyebrow">学习全景</div>
+    <h3>${S.n} 颗星 · 3 个主题 · 2 个目标</h3>
+    <div class="sub">已学 ${S.l} · 回忆过 ${S.r} · 已掌握 ${S.s} · 未归属 0</div>
+    ${bar('a','#ffb547')}${bar('b','#86dcff')}
+    <div class="sect">缺口 · 整块还没开始</div>
+    ${gaps.map(g=>`<div class="ritem" onclick="go('#dive')"><span class="gapm"></span><span><b>${g.name}</b> 0/${g.n} · ${TOPICS[g.id].title}<small>${gapNote[g.id]}</small></span></div>`).join('')}
+    <div class="sect">待确认的关联 · 3</div>
+    <div class="ritem" onclick="go('#adjust')"><span class="lnk"></span><span>抵扣价 ≈ 抵扣价原理<small>两门课里的同名概念，不自动合并</small></span></div>
+    <div class="ritem" onclick="go('#adjust')"><span class="lnk"></span><span>双均线系统 ≈ 双均线系统（MA+EMA）</span></div>
+    <div class="ritem" onclick="go('#adjust')"><span class="lnk"></span><span>金叉策略 ↔ 双均线系统<small>智能体提议的关联，确认前不进学习路线</small></span></div>
+    <div class="sect">下一步 · 与「今天」一致</div>
+    ${nx}
+    <div class="rlegend">
+      <span><em style="width:8px;height:8px;border-radius:50%;background:#ffc469;box-shadow:0 0 8px #ffc469"></em>亮 = 回忆过</span>
+      <span><em style="width:6px;height:6px;border-radius:50%;background:#ffc469;opacity:.35"></em>暗 = 未学</span>
+      <span>大小 = 重要性</span>
+      <span><em style="width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,190,100,.8)"></em>到期复习</span>
+      <span><em style="width:14px;border-top:1.5px dashed var(--pending)"></em>待确认</span>
+      <span><em style="width:12px;height:12px;border-radius:50%;border:1.5px dashed rgba(255,150,130,.8)"></em>缺口</span>
+      <span><em style="width:14px;border-top:2.5px dotted var(--amber)"></em>下一步</span>
+    </div>
+  </aside>`;
+}
+SCREENS.map=()=>{
+  const L=panoLayout();let svg='',stars='',extra='';
+  const pend=!state.adjusted||state.aiGoals.length>1;
+  ['ma','tr','ai'].forEach(id=>{const k=L[id];
+    k.links.forEach(([i,j])=>{const a=k.pts[i],b=k.pts[j];svg+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${id==='ai'?'rgba(150,210,255,.16)':'rgba(255,215,160,.16)'}" stroke-width="1"/>`});
+    k.pts.forEach((p,i)=>{stars+=starHTML({x:p.x,y:p.y,label:p.c.imp===3?short(p.c.n):'',imp:p.c.imp,m:p.c.m,col:id==='ai'?'cyan':'amber',ring:p.c.due,d:i*.37,on:`go('#dive')`})});
+    // 缺口：整组未学，用珊瑚色虚线圈出
+    gapsOf(id).forEach(g=>{const c=k.centers[g.gi];
+      svg+=`<ellipse cx="${c.x}" cy="${c.y}" rx="${k.rx*.5}" ry="${k.ry*.5}" fill="rgba(255,120,100,.03)" stroke="rgba(255,150,130,.5)" stroke-dasharray="4 6" stroke-width="1.2"/>`;
+      extra+=`<div class="gaplabel" style="left:${c.x}px;top:${c.y+(id==='tr'?-1:1)*k.ry*.5}px" onclick="go('#dive')">缺口 · ${g.name} 0/${g.n}</div>`});
+  });
+  const P=(t,i)=>L[t].pts[i];
+  // 跨主题关联候选（不自动合并）
+  [[P('ma',3),P('tr',8)],[P('ma',4),P('tr',5)],[P('ai',14),P('ma',4)]].forEach(([a,b],n)=>{
+    svg+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="rgba(201,182,255,${n===2?.32:.5})" stroke-dasharray="3 5" stroke-width="1.2" style="animation:dash 2s linear infinite"/>`});
+  const fa=P('ma',3),fb=P('tr',8),mx=(fa.x+fb.x)/2,my=(fa.y+fb.y)/2;
+  // 下一步：与「今天」一致的路线
+  const nx=NEXT.map(([t,i])=>P(t,i));
+  svg+=`<path d="M ${nx.map(p=>`${p.x} ${p.y}`).join(' L ')}" fill="none" stroke="rgba(255,190,90,.75)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0.5 8"/>`;
+  extra+=nx.map((p,n)=>`<div class="nextbadge" style="left:${p.x}px;top:${p.y}px">${n+1}</div>`).join('');
+  // AI量化 → 量化交易 的待确认归属系绳
+  const ga=L.goal.a,pa=L.pos.ai;
+  if(pend) svg+=`<path d="M ${pa[0]-150} ${pa[1]-40} Q ${L.W*.56} ${L.H*.2} ${ga[0]+120} ${ga[1]+6}" fill="none" stroke="rgba(201,182,255,.4)" stroke-dasharray="4 7" stroke-width="1.3" style="animation:dash 3s linear infinite"/>`;
+  const cl=(id,more='')=>{const t=TOPICS[id],[x,y]=L.pos[id];const l=t.concepts.filter(c=>c.m>=1).length;
+    return `<div class="const-label ${id==='ai'&&pend?'pend':''}" style="left:${x}px;top:${y}px" onclick="go('#dive')"><b>${t.title}</b><span>${l}/${t.concepts.length}</span>${more}</div>`};
+  return `${topbar('map')}
+  <div class="zoom"><div class="seg"><a class="on">全景</a><a onclick="toast('原型：目标层缩放未实现，点星座直接潜航');render()">目标</a><a onclick="go('#dive')">主题</a><a onclick="go('#dive')">概念</a></div><span>滚轮缩放 · 点星座潜航</span></div>
+  <div class="sky-layer">
+    <div style="position:absolute;left:${L.W*.3}px;top:${L.H*.5}px;width:700px;height:560px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(255,170,70,.07),transparent 65%);pointer-events:none"></div>
+    <div style="position:absolute;left:${L.W*.77}px;top:${L.H*.46}px;width:560px;height:520px;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(110,190,255,.08),transparent 65%);pointer-events:none"></div>
+    <div class="goal-name" style="left:${ga[0]}px;top:${ga[1]}px"><div class="eyebrow">目标</div><h2>量化交易</h2></div>
+    <div class="goal-name b" style="left:${L.goal.b[0]}px;top:${L.goal.b[1]}px"><div class="eyebrow">目标</div><h2>AI 工具与前沿</h2></div>
+    <svg>${svg}</svg>${stars}${extra}
+    ${cl('ma')}${cl('tr')}${cl('ai',pend?'<span class="tag pend" style="font-family:var(--font)">也属于「量化交易」？</span>':'')}
+    <div class="const-label" style="left:${mx}px;top:${my-16}px;border-style:dashed;border-color:rgba(201,182,255,.5);font-size:12px;padding:4px 10px" onclick="go('#adjust')"><span style="font-family:var(--font);color:#e0d6ff">同名候选 · 不自动合并</span></div>
+  </div>
+  ${panoRail()}
+  ${state.toast?`<div class="toast"><i></i>${esc(state.toast)}</div>`:''}
+  ${agentBar({ctx:'全景 · 全部目标', stack:nudge(true)})}`;
+};
+SCREENS.panorama=()=>SCREENS.map();
+
+SCREENS.dive=()=>{
+  const W=innerWidth,H=innerHeight,cx=W/2,cy=H*.44;
+  const t=TOPICS.ma;const P=[[W*.16,H*.26],[W*.84,H*.22],[W*.12,H*.70],[cx,cy],[W*.88,H*.72]];
+  let stars=t.concepts.map((c,i)=>starHTML({x:P[i][0],y:P[i][1],label:i===3?'':c.n.replace(/ [A-Za-z].*$/,''),sub:['Avg Cost','SMA','EMA','',''][i]||'',imp:c.imp,m:c.m,big:true,cls:i===3?'':'dim',d:i*.4})).join('');
+  const orb=[[cx-370,cy-150,'∑','两数比较','今天收盘 vs N 天前收盘'],[cx+370,cy-150,'⇢','转折两步','EMA 先拐 → MA 跟拐'],[cx-370,cy+160,'☑','实操 · 检查③','找出当前周期的抵扣价'],[cx+370,cy+160,'💭','我的思考','还没写 · 一句话也行']];
+  return `${topbar('map')}
+  <div class="sky-layer">${stars}<div class="focus-dim"></div></div>
+  <div class="hud"><div class="crumb"><a onclick="go('#panorama')">全景</a> › <a onclick="go('#panorama')">量化交易</a> › 双均线交易系统</div>
+    <h1>移動平均線原理｜雙均線交易系統</h1><div class="meta">LEI · 10:41 · 5 颗概念星 · 已学 4 · 已回忆 3</div></div>
+  <div class="main-card glass"><div class="inner">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="tag">核心机制</span><span class="tag ghost">双均线交易系统</span><span class="tag" style="margin-left:auto;border-color:rgba(255,190,100,.6)">今天到期复习</span></div>
+    <h2>抵扣价</h2><div class="en">Deduction Price · 别名：抵扣价原理</div>
+    <p class="sum">决定 N 日均线明天方向的那个「N 天前的收盘价」；今天收盘价高于它，均线今天就向上。</p>
+    <div class="sect">证据 · 跳回视频</div>
+    <div class="chips"><span class="chip ts">4:29</span><span class="chip ts">7:46</span><span class="chip">ch03 抵扣价原理</span></div>
+    <div class="sect" style="margin-top:12px">相关</div>
+    <div class="chips"><span class="chip">MA 简单移动平均线</span><span class="chip">双均线系统</span><span class="chip" style="border-style:dashed;border-color:rgba(201,182,255,.5);color:#e0d6ff">≈ 抵扣价原理（趋势交易）</span></div>
+    <div class="mc-foot">掌握 <span class="mastery"><i class="on"></i><i></i><i></i></span> 看过 1 次 · 回忆 1 次（忘了）<span style="margin-left:auto">完整笔记 ↗</span></div>
+  </div></div>
+  ${orb.map(([x,y,ic,a,b],i)=>`<div class="orbit-card glass" style="left:${x}px;top:${y}px;animation-delay:${.2+i*.08}s"><div class="oc-top"><span class="oc-ic">${ic}</span><span class="oc-act">${a}</span></div><div class="oc-title">${b}</div></div>`).join('')}
+  <div class="timeline"><div class="tl-bar">${[[0,7],[7.5,33.5],[34.5,48],[49,60.5],[61.5,100]].map(([a,b])=>`<div class="tl-seg" style="left:${a}%;width:${b-a}%"></div>`).join('')}
+    ${[[3,0],[12,0],[42,0],[72.7,1],[60,0],[86,0]].map(([p,o])=>`<div class="tl-dot ${o?'on':''}" style="left:${p}%"></div>`).join('')}</div>
+    <div class="tl-ends"><span>00:00</span><span>10:41</span></div></div>
+  <button class="back-btn" onclick="go('#recall')">← 离开这颗星</button>
+  ${agentBar({ctx:'抵扣价 · 双均线', placeholder:'问这颗星，例如「为什么 EMA 不用抵扣价？」'})}`;
+};
+
+SCREENS.recall=()=>{
+  const W=innerWidth,H=innerHeight,cx=W/2,cy=H*.44;
+  const t=TOPICS.ma;const P=[[W*.16,H*.26],[W*.84,H*.22],[W*.12,H*.70],[cx-160,cy],[W*.88,H*.72]];
+  const r=state.recalled;
+  let svg=[[0,1],[0,3],[1,3],[2,3],[3,4],[2,4]].map(([i,j])=>`<line x1="${P[i][0]}" y1="${P[i][1]}" x2="${P[j][0]}" y2="${P[j][1]}" stroke="rgba(255,215,160,.15)"/>`).join('');
+  let stars=t.concepts.map((c,i)=>starHTML({x:P[i][0],y:P[i][1],label:c.n.replace(/ [A-Za-z].*$/,''),sub:['Avg Cost','SMA','EMA','Deduction Price','Dual MA'][i],imp:c.imp,m:i===3&&r?2:c.m,big:true,ring:i===3&&!r,d:i*.4})).join('');
+  return `${topbar('map')}
+  <div class="sky-layer"><svg>${svg}</svg>${stars}</div>
+  <div class="hud"><div class="crumb"><a onclick="go('#panorama')">全景</a> › <a onclick="go('#panorama')">量化交易</a> › 双均线交易系统</div>
+    <h1>移動平均線原理｜雙均線交易系統</h1><div class="meta">LEI · 10:41 · 5 颗概念星 · 已学 4 · 已回忆 ${r?4:3}</div></div>
+  <div class="recall glass" style="left:${cx-92}px;top:${cy-44}px">
+    <div style="display:flex;gap:8px;align-items:center"><span class="tag">离星回忆</span><span class="muted" style="font-size:11.5px">一题，10 秒</span></div>
+    <div class="q">今天收盘价<b style="color:var(--amber2)">低于</b> 20 天前的收盘价，MA20 今天会怎样？</div>
+    <div class="opts">
+      <button class="opt" onclick="recallAns(this,false)">跟着 EMA 一起拐头向上</button>
+      <button class="opt ${r?'ok':''}" onclick="recallAns(this,true)">不会向上拐头</button>
+      <button class="opt" onclick="recallAns(this,false)">取决于成交量</button></div>
+    <div class="alt">出自笔记 <span class="chip ts" style="padding:2px 8px">7:46</span><span style="margin-left:auto">不想答题</span><button class="btn sm">记得</button><button class="btn sm">忘了</button></div>
+  </div>
+  ${state.toast?`<div class="toast"><i></i>${esc(state.toast)}</div>`:''}
+  <button class="back-btn" onclick="go('#panorama')">跳过，回全景</button>
+  ${agentBar({ctx:'双均线 · 离星回忆'})}`;
+};
+function recallAns(el,ok){if(!ok){el.style.borderColor='rgba(255,140,120,.6)';return}state.recalled=true;toast('已记一次回忆 · 抵扣价变亮了 · 下次 11月10日');render()}
+
+SCREENS.adjust=()=>{
+  const g=state.aiGoals,tog=id=>`state.aiGoals=state.aiGoals.includes('${id}')?state.aiGoals.filter(x=>x!=='${id}'):[...state.aiGoals,'${id}'];render()`;
+  return `${SCREENS.map()}
+  <div class="scrim" onclick="go('#panorama')"></div>
+  <div class="sheet glass">
+    <div class="h"><div><div style="display:flex;gap:8px"><span class="tag">整理记录</span><span class="tag mock">模拟组件 · 未调用真实模型</span></div>
+      <h2>这次整理了 4 处，1 处想听你的</h2>
+      <div class="src">来源：mock-organizer v0 · 提示词 v0 · 11月6日 23:12 · 触发：导入 3 份笔记</div></div>
+      <button class="x" onclick="go('#panorama')">×</button></div>
+
+    <div class="chg hot">
+      <div class="what">AI量化交易系统 <span class="arrow">→</span><span class="tag pend">待确认</span></div>
+      <div class="side"><span class="conf">置信 0.58<span class="bar"><i style="width:58%"></i></span></span>
+        <div class="acts"><button class="btn sm pri" onclick="state.adjusted=true;toast('已保存到你的决定 · 重新整理不会覆盖');go('#panorama')">按这样保存</button><button class="btn sm">拒绝</button></div></div>
+      <div class="goalsel"><small>属于（可多选）</small>
+        <span class="chip ${g.includes('a')?'on':''}" onclick="${tog('a')}">量化交易</span>
+        <span class="chip ${g.includes('b')?'on cy':''}" onclick="${tog('b')}">AI 工具与前沿</span>
+        <span class="chip add">＋ 新目标</span></div>
+      <div class="why">理由：课程主体是用 Claude Code + MCP 搭系统，但第三、四阶段整段在讲回测与风控。证据 <span class="chip ts" style="padding:1px 8px">14:26</span> <span class="chip ts" style="padding:1px 8px">32:07</span> <span class="chip ts" style="padding:1px 8px">41:39</span></div>
+    </div>
+
+    <div class="chg">
+      <div class="what">合并候选：抵扣价 <span class="arrow">≈</span> 抵扣价原理</div>
+      <div class="side"><span class="conf">名称相似</span><div class="acts"><button class="btn sm">标为同一概念</button><button class="btn sm">保持分开</button></div></div>
+      <div class="why">来自「双均线交易系统」和「趋势交易全攻略」。同名只作候选，<b style="color:var(--ink2)">不会自动合并</b>；标为同一概念后，两颗星会互相链接，学习痕迹共享。</div>
+    </div>
+
+    <div class="chg done">
+      <div class="what">双均线交易系统 <span class="arrow">→</span> 量化交易 <span class="tag ghost">已自动接受</span></div>
+      <div class="side"><span class="conf">置信 0.93<span class="bar"><i style="width:93%"></i></span></span><button class="btn sm txt">撤销</button></div>
+      <div class="why">高于自动接受阈值 0.85 · 依据：标题、5 张均线概念卡</div>
+    </div>
+    <div class="chg done">
+      <div class="what">趋势交易全攻略 <span class="arrow">→</span> 量化交易 <span class="tag ghost">已自动接受</span></div>
+      <div class="side"><span class="conf">置信 0.91<span class="bar"><i style="width:91%"></i></span></span><button class="btn sm txt">撤销</button></div>
+      <div class="why">高于自动接受阈值 0.85 · 依据：时钟方向、五类趋势等 12 张概念卡</div>
+    </div>
+
+    <div class="foot"><div class="note">你在这里的选择单独保存为「你的决定」，不改写原笔记；以后重新整理或更换整理组件，都不会覆盖它。</div>
+      <button class="btn" onclick="state.libSel='ai';go('#library')">在资料里细调</button><button class="btn pri" onclick="state.adjusted=true;toast('已保存 4 处整理');go('#panorama')">完成</button></div>
+  </div>`;
+};
+
+SCREENS.stats=()=>{
+  const S=statNums();
+  // 热力图：10月5日 起 5 周，10月30日 之前为「还没开始使用」
+  const start=new Date(2026,9,5),first=new Date(2026,9,30),today=new Date(2026,10,7),cells=[];
+  for(let w=0;w<5;w++)for(let d=0;d<7;d++){const dt=new Date(start);dt.setDate(start.getDate()+w*7+d);
+    const key=String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'),lab=`${dt.getMonth()+1}月${dt.getDate()}日`;
+    let cls,tt;if(dt<first){cls='pre';tt=lab+' · 还没开始使用'}else if(dt>today){cls='fut';tt=''}else{cls=heatLevel(MINS[key]);tt=`${lab} · ${MINS[key]} 分钟`}
+    cells.push(`<i class="hc ${cls}" style="grid-column:${w+2};grid-row:${d+2}" ${tt?`title="${tt}"`:''}></i>`)}
+  const heat=`<div class="heatgrid">${['10/5','10/12','10/19','10/26','11/2'].map((l,w)=>`<span style="grid-column:${w+2};grid-row:1">${l}</span>`).join('')}
+    ${['一','','三','','五','','日'].map((l,d)=>`<span style="grid-column:1;grid-row:${d+2};line-height:20px">${l}</span>`).join('')}${cells.join('')}</div>
+    <div class="heatlgd">少 ${['','l1','l2','l3','l4'].map(c=>`<i class="hc ${c}"></i>`).join('')} 多<span style="margin-left:10px">虚线格 = 还没开始使用</span></div>`;
+  // 折线：各目标累计「回忆过」的概念数（单一 y 轴，两条线，直接标注终点）
+  const W=500,H=180,pl=26,pr=118,pt=10,pb=24,ymax=12;
+  const x=i=>pl+i*(W-pl-pr)/(DAYS.length-1),y=v=>pt+(H-pt-pb)*(1-v/ymax),step=(W-pl-pr)/(DAYS.length-1);
+  const SER=[['a','量化交易','#c4801f'],['b','AI 工具与前沿','#3a92d6']];
+  const grid=[0,4,8,12].map(v=>`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,${v?.06:.16})"/><text x="${pl-8}" y="${y(v)+3.5}" text-anchor="end" font-size="10.5" fill="rgba(200,212,250,.52)">${v}</text>`).join('');
+  const xl=[0,2,4,6,8].map(i=>`<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="rgba(200,212,250,.52)">${DAYS[i].replace(/^0?(\d+)-0?(\d+)$/,'$1/$2')}</text>`).join('');
+  const lines=SER.map(([k,n,c])=>{const v=RECALLED[k],li=v.length-1;
+    return `<path d="${v.map((q,i)=>`${i?'L':'M'}${x(i)},${y(q)}`).join(' ')}" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${x(li)}" cy="${y(v[li])}" r="4" fill="${c}" stroke="#1a2a5c" stroke-width="2"/>
+      <text x="${x(li)+10}" y="${y(v[li])+4}" font-size="11.5" fill="rgba(230,236,255,.85)">${n} ${v[li]}</text>`}).join('');
+  const hov=DAYS.map((d,i)=>`<rect class="hov" x="${x(i)-step/2}" y="${pt}" width="${step}" height="${H-pt-pb}"><title>${dlab(d)}\n量化交易 累计 ${RECALLED.a[i]}\nAI 工具与前沿 累计 ${RECALLED.b[i]}\n当天学习 ${MINS[d]} 分钟</title></rect>`).join('');
+  const chart=`<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px;display:block">${grid}${xl}${lines}${hov}</svg>`;
+  const table=`<table class="dtable"><tr><th>日期</th><th>学习分钟</th><th>量化交易 累计回忆</th><th>AI 工具与前沿 累计回忆</th></tr>
+    ${DAYS.map((d,i)=>`<tr><td>${dlab(d)}</td><td>${MINS[d]}</td><td>${RECALLED.a[i]}</td><td>${RECALLED.b[i]}</td></tr>`).join('')}</table>`;
+  const acc=RECALL_ACC.map(([t,ok,n])=>`<div class="hbar"><span style="text-align:left;font-family:var(--font);color:var(--ink2);font-size:12.5px">${TOPICS[t].title}</span><div class="t"><i style="width:${ok/n*100}%"></i></div><span>${ok}/${n} · ${Math.round(ok/n*100)}%</span></div>`).join('');
+  return `${SCREENS.home()}
+  <div class="scrim" onclick="go('#home')"></div>
+  <div class="sheet glass stats-sheet">
+    <div class="h"><div><div style="display:flex;gap:8px"><span class="tag">学习统计</span><span class="tag mock">示例数据</span></div>
+      <h2>开始使用第 ${DAYS.length} 天，一共学了 ${fmtMin(S.total)}</h2>
+      <div class="src">全部从你的学习痕迹算出：离星回忆、实操勾选、在星上停留的时长。不调用模型。</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center"><div class="seg" style="margin:0"><a>本周</a><a>本月</a><a class="on">全部</a></div>
+        <button class="btn sm ${state.statsTable?'on':''}" onclick="state.statsTable=!state.statsTable;render()">${state.statsTable?'看图':'数据表'}</button></div>
+      <button class="x" onclick="go('#home')">×</button></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">学习时长</div><b>${(S.total/60).toFixed(1)}<small> 小时</small></b><div class="d">本周 ${fmtMin(S.week)}</div></div>
+      <div class="kpi"><div class="l">已学概念</div><b>${S.l}<small> / ${S.n}</small></b><div class="d">其中回忆过 ${S.r}</div></div>
+      <div class="kpi"><div class="l">已掌握</div><b>${S.s}</b><div class="d">多次回忆都记得</div></div>
+      <div class="kpi"><div class="l">回忆正确率</div><b>${S.acc}<small>%</small></b><div class="d">${S.ok} / ${S.cnt} 次离星回忆</div></div>
+      <div class="kpi"><div class="l">连续学习</div><b>${S.streak}<small> 天</small></b><div class="d">今天还没开始</div></div>
+    </div>
+    <div class="srow" style="grid-template-columns:${state.statsTable?'1fr':'300px 1fr'}">
+      ${state.statsTable?`<div class="pnl"><div class="ph"><h4>每日数据</h4><span>与图表同一份数据</span></div>${table}</div>`:`
+      <div class="pnl"><div class="ph"><h4>每天学习分钟</h4></div>${heat}</div>
+      <div class="pnl"><div class="ph"><h4>各目标的进度</h4><span>累计回忆过的概念数 · 共享主题两边都计</span>
+        <div class="lgd">${SER.map(([k,n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')}</div></div>${chart}</div>`}
+    </div>
+    <div class="srow" style="grid-template-columns:1.1fr 1fr 1fr">
+      <div class="pnl"><div class="ph"><h4>回忆正确率 · 按主题</h4></div>${acc}</div>
+      <div class="pnl"><div class="ph"><h4>最容易忘的</h4></div><ul class="mini-list">
+        <li>抵扣价<small>回忆 1 次 · 忘了 · 今天到期</small></li>
+        <li>密集成交区<small>看过 5 天，还没回忆</small></li>
+        <li>双均线系统<small>重要性 ★★★ · 还没学</small></li></ul></div>
+      <div class="pnl"><div class="ph"><h4>最近的学习痕迹</h4></div><ul class="mini-list">
+        ${TRAIL.slice().reverse().slice(0,4).map(t=>`<li>${esc(t.t)}<small>${t.at.replace(/^\d+月/,'')}</small></li>`).join('')}</ul></div>
+    </div>
+  </div>`;
+};
+
+SCREENS.library=()=>{
+  const sel=MATERIALS.find(m=>m.id===state.libSel)||MATERIALS[0];
+  const cnt=st=>MATERIALS.filter(m=>mstat(m)===st).length;
+  const gdots=m=>m.topic?goalsOf(m.topic).map(g=>`<span><span class="gdot" style="background:${g==='b'?'var(--cyan)':'var(--amber)'}"></span>${GOALS[g].title}</span>`).join(''):`<span>${m.goalText}</span>`;
+  const rows=MATERIALS.map(m=>{const st=mstat(m);return `<div class="mrow ${m.id===sel.id?'on':''}" onclick="state.libSel='${m.id}';render()">
+      <span class="ic">${m.ic}</span><span class="tt">${esc(m.title)}</span><span class="stp ${st}">${STLAB[st]}</span>
+      <span class="id">识别为 <b>${KIND[m.kind]}</b> · ${esc(m.ident)}</span>
+      <span class="gl">${gdots(m)}<span>·</span><span>${m.topic?TOPICS[m.topic].concepts.length+' 个概念':m.conText}</span><span style="margin-left:auto">${m.at}</span></span></div>`}).join('');
+  return `${topbar('library')}
+  <div class="lib">
+    <div class="head"><div><div class="eyebrow">资料 · 智能体整理</div><h1>你丢进来的 ${MATERIALS.length} 份资料</h1>
+      <div class="meta">已整理 <b>${cnt('done')}</b> · 整理中 <b>${cnt('run')}</b> · 待确认 <b>${cnt('pend')}</b> · 整理组件 mock-organizer v0 <span class="tag mock">模拟，未调用真实模型</span></div></div>
+      <div class="filters"><div class="seg"><a class="on">全部 ${MATERIALS.length}</a><a>整理中 ${cnt('run')}</a><a>待确认 <em>${cnt('pend')}</em></a><a>已整理 ${cnt('done')}</a></div>
+        <div class="seg"><a class="on">全部类型</a><a>视频 1</a><a>课程笔记 3</a><a>想法 1</a><a>文章 0</a></div></div></div>
+    <div class="lib-body"><div class="lib-list">${rows}</div><div class="lib-detail glass">${libDetail(sel)}</div></div>
+  </div>
+  ${state.toast?`<div class="toast"><i></i>${esc(state.toast)}</div>`:''}
+  ${agentBar({ctx:'资料 · '+short(sel.title).slice(0,10), placeholder:'丢新资料，或问「这份讲了什么」…'})}`;
+};
+SCREENS.notes=()=>SCREENS.library(); // v1 的「笔记」抽屉并入「资料」
+
+function libDetail(m){
+  const st=mstat(m);
+  const flow=steps=>`<div class="flow">${steps.map(([l,c,cap])=>`<div class="s ${c}"><i></i><b>${l}</b>${cap||''}</div>`).join('')}</div>`;
+  const kv=`<dl class="kv">${IDENT[m.id].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+  let proc,asg,con,foot;
+  if(m.id==='v1'){
+    proc=flow([['读取','d','字幕已下载'],['识别','d','视频课 · 中文'],['抽概念','w','进行中'],['归类','',''],['编译星图','','']]);
+    asg=`<div class="asg"><span class="chip">量化交易</span><small>预计归入 · 整理完再请你确认</small></div>`;
+    con=`<div class="hint2">抽取中。抽出来的概念会先和已有的星比对：同名的只标候选，不自动合并。</div>`;
+    foot=`<button class="btn sm">停止整理</button><button class="btn sm">打开视频 ↗</button>`;
+  }else if(m.id==='i1'){
+    proc=flow([['读取','d','一句话'],['识别','d','疑问'],['抽概念','x','不适用'],['挂接',st==='pend'?'p':'d',st==='pend'?'待确认':'已挂上'],['编译星图','x','不适用']]);
+    asg=`<div class="asg"><small>挂到哪颗星（单选）</small><span class="chip on">抵扣价 · 双均线 · 0.82</span><span class="chip">关键性波动 · 趋势交易 · 0.41</span><span class="chip add">＋ 其他星</span>
+      <span class="why">理由：问题里直接出现「抵扣价」和「均线拐头」，双均线笔记 ch03 讲的正是这件事。</span></div>
+      ${st==='pend'?`<div class="asg"><button class="btn sm pri" onclick="state.ideaDone=true;toast('已挂到「抵扣价」· 下次潜航能在「我的思考」里看到');render()">挂上去</button><button class="btn sm">先不挂</button></div>`:''}`;
+    con='';
+    foot=`<button class="btn sm" onclick="go('#dive')">去这颗星</button><button class="btn sm txt">删除</button>`;
+  }else{
+    const t=TOPICS[m.topic],gs=goalsOf(m.topic),pend=st==='pend';
+    const tog=id=>`state.aiGoals=state.aiGoals.includes('${id}')?state.aiGoals.filter(x=>x!=='${id}'):[...state.aiGoals,'${id}'];render()`;
+    proc=flow([['读取','d',''],['识别','d','课程笔记'],['抽概念','d',t.concepts.length+' 个'],['归类',pend?'p':'d',pend?'待确认':'已接受'],['编译星图','d','已上星图']]);
+    asg=`<div class="asg"><small>属于（可多选）</small>${['a','b'].map(g=>`<span class="chip ${gs.includes(g)?'on'+(g==='b'?' cy':''):''}" ${m.topic==='ai'?`onclick="${tog(g)}"`:''}>${GOALS[g].title}</span>`).join('')}<span class="chip add">＋ 新目标</span>
+      <span class="conf" style="margin-left:auto">置信 ${t.conf.toFixed(2)}<span class="bar"><i style="width:${t.conf*100}%"></i></span></span>
+      <span class="why">${m.topic==='ai'?'理由：课程主体是用 Claude Code + MCP 搭系统，但第三、四阶段整段在讲回测与风控。':'高于自动接受阈值 0.85，已自动接受；随时可以改。'}</span></div>
+      ${pend?`<div class="asg"><button class="btn sm pri" onclick="state.adjusted=true;toast('已保存到你的决定 · 重新整理不会覆盖');render()">按这样保存</button><button class="btn sm" onclick="go('#adjust')">看这次整理的全部 4 处</button></div>`:''}`;
+    const dotc=x=>['rgba(255,255,255,.2)','rgba(255,190,110,.5)','#ffc469','#ffe2a8'][x];
+    con=`<div class="hint2">点概念可以改名、隐藏、改归属或置顶重要性。改过的标「你改过」，重新整理也保留；原笔记不动。</div>
+      ${GROUPS[m.topic].map(([g],gi)=>`<div class="cgrp"><small>${g}</small>${t.concepts.filter(c=>c.grp===gi).map(c=>`<span class="cchip" title="${['未学','看过','回忆过','已掌握'][c.m]} · 重要性 ${c.imp}"><i style="background:${dotc(c.m)};box-shadow:0 0 ${c.m*3}px ${dotc(c.m)}"></i>${esc(c.n)}${c.pin?' <span class="pin">你置顶</span>':''}</span>`).join('')}</div>`).join('')}`;
+    foot=`<button class="btn sm" onclick="go('#panorama')">在全景中看</button><button class="btn sm" onclick="go('#dive')">潜航学习</button><button class="btn sm">打开原笔记 ↗</button><button class="btn sm txt" style="margin-left:auto">重新整理</button><button class="btn sm txt">撤销这次整理</button>`;
+  }
+  return `<div style="display:flex;gap:8px;align-items:center"><span class="tag ghost">${KIND[m.kind]}</span><span class="stp ${st}">${STLAB[st]}</span><span class="muted" style="margin-left:auto;font-size:12px">${m.at} 丢进来</span></div>
+    <h2>${esc(m.title)}</h2><div class="src">${esc(m.src)}</div>
+    <div class="blk"><div class="sect">智能体识别</div>${kv}</div>
+    <div class="blk"><div class="sect">整理过程</div>${proc}</div>
+    <div class="blk"><div class="sect">${m.id==='i1'?'挂接':'归属'}</div>${asg}</div>
+    ${con?`<div class="blk"><div class="sect">抽出的概念 · ${m.topic?TOPICS[m.topic].concepts.length:''}</div>${con}</div>`:''}
+    <div class="dfoot">${foot}</div>`;
+}
+
+SCREENS.ask=()=>{
+  const q=state.answerQ||'为什么今天先复习抵扣价？';
+  const ans=`<div class="answer glass">
+    <div class="q"><span class="tag ghost">你问</span><b>${esc(q)}</b><span class="tag mock" style="margin-left:auto">模拟回答 · 未调用真实模型</span></div>
+    <p>今天的计划把它排第一，依据只有两条，都来自你的学习记录：</p>
+    <ol><li><b>到期了。</b>11月4日离开这颗星时，回忆选了「忘了」，按间隔规则今天到期。</li>
+      <li><b>它挡在下一颗前面。</b>今天第 2 件是「关键性波动」，它的判断依据之一是均线会不会拐头，而那由抵扣价决定。</li></ol>
+    <p style="font-size:13px;color:var(--ink3)">第 2 条是笔记里写明的关联（趋势交易 ch08），不是我推出来的前置关系。</p>
+    <div class="cite"><span class="chip">今日计划 · 第 1 条</span><span class="chip">回忆记录 11月4日</span><span class="chip ts">7:46</span></div>
+    <div class="foot"><button class="btn sm pri" onclick="go('#dive')">现在去复习</button><button class="btn sm">今天先跳过</button><button class="btn sm txt" style="margin-left:auto" onclick="go('#home')">收起</button></div>
+  </div>`;
+  return `${SCREENS.home().replace(/<div class="agent[\s\S]*$/,'')}
+  <div class="scrim" style="background:rgba(3,7,20,.35);backdrop-filter:none" onclick="go('#home')"></div>
+  ${agentBar({ctx:'今天', stack:ans, placeholder:'继续问…'})}`;
+};
+
+// ---------- 路由 ----------
+const ORDER=[['first','01 首次使用'],['organizing','02 整理中 · 目标提议'],['home','03 今天（总控台）'],['stats','04 学习统计'],['library','05 资料 · 智能体整理'],['adjust','06 调整归类'],['panorama','07 学习全景图'],['dive','08 星图潜航'],['recall','09 离星回忆'],['ask','10 助手回答']];
+function go(h){location.hash=h}
+function render(){
+  const k=(location.hash||'#first').slice(1);const f=SCREENS[k]||SCREENS.first;
+  state.overlay=['adjust','ask','stats'].includes(k);document.body.classList.toggle('with-rail',['map','panorama'].includes(k));
+  $('#view').innerHTML=f();
+  $('#overlay').innerHTML=`<div class="proto-nav" id="pn"><b>原型页面 · 示例数据</b>${ORDER.map(([id,n])=>`<a href="#${id}" class="${id===k?'on':''}">${n}</a>`).join('')}</div>`;
+  if(k==='ask'){const i=$('#agentInput');i&&i.setAttribute('value','')}
+}
+addEventListener('hashchange',render);
+addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();const i=$('#agentInput');i&&i.focus()}
+  if(e.key==='Escape'){const k=location.hash.slice(1);if(k==='adjust')go('#panorama');else if(['ask','stats'].includes(k))go('#home');else if(['dive','recall'].includes(k))go('#panorama')}});
+if(/shot/.test(location.search))document.body.classList.add('shot');
+drawSky();render();
+</script>
+</body>
+</html>
