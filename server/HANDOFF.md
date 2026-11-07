@@ -1,5 +1,9 @@
 # 后端交付说明（给集成人 GPT）
 
+集成人已在 `codex/learning-foundation` 合入本分支，并追加系统说明注入、
+兼容端点 Chat Completions 选择、请求级工具预算、符号链接边界检查，
+以及仅监听本机的修正。前端代理和后端 CI 已接入。
+
 范围：`server/**`、`tests/server/**`。未改前端、公共契约或 CI。
 
 ## 已完成
@@ -21,8 +25,9 @@
    （该文件属 GPT 范围，后端未改动。）
 
 2. **版本一致**：前端 `@copilotkit/react-core` / `@copilotkit/react-ui` 应与后端
-   `@copilotkit/runtime@1.85.0` 同一兼容版本线（1.85.x）。CopilotKit 2.0 为
-   AG-UI 新协议，需要前后端一起迁移；本轮按 1.85 的 v1 兼容入口交付。
+   `@copilotkit/runtime@1.85.0` 同一兼容版本线（1.85.x）。该版本包内含
+   v2/headless 前端能力，后端现已明确配置 BuiltInAgent，并通过本地
+   `agent/run` AG-UI 协议往返；不能仅凭 v1/v2 入口名称判断不兼容。
 
 3. **线程列表（可选）**：运行时在未提供调用者身份时，`GET /threads` 与
    `POST /threads/clear` 返回 403（仅影响历史会话列表，不影响问答与连续对话，

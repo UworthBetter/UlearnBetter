@@ -5,6 +5,7 @@
  */
 
 import { CopilotRuntime } from '@copilotkit/runtime'
+import { BuiltInAgent } from '@copilotkit/runtime/v2'
 import { searchNotes, readNote } from './notes.mjs'
 
 /**
@@ -22,28 +23,6 @@ export const SYSTEM_INSTRUCTIONS = [
 ].join(' ')
 
 /**
- * A tiny per-request budget keyed by a caller-supplied id (forwardedProps).
- * Prevents an infinite server-side tool-call loop; the window is cleaned up
- * opportunistically to avoid unbounded growth.
- */
-function createToolBudget(maxCalls) {
-  const counters = new Map() // key -> { count, ts }
-  const TTL_MS = 5 * 60 * 1000
-  function sweep(now) {
-    for (const [k, v] of counters) if (now - v.ts > TTL_MS) counters.delete(k)
-  }
-  return function spend(key) {
-    const now = Date.now()
-    if (counters.size > 1000) sweep(now)
-    const entry = counters.get(key) || { count: 0, ts: now }
-    entry.count += 1
-    entry.ts = now
-    counters.set(key, entry)
-    return entry.count <= maxCalls
-  }
-}
-
-/**
  * Build the CopilotRuntime for the given config.
  *
  * Server-side actions are only registered when a notes root is configured.
@@ -51,17 +30,15 @@ function createToolBudget(maxCalls) {
  * (CopilotKit frontend tools) and round-trip through the runtime natively;
  * they are intentionally NOT reimplemented here.
  */
-export function buildRuntime(config) {
-  const spend = createToolBudget(config.maxToolCalls)
-
-  const actions = ({ properties }) => {
+export function buildRuntime(config, adapter) {
+  const actions = () => {
     if (!config.notesRoot) return []
-    const budgetKey = String(
-      (properties && (properties.threadId || properties.requestId || properties.sessionId)) || 'global',
-    )
+    // CopilotKit resolves this action factory for each HTTP run. Do not share
+    // counters by thread or by a client-supplied request id.
+    let remaining = config.maxToolCalls
 
     const guard = (fn) => async (args) => {
-      if (!spend(budgetKey)) {
+      if (remaining-- <= 0) {
         return {
           ok: false,
           message:
@@ -97,5 +74,14 @@ export function buildRuntime(config) {
     ]
   }
 
-  return new CopilotRuntime({ actions })
+  return new CopilotRuntime({
+    actions,
+    agents: { default: new BuiltInAgent({
+      model: adapter.getLanguageModel(),
+      prompt: SYSTEM_INSTRUCTIONS,
+      maxSteps: config.maxToolCalls + 1,
+      maxRetries: 0,
+      overridableProperties: [],
+    }) },
+  })
 }

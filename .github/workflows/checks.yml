@@ -27,3 +27,18 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m unittest discover -s tests
+  backend:
+    runs-on: ubuntu-latest
+    env:
+      COPILOTKIT_TELEMETRY_DISABLED: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+        working-directory: server
+      - run: npm test
+        working-directory: server

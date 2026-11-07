@@ -49,7 +49,7 @@ test('configured (dummy key, no network): ready and /health exposes redacted con
     const body = await res.json()
     assert.equal(body.ready, true)
     assert.equal(body.config.provider, 'anthropic')
-    assert.equal(body.config.tested, true)
+    assert.equal(body.config.tested, false)
     // the key must not leak anywhere in the health payload
     assert.equal(JSON.stringify(body).includes('sk-dummy'), false)
   })
@@ -82,5 +82,28 @@ test('CORS preflight is answered for the allowed dev origin', async () => {
     })
     assert.equal(res.status, 204)
     assert.equal(res.headers.get('access-control-allow-origin'), 'http://localhost:5173')
+  })
+})
+
+test('requests from an unapproved browser origin are rejected before runtime execution', async () => {
+  await withServer({}, async ({ base }) => {
+    const res = await fetch(`${base}/api/copilotkit`, {
+      method: 'POST', headers: { Origin: 'https://unrelated.example', 'Content-Type': 'application/json' }, body: '{}',
+    })
+    assert.equal(res.status, 403)
+    assert.equal((await res.json()).error, 'origin_not_allowed')
+  })
+})
+
+test('oversized and malformed JSON are rejected before protocol validation', async () => {
+  await withServer({}, async ({ base }) => {
+    const oversized = await fetch(`${base}/api/copilotkit`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: 'a'.repeat(300000) }),
+    })
+    assert.equal(oversized.status, 413)
+    const malformed = await fetch(`${base}/api/copilotkit`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{invalid',
+    })
+    assert.equal(malformed.status, 400)
   })
 })

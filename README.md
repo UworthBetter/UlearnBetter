@@ -11,7 +11,8 @@
 [助手契约](docs/development/CONTRACTS.md)。
 Claude Code、Grok Build 和 Zcode 的可执行任务包位于
 [任务目录](docs/development/tasks/)。每个工具在独立工作目录开发，
-由 GPT / Codex 集成。当前助手仅有场景桥接，UI 和模型服务尚待接入。
+由 GPT / Codex 集成。当前星图场景桥接和助手后端已接入，模型协议通过
+本地端点测试；助手 UI 与真实模型调用尚待完整联调。
 
 ## 架构（三层 + 一条原则）
 

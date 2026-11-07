@@ -22,13 +22,23 @@ const MAX_RESULTS = 5
 /** Resolve `requested` under `root`, or return null if it escapes the root. */
 export function resolveWithinRoot(root, requested) {
   const resolvedRoot = path.resolve(root)
-  // Treat the requested path as relative to the root even if it looks absolute,
-  // then verify containment with a boundary-safe prefix check.
-  const candidate = path.resolve(resolvedRoot, '.' + path.sep + requested.replace(/^[/\\]+/, ''))
+  if (path.isAbsolute(requested) || path.win32.isAbsolute(requested)) return null
+  const candidate = path.resolve(resolvedRoot, requested.replace(/\\/g, path.sep))
   const rel = path.relative(resolvedRoot, candidate)
   if (rel === '' ) return resolvedRoot
-  if (rel.startsWith('..') || path.isAbsolute(rel)) return null
+  if (rel === '..' || rel.startsWith('..' + path.sep) || path.isAbsolute(rel)) return null
   return candidate
+}
+
+async function resolveRealNote(root, requested) {
+  const candidate = resolveWithinRoot(root, requested)
+  if (!candidate) return null
+  try {
+    const [realRoot, realFile] = await Promise.all([fs.realpath(root), fs.realpath(candidate)])
+    const relative = path.relative(realRoot, realFile)
+    if (relative === '..' || relative.startsWith('..' + path.sep) || path.isAbsolute(relative)) return null
+    return realFile
+  } catch { return null }
 }
 
 async function walk(dir, root, acc) {
@@ -63,16 +73,18 @@ export async function searchNotes(root, query) {
   const results = []
   for (const file of files) {
     if (results.length >= MAX_RESULTS) break
+    const safeFile = await resolveRealNote(root, path.relative(path.resolve(root), file))
+    if (!safeFile) continue
     let stat
     try {
-      stat = await fs.stat(file)
+      stat = await fs.stat(safeFile)
     } catch {
       continue
     }
     if (stat.size > MAX_FILE_BYTES) continue
     let text
     try {
-      text = await fs.readFile(file, 'utf8')
+      text = await fs.readFile(safeFile, 'utf8')
     } catch {
       continue
     }
@@ -97,9 +109,9 @@ export async function searchNotes(root, query) {
 
 /** Read one named file from within the notes root. */
 export async function readNote(root, requestedPath) {
-  const resolved = resolveWithinRoot(root, String(requestedPath || ''))
+  const resolved = await resolveRealNote(root, String(requestedPath || ''))
   if (!resolved) {
-    return { ok: false, message: 'Path is outside the configured notes root; refused.' }
+    return { ok: false, message: 'Note is missing or outside the configured notes root; refused.' }
   }
   let stat
   try {

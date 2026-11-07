@@ -16,8 +16,7 @@ export class ConfigError extends Error {
 }
 
 /**
- * Supported providers. `anthropic` is the primary, exercised integration.
- * The others share the same adapter wiring but are marked untested until a
+ * Supported providers. All are marked untested against live models until a
  * real key is supplied and reported separately (see server/README.md).
  */
 export const PROVIDERS = {
@@ -26,7 +25,7 @@ export const PROVIDERS = {
     adapter: 'anthropic',
     defaultModel: 'claude-3-7-sonnet-latest',
     keyEnv: ['ASSISTANT_API_KEY', 'ANTHROPIC_API_KEY'],
-    tested: true,
+    tested: false,
   },
   openai: {
     label: 'OpenAI',

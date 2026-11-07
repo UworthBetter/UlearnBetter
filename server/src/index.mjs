@@ -20,7 +20,7 @@ async function main() {
     port = Number(process.env.PORT) > 0 ? Number(process.env.PORT) : 4000
   }
 
-  const server = app.listen(port, () => {
+  const server = app.listen(port, '127.0.0.1', () => {
     if (ready) {
       // eslint-disable-next-line no-console
       console.log(

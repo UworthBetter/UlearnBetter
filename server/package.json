@@ -4,16 +4,19 @@
   "private": true,
   "type": "module",
   "description": "Self-hosted CopilotKit-compatible backend for the UlearnBetter global assistant.",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node src/index.mjs",
     "dev": "node --watch src/index.mjs",
     "test": "node --test ../tests/server/*.test.mjs"
   },
   "dependencies": {
-    "@copilotkit/runtime": "1.85.0",
+    "@ai-sdk/openai": "3.0.138",
     "@anthropic-ai/sdk": ">=0.57.0",
-    "openai": ">=5.0.0",
-    "express": "^5.1.0"
+    "@copilotkit/runtime": "1.85.0",
+    "express": "^5.1.0",
+    "openai": ">=5.0.0"
   }
 }

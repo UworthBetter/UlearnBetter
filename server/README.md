@@ -67,7 +67,7 @@ npm start           # node src/index.mjs
 npm run dev         # node --watch src/index.mjs
 ```
 
-启动后：
+服务只监听本机 `127.0.0.1`。启动后：
 
 - `GET /health` → `{ status, ready, config? , reason? }`（配置已脱敏，不含密钥）。
 - `ALL /api/copilotkit` → CopilotKit 运行时端点。
@@ -87,8 +87,13 @@ npm run dev         # node --watch src/index.mjs
 - 契约中的三个前端操作（`focus_concept` / `open_card` / `close_card`）由前端
   注册为 CopilotKit 前端工具，经运行时原生往返；后端不重复实现，也不假装
   页面已操作成功。
-- 取消：客户端断开连接即中止该请求的流式响应。
+- 系统说明通过显式 BuiltInAgent 的 prompt 传入，客户端不能覆盖。
+  每请求重新分配笔记工具额度，并限制模型循环步数。
+- 取消通过框架的 `agent/stop` 协议；仅关闭 HTTP 连接是否能停止供应商
+  生成尚未验证，不能据此保证停止计费。
 - 日志不记录密钥或整份私有笔记。
+- 浏览器 Origin 必须在允许列表内；使用其他 Vite 端口时显式配置。
+  协议 JSON 请求上限为 256 KiB。
 
 ## 测试
 
@@ -101,3 +106,12 @@ npm test
 ```
 
 真实模型联调需显式提供对应 provider 的 key，并单独报告（见 `HANDOFF.md`）。
+本地协议测试使用临时模拟模型端点验证 AG-UI 流、Chat Completions 请求、
+系统说明、问题上下文和笔记工具往返，不代表真实模型验证。
+
+## 依赖检查记录
+
+当前锁文件的 `npm audit` 报告 22 项传递依赖问题（6 moderate、16 high），
+兼容范围内执行 `npm audit fix` 后仍未消除，涉及 Zod 等上游依赖。
+当前版本保持本机开发用途，后续上线前需要评估升级与兼容回归。
+本机监听、来源限制和请求大小上限不能替代依赖修复。

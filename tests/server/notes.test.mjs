@@ -18,8 +18,24 @@ test('resolveWithinRoot blocks traversal and absolute escape', () => {
   const root = '/srv/notes'
   assert.equal(resolveWithinRoot(root, '../etc/passwd'), null)
   assert.equal(resolveWithinRoot(root, '../../etc/passwd'), null)
-  assert.equal(resolveWithinRoot(root, '/etc/passwd'), path.resolve('/srv/notes/etc/passwd'))
+  assert.equal(resolveWithinRoot(root, '/etc/passwd'), null)
+  assert.equal(resolveWithinRoot(root, 'C:\\private\\secret.md'), null)
+  assert.equal(resolveWithinRoot(root, '..\\secret.md'), null)
   assert.equal(resolveWithinRoot(root, 'sub/a.md'), path.resolve('/srv/notes/sub/a.md'))
+})
+
+test('readNote refuses a directory junction or symlink escaping the configured root', async (t) => {
+  const temp = await fs.mkdtemp(path.join(os.tmpdir(), 'ulb-notes-links-'))
+  t.after(() => fs.rm(temp, { recursive: true, force: true }))
+  const root = path.join(temp, 'root'), outside = path.join(temp, 'outside')
+  await fs.mkdir(root)
+  await fs.mkdir(outside)
+  await fs.writeFile(path.join(outside, 'secret.md'), 'outside-root-private-note')
+  await fs.symlink(outside, path.join(root, 'linked'), process.platform === 'win32' ? 'junction' : 'dir')
+  const read = await readNote(root, 'linked/secret.md')
+  assert.equal(read.ok, false)
+  assert.ok(!JSON.stringify(read).includes('outside-root-private-note'))
+  assert.equal((await searchNotes(root, 'outside-root-private-note')).results.length, 0)
 })
 
 test('searchNotes finds content matches confined to root', async () => {

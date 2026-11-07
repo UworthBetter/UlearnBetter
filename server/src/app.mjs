@@ -14,7 +14,7 @@
 import express from 'express'
 import { copilotRuntimeNodeHttpEndpoint } from '@copilotkit/runtime'
 import { loadConfig, describeConfig, ConfigError } from './config.mjs'
-import { buildRuntime, SYSTEM_INSTRUCTIONS } from './runtime.mjs'
+import { buildRuntime } from './runtime.mjs'
 import { buildServiceAdapter } from './providers.mjs'
 
 function applyCors(res, origin, allowed) {
@@ -51,7 +51,7 @@ export async function createApp(env = {}) {
   if (config) {
     try {
       adapter = await buildServiceAdapter(config)
-      runtime = buildRuntime(config)
+      runtime = buildRuntime(config, adapter)
     } catch (err) {
       // Adapter construction failed (e.g. a missing optional SDK). Surface it
       // as a readiness problem rather than crashing the health endpoint.
@@ -70,9 +70,22 @@ export async function createApp(env = {}) {
 
   // CORS (applied before body handling; the copilotkit handler reads the body itself).
   app.use((req, res, next) => {
+    const origin = req.headers.origin
+    if (origin && allowedOrigins !== '*' && !allowedOrigins.includes(origin)) {
+      return res.status(403).json({ error: 'origin_not_allowed' })
+    }
     applyCors(res, req.headers.origin, allowedOrigins)
     if (req.method === 'OPTIONS') return res.status(204).end()
     next()
+  })
+
+  // The runtime can reconstruct its request from req.body. Bound JSON before
+  // protocol schema validation rather than accepting arbitrarily large arrays.
+  app.use(endpoint, express.json({ limit: '256kb' }))
+  app.use((err, _req, res, next) => {
+    if (err.type === 'entity.too.large') return res.status(413).json({ error: 'request_too_large' })
+    if (err instanceof SyntaxError && err.status === 400) return res.status(400).json({ error: 'invalid_json' })
+    next(err)
   })
 
   app.get('/health', (_req, res) => {
@@ -89,7 +102,6 @@ export async function createApp(env = {}) {
         endpoint,
         runtime,
         serviceAdapter: adapter,
-        properties: { instructions: SYSTEM_INSTRUCTIONS },
         logLevel: config.logLevel,
         cors: { origin: allowedOrigins === '*' ? '*' : allowedOrigins },
       })
