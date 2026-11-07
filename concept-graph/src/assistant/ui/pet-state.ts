@@ -41,3 +41,76 @@ export function clampPetPosition(x: number, y: number, width: number, height: nu
     y: Math.min(Math.max(edge, y), Math.max(edge, viewportHeight - height - edge)),
   }
 }
+
+export interface PetRect {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
+export interface ViewportSize {
+  width: number
+  height: number
+}
+
+export interface AssistantPanelAnchor {
+  left: number
+  width: number
+  maxHeight: number
+  placement: 'above' | 'below'
+  /** Offset from the viewport bottom while the panel sits above the pet. */
+  bottom: number | null
+  /** Offset from the viewport top while the panel sits below the pet. */
+  top: number | null
+}
+
+export interface PanelAnchorOptions {
+  width?: number
+  gutter?: number
+  gap?: number
+  topPadding?: number
+  maxHeight?: number
+  minHeight?: number
+}
+
+/**
+ * Keep the chat panel glued to the draggable pet: above it while there is room,
+ * otherwise below it, always inside the viewport and clear of the top bar.
+ */
+export function placeAssistantPanel(
+  pet: PetRect,
+  viewport: ViewportSize,
+  options: PanelAnchorOptions = {},
+): AssistantPanelAnchor {
+  const gutter = options.gutter ?? 16
+  const gap = options.gap ?? 8
+  const topPadding = options.topPadding ?? 88
+  const cap = options.maxHeight ?? 620
+  const minHeight = options.minHeight ?? 260
+  const width = Math.max(240, Math.min(options.width ?? 424, viewport.width - gutter * 2))
+  // Centre the panel over the pet, then clamp it so it never spills past the page edges.
+  const centred = pet.x + pet.width / 2 - width / 2
+  const left = Math.min(Math.max(gutter, centred), Math.max(gutter, viewport.width - width - gutter))
+  const spaceAbove = pet.y - gap - topPadding
+  const spaceBelow = viewport.height - (pet.y + pet.height) - gap - gutter
+  const placement = spaceAbove >= minHeight || spaceAbove >= spaceBelow ? 'above' : 'below'
+  if (placement === 'above') {
+    return {
+      left,
+      width,
+      placement,
+      bottom: viewport.height - pet.y + gap,
+      top: null,
+      maxHeight: Math.max(200, Math.min(cap, spaceAbove)),
+    }
+  }
+  return {
+    left,
+    width,
+    placement,
+    bottom: null,
+    top: pet.y + pet.height + gap,
+    maxHeight: Math.max(200, Math.min(cap, spaceBelow)),
+  }
+}

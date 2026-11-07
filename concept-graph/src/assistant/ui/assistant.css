@@ -82,6 +82,16 @@
   to { opacity: 1; transform: none; }
 }
 
+/* When the pet sits near the top edge the panel opens downwards, and slides that way too. */
+.ula-panel[data-placement='below'] {
+  animation-name: ula-panel-in-down;
+}
+
+@keyframes ula-panel-in-down {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
 .ula-panel-open { display: flex; }
 
 .ula-head,

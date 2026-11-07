@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { assistantPetMotion, clampPetPosition } from '../concept-graph/src/assistant/ui/pet-state.ts'
+import { assistantPetMotion, clampPetPosition, placeAssistantPanel } from '../concept-graph/src/assistant/ui/pet-state.ts'
 
 const idle = {
   running: false, hasAnswer: false, hasTools: false, error: false,
@@ -29,4 +29,42 @@ test('dragging and resizing keep the full pet inside normal and narrow viewports
   assert.deepEqual(clampPetPosition(-200, -100, 168, 149, 1280, 800), { x: 8, y: 8 })
   assert.deepEqual(clampPetPosition(2000, 2000, 168, 149, 1280, 800), { x: 1104, y: 643 })
   assert.deepEqual(clampPetPosition(900, 700, 112, 100, 320, 568), { x: 200, y: 460 })
+})
+
+const petAt = (x, y) => ({ x, y, width: 168, height: 149 })
+
+test('the chat panel hangs above the pet wherever the pet is dragged', () => {
+  const corner = placeAssistantPanel(petAt(1256, 739), { width: 1440, height: 900 })
+  assert.equal(corner.placement, 'above')
+  assert.equal(corner.width, 424)
+  assert.equal(corner.left, 1000)
+  assert.equal(corner.bottom, 169)
+  assert.equal(corner.top, null)
+  assert.equal(corner.maxHeight, 620)
+
+  const moved = placeAssistantPanel(petAt(600, 700), { width: 1440, height: 900 })
+  assert.equal(moved.placement, 'above')
+  assert.equal(moved.left, 472)
+  assert.equal(moved.width, 424)
+  assert.equal(moved.bottom, 208)
+  // centred over the pet, not pushed against the right edge
+  assert.equal(moved.left + moved.width / 2, 684)
+})
+
+test('the panel flips below the pet and never leaves the viewport', () => {
+  const topLeft = placeAssistantPanel(petAt(8, 8), { width: 1440, height: 900 })
+  assert.equal(topLeft.placement, 'below')
+  assert.equal(topLeft.top, 165)
+  assert.equal(topLeft.left, 16)
+  assert.ok(topLeft.maxHeight <= 620)
+
+  const narrow = placeAssistantPanel(petAt(1096, 559), { width: 1280, height: 720 })
+  assert.equal(narrow.placement, 'above')
+  assert.equal(narrow.maxHeight, 463)
+  assert.equal(narrow.bottom, 169)
+
+  const tiny = placeAssistantPanel(petAt(200, 500), { width: 390, height: 844 })
+  assert.equal(tiny.width, 358)
+  assert.equal(tiny.left, 16)
+  assert.ok(tiny.left + tiny.width <= 390 - 16)
 })

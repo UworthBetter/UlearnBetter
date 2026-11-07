@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type PointerEvent, type RefObject } from 'react'
-import { clampPetPosition, PET_MOTIONS, type PetMotion } from './pet-state.ts'
+import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react'
+import { clampPetPosition, PET_MOTIONS, type PetMotion, type PetRect } from './pet-state.ts'
 import './pet.css'
 
 const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/pet/`
@@ -14,6 +14,7 @@ interface PetLauncherProps {
   demoMode: boolean
   launcherRef: RefObject<HTMLButtonElement | null>
   onToggle: () => void
+  onRectChange?: (rect: PetRect) => void
 }
 
 interface Drag {
@@ -25,7 +26,7 @@ interface Drag {
   moved: boolean
 }
 
-export function PetLauncher({ open, replyVisible = open, motion, completionId, scene, demoMode, launcherRef, onToggle }: PetLauncherProps) {
+export function PetLauncher({ open, replyVisible = open, motion, completionId, scene, demoMode, launcherRef, onToggle, onRectChange }: PetLauncherProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef<Drag | null>(null)
@@ -35,6 +36,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
   const [dragging, setDragging] = useState(false)
   const [temporary, setTemporary] = useState<PetMotion | null>(null)
   const [menu, setMenu] = useState(false)
+  const [menuPos, setMenuPos] = useState<{ left: number; right?: 'auto'; top?: number | 'auto'; bottom?: number | 'auto' } | null>(null)
   const [paused, setPaused] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [failedAssets, setFailedAssets] = useState<Set<string>>(() => new Set())
@@ -77,6 +79,19 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     return () => window.clearTimeout(timer)
   }, [greeting])
 
+  // Report the on-screen rect so the chat panel can follow the pet when it is dragged.
+  useLayoutEffect(() => {
+    const node = containerRef.current
+    if (!node) return
+    const report = () => {
+      const rect = node.getBoundingClientRect()
+      onRectChange?.({ x: rect.x, y: rect.y, width: rect.width, height: rect.height })
+    }
+    report()
+    window.addEventListener('resize', report)
+    return () => window.removeEventListener('resize', report)
+  }, [onRectChange, position, open])
+
   useEffect(() => {
     function constrain() {
       const bounds = containerRef.current?.getBoundingClientRect()
@@ -118,8 +133,29 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     }
   }, [menu, launcherRef])
 
+  function placeMenu() {
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const width = 250
+    // Same rule as the chat panel: centred over the pet, clamped inside the viewport.
+    const left = Math.min(
+      Math.max(16, rect.x + rect.width / 2 - width / 2),
+      Math.max(16, window.innerWidth - width - 16),
+    )
+    // Flip below the pet when there is not enough room above it.
+    setMenuPos(rect.top > 320
+      ? { left, right: 'auto', bottom: window.innerHeight - rect.top + 10, top: 'auto' }
+      : { left, right: 'auto', top: rect.bottom + 10, bottom: 'auto' })
+  }
+
+  function toggleMenu() {
+    const next = !menu
+    setMenu(next)
+    if (next) placeMenu()
+  }
+
   function pointerDown(event: PointerEvent<HTMLButtonElement>) {
-    if (event.button !== 0 || open) return
+    if (event.button !== 0) return
     setMenu(false)
     suppressClickRef.current = false
     const bounds = containerRef.current!.getBoundingClientRect()
@@ -152,7 +188,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
 
   return (
     <div ref={containerRef} className="ula-pet" data-open={open} data-dragging={dragging} data-motion={current}
-      style={!open && position ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : undefined}
+      style={position ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : undefined}
       data-testid="assistant-pet">
       {!menu && <div className="ula-pet-bubble" aria-hidden="true">
         <span>{demoMode ? '演示 · ' : ''}{label}</span>
@@ -161,7 +197,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
       <button ref={launcherRef} type="button" className="ula-launcher ula-pet-launcher"
         aria-label={`${open ? '关闭' : '打开'}学习助手${unread ? '，有新回答' : ''}`}
         aria-expanded={open} aria-controls="ula-panel" data-testid="assistant-launcher"
-        title={open ? '点击收起学习助手' : '点击打开学习助手；拖动调整位置；右键查看桌宠设置'}
+        title={open ? '点击收起学习助手；拖动调整位置；右键查看桌宠设置' : '点击打开学习助手；拖动调整位置；右键查看桌宠设置'}
         onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={endDrag}
         onPointerCancel={endDrag} onLostPointerCapture={endDrag}
         onClick={() => {
@@ -171,11 +207,11 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
           setMenu(false)
           onToggle()
         }}
-        onContextMenu={(event) => { event.preventDefault(); if (!open) setMenu((value) => !value) }}
+        onContextMenu={(event) => { event.preventDefault(); toggleMenu() }}
         onKeyDown={(event) => {
-          if (!open && (event.key === 'ContextMenu' || (event.shiftKey && event.key === 'F10'))) {
+          if (event.key === 'ContextMenu' || (event.shiftKey && event.key === 'F10')) {
             event.preventDefault()
-            setMenu((value) => !value)
+            toggleMenu()
           }
         }}>
         {!failedAssets.has(POSTER) ? <img src={imageSource} alt="" width="384" height="341" draggable={false}
@@ -184,7 +220,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
         {unread && <span className="ula-pet-unread" aria-hidden="true" />}
       </button>
       <span className="ula-pet-announcement" role="status">{unread ? '学习助手有新回答' : ''}</span>
-      {menu && <div ref={menuRef} className="ula-pet-menu" role="group" aria-label="桌宠设置">
+      {menu && <div ref={menuRef} className="ula-pet-menu" role="group" aria-label="桌宠设置" style={menuPos ?? undefined}>
         <button type="button" onClick={() => { setMenu(false); onToggle() }}>{open ? '收起学习助手' : '打开学习助手'}</button>
         <button type="button" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>{paused ? '恢复动画' : '暂停动画'}</button>
         {reducedMotion && <p>已跟随系统减少动态效果</p>}

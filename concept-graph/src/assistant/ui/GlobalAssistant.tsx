@@ -1,5 +1,5 @@
 import type { RecordRoute } from '../../record/view-props.ts'
-import { Component, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ClipboardEvent as ReactClipboardEvent, type DragEvent as ReactDragEvent, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
+import { Component, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ClipboardEvent as ReactClipboardEvent, type CSSProperties, type DragEvent as ReactDragEvent, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
 import { contentToText } from '@ag-ui/core'
 import { useAgent, useAgentContext, useCopilotKit, type JsonSerializable } from '@copilotkit/react-core/v2/headless'
 import type { LearningContext } from '../contracts.ts'
@@ -14,7 +14,7 @@ import { SafeMarkdown } from './safe-markdown.tsx'
 import { formatCapturedAt, sameSubject, sceneChip, sceneTitle, selectionPreview, viewLabel } from './scene-label.ts'
 import { groupAgentTurns, type TurnMeta, type TurnView } from './turns.ts'
 import { PetLauncher } from './PetLauncher.tsx'
-import { assistantPetMotion } from './pet-state.ts'
+import { assistantPetMotion, placeAssistantPanel, type PetRect } from './pet-state.ts'
 import './assistant.css'
 
 const CONNECTION_ERROR = '无法连接 /api/copilotkit。这次没有生成回答。'
@@ -163,6 +163,9 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const [dropping, setDropping] = useState(false)
   const [proposals, setProposals] = useState<Assignment[]>([])
   const [proposalTick, setProposalTick] = useState(0)
+  const [petRect, setPetRect] = useState<PetRect | null>(null)
+  const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }))
+  const [compact, setCompact] = useState(() => window.matchMedia('(max-width: 760px)').matches)
 
   const pendingRef = useRef<PendingJob | null>(null)
   const activeRunRef = useRef<string | null>(null)
@@ -289,6 +292,18 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     wasOpenRef.current = false
     return undefined
   }, [open])
+
+  useEffect(() => {
+    const room = window.matchMedia('(max-width: 760px)')
+    const onRoom = () => setCompact(room.matches)
+    const onResize = () => setViewport({ width: window.innerWidth, height: window.innerHeight })
+    room.addEventListener('change', onRoom)
+    window.addEventListener('resize', onResize)
+    return () => {
+      room.removeEventListener('change', onRoom)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
 
   useEffect(() => {
     if (!open) return
@@ -665,6 +680,33 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const nudgeBy = pendingAssignments[0]?.by
   const chip = sceneChip(scene)
 
+  const reportPetRect = useCallback((rect: PetRect) => {
+    setPetRect((current) => current
+      && Math.abs(current.x - rect.x) < 0.5
+      && Math.abs(current.y - rect.y) < 0.5
+      && Math.abs(current.width - rect.width) < 0.5
+      && Math.abs(current.height - rect.height) < 0.5
+      ? current
+      : rect)
+  }, [])
+
+  // The pet is the anchor: the panel and floating cards follow wherever it is dragged.
+  const anchor = !compact && petRect ? placeAssistantPanel(petRect, viewport) : null
+  // The panel grows out of the pet, so the animation has to start from the edge nearest it.
+  const anchorEdge = anchor?.placement === 'below' ? '100% 0%' : '100% 100%'
+  const anchorStyle: CSSProperties | undefined = anchor
+    ? {
+        left: anchor.left,
+        right: 'auto',
+        width: anchor.width,
+        maxHeight: anchor.maxHeight,
+        transformOrigin: anchorEdge,
+        ...(anchor.placement === 'above'
+          ? { bottom: anchor.bottom ?? undefined, top: 'auto' }
+          : { top: anchor.top ?? undefined, bottom: 'auto' }),
+      }
+    : undefined
+
   const overlayCards = (
     <>
       {videoUrl && (
@@ -703,10 +745,10 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
       data-testid="global-assistant"
     >
       <PetLauncher open={open} replyVisible={open || showAnswer} motion={petMotion} completionId={completionId}
-        scene={sceneTitle(scene)} demoMode={demoMode} launcherRef={launcherRef}
+        scene={sceneTitle(scene)} demoMode={demoMode} launcherRef={launcherRef} onRectChange={reportPetRect}
         onToggle={() => setOpen((value) => !value)} />
       {!open && (videoUrl || folderNote || notice || showAnswer || showNudge) && (
-        <div className="ula-stack">
+        <div className="ula-stack" style={anchorStyle}>
           {overlayCards}
           {showAnswer && latestDemo && (
             <div className="ula-card ula-answer" data-testid="assistant-answer">
@@ -744,12 +786,14 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
         id="ula-panel"
         ref={panelRef}
         className={open ? 'ula-panel ula-panel-open' : 'ula-panel'}
+        style={anchorStyle}
         role={open ? 'dialog' : undefined}
         aria-modal={open ? true : undefined}
         aria-labelledby="ula-title"
         hidden={!open}
         inert={!open ? true : undefined}
         data-testid="assistant-panel"
+        data-placement={anchor?.placement ?? 'above'}
       >
         <header className="ula-head">
           <div className="ula-head-copy">
