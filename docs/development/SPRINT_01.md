@@ -19,7 +19,7 @@ CopilotKit 是首选集成方案。安装前核对当前官方文档和版本兼
 
 | 执行方 | 分支 | 工作目录 | 文件范围 |
 | --- | --- | --- | --- |
-| GPT / Codex | `codex/learning-foundation` | `D:/haikesong2` | 公共契约、场景状态、星图桥接、根文档、CI、最终集成 |
+| GPT / Codex | `codex/learning-foundation` | `D:/haikesong2-worktrees/gpt-integration` | 公共契约、场景状态、星图桥接、根文档、CI、最终集成 |
 | Claude Code | `codex/assistant-backend` | `D:/haikesong2-worktrees/claude-backend` | `server/**`、`tests/server/**` |
 | Grok Build | `codex/assistant-ui` | `D:/haikesong2-worktrees/grok-ui` | `concept-graph/src/assistant/ui/**`、前端 package 文件 |
 | Zcode | `codex/notes-compiler` | `D:/haikesong2-worktrees/zcode-notes` | `tools/learning/**`、`schemas/learning/**`、`samples/learn/**`、`tests/test_learning*.py` |
@@ -68,5 +68,11 @@ Grok 提供独立的 `GlobalAssistant` 组件，GPT 负责挂载。后端独立�
 - 已实现公共上下文 store、提问快照、星图上下文上报和三项受控操作。
 - 首次检查：4 项上下文测试与 12 项解析测试通过；前端构建通过。
   lint 无错误，现有 `ConceptGraph.tsx` 有两项警告。
-- `interaction` 目前为空；滑块参数和图表读数的上报将在后续接入，
-  当前不能声称助手已经理解实时图表数据。
+- 已接入调参图表、步骤播放、进制转换、大小端、栈队列和递归状态。
+  更新在本地完成，不因动画帧变化自动请求模型。
+- 主目录后来切回 `main`，GPT 在独立 `gpt-integration` 目录继续开发，
+  保持原分支和其他三个工具的目录不变。
+- 交互接入检查：8 项上下文/交互测试、12 项解析测试通过；构建通过，
+  lint 仍只有上述两项原有警告。Chromium 实测滑块读数、四种 widget、
+  步骤播放、关闭后隔离、问题快照和无效卡片拒绝，页面无脚本异常。
+- 以上证明场景数据可供助手使用；真实模型答疑仍待其他分支交付后联调。

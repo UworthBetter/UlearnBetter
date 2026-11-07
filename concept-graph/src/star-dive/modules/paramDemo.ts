@@ -220,6 +220,7 @@ registerModule({
     }
     function draw() {
       const env = { ...shown }
+      const readouts: Record<string, string | number | boolean> = { cursor: cfg.cursor }
       domains(env); axes()
       const cx = shown[cfg.cursor], cxp = X.map(Math.min(X.b, Math.max(X.a, cx)))
       cfg.series.forEach((s: any, i: number) => {
@@ -243,6 +244,9 @@ registerModule({
         }
         env.x = cx
         const v = s.f({ ...env, x: cx })
+        readouts[`series_${i}_label`] = s.label
+        readouts[`series_${i}_visible`] = !off
+        readouts[`series_${i}_value`] = Number.isFinite(v) ? v : '当前输入下无有限值'
         const dy = Y.map(v), vis = !off && isFinite(v) && dy >= M.t - 1
         dots[i].setAttribute('cx', cxp.toFixed(1)); dots[i].setAttribute('cy', (vis ? dy : M.t).toFixed(1)); dots[i].style.opacity = vis ? '1' : '0'
         const vl = legend.querySelector(`.pd-leg[data-i="${i}"] .vl`)
@@ -254,6 +258,9 @@ registerModule({
       ctag.querySelector('rect')!.setAttribute('x', String(tx - tw / 2)); ctag.querySelector('rect')!.setAttribute('width', String(tw))
       const t = ctag.querySelector('text')!; t.setAttribute('x', String(tx)); t.textContent = label
       if (cfg.bits) bitsRow(Math.round(cx))
+      if (cfg.bits) readouts.bit_pattern = pattern
+      // Report displayed values, not slider targets while the chart is easing.
+      ctx.reportInteraction({ parameters: { ...shown }, readouts })
     }
     // ---- binary extra: a row of n switches (click to toggle)
     let pattern = 0b10110010
@@ -262,7 +269,7 @@ registerModule({
       pattern &= (2 ** n - 1)
       host.innerHTML = `<div class="cells">${Array.from({ length: n }, (_, k) => { const i = n - 1 - k, b = (pattern >>> i) & 1; return `<button class="cell click${b ? ' on' : ''}" data-i="${i}">${b}</button>` }).join('')}</div>
         <div class="pd-bits-r">这 ${n} 个开关当前的组合 = <b>${pattern.toLocaleString('en-US')}</b>，只是 <b>${(2 ** n).toLocaleString('en-US')}</b> 种可能之一</div>`
-      host.querySelectorAll<HTMLElement>('.cell').forEach((c) => c.addEventListener('click', () => { pattern ^= 1 << +c.dataset.i!; bitsRow(n) }))
+      host.querySelectorAll<HTMLElement>('.cell').forEach((c) => c.addEventListener('click', () => { pattern ^= 1 << +c.dataset.i!; draw() }, { signal: ctx.signal }))
     }
     // ---- explain line
     let exKey: number | null = null

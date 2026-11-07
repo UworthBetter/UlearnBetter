@@ -18,5 +18,5 @@
 
 前端检查：在 `concept-graph/` 执行 `npm run build`、`npm run lint`。
 公共场景状态测试：在根目录执行
-`node --experimental-strip-types --test tests/assistant-context.test.mjs`。
+`node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs`。
 Python 检查：在根目录执行 `python -m unittest discover -s tests`。

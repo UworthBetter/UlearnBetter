@@ -1,3 +1,5 @@
+import type { InteractionState } from './modules/interaction'
+
 /** Shape of src/data/star-dive.json (the prototype's data.json). Cards are open-ended module specs. */
 export interface StarDiveChapter {
   start: number
@@ -47,6 +49,7 @@ export interface ModuleContext {
   readonly meta: StarDiveMeta
   readonly signal: AbortSignal
   readonly onCleanup: (fn: () => void) => void
+  readonly reportInteraction: (state: InteractionState) => void
   readonly fallback: boolean
   readonly errors: string[]
   readonly ytUrl: (t: number) => string

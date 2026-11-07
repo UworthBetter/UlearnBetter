@@ -19,6 +19,12 @@
 - 选中文字会保留到场景切换或调用 `selectText('')` 主动清除，
   避免点击助手输入框时丢失提问对象。助手界面需提供清除选中内容入口。
 - 初期没有上报数据的模块保持 `interaction: null`。
+- 已支持 `param_demo`、`steps` 和四个内置交互 widget。曲线参数使用当前
+  已显示值，动画过渡中的滑块目标不能冒充图上的实际读数。
+- 曲线读数按 `series_<index>_label/value/visible` 提供；二进制演示额外
+  提供 `bit_pattern`。步骤提供当前步、播放状态、步骤标签和说明。
+- 模块通过 `ModuleContext.reportInteraction` 上报，关闭后上报自动失效。
+  没有有限数值的曲线返回明确文字提示，不把 NaN 或 Infinity 当成数字。
 - 旧演示的卡片 ID 为显式 `card.id`，否则为 `<concept>:card:<index>`。
   后者只用于本轮定位，不用于跨数据版本的长期复习记录。
 

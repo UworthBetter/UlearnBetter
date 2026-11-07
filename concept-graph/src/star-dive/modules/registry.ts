@@ -5,6 +5,7 @@
 import type { CardSpec, ModuleContext, ModuleDef, RegisteredModule, StarDiveConcept, StarDiveMeta } from '../types'
 import { el, esc, fmt, ICONS } from '../util'
 import { DSL } from './dsl'
+import { createInteractionReporter, type InteractionState } from './interaction'
 
 export const MODULES = new Map<string, RegisteredModule>()
 export const ALL_SHAPES = ['definition', 'process', 'formula', 'compare', 'timeline', 'example']
@@ -69,7 +70,11 @@ export function moduleUi(r: Resolved) {
   return { icon: r.mod.icon, text: String(lab) }
 }
 
-export interface ModuleHost { meta: StarDiveMeta; ytUrl: (t: number) => string }
+export interface ModuleHost {
+  meta: StarDiveMeta
+  ytUrl: (t: number) => string
+  onInteractionChange?: (state: InteractionState | null) => void
+}
 export interface MountedModule { ctx: ModuleContext; destroy(): void }
 
 /** Render a card into container. Returns { destroy() }. Render errors fall back to the definition card. */
@@ -80,12 +85,13 @@ export function mountModule(container: HTMLElement, concept: StarDiveConcept, ca
     const ctx: ModuleContext = Object.freeze({
       concept, meta: host.meta, signal: ac.signal, onCleanup: (f: () => void) => { if (typeof f === 'function') cleans.push(f) },
       fallback: res.fallback, errors: res.errors, ytUrl: host.ytUrl, fmt, esc, el, icons: ICONS,
+      reportInteraction: createInteractionReporter(ac.signal, host.onInteractionChange),
     })
     return {
       ctx,
       destroy() {
-        try { if (res.mod.destroy) res.mod.destroy(container, ctx) } catch (e) { console.error(`[modules] ${res.mod.type}.destroy failed`, e) }
         ac.abort()
+        try { if (res.mod.destroy) res.mod.destroy(container, ctx) } catch (e) { console.error(`[modules] ${res.mod.type}.destroy failed`, e) }
         cleans.splice(0).forEach((f) => { try { f() } catch (e) { console.error(e) } })
       },
     }
@@ -93,7 +99,7 @@ export function mountModule(container: HTMLElement, concept: StarDiveConcept, ca
   let h = make(r)
   try { r.mod.render(container, r.spec, h.ctx) } catch (err: any) {
     console.error(`[modules] ${r.mod.type}.render failed → definition fallback`, err)
-    h.destroy(); container.innerHTML = ''
+    h.destroy(); host.onInteractionChange?.(null); container.innerHTML = ''
     r = { mod: MODULES.get('definition')!, spec: fallbackSpec(concept, card), fallback: true, errors: ['render() threw: ' + (err && err.message)] }
     h = make(r); MODULES.get('definition')!.render(container, r.spec, h.ctx)
   }

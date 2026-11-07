@@ -7,6 +7,7 @@ import { cardTs, MODULES, moduleUi, mountModule, registerModule, resolveCard, ru
 import type { CardSpec, StarDiveConcept, StarDiveData } from './types'
 import { el, esc, fmt, ICONS, makeYtUrl, rng, SHAPES } from './util'
 import type { ActionResult, JsonValue, LearningSceneContext } from '../assistant/contracts'
+import type { InteractionState } from './modules/interaction'
 
 export interface SceneOptions {
   /** Concept id to dive into right after load (the prototype read this from location.hash). */
@@ -53,6 +54,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   let edges: [StarNode, StarNode][] = []
   const cam = { x: 0, y: 0, k: 1 }, camT = { x: 0, y: 0, k: 1 }
   const state: { focus: string | null; panel: CardSpec | null; hover: string | null } = { focus: null, panel: null, hover: null }
+  let interaction: InteractionState | null = null
   const ytUrl = makeYtUrl(META.url)
   const cardId = (c: StarDiveConcept, card: CardSpec) =>
     typeof card.id === 'string' && card.id ? card.id : `${c.id}:card:${c.cards.indexOf(card)}`
@@ -71,7 +73,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
         content: card as JsonValue,
         evidence: cardTs(card).map((t) => ({ sourceId: META.video_id, startSec: t, url: ytUrl(t) })),
       } : null,
-      interaction: null,
+      interaction,
     })
   }
 
@@ -409,7 +411,11 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   /* ================= expanded panel ================= */
   const panelWrap = $('#panelWrap')
   let activeModule: MountedModule | null = null // handle returned by mountModule() for the open panel
-  const host = { meta: META, ytUrl }
+  const host = { meta: META, ytUrl, onInteractionChange: (next: InteractionState | null) => {
+    if (!state.panel || destroyed) return
+    interaction = next
+    publishContext()
+  } }
   function openPanel(c: StarDiveConcept, card: CardSpec, fromEl: HTMLElement) {
     closePanel(true)
     const r = resolveCard(c, card), ui = moduleUi(r)
@@ -439,6 +445,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   }
   function closePanel(instant?: boolean) {
     if (activeModule) { activeModule.destroy(); activeModule = null }
+    interaction = null
     if (!state.panel) return
     state.panel = null; focusLayer.classList.remove('receded')
     publishContext()

@@ -49,11 +49,19 @@ registerModule({
       prevBtn.disabled = cur === 0
       nextBtn.disabled = cur === n - 1
       if (cur === n - 1 && playing) setPlay(false, true)
+      report()
+    }
+    function report() {
+      ctx.reportInteraction({
+        parameters: { step: cur + 1, playing },
+        readouts: { total_steps: n, label: S[cur].label, detail: S[cur].detail || '' },
+      })
     }
     function setPlay(on: boolean, ended?: boolean) {
       playing = on; clearInterval(timer)
       playBtn.textContent = on ? '❚❚ 暂停' : (ended || cur === n - 1 ? '↻ 重播' : '▶ 播放')
       if (on) timer = setInterval(() => show(cur + 1), 2400)
+      report()
     }
     root.querySelectorAll<HTMLElement>('.node,.nlabel').forEach((b) => b.addEventListener('click', () => { setPlay(false); show(+b.dataset.i!) }))
     prevBtn.addEventListener('click', () => { setPlay(false); show(cur - 1) })
