@@ -9,6 +9,8 @@ import { AssistantRuntime } from './runtime.tsx'
 import { SafeMarkdown } from './safe-markdown.tsx'
 import { formatCapturedAt, sameSubject, sceneTitle, selectionPreview, viewLabel } from './scene-label.ts'
 import { groupAgentTurns, type TurnMeta, type TurnView } from './turns.ts'
+import { PetLauncher } from './PetLauncher.tsx'
+import { assistantPetMotion } from './pet-state.ts'
 import './assistant.css'
 
 const CONNECTION_ERROR = '无法连接 /api/copilotkit。这次没有生成回答。'
@@ -410,21 +412,23 @@ function AssistantSession({ initialDemoMode, initialOpen }: { initialDemoMode: b
 
   const placeholder = scene.concept ? `问「${scene.concept.label}」` : '问当前场景'
   const lastRealId = realViews[realViews.length - 1]?.id
+  const lastDemo = demoTurns[demoTurns.length - 1]
+  const lastReal = realViews[realViews.length - 1]
+  const latest = demoMode ? lastDemo : lastReal
+  const hasAnswer = demoMode ? Boolean(lastDemo?.answer) : Boolean(lastReal?.answers.length)
+  const petMotion = assistantPetMotion({
+    running, hasAnswer, hasTools: !demoMode && Boolean(lastReal?.tools.length),
+    error: !demoMode && Boolean(lastReal?.error), stopped: Boolean(latest?.stopped),
+    connectionError: connectionStatus === 'error', demoMode,
+  })
+  const completionId = !running && hasAnswer && latest && !latest.stopped && petMotion !== 'error'
+    ? `${demoMode ? 'demo' : 'real'}:${latest.id}` : null
 
   return (
     <div className="ula-root" data-open={open ? 'true' : 'false'} data-testid="global-assistant">
-      <button
-        ref={launcherRef}
-        type="button"
-        className="ula-launcher"
-        aria-expanded={open}
-        aria-controls="ula-panel"
-        data-testid="assistant-launcher"
-        onClick={() => setOpen((value) => !value)}
-      >
-        <span className="ula-star" aria-hidden="true" />
-        学习助手
-      </button>
+      <PetLauncher open={open} motion={petMotion} completionId={completionId}
+        scene={sceneTitle(scene)} demoMode={demoMode} launcherRef={launcherRef}
+        onToggle={() => setOpen((value) => !value)} />
       <section
         id="ula-panel"
         ref={panelRef}
