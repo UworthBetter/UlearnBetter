@@ -1,0 +1,42 @@
+[
+  {
+    "subject": "item:ev-ai-quant",
+    "kind": "notes",
+    "title": "AI 量化交易系统",
+    "about": "用大模型生成因子假设，再进回测流水线验证的整套系统笔记。",
+    "folderHint": "量化",
+    "conceptLabels": ["因子假设", "回测流水线", "风险预算"]
+  },
+  {
+    "subject": "item:ev-ma-strategy",
+    "kind": "notes",
+    "title": "双均线策略入门",
+    "about": "快慢均线金叉死叉的规则、参数与常见陷阱。",
+    "folderHint": "策略学习",
+    "conceptLabels": ["金叉", "参数敏感"]
+  },
+  {
+    "subject": "item:ev-cooking",
+    "kind": "notes",
+    "title": "家庭菜谱整理",
+    "about": "按季节整理的家常菜做法与采购清单。",
+    "folderHint": "生活",
+    "conceptLabels": ["时令采购"]
+  },
+  {
+    "subject": "item:ev-ml-course",
+    "kind": "notes",
+    "title": "机器学习课业笔记",
+    "about": "课程讲义摘要与作业复盘。",
+    "folderHint": "课业",
+    "conceptLabels": ["梯度下降", "正则化"]
+  },
+  {
+    "subject": "item:ev-idea-slippage",
+    "kind": "idea",
+    "title": "回测要不要加滑点",
+    "about": null,
+    "folderHint": "量化",
+    "conceptLabels": []
+  }
+]
