@@ -6,15 +6,19 @@
 import { cardTs, MODULES, moduleUi, mountModule, registerModule, resolveCard, runSchema, type MountedModule } from './modules'
 import type { CardSpec, StarDiveConcept, StarDiveData } from './types'
 import { el, esc, fmt, ICONS, makeYtUrl, rng, SHAPES } from './util'
+import type { ActionResult, JsonValue, LearningSceneContext } from '../assistant/contracts'
 
 export interface SceneOptions {
   /** Concept id to dive into right after load (the prototype read this from location.hash). */
   initialFocus?: string | null
+  onContextChange?: (context: LearningSceneContext) => void
 }
 
 export interface SceneHandle {
   focusStar(id: string): void
   back(): void
+  openCard(conceptId: string, cardId: string): ActionResult
+  closeCard(): void
   destroy(): void
 }
 
@@ -50,6 +54,26 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   const cam = { x: 0, y: 0, k: 1 }, camT = { x: 0, y: 0, k: 1 }
   const state: { focus: string | null; panel: CardSpec | null; hover: string | null } = { focus: null, panel: null, hover: null }
   const ytUrl = makeYtUrl(META.url)
+  const cardId = (c: StarDiveConcept, card: CardSpec) =>
+    typeof card.id === 'string' && card.id ? card.id : `${c.id}:card:${c.cards.indexOf(card)}`
+  function publishContext() {
+    const c = DATA.concepts.find((item) => item.id === state.focus)
+    const card = state.panel
+    opts.onContextChange?.({
+      view: 'star-dive',
+      topic: { id: META.video_id, title: META.title },
+      concept: c ? {
+        id: c.id, label: c.label, summary: c.summary, relatedIds: [...c.relations],
+        cards: c.cards.map((item) => ({ id: cardId(c, item), title: item.title || c.label, type: item.type })),
+      } : null,
+      card: c && card ? {
+        id: cardId(c, card), title: card.title || c.label, type: card.type,
+        content: card as JsonValue,
+        evidence: cardTs(card).map((t) => ({ sourceId: META.video_id, startSec: t, url: ytUrl(t) })),
+      } : null,
+      interaction: null,
+    })
+  }
 
   // lifecycle bookkeeping (not in the prototype, which lived for the whole page)
   let destroyed = false, rafId = 0
@@ -279,6 +303,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     if (state.focus === id) return
     const switching = !!state.focus
     state.focus = id
+    publishContext()
     root.classList.add('focused')
     camT.x = n.x; camT.y = n.y; camT.k = 1.42
     for (const m of nodes) {
@@ -286,7 +311,10 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
       m.el.classList.toggle('related', n.c.relations.includes(m.c.id) || m.c.relations.includes(id))
       m.el.classList.toggle('dim', m !== n && !(n.c.relations.includes(m.c.id) || m.c.relations.includes(id)))
     }
-    const build = () => { renderFocus(n); markTimeline() }
+    const build = () => {
+      if (state.focus !== id || state.panel) return
+      renderFocus(n); markTimeline()
+    }
     if (switching) { focusLayer.querySelectorAll('.main-card,.orbit').forEach((e) => e.classList.add('leaving')); orbitEls = []; later(build, 260) }
     else later(build, 380)
   }
@@ -368,6 +396,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     closePanel(true)
     if (!state.focus) return
     state.focus = null; root.classList.remove('focused')
+    publishContext()
     camT.x = 0; camT.y = 0; camT.k = 1
     const old = [...focusLayer.children]; old.forEach((e) => e.classList.add('leaving'))
     orbitEls.forEach((o) => { o.b.style.transition = 'opacity .3s, transform .4s'; o.b.style.opacity = '0' })
@@ -399,6 +428,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     p.querySelector('.p-close')!.addEventListener('click', () => closePanel())
     panelWrap.appendChild(p); panelWrap.classList.add('on')
     activeModule = mountModule(p.querySelector<HTMLElement>('.p-body')!, c, card, host)
+    publishContext()
     // FLIP from orbit card
     const a = fromEl.getBoundingClientRect(), b = p.getBoundingClientRect()
     p.style.transition = 'none'
@@ -411,6 +441,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     if (activeModule) { activeModule.destroy(); activeModule = null }
     if (!state.panel) return
     state.panel = null; focusLayer.classList.remove('receded')
+    publishContext()
     const p = panelWrap.querySelector<HTMLElement>('.panel')
     if (instant || !p) { panelWrap.classList.remove('on'); panelWrap.innerHTML = ''; return }
     p.style.transform = 'scale(.92)'; p.style.opacity = '0'
@@ -495,7 +526,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   function init() {
     if (destroyed) return
     sky.resize(); resizeLinks()
-    buildStars(); buildHud(); layout(); markTimeline()
+    buildStars(); buildHud(); layout(); markTimeline(); publishContext()
     rafId = requestAnimationFrame(loop)
     const first = opts.initialFocus
     if (first && byId[first]) later(() => focusStar(first), 300)
@@ -517,6 +548,17 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   return {
     focusStar,
     back,
+    closeCard: () => closePanel(),
+    openCard(conceptId, requestedCardId) {
+      const n = Object.hasOwn(byId, conceptId) ? byId[conceptId] : null
+      if (!n) return { ok: false, message: '概念不存在或星图尚未就绪' }
+      const index = n.c.cards.findIndex((card) => cardId(n.c, card) === requestedCardId)
+      if (index < 0) return { ok: false, message: '卡片不存在' }
+      focusStar(conceptId)
+      renderFocus(n)
+      openPanel(n.c, n.c.cards[index], orbitEls[index].b)
+      return { ok: true, message: '已打开卡片' }
+    },
     destroy() {
       if (destroyed) return
       closePanel(true)

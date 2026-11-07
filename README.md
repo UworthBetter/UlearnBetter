@@ -4,6 +4,15 @@
 
 > 产品蓝图见 [docs/学习Agent产品蓝图 v1.1.md](docs/学习Agent产品蓝图%20v1.1.md)
 
+## 当前开发入口
+
+本轮开发是星图内学习与全局 AI 助手，执行范围、分工和验收见
+[第一轮开发计划](docs/development/SPRINT_01.md)，前后端接口见
+[助手契约](docs/development/CONTRACTS.md)。
+Claude Code、Grok Build 和 Zcode 的可执行任务包位于
+[任务目录](docs/development/tasks/)。每个工具在独立工作目录开发，
+由 GPT / Codex 集成。当前助手仅有场景桥接，UI 和模型服务尚待接入。
+
 ## 架构（三层 + 一条原则）
 
 ```

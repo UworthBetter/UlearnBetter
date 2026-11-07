@@ -13,3 +13,11 @@ Thumbs.db
 
 # WordLink 参考检出（Windows 上 con.md 会导致检出不完整）
 /_ref/
+
+# Local model configuration and private generated data
+.env
+.env.*
+!.env.example
+node_modules/
+/server/.data/
+/server/logs/
