@@ -30,11 +30,11 @@ import GlobalAssistant from './assistant/ui/GlobalAssistant.tsx'
 
 `record` 不传时，面板仍能提问。归类提示、记想法、加入视频都不会写决定层，只提示「学习记录还没接上」。集成时请把 `Root` 里已经创建的 `client`、`navigate`、`openAdjust` 传进来，不要再 new 一个客户端。
 
-页面上只有一个常驻入口：右下角的学习伙伴，可以拖到任意位置（位置只存在于当前页面，刷新回到右下角）。点角色才在它上方弹出对话面板，里面是场景、历史、输入栏和状态提示；再点角色、点面板外或按 `Esc` 收起。按 `/` 也会打开面板并聚焦输入框。面板关闭时，回答卡和提示卡浮在角色上方。手机上点角色后面板全屏，角色暂时隐藏。
+页面上只有一个常驻入口：右下角的学习伙伴，可以拖到任意位置（位置只存在于当前页面，刷新回到右下角）。右键菜单可以把角色缩放到 70%–150%，这个大小会记在 `localStorage` 的 `ulearnbetter.assistant.petScale` 里，刷新后保留。点角色才在它上方弹出对话面板，里面是场景、历史、输入栏和状态提示；再点角色、点面板外或按 `Esc` 收起。按 `/` 也会打开面板并聚焦输入框。面板关闭时，回答卡和提示卡浮在角色上方。手机上点角色后面板全屏，角色暂时隐藏。
 
 提交问题后面板保持打开，不再自动收起。角色随时可以拖动，开着面板也能拖：面板、回答卡和提示卡都挂在角色身上，跟着它走。角色贴近屏幕顶部时，面板自动翻到角色下方展开，并压低高度避免超出视口；右键菜单同样贴着角色出现。
 
-位置由 `pet-state.ts` 的纯函数算：`clampPetPosition` 把角色夹在视口内，`placeAssistantPanel` 返回面板的 `left`、`width`、`maxHeight`，以及 `bottom`（在角色上方）或 `top`（在角色下方）。这两个函数都有测试，改布局时先跑 `tests/assistant-pet.test.mjs`。
+位置由 `pet-state.ts` 的纯函数算：`clampPetPosition` 把角色夹在视口内，`clampPetScale` 把大小夹在 70%–150%，`placeAssistantPanel` 返回面板的 `left`、`width`、`maxHeight`，以及 `bottom`（在角色上方）或 `top`（在角色下方）。这些函数都有测试，改布局时先跑 `tests/assistant-pet.test.mjs`。角色的宽高由 `pet.css` 的 `--pet-base-w` / `--pet-base-h` 乘 `--pet-scale` 得出，改尺寸时不要再写死像素。
 
 面板不占页面布局，也不写 `--ub-agent-bar-height`。`shell.css` 把这个变量固定为 `84px`，作为潜航时间轴等浮层的底部安全区；视图不要再依赖助手栏的实时高度。全景页仍在文档根上设置 `--ub-rail-width`（摘要栏宽度，原型 332px），外壳接手后可以去掉那段。
 

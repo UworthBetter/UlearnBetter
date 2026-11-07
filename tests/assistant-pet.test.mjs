@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { assistantPetMotion, clampPetPosition, placeAssistantPanel } from '../concept-graph/src/assistant/ui/pet-state.ts'
+import { assistantPetMotion, clampPetPosition, clampPetScale, placeAssistantPanel, PET_SCALE_DEFAULT, PET_SCALE_MAX, PET_SCALE_MIN } from '../concept-graph/src/assistant/ui/pet-state.ts'
 
 const idle = {
   running: false, hasAnswer: false, hasTools: false, error: false,
@@ -32,6 +32,17 @@ test('dragging and resizing keep the full pet inside normal and narrow viewports
 })
 
 const petAt = (x, y) => ({ x, y, width: 168, height: 149 })
+
+test('the pet can be resized, but only inside a usable range', () => {
+  assert.equal(clampPetScale(100), 100)
+  assert.equal(clampPetScale(PET_SCALE_MIN - 30), PET_SCALE_MIN)
+  assert.equal(clampPetScale(PET_SCALE_MAX + 30), PET_SCALE_MAX)
+  assert.equal(clampPetScale(117.6), 118)
+  assert.equal(clampPetScale(Number.NaN), PET_SCALE_DEFAULT)
+  assert.equal(clampPetScale(Number.POSITIVE_INFINITY), PET_SCALE_DEFAULT)
+  // A resized pet still has to fit when dragged to the edge.
+  assert.deepEqual(clampPetPosition(2000, 2000, 252, 224, 1280, 800), { x: 1020, y: 568 })
+})
 
 test('the chat panel hangs above the pet wherever the pet is dragged', () => {
   const corner = placeAssistantPanel(petAt(1256, 739), { width: 1440, height: 900 })

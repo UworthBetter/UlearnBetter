@@ -1,10 +1,14 @@
 .ula-pet {
+  --pet-base-w: 168px;
+  --pet-base-h: 149px;
+  /* Adjustable from the right-click menu (70%–150%), persisted per browser. */
+  --pet-scale: 1;
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
   bottom: max(12px, env(safe-area-inset-bottom));
   z-index: 70;
-  width: 168px;
-  height: 149px;
+  width: calc(var(--pet-base-w) * var(--pet-scale));
+  height: calc(var(--pet-base-h) * var(--pet-scale));
   pointer-events: auto;
 }
 
@@ -97,13 +101,13 @@
 /* Do not let the greeting bubble cover an answer card floating above the pet. */
 .ula-root[data-card='true'] .ula-pet-bubble { display: none; }
 
-.ula-pet-unread { position: absolute; right: 28px; top: 20px; width: 12px; height: 12px; border: 2px solid #0b1230; border-radius: 50%; background: #ffb547; }
+.ula-pet-unread { position: absolute; right: 17%; top: 13%; width: 12px; height: 12px; border: 2px solid #0b1230; border-radius: 50%; background: #ffb547; }
 .ula-pet-announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 .ula-pet-menu {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
-  bottom: calc(149px + 12px + 13px);
+  bottom: calc(var(--pet-base-h) * var(--pet-scale) + 25px);
   z-index: 80;
   width: min(250px, calc(100vw - 32px));
   max-height: calc(100dvh - 190px);
@@ -127,9 +131,13 @@
 .ula-pet-menu p { margin: 8px 0 0; color: var(--ula-muted); font-size: 12px; }
 .ula-pet-menu :focus-visible { outline: 2px solid var(--ula-amber); outline-offset: 2px; }
 
+.ula-pet-menu .ula-pet-size span { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ula-pet-menu .ula-pet-size output { color: var(--ula-amber-2); font-variant-numeric: tabular-nums; }
+.ula-pet-menu .ula-pet-size input[type='range'] { width: 100%; height: 24px; margin: 4px 0 0; accent-color: var(--ula-amber); cursor: pointer; }
+
 @media (max-width: 760px) {
-  .ula-pet { width: 112px; height: 100px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
-  .ula-pet-menu { bottom: 122px; max-height: calc(100dvh - 138px); }
+  .ula-pet { --pet-base-w: 112px; --pet-base-h: 100px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
+  .ula-pet-menu { bottom: calc(var(--pet-base-h) * var(--pet-scale) + 22px); max-height: calc(100dvh - 138px); }
 }
 
 @media (max-height: 480px) {

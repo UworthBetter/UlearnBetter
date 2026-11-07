@@ -1,9 +1,21 @@
-import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent, type RefObject } from 'react'
-import { clampPetPosition, PET_MOTIONS, type PetMotion, type PetRect } from './pet-state.ts'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent, type RefObject } from 'react'
+import { clampPetPosition, clampPetScale, PET_MOTIONS, PET_SCALE_DEFAULT, PET_SCALE_MAX, PET_SCALE_MIN, type PetMotion, type PetRect } from './pet-state.ts'
 import './pet.css'
 
 const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/pet/`
 const POSTER = `${ASSET_ROOT}standing.png`
+const PET_SCALE_STORAGE_KEY = 'ulearnbetter.assistant.petScale'
+
+/** Size is a viewing preference, so it survives a refresh even though the position does not. */
+function readPetScale(): number {
+  try {
+    const stored = window.localStorage.getItem(PET_SCALE_STORAGE_KEY)
+    if (stored === null) return PET_SCALE_DEFAULT
+    return clampPetScale(Number(stored))
+  } catch {
+    return PET_SCALE_DEFAULT
+  }
+}
 
 interface PetLauncherProps {
   open: boolean
@@ -38,6 +50,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
   const [menu, setMenu] = useState(false)
   const [menuPos, setMenuPos] = useState<{ left: number; right?: 'auto'; top?: number | 'auto'; bottom?: number | 'auto' } | null>(null)
   const [paused, setPaused] = useState(false)
+  const [scale, setScale] = useState(readPetScale)
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [failedAssets, setFailedAssets] = useState<Set<string>>(() => new Set())
   const [settledId, setSettledId] = useState<string | null>(null)
@@ -90,7 +103,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     report()
     window.addEventListener('resize', report)
     return () => window.removeEventListener('resize', report)
-  }, [onRectChange, position, open])
+  }, [onRectChange, position, open, scale])
 
   useEffect(() => {
     function constrain() {
@@ -110,6 +123,18 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current)
     }
   }, [])
+
+  // A bigger pet grows down-right from its top-left corner, so re-clamp a dragged pet after resizing.
+  useLayoutEffect(() => {
+    const node = containerRef.current
+    if (!node) return
+    const rect = node.getBoundingClientRect()
+    setPosition((currentPosition) => {
+      if (!currentPosition) return currentPosition
+      const next = clampPetPosition(currentPosition.x, currentPosition.y, rect.width, rect.height, window.innerWidth, window.innerHeight)
+      return next.x === currentPosition.x && next.y === currentPosition.y ? currentPosition : next
+    })
+  }, [scale])
 
   useEffect(() => {
     if (!menu) return
@@ -154,6 +179,23 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     if (next) placeMenu()
   }
 
+  function updateScale(value: number) {
+    const next = clampPetScale(value)
+    setScale(next)
+    try {
+      window.localStorage.setItem(PET_SCALE_STORAGE_KEY, String(next))
+    } catch {
+      // Storage may be unavailable (private mode, embeds); the size still applies for this visit.
+    }
+    // The menu is anchored to the pet's edge, so it has to follow a live resize.
+    if (menu) window.requestAnimationFrame(placeMenu)
+  }
+
+  const petStyle = {
+    ...(position ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : null),
+    '--pet-scale': scale / 100,
+  } as CSSProperties
+
   function pointerDown(event: PointerEvent<HTMLButtonElement>) {
     if (event.button !== 0) return
     setMenu(false)
@@ -188,7 +230,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
 
   return (
     <div ref={containerRef} className="ula-pet" data-open={open} data-dragging={dragging} data-motion={current}
-      style={position ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : undefined}
+      style={petStyle}
       data-testid="assistant-pet">
       {!menu && <div className="ula-pet-bubble" aria-hidden="true">
         <span>{demoMode ? '演示 · ' : ''}{label}</span>
@@ -224,6 +266,12 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
         <button type="button" onClick={() => { setMenu(false); onToggle() }}>{open ? '收起学习助手' : '打开学习助手'}</button>
         <button type="button" aria-pressed={paused} onClick={() => setPaused((value) => !value)}>{paused ? '恢复动画' : '暂停动画'}</button>
         {reducedMotion && <p>已跟随系统减少动态效果</p>}
+        <label className="ula-pet-size">
+          <span>大小<output htmlFor="ula-pet-size">{scale}%</output></span>
+          <input id="ula-pet-size" type="range" min={PET_SCALE_MIN} max={PET_SCALE_MAX} step={5}
+            value={scale} aria-label="桌宠大小"
+            onChange={(event) => updateScale(Number(event.target.value))} />
+        </label>
         <label>动作预览
           <select value="" onChange={(event) => { setTemporary(event.target.value as PetMotion); setMenu(false); launcherRef.current?.focus() }}>
             <option value="" disabled>选择动作（仅预览）</option>

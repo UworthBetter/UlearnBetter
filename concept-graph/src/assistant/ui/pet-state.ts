@@ -42,6 +42,16 @@ export function clampPetPosition(x: number, y: number, width: number, height: nu
   }
 }
 
+export const PET_SCALE_MIN = 70
+export const PET_SCALE_MAX = 150
+export const PET_SCALE_DEFAULT = 100
+
+/** Whole percentages inside the adjustable range; anything unusable falls back to the default. */
+export function clampPetScale(value: number): number {
+  if (!Number.isFinite(value)) return PET_SCALE_DEFAULT
+  return Math.min(PET_SCALE_MAX, Math.max(PET_SCALE_MIN, Math.round(value)))
+}
+
 export interface PetRect {
   x: number
   y: number
