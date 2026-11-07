@@ -1,0 +1,27 @@
+[
+  {
+    "subject": "item:ev-ai-quant",
+    "goalIds": ["g-quant", "g-ai"],
+    "note": "应同时属于两个目标（多归属）"
+  },
+  {
+    "subject": "item:ev-ma-strategy",
+    "goalIds": ["g-quant"],
+    "note": null
+  },
+  {
+    "subject": "item:ev-cooking",
+    "goalIds": [],
+    "note": "应进「未归属」，不被目录名硬配到任何目标"
+  },
+  {
+    "subject": "item:ev-ml-course",
+    "goalIds": ["g-course"],
+    "note": null
+  },
+  {
+    "subject": "item:ev-idea-slippage",
+    "goalIds": [],
+    "note": "想法不应得到任何目标归属（只允许挂到已有概念）"
+  }
+]

@@ -21,3 +21,7 @@
 python tools/learning/notes_compile.py samples/learn/demo-topic \
   --out <输出目录> --extractor annotated
 ```
+
+输出含 `demo-topic.learn.json`、`demo-topic.manifest.json`
+（learning.manifest/0.1）、报告与稳定 ID 映射 `learn-ids.json`
+（详见 `tools/learning/README.md`）。
