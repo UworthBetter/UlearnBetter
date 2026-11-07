@@ -56,21 +56,25 @@
 .ula-panel {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
-  bottom: calc(149px + 12px + 6px);
+  bottom: calc(149px + 12px + 8px);
   z-index: 60;
   display: none;
-  width: min(420px, calc(100vw - 32px));
-  height: min(660px, calc(100dvh - 190px));
+  width: min(424px, calc(100vw - 32px));
+  max-height: min(620px, calc(100dvh - 250px));
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--ula-line);
-  border-radius: 20px;
+  border: 1px solid rgba(255, 206, 150, 0.16);
+  border-radius: 22px;
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(255, 181, 71, 0.16), transparent 42%),
-    var(--ula-bg);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
-  transform-origin: 90% 100%;
-  animation: ula-panel-in 150ms ease-out;
+    radial-gradient(120% 80% at 12% 0%, rgba(255, 181, 71, 0.13), transparent 55%),
+    linear-gradient(180deg, rgba(14, 24, 55, 0.97), rgba(6, 11, 28, 0.98));
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.55),
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(22px) saturate(130%);
+  transform-origin: 88% 100%;
+  animation: ula-panel-in 170ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @keyframes ula-panel-in {
@@ -90,25 +94,27 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 12px 10px 14px;
-  border-bottom: 1px solid var(--ula-line);
+  padding: 15px 14px 12px 17px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(255, 190, 120, 0.05), transparent);
 }
 
 .ula-head-copy { min-width: 0; }
 
 .ula-kicker {
   margin: 0;
-  color: var(--ula-amber);
-  font-size: 10.5px;
+  color: rgba(255, 196, 130, 0.66);
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .ula-head h2 {
-  margin: 2px 0 0;
-  font-size: 18px;
-  font-weight: 650;
+  margin: 3px 0 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .ula-head-actions,
@@ -168,15 +174,16 @@
 }
 
 .ula-scene {
-  padding: 9px 14px 10px;
-  border-bottom: 1px solid rgba(255, 222, 170, 0.12);
+  padding: 0 17px 13px;
+  border-bottom: 0;
+  background: linear-gradient(180deg, rgba(255, 190, 120, 0.05), transparent);
 }
 
 .ula-scene-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .ula-scene h3,
@@ -189,11 +196,13 @@
 }
 
 .ula-scene h3 {
-  font-size: 11px;
-  letter-spacing: 0.03em;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(200, 212, 250, 0.42);
 }
 
-.ula-scene p { margin: 2px 0 0; font-size: 12.5px; }
+.ula-scene p { margin: 3px 0 0; font-size: 12.5px; color: rgba(230, 236, 255, 0.86); }
 
 .ula-scene-clear {
   min-height: 26px;
@@ -257,30 +266,88 @@
 .ula-panel-cards .ula-nudge { padding: 10px 12px; }
 
 .ula-log {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
-  padding: 12px 14px 16px;
+  padding: 14px 16px 18px;
+  border-top: 1px solid rgba(255, 222, 170, 0.09);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.ula-log::-webkit-scrollbar { width: 6px; }
+.ula-log::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .ula-empty {
-  color: var(--ula-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 150px;
+  padding: 18px 12px;
+  color: rgba(200, 212, 250, 0.5);
+  font-size: 12.5px;
+  line-height: 1.7;
+  text-align: center;
 }
 
-.ula-turn + .ula-turn { margin-top: 16px; }
+.ula-empty::before {
+  content: '';
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #fff, #ffb547 52%, #e98432);
+  box-shadow: 0 0 24px rgba(255, 181, 71, 0.32);
+  opacity: 0.88;
+}
+
+.ula-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ula-turn + .ula-turn { margin-top: 18px; }
 
 .ula-user,
 .ula-assistant {
   border: 1px solid rgba(255, 222, 170, 0.14);
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 10px 12px;
 }
 
-.ula-user { background: rgba(255, 181, 71, 0.08); }
+.ula-user {
+  width: fit-content;
+  max-width: 86%;
+  margin-left: auto;
+  padding: 8px 12px 9px;
+  border-color: rgba(255, 196, 120, 0.22);
+  border-radius: 16px 16px 5px 16px;
+  background: linear-gradient(160deg, rgba(255, 181, 71, 0.16), rgba(255, 181, 71, 0.07));
+}
+
+.ula-user .ula-turn-meta {
+  margin-bottom: 4px;
+  gap: 4px 8px;
+  color: rgba(255, 214, 160, 0.58);
+  font-size: 10.5px;
+}
+
+.ula-user .ula-question { font-size: 13.5px; }
 
 .ula-assistant {
-  margin-top: 8px;
-  background: var(--ula-bg-2);
+  margin-top: 0;
+  padding: 10px 12px 11px;
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 16px 16px 16px 5px;
+  background: linear-gradient(160deg, rgba(36, 52, 104, 0.5), rgba(14, 23, 55, 0.55));
+  font-size: 13.5px;
+  line-height: 1.65;
 }
 
 .ula-chip {
@@ -293,7 +360,7 @@
 .ula-chip strong { font-weight: 650; }
 
 .ula-question {
-  margin: 8px 0 0;
+  margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -313,18 +380,6 @@
 .ula-error {
   margin-top: 8px;
   color: var(--ula-danger);
-}
-
-.ula-send {
-  background: var(--ula-amber);
-  color: #2a1600;
-  border-color: transparent;
-  font-weight: 700;
-}
-
-.ula-send:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
 }
 
 .ula-md p,
@@ -368,13 +423,13 @@
 .ula-stack {
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
-  bottom: calc(149px + 12px + 6px);
+  bottom: calc(149px + 12px + 8px);
   z-index: 68;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 10px;
-  width: min(400px, calc(100vw - 32px));
+  width: min(424px, calc(100vw - 32px));
   max-height: calc(100dvh - 200px);
   overflow-y: auto;
   pointer-events: none;
@@ -391,18 +446,21 @@
 .ula-stack:empty { display: none; }
 
 .ula-card {
-  background: linear-gradient(150deg, rgba(46, 66, 128, 0.5), rgba(18, 28, 66, 0.44));
-  border: 1px solid rgba(255, 222, 170, 0.2);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(18px) saturate(140%);
+  background: linear-gradient(155deg, rgba(38, 54, 108, 0.55), rgba(12, 20, 48, 0.55));
+  border: 1px solid rgba(255, 206, 150, 0.16);
+  border-radius: 18px;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  backdrop-filter: blur(20px) saturate(140%);
 }
 
 .ula-nudge {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px 14px 18px;
-  border-radius: 16px;
+  padding: 13px 15px 13px 17px;
+  border-radius: 18px;
 }
 
 .ula-card-copy { flex: 1; min-width: 0; }
@@ -430,7 +488,7 @@
 .ula-answer {
   max-height: 440px;
   overflow: auto;
-  padding: 12px 14px 10px;
+  padding: 14px 15px 12px;
   border-radius: 18px;
 }
 
@@ -438,24 +496,24 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 52px;
-  padding: 0 8px 0 14px;
-  border-radius: 16px;
-  background: rgba(24, 38, 84, 0.55);
-  border: 1px solid rgba(255, 222, 170, 0.2);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  min-height: 54px;
+  padding: 0 7px 0 15px;
+  border-radius: 18px;
+  background: rgba(12, 21, 48, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .ula-bar:focus-within {
-  border-color: rgba(255, 190, 110, 0.55);
-  box-shadow: 0 0 0 3px rgba(255, 180, 80, 0.08);
+  border-color: rgba(255, 190, 110, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 180, 80, 0.07);
 }
 
 .ula-barwrap {
   flex: none;
-  padding: 10px 12px 11px;
-  border-top: 1px solid rgba(255, 222, 170, 0.12);
-  background: linear-gradient(180deg, rgba(4, 9, 25, 0), rgba(4, 9, 25, 0.45));
+  padding: 10px 14px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(4, 9, 25, 0), rgba(4, 9, 25, 0.5));
 }
 
 .ula-dropping .ula-bar {
@@ -465,12 +523,12 @@
 
 .ula-orb {
   position: relative;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   flex: none;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 38%, #fff 0%, var(--ula-amber) 50%, #b8641a 100%);
-  box-shadow: 0 0 12px 2px rgba(255, 180, 80, 0.55);
+  box-shadow: 0 0 10px 1px rgba(255, 180, 80, 0.4);
 }
 
 .ula-busy .ula-orb::after {
@@ -488,7 +546,7 @@
 .ula-bar textarea {
   flex: 1;
   min-width: 0;
-  height: 28px;
+  height: 30px;
   min-height: 0;
   resize: none;
   padding: 2px 0;
@@ -496,7 +554,8 @@
   border-radius: 0;
   background: transparent;
   color: var(--ula-ink);
-  font-size: 15px;
+  font-size: 14.5px;
+  line-height: 26px;
 }
 
 .ula-bar textarea:focus-visible { outline: none; }
@@ -539,12 +598,12 @@
 .ula-icon {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
   color: rgba(230, 236, 255, 0.78);
   cursor: pointer;
 }
@@ -552,10 +611,11 @@
 .ula-icon:hover { color: var(--ula-amber-2); border-color: rgba(255, 190, 110, 0.45); }
 
 .ula-send {
-  background: linear-gradient(180deg, rgba(255, 185, 80, 0.95), rgba(245, 150, 50, 0.95));
+  background: linear-gradient(180deg, #ffc76d, #f2983f);
   color: #2a1700;
   border-color: transparent;
   font-weight: 700;
+  box-shadow: 0 6px 16px rgba(242, 152, 63, 0.28);
 }
 
 .ula-send:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -592,20 +652,21 @@
   justify-content: flex-start;
   align-items: center;
   gap: 6px;
-  margin: 8px 0 0;
-  color: rgba(200, 212, 250, 0.32);
-  font-size: 10.5px;
+  margin: 7px 0 0;
+  padding: 0 4px;
+  color: rgba(200, 212, 250, 0.3);
+  font-size: 10px;
   letter-spacing: 0.02em;
   text-align: left;
 }
 
 .ula-hint kbd {
   font-family: "JetBrains Mono", Consolas, monospace;
-  font-size: 10.5px;
+  font-size: 10px;
   padding: 0 5px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 4px;
-  color: rgba(200, 212, 250, 0.52);
+  color: rgba(200, 212, 250, 0.5);
 }
 
 .ula-pri {
@@ -614,25 +675,57 @@
   border-color: transparent;
 }
 
-.ula-barwrap .ula-banner,
-.ula-barwrap .ula-status {
+.ula-barwrap .ula-banner {
   width: 100%;
-  margin-top: 6px;
-  padding: 6px 9px;
-  border-radius: 8px;
+  margin-top: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 181, 71, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 181, 71, 0.08);
+  color: rgba(255, 214, 160, 0.85);
   text-align: left;
-  font-size: 11px;
+  font-size: 10.5px;
+  line-height: 1.5;
 }
 
-.ula-barwrap .ula-status { padding: 5px 2px 0; }
+.ula-barwrap .ula-banner-error {
+  border-color: rgba(255, 140, 140, 0.2);
+  background: rgba(120, 24, 32, 0.3);
+  color: var(--ula-danger);
+}
+
+.ula-barwrap .ula-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 7px;
+  padding: 0 4px;
+  color: rgba(200, 212, 250, 0.4);
+  font-size: 10.5px;
+}
+
+.ula-barwrap .ula-status::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(134, 220, 255, 0.7);
+  box-shadow: 0 0 6px rgba(134, 220, 255, 0.5);
+}
 
 @media (max-width: 760px) {
   .ula-panel-open {
+    position: fixed;
     inset: 0;
     width: auto;
     height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border: 0;
     border-radius: 0;
-    background: #070d22;
+    background: linear-gradient(180deg, #0a122c, #060b1c);
     z-index: 120;
   }
 
@@ -640,19 +733,16 @@
 
   .ula-root .ula-ctx { display: none; }
 
-  .ula-panel-open {
-    position: fixed;
-    width: auto;
-    height: 100dvh;
-    margin: 0;
+  .ula-head {
+    padding-top: max(15px, env(safe-area-inset-top));
   }
 
-  .ula-stack,
   .ula-barwrap {
-    width: calc(100vw - 20px);
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 
   .ula-stack {
+    width: calc(100vw - 20px);
     right: 10px;
     bottom: 122px;
     max-height: calc(100dvh - 140px);

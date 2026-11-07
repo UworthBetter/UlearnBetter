@@ -872,10 +872,10 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
             : <button type="submit" className="ula-icon ula-send" data-testid="assistant-send" aria-label="发送" disabled={!draft.trim()}>↑</button>}
         </form>
         <p className="ula-hint">
-          <kbd>Enter</kbd> 发送 · <kbd>Shift</kbd>+<kbd>Enter</kbd> 换行 · 可拖入链接 · 文件夹请走命令行编译
+          <kbd>Enter</kbd> 发送 · <kbd>Shift</kbd>+<kbd>Enter</kbd> 换行
         </p>
         {demoMode
-          ? <p className="ula-banner" data-testid="assistant-status">演示模式已打开。回答在本地生成，标有「演示回复 · 未调用真实模型」。</p>
+          ? <p className="ula-banner" data-testid="assistant-status">演示模式 · 回答在本地生成，未调用真实模型</p>
           : connectionStatus === 'error'
             ? <p className="ula-banner ula-banner-error" data-testid="assistant-status">无法连接 /api/copilotkit，助手不会编造回答</p>
             : connectionStatus === 'connected'
