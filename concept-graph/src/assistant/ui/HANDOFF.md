@@ -25,12 +25,16 @@ import GlobalAssistant from './assistant/ui/GlobalAssistant.tsx'
 | `runtimeUrl` | `/api/copilotkit` | 同源运行时 |
 | `agentId` | `default` | 必须和后端 `/info` 里的 agent id 一致 |
 | `initialDemoMode` | `false` | 测试时可直接打开演示 |
-| `initialOpen` | `false` | 测试时可直接展开历史 |
+| `initialOpen` | `false` | 测试时可直接展开对话面板 |
 | `record` | 不传 | `{ client, navigate, openAdjust }`，与视图用同一个客户端 |
 
-`record` 不传时，栏仍能提问。归类提示、记想法、加入视频都不会写决定层，只提示「学习记录还没接上」。集成时请把 `Root` 里已经创建的 `client`、`navigate`、`openAdjust` 传进来，不要再 new 一个客户端。
+`record` 不传时，面板仍能提问。归类提示、记想法、加入视频都不会写决定层，只提示「学习记录还没接上」。集成时请把 `Root` 里已经创建的 `client`、`navigate`、`openAdjust` 传进来，不要再 new 一个客户端。
 
-栏是底部常驻，不是右下角按钮。历史从「历史」打开。全景页请在文档根上设置 `--ub-rail-width`（摘要栏宽度，原型 332px）。栏会把自己的占位高度写到 `--ub-agent-bar-height`，潜航时间轴用这个值上移。视图里的全景目前会暂时写 `--ub-rail-width`，外壳接手后可以去掉那段。
+页面上只有一个常驻入口：右下角的学习伙伴。点角色才在它上方弹出对话面板，里面是场景、历史、输入栏和状态提示；再点角色、点面板外或按 `Esc` 收起。按 `/` 也会打开面板并聚焦输入框。面板关闭时，回答卡和提示卡浮在角色上方。手机上点角色后面板全屏，角色暂时隐藏。
+
+提交问题后面板保持打开，不再自动收起。面板打开时角色停在默认位置，拖动只在面板关闭时可用。
+
+面板不占页面布局，也不写 `--ub-agent-bar-height`。`shell.css` 把这个变量固定为 `84px`，作为潜航时间轴等浮层的底部安全区；视图不要再依赖助手栏的实时高度。全景页仍在文档根上设置 `--ub-rail-width`（摘要栏宽度，原型 332px），外壳接手后可以去掉那段。
 
 ## Vite 代理
 

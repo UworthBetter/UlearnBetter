@@ -55,44 +55,53 @@
 
 .ula-panel {
   position: fixed;
-  right: 16px;
-  bottom: 76px;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(149px + 12px + 6px);
   z-index: 60;
   display: none;
   width: min(420px, calc(100vw - 32px));
-  height: min(720px, calc(100vh - 108px));
+  height: min(660px, calc(100dvh - 190px));
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--ula-line);
-  border-radius: 18px;
+  border-radius: 20px;
   background:
     radial-gradient(ellipse at 10% 0%, rgba(255, 181, 71, 0.16), transparent 42%),
     var(--ula-bg);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transform-origin: 90% 100%;
+  animation: ula-panel-in 150ms ease-out;
+}
+
+@keyframes ula-panel-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
 }
 
 .ula-panel-open { display: flex; }
 
 .ula-head,
-.ula-scene,
-.ula-compose {
+.ula-scene {
   padding: 12px 14px;
 }
 
 .ula-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 12px 12px 10px 14px;
   border-bottom: 1px solid var(--ula-line);
 }
+
+.ula-head-copy { min-width: 0; }
 
 .ula-kicker {
   margin: 0;
   color: var(--ula-amber);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -103,13 +112,36 @@
 }
 
 .ula-head-actions,
-.ula-compose-row,
 .ula-error-actions {
   display: flex;
   gap: 8px;
 }
 
-.ula-head-actions { align-items: center; }
+.ula-head-actions { align-items: center; flex: none; }
+
+.ula-head-actions .ula-demo {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.ula-close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ula-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ula-close:hover { color: var(--ula-ink); border-color: rgba(255, 190, 110, 0.45); }
+.ula-close:focus-visible { outline: 2px solid var(--ula-amber); outline-offset: 2px; }
 
 .ula-text-button,
 .ula-send,
@@ -130,13 +162,13 @@
 
 .ula-text-button:focus-visible,
 .ula-send:focus-visible,
-.ula-retry:focus-visible,
-.ula-compose textarea:focus-visible {
+.ula-retry:focus-visible {
   outline: 2px solid var(--ula-amber);
   outline-offset: 2px;
 }
 
 .ula-scene {
+  padding: 9px 14px 10px;
   border-bottom: 1px solid rgba(255, 222, 170, 0.12);
 }
 
@@ -154,6 +186,19 @@
   color: var(--ula-muted);
   font-size: 12px;
   font-weight: 600;
+}
+
+.ula-scene h3 {
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.ula-scene p { margin: 2px 0 0; font-size: 12.5px; }
+
+.ula-scene-clear {
+  min-height: 26px;
+  padding: 0 9px;
+  font-size: 11px;
 }
 
 .ula-turn-meta {
@@ -195,6 +240,21 @@
   color: var(--ula-danger);
   background: rgba(120, 24, 32, 0.35);
 }
+
+.ula-panel-cards {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 0;
+}
+
+.ula-panel-cards .ula-card {
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.ula-panel-cards .ula-nudge { padding: 10px 12px; }
 
 .ula-log {
   flex: 1;
@@ -255,23 +315,6 @@
   color: var(--ula-danger);
 }
 
-.ula-compose { border-top: 1px solid var(--ula-line); }
-
-.ula-compose textarea {
-  width: 100%;
-  min-height: 72px;
-  resize: vertical;
-  padding: 10px 12px;
-  border: 1px solid var(--ula-line);
-  border-radius: 12px;
-  background: rgba(4, 9, 25, 0.55);
-}
-
-.ula-compose-row {
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
 .ula-send {
   background: var(--ula-amber);
   color: #2a1600;
@@ -322,41 +365,30 @@
   padding: 16px;
 }
 
-.ula-dock {
-  position: fixed;
-  left: 0;
-  right: var(--ub-rail-width, 0px);
-  bottom: 24px;
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-}
-
-.ula-dock .ula-stack,
-.ula-dock .ula-barwrap,
-.ula-dock .ula-panel {
-  pointer-events: auto;
-  width: min(760px, calc(100% - 32px));
-}
-
 .ula-stack {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(149px + 12px + 6px);
+  z-index: 68;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 10px;
-  margin-bottom: 12px;
+  width: min(400px, calc(100vw - 32px));
+  max-height: calc(100dvh - 200px);
+  overflow-y: auto;
+  pointer-events: none;
+  scrollbar-width: none;
+}
+
+.ula-stack::-webkit-scrollbar { display: none; }
+
+.ula-stack > * {
+  width: 100%;
+  pointer-events: auto;
 }
 
 .ula-stack:empty { display: none; }
-
-.ula-dock .ula-panel {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  height: min(420px, calc(100vh - 220px));
-  margin-bottom: 12px;
-}
 
 .ula-card {
   background: linear-gradient(150deg, rgba(46, 66, 128, 0.5), rgba(18, 28, 66, 0.44));
@@ -405,19 +437,25 @@
 .ula-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 58px;
-  padding: 0 10px 0 18px;
-  border-radius: 20px;
-  background: linear-gradient(150deg, rgba(40, 58, 118, 0.72), rgba(16, 26, 62, 0.72));
-  border: 1px solid rgba(255, 222, 170, 0.24);
-  backdrop-filter: blur(20px) saturate(140%);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 8px 0 14px;
+  border-radius: 16px;
+  background: rgba(24, 38, 84, 0.55);
+  border: 1px solid rgba(255, 222, 170, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .ula-bar:focus-within {
   border-color: rgba(255, 190, 110, 0.55);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(255, 180, 80, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 180, 80, 0.08);
+}
+
+.ula-barwrap {
+  flex: none;
+  padding: 10px 12px 11px;
+  border-top: 1px solid rgba(255, 222, 170, 0.12);
+  background: linear-gradient(180deg, rgba(4, 9, 25, 0), rgba(4, 9, 25, 0.45));
 }
 
 .ula-dropping .ula-bar {
@@ -513,14 +551,14 @@
 
 .ula-icon:hover { color: var(--ula-amber-2); border-color: rgba(255, 190, 110, 0.45); }
 
-.ula-dock .ula-send {
+.ula-send {
   background: linear-gradient(180deg, rgba(255, 185, 80, 0.95), rgba(245, 150, 50, 0.95));
   color: #2a1700;
   border-color: transparent;
   font-weight: 700;
 }
 
-.ula-dock .ula-send:disabled { opacity: 0.45; cursor: not-allowed; }
+.ula-send:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .ula-plus-wrap { position: relative; flex: none; }
 
@@ -551,14 +589,14 @@
 .ula-hint {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 8px;
-  margin: 7px 0 0;
+  gap: 6px;
+  margin: 8px 0 0;
   color: rgba(200, 212, 250, 0.32);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  text-align: left;
 }
 
 .ula-hint kbd {
@@ -570,54 +608,53 @@
   color: rgba(200, 212, 250, 0.52);
 }
 
-.ula-dock .ula-hint .ula-text-button {
-  min-height: 28px;
-  padding: 0 8px;
-  font-size: 11px;
-}
-
 .ula-pri {
   background: linear-gradient(180deg, rgba(255, 185, 80, 0.95), rgba(245, 150, 50, 0.95));
   color: #2a1700;
   border-color: transparent;
 }
 
-.ula-dock .ula-banner,
-.ula-dock .ula-status {
+.ula-barwrap .ula-banner,
+.ula-barwrap .ula-status {
   width: 100%;
   margin-top: 6px;
-  text-align: center;
-  border-radius: 10px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 11px;
 }
+
+.ula-barwrap .ula-status { padding: 5px 2px 0; }
 
 @media (max-width: 760px) {
   .ula-panel-open {
     inset: 0;
     width: auto;
-    height: auto;
+    height: 100dvh;
     border-radius: 0;
     background: #070d22;
+    z-index: 120;
   }
 
-  .ula-root[data-open='true'] .ula-launcher { display: none; }
+  .ula-root[data-open='true'] .ula-pet { display: none; }
 
-  .ula-dock {
-    right: 0;
-    bottom: 12px;
-  }
+  .ula-root .ula-ctx { display: none; }
 
-  .ula-dock .ula-ctx { display: none; }
-
-  .ula-dock .ula-panel-open {
+  .ula-panel-open {
     position: fixed;
-    z-index: 80;
     width: auto;
-    height: auto;
+    height: 100dvh;
     margin: 0;
   }
 
-  .ula-dock .ula-stack,
-  .ula-dock .ula-barwrap {
-    width: min(760px, calc(100% - 16px));
+  .ula-stack,
+  .ula-barwrap {
+    width: calc(100vw - 20px);
+  }
+
+  .ula-stack {
+    right: 10px;
+    bottom: 122px;
+    max-height: calc(100dvh - 140px);
   }
 }

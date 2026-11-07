@@ -172,7 +172,6 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const demoModeRef = useRef(demoMode)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const launcherRef = useRef<HTMLButtonElement>(null)
-  const barRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLElement>(null)
   const logRef = useRef<HTMLDivElement>(null)
   const wasOpenRef = useRef(false)
@@ -281,29 +280,28 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   }, [runToken, isReady, copilotkit, agent, connectionStatus, demoMode])
 
   useEffect(() => {
-    if (open) panelRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus()
-    else if (wasOpenRef.current) inputRef.current?.focus()
-    wasOpenRef.current = open
+    if (open) {
+      wasOpenRef.current = true
+      const frame = window.requestAnimationFrame(() => inputRef.current?.focus())
+      return () => window.cancelAnimationFrame(frame)
+    }
+    if (wasOpenRef.current) launcherRef.current?.focus()
+    wasOpenRef.current = false
+    return undefined
   }, [open])
 
   useEffect(() => {
-    const node = barRef.current
-    if (!node) return
-    const write = () => {
-      const rect = node.getBoundingClientRect()
-      const gap = Math.max(0, window.innerHeight - rect.bottom)
-      document.documentElement.style.setProperty('--ub-agent-bar-height', `${Math.ceil(rect.height + gap)}px`)
+    if (!open) return
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target as Element | null
+      if (!target) return
+      if (panelRef.current?.contains(target)) return
+      if (target.closest?.('.ula-pet')) return
+      setOpen(false)
     }
-    const observer = new ResizeObserver(write)
-    observer.observe(node)
-    write()
-    window.addEventListener('resize', write)
-    return () => {
-      observer.disconnect()
-      window.removeEventListener('resize', write)
-      document.documentElement.style.removeProperty('--ub-agent-bar-height')
-    }
-  }, [])
+    window.addEventListener('pointerdown', onPointerDown)
+    return () => window.removeEventListener('pointerdown', onPointerDown)
+  }, [open])
 
   useEffect(() => {
     const client = record?.client
@@ -326,7 +324,8 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
         if (tag === 'INPUT' || tag === 'TEXTAREA' || target.isContentEditable) return
       }
       event.preventDefault()
-      inputRef.current?.focus()
+      if (!panelRef.current || panelRef.current.hidden) setOpen(true)
+      window.requestAnimationFrame(() => inputRef.current?.focus())
     }
     window.addEventListener('keydown', onSlash)
     return () => window.removeEventListener('keydown', onSlash)
@@ -516,7 +515,6 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     setFolderNote(null)
     setNotice(null)
     setAnswerDismissed(true)
-    setOpen(false)
     setDraft('')
     setComposeMode('ask')
     setPlusOpen(false)
@@ -526,7 +524,6 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     setDraft('')
     setComposeMode('ask')
     setPlusOpen(false)
-    setOpen(false)
     if (!record) {
       setNotice('学习记录还没接上，这句想法没有写入。')
       setVideoUrl(null)
@@ -616,7 +613,6 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     setVideoUrl(null)
     setFolderNote(null)
     setNotice(null)
-    setOpen(false)
     sendQuestion(intent.text)
   }
 
@@ -647,7 +643,6 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
       setVideoUrl(null)
       setNotice(null)
       setAnswerDismissed(true)
-      setOpen(false)
       return
     }
     if (kind === 'video-ask' && url) showVideoAsk(url.trim())
@@ -670,9 +665,39 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const nudgeBy = pendingAssignments[0]?.by
   const chip = sceneChip(scene)
 
+  const overlayCards = (
+    <>
+      {videoUrl && (
+        <div className="ula-card ula-nudge" data-testid="assistant-video">
+          <span className="ula-star" aria-hidden="true" />
+          <div className="ula-card-copy">
+            <p>作为视频资料加入？</p>
+            <small>{videoUrl}</small>
+          </div>
+          <button type="button" className="ula-text-button ula-pri" onClick={() => { void confirmVideo() }}>加入</button>
+          <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setVideoUrl(null)}>取消</button>
+        </div>
+      )}
+      {!videoUrl && folderNote && (
+        <div className="ula-card ula-nudge" data-testid="assistant-folder">
+          <span className="ula-star" aria-hidden="true" />
+          <div className="ula-card-copy"><p>{folderNote}</p></div>
+          <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setFolderNote(null)}>知道了</button>
+        </div>
+      )}
+      {!videoUrl && !folderNote && notice && (
+        <div className="ula-card ula-nudge" data-testid="assistant-notice">
+          <span className="ula-star" aria-hidden="true" />
+          <div className="ula-card-copy"><p>{notice}</p></div>
+          <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setNotice(null)}>知道了</button>
+        </div>
+      )}
+    </>
+  )
+
   return (
     <div
-      className={dropping ? 'ula-root ula-dock ula-dropping' : running ? 'ula-root ula-dock ula-busy' : 'ula-root ula-dock'}
+      className={dropping ? 'ula-root ula-dropping' : running ? 'ula-root ula-busy' : 'ula-root'}
       data-open={open ? 'true' : 'false'}
       data-card={cardOpen ? 'true' : 'false'}
       data-testid="global-assistant"
@@ -680,63 +705,41 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
       <PetLauncher open={open} replyVisible={open || showAnswer} motion={petMotion} completionId={completionId}
         scene={sceneTitle(scene)} demoMode={demoMode} launcherRef={launcherRef}
         onToggle={() => setOpen((value) => !value)} />
-      <div className="ula-stack">
-        {!open && videoUrl && (
-          <div className="ula-card ula-nudge" data-testid="assistant-video">
-            <span className="ula-star" aria-hidden="true" />
-            <div className="ula-card-copy">
-              <p>作为视频资料加入？</p>
-              <small>{videoUrl}</small>
+      {!open && (videoUrl || folderNote || notice || showAnswer || showNudge) && (
+        <div className="ula-stack">
+          {overlayCards}
+          {showAnswer && latestDemo && (
+            <div className="ula-card ula-answer" data-testid="assistant-answer">
+              <DemoTurnView turn={latestDemo} canRetry={!running && latestDemo.stopped} onRetry={() => retryTurn(latestDemo.id)} />
+              <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={dismissCard}>收起</button>
             </div>
-            <button type="button" className="ula-text-button ula-pri" onClick={() => { void confirmVideo() }}>加入</button>
-            <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setVideoUrl(null)}>取消</button>
-          </div>
-        )}
-        {!open && !videoUrl && folderNote && (
-          <div className="ula-card ula-nudge" data-testid="assistant-folder">
-            <span className="ula-star" aria-hidden="true" />
-            <div className="ula-card-copy"><p>{folderNote}</p></div>
-            <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setFolderNote(null)}>知道了</button>
-          </div>
-        )}
-        {!open && !videoUrl && !folderNote && notice && (
-          <div className="ula-card ula-nudge" data-testid="assistant-notice">
-            <span className="ula-star" aria-hidden="true" />
-            <div className="ula-card-copy"><p>{notice}</p></div>
-            <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={() => setNotice(null)}>知道了</button>
-          </div>
-        )}
-        {showAnswer && latestDemo && (
-          <div className="ula-card ula-answer" data-testid="assistant-answer">
-            <DemoTurnView turn={latestDemo} canRetry={!running && latestDemo.stopped} onRetry={() => retryTurn(latestDemo.id)} />
-            <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={dismissCard}>收起</button>
-          </div>
-        )}
-        {showAnswer && !demoMode && latestReal && (
-          <div className="ula-card ula-answer" data-testid="assistant-answer">
-            <RealTurnView
-              turn={latestReal}
-              pending={queuedId === latestReal.id || (agent.isRunning && activeId === latestReal.id)}
-              canRetry={!running && (latestReal.error !== null || latestReal.stopped)}
-              onRetry={() => retryTurn(latestReal.id)}
-            />
-            <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={dismissCard}>收起</button>
-          </div>
-        )}
-        {showNudge && (
-          <div className="ula-card ula-nudge" data-testid="assistant-nudge">
-            <span className="ula-star" aria-hidden="true" />
-            <div className="ula-card-copy">
-              <p>我已经帮你归类好了：<b>{pendingAssignments.length} 处待确认</b>，要调整吗？</p>
-              {nudgeBy?.mock
-                ? <small className="ula-mock">整理组件：{nudgeBy.name}（模拟，未调用真实模型）</small>
-                : nudgeBy ? <small>整理组件：{nudgeBy.name}</small> : null}
+          )}
+          {showAnswer && !demoMode && latestReal && (
+            <div className="ula-card ula-answer" data-testid="assistant-answer">
+              <RealTurnView
+                turn={latestReal}
+                pending={queuedId === latestReal.id || (agent.isRunning && activeId === latestReal.id)}
+                canRetry={!running && (latestReal.error !== null || latestReal.stopped)}
+                onRetry={() => retryTurn(latestReal.id)}
+              />
+              <button type="button" className="ula-text-button" data-testid="assistant-card-close" onClick={dismissCard}>收起</button>
             </div>
-            <button type="button" className="ula-text-button" data-testid="assistant-nudge-accept" onClick={() => { void acceptAssignments() }}>没问题</button>
-            <button type="button" className="ula-text-button ula-pri" data-testid="assistant-nudge-look" onClick={lookAtAdjust}>看看</button>
-          </div>
-        )}
-      </div>
+          )}
+          {showNudge && (
+            <div className="ula-card ula-nudge" data-testid="assistant-nudge">
+              <span className="ula-star" aria-hidden="true" />
+              <div className="ula-card-copy">
+                <p>我已经帮你归类好了：<b>{pendingAssignments.length} 处待确认</b>，要调整吗？</p>
+                {nudgeBy?.mock
+                  ? <small className="ula-mock">整理组件：{nudgeBy.name}（模拟，未调用真实模型）</small>
+                  : nudgeBy ? <small>整理组件：{nudgeBy.name}</small> : null}
+              </div>
+              <button type="button" className="ula-text-button" data-testid="assistant-nudge-accept" onClick={() => { void acceptAssignments() }}>没问题</button>
+              <button type="button" className="ula-text-button ula-pri" data-testid="assistant-nudge-look" onClick={lookAtAdjust}>看看</button>
+            </div>
+          )}
+        </div>
+      )}
       <section
         id="ula-panel"
         ref={panelRef}
@@ -749,14 +752,21 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
         data-testid="assistant-panel"
       >
         <header className="ula-head">
-          <div>
-            <p className="ula-kicker">UlearnBetter</p>
-            <h2 id="ula-title">对话历史</h2>
+          <div className="ula-head-copy">
+            <p className="ula-kicker">UlearnBetter · 学习助手</p>
+            <h2 id="ula-title">和桌宠聊聊</h2>
           </div>
           <div className="ula-head-actions">
-            <button type="button" className="ula-text-button" aria-label="关闭历史" onClick={() => setOpen(false)}>
-              关闭
+            <button
+              type="button"
+              className="ula-text-button ula-demo"
+              aria-pressed={demoMode}
+              data-testid="assistant-demo"
+              onClick={toggleDemo}
+            >
+              {demoMode ? '演示中' : '演示'}
             </button>
+            <button type="button" className="ula-close" aria-label="收起对话" onClick={() => setOpen(false)}>×</button>
           </div>
         </header>
         <div className="ula-scene">
@@ -765,20 +775,16 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
               <h3>当前场景 · {viewLabel(scene.view)}</h3>
               <p><strong>{sceneTitle(scene)}</strong></p>
             </div>
-            <button
-              type="button"
-              className="ula-text-button"
-              disabled={!scene.selection?.text}
-              onClick={() => learningSession.selectText('')}
-            >
-              清除选中
-            </button>
+            {scene.selection?.text && (
+              <button type="button" className="ula-text-button ula-scene-clear" onClick={() => learningSession.selectText('')}>
+                清除选中
+              </button>
+            )}
           </div>
-          {scene.selection?.text
-            ? <p className="ula-selection">选中：{selectionPreview(scene.selection.text)}</p>
-            : <p className="ula-selection">没有选中文字</p>}
-          <p>{scene.interaction ? `交互参数：${Object.keys(scene.interaction.parameters).join('、') || '无'}` : '当前没有交互读数'}</p>
+          {scene.selection?.text && <p className="ula-selection">选中：{selectionPreview(scene.selection.text)}</p>}
+          {scene.interaction && <p>交互参数：{Object.keys(scene.interaction.parameters).join('、') || '无'}</p>}
         </div>
+        {(videoUrl || folderNote || notice) && <div className="ula-panel-cards">{overlayCards}</div>}
         <div className="ula-log" ref={logRef} data-testid="assistant-log" aria-busy={running}>
           {visibleCount === 0 && (
             <p className="ula-empty" data-testid="assistant-empty">还没有问题。发送后会固定当时的概念、卡片和选中文字。</p>
@@ -796,8 +802,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
             />
           ))}
         </div>
-      </section>
-      <div className="ula-barwrap" ref={barRef}>
+        <div className="ula-barwrap">
         <form
           className="ula-bar"
           onSubmit={(event) => {
@@ -867,26 +872,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
             : <button type="submit" className="ula-icon ula-send" data-testid="assistant-send" aria-label="发送" disabled={!draft.trim()}>↑</button>}
         </form>
         <p className="ula-hint">
-          <kbd>/</kbd> 唤起 · 拖入文件夹请走命令行编译 · 助手看得到你当前所在的「{chip}」
-          <button
-            type="button"
-            className="ula-text-button"
-            aria-expanded={open}
-            aria-controls="ula-panel"
-            data-testid="assistant-history"
-            onClick={() => setOpen((value) => !value)}
-          >
-            历史
-          </button>
-          <button
-            type="button"
-            className="ula-text-button"
-            aria-pressed={demoMode}
-            data-testid="assistant-demo"
-            onClick={toggleDemo}
-          >
-            演示模式
-          </button>
+          <kbd>Enter</kbd> 发送 · <kbd>Shift</kbd>+<kbd>Enter</kbd> 换行 · 可拖入链接 · 文件夹请走命令行编译
         </p>
         {demoMode
           ? <p className="ula-banner" data-testid="assistant-status">演示模式已打开。回答在本地生成，标有「演示回复 · 未调用真实模型」。</p>
@@ -900,7 +886,8 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
             当前场景已经变了。上面的问题仍使用发送时的快照，回答不会改记到现在的节点。
           </p>
         )}
-      </div>
+        </div>
+      </section>
     </div>
   )
 }

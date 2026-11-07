@@ -5,11 +5,6 @@ import './pet.css'
 const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/pet/`
 const POSTER = `${ASSET_ROOT}standing.png`
 
-function availableHeight() {
-  const bar = document.querySelector('.ula-dock .ula-barwrap')
-  return bar ? Math.max(0, bar.getBoundingClientRect().top - 12) : window.innerHeight
-}
-
 interface PetLauncherProps {
   open: boolean
   replyVisible?: boolean
@@ -91,15 +86,11 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
       const width = bounds.width || Number.parseFloat(style.width)
       const height = bounds.height || Number.parseFloat(style.height)
       setPosition((currentPosition) => currentPosition
-        ? clampPetPosition(currentPosition.x, currentPosition.y, width, height, window.innerWidth, availableHeight())
+        ? clampPetPosition(currentPosition.x, currentPosition.y, width, height, window.innerWidth, window.innerHeight)
         : null)
     }
-    const bar = document.querySelector('.ula-dock .ula-barwrap')
-    const observer = new ResizeObserver(constrain)
-    if (bar) observer.observe(bar)
     window.addEventListener('resize', constrain)
     return () => {
-      observer.disconnect()
       window.removeEventListener('resize', constrain)
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current)
     }
@@ -146,7 +137,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     suppressClickRef.current = true
     setDragging(true)
     const bounds = containerRef.current!.getBoundingClientRect()
-    const next = clampPetPosition(drag.left + dx, drag.top + dy, bounds.width, bounds.height, window.innerWidth, availableHeight())
+    const next = clampPetPosition(drag.left + dx, drag.top + dy, bounds.width, bounds.height, window.innerWidth, window.innerHeight)
     if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current)
     frameRef.current = window.requestAnimationFrame(() => { setPosition(next); frameRef.current = null })
   }
@@ -163,11 +154,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     <div ref={containerRef} className="ula-pet" data-open={open} data-dragging={dragging} data-motion={current}
       style={!open && position ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : undefined}
       data-testid="assistant-pet">
-      {!menu && <div className="ula-pet-bubble" aria-hidden="true" style={!open && position ? {
-        position: 'fixed', right: 'auto', bottom: 'auto',
-        left: Math.max(8, Math.min(position.x + 160 - 224, window.innerWidth - 232)),
-        top: Math.max(8, position.y - 76),
-      } : undefined}>
+      {!menu && <div className="ula-pet-bubble" aria-hidden="true">
         <span>{demoMode ? '演示 · ' : ''}{label}</span>
         <small>{scene}</small>
       </div>}
