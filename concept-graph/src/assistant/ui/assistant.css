@@ -322,6 +322,274 @@
   padding: 16px;
 }
 
+.ula-dock {
+  position: fixed;
+  left: 0;
+  right: var(--ub-rail-width, 0px);
+  bottom: 24px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.ula-dock .ula-stack,
+.ula-dock .ula-barwrap,
+.ula-dock .ula-panel {
+  pointer-events: auto;
+  width: min(760px, calc(100% - 32px));
+}
+
+.ula-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ula-stack:empty { display: none; }
+
+.ula-dock .ula-panel {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  height: min(420px, calc(100vh - 220px));
+  margin-bottom: 12px;
+}
+
+.ula-card {
+  background: linear-gradient(150deg, rgba(46, 66, 128, 0.5), rgba(18, 28, 66, 0.44));
+  border: 1px solid rgba(255, 222, 170, 0.2);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+.ula-nudge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px 14px 18px;
+  border-radius: 16px;
+}
+
+.ula-card-copy { flex: 1; min-width: 0; }
+
+.ula-card-copy p {
+  margin: 0;
+  color: rgba(230, 236, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ula-card-copy b { color: var(--ula-ink); font-weight: 600; }
+
+.ula-card-copy small,
+.ula-mock {
+  display: block;
+  margin-top: 2px;
+  color: rgba(200, 212, 250, 0.52);
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+.ula-mock { color: #ffd0b0; }
+
+.ula-answer {
+  max-height: 440px;
+  overflow: auto;
+  padding: 12px 14px 10px;
+  border-radius: 18px;
+}
+
+.ula-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 58px;
+  padding: 0 10px 0 18px;
+  border-radius: 20px;
+  background: linear-gradient(150deg, rgba(40, 58, 118, 0.72), rgba(16, 26, 62, 0.72));
+  border: 1px solid rgba(255, 222, 170, 0.24);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ula-bar:focus-within {
+  border-color: rgba(255, 190, 110, 0.55);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(255, 180, 80, 0.08);
+}
+
+.ula-dropping .ula-bar {
+  border-style: dashed;
+  border-color: rgba(255, 190, 110, 0.7);
+}
+
+.ula-orb {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #fff 0%, var(--ula-amber) 50%, #b8641a 100%);
+  box-shadow: 0 0 12px 2px rgba(255, 180, 80, 0.55);
+}
+
+.ula-busy .ula-orb::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: var(--ula-amber-2);
+  animation: ula-spin 1s linear infinite;
+}
+
+@keyframes ula-spin { to { transform: rotate(360deg); } }
+
+.ula-bar textarea {
+  flex: 1;
+  min-width: 0;
+  height: 28px;
+  min-height: 0;
+  resize: none;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ula-ink);
+  font-size: 15px;
+}
+
+.ula-bar textarea:focus-visible { outline: none; }
+
+.ula-bar textarea::placeholder { color: rgba(200, 212, 250, 0.52); }
+
+.ula-ctx {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 180px;
+  padding: 3px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: rgba(200, 212, 250, 0.52);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.ula-ctx strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.ula-ctx i {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--ula-cyan);
+  box-shadow: 0 0 6px var(--ula-cyan);
+}
+
+.ula-mode,
+.ula-icon {
+  flex: none;
+}
+
+.ula-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(230, 236, 255, 0.78);
+  cursor: pointer;
+}
+
+.ula-icon:hover { color: var(--ula-amber-2); border-color: rgba(255, 190, 110, 0.45); }
+
+.ula-dock .ula-send {
+  background: linear-gradient(180deg, rgba(255, 185, 80, 0.95), rgba(245, 150, 50, 0.95));
+  color: #2a1700;
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ula-dock .ula-send:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.ula-plus-wrap { position: relative; flex: none; }
+
+.ula-menu {
+  position: absolute;
+  right: 0;
+  bottom: 46px;
+  min-width: 140px;
+  padding: 6px;
+  border: 1px solid rgba(255, 222, 170, 0.2);
+  border-radius: 12px;
+  background: rgba(8, 14, 36, 0.96);
+}
+
+.ula-menu button {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ula-menu button:hover { background: rgba(255, 181, 71, 0.12); }
+
+.ula-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 7px 0 0;
+  color: rgba(200, 212, 250, 0.32);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.ula-hint kbd {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 10.5px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  color: rgba(200, 212, 250, 0.52);
+}
+
+.ula-dock .ula-hint .ula-text-button {
+  min-height: 28px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.ula-pri {
+  background: linear-gradient(180deg, rgba(255, 185, 80, 0.95), rgba(245, 150, 50, 0.95));
+  color: #2a1700;
+  border-color: transparent;
+}
+
+.ula-dock .ula-banner,
+.ula-dock .ula-status {
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+  border-radius: 10px;
+}
+
 @media (max-width: 760px) {
   .ula-panel-open {
     inset: 0;
@@ -332,4 +600,24 @@
   }
 
   .ula-root[data-open='true'] .ula-launcher { display: none; }
+
+  .ula-dock {
+    right: 0;
+    bottom: 12px;
+  }
+
+  .ula-dock .ula-ctx { display: none; }
+
+  .ula-dock .ula-panel-open {
+    position: fixed;
+    z-index: 80;
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  .ula-dock .ula-stack,
+  .ula-dock .ula-barwrap {
+    width: min(760px, calc(100% - 16px));
+  }
 }

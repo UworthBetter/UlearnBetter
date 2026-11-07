@@ -1,6 +1,6 @@
 # 全局助手界面
 
-暗色星图上的可折叠学习助手。入口、连续对话、当前场景、停止和重试都在 `GlobalAssistant` 里。
+每个视图底部的常驻学习助手。提问、场景 chip、停止、重试和可展开的历史都在 `GlobalAssistant` 里。栏上方一次只出一张卡。没有新增图表库。
 
 运行时是 CopilotKit v2，地址为 `/api/copilotkit`。官方 v2 样式入口没有引入，避免 Tailwind preflight 覆盖星图。集成步骤见 `HANDOFF.md`。
 
