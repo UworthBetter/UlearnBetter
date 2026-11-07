@@ -57,6 +57,9 @@ def main(argv=None) -> int:
 
     cache_file = Path(args.cache_file).resolve() if args.cache_file \
         else out_dir / "learn-cache.json"
+    if cache_file == topic_dir or topic_dir in cache_file.parents:
+        print("错误：缓存文件不得位于输入主题目录内", file=sys.stderr)
+        return 1
     topic_id = topic_dir.name
     learn_path = out_dir / ("%s.learn.json" % topic_id)
 
@@ -88,6 +91,13 @@ def main(argv=None) -> int:
 
     if args.schema_file:
         report["schema_validation"] = _schema_check(doc, Path(args.schema_file))
+        if report["schema_validation"].get("valid") is False:
+            print("错误：输出未通过 JSON Schema 校验，不发布产物", file=sys.stderr)
+            return 1
+
+    if snapshot(topic_dir) != before:
+        print("错误：输入笔记在编译期间发生变化，不发布产物", file=sys.stderr)
+        return 1
 
     out_dir.mkdir(parents=True, exist_ok=True)
     learn_path.write_text(
@@ -99,6 +109,7 @@ def main(argv=None) -> int:
         (out_dir / ("%s.report.md" % topic_id)).write_text(
             render_markdown(report), encoding="utf-8")
     cache_doc = merge_cache(previous_cache, result.cache)
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(
         json.dumps(cache_doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

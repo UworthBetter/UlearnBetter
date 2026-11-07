@@ -31,6 +31,10 @@ python tools/learning/notes_compile.py "D:/quant/笔记/策略学习/双均线�
 - `<主题>.report.json` / `<主题>.report.md` — 校验报告（结构/语义/出处三层 + 统计 + 已知限制）
 - `learn-cache.json` — 增量缓存（依赖文件哈希 + 编译器版本 + 抽取器）
 
+缓存文件也不得位于输入主题目录内。显式 schema 校验失败或发布前检测到
+输入变化时，不发布产物。缓存另跟踪来源编号映射和概念注册表，避免新增
+来源后旧证据指向错误视频；重复编译保留对比关系。
+
 参数：`--extractor null|annotated|pkg.module:Attr`、`--now`（固定
 generated.at，用于回归）、`--cache-file`、`--report json|md|both`、
 `--schema-file schemas/learning/learn.schema.json`。

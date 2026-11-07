@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import copy
+import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,7 +23,7 @@ from mdparse import (VIDEO_URL_RE, highlights, hms_to_sec, normalize_for_match,
 from topic import (CLASS_CHAPTER, ScannedNote, TopicIndex, scan_topic,
                    sha1_text)
 
-COMPILER_VERSION = "notes-compiler/0.1.0"
+COMPILER_VERSION = "notes-compiler/0.1.1"
 SCHEMA = "learning.learn/0.1"
 
 
@@ -119,6 +120,8 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
 
     registry = _concept_registry(idx, issues)
     concept_by_norm = registry["by_norm"]
+    shared_signature = sha1_text(json.dumps({"sources": src_map, "concepts": concept_by_norm},
+                                           ensure_ascii=False, sort_keys=True))
 
     # structure 块与 uses 关系（来自主页全景图）
     struct_block, anchor, uses_relations = B.build_structure(
@@ -135,11 +138,14 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     for info in registry["list"]:
         note: ScannedNote = info["note"]
         deps: Dict[str, str] = dict(info["deps"])
+        deps["@shared-registry"] = shared_signature
         cached = _reusable(prev_concepts.get(info["id"]),
                            cache_topic.get("concepts", {}).get(info["id"]),
                            deps, previous_cache or {}, extractor.name)
         if cached is not None:
             concepts.append(cached)
+            for a, b in B.contrast_pairs(cached.get("blocks", [])):
+                contrasts.append((a, b, {"note": note.rel_path}))
             concept_cache[info["id"]] = {"note": note.rel_path, "deps": deps}
             issues.append({"kind": "cache_reused", "note": note.rel_path,
                            "detail": "依赖未变化，复用上一版概念 %s" % info["id"]})
@@ -160,6 +166,7 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     for practice in idx.practices:
         block_id = "proc.%s" % slugify(practice.doc.title)
         deps = {practice.rel_path: practice.note_hash}
+        deps["@shared-registry"] = shared_signature
         cached = _reusable(prev_procs.get(block_id),
                            proc_cache_in.get(practice.rel_path),
                            deps, previous_cache or {}, extractor.name)
