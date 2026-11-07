@@ -15,7 +15,31 @@
     },
     "sources": [],
     "relations": [],
-    "procedures": [],
+    "procedures": [
+      {
+        "id": "p-paper",
+        "shape": "procedure",
+        "title": "做一次纸上观察",
+        "grounding": "note",
+        "ev": [
+          {
+            "note": "synthetic.md"
+          }
+        ],
+        "groups": [
+          {
+            "title": "准备",
+            "items": [
+              {
+                "id": "paper",
+                "text": "准备一张纸",
+                "ev": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "concepts": [
       {
         "id": "c-0",
@@ -103,6 +127,8 @@
         "lastRecall": "forgot"
       }
     ],
-    "checklist": {}
+    "checklist": {
+      "procitem:t-0/p-paper/paper": false
+    }
   }
 }

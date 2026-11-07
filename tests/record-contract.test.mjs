@@ -22,3 +22,11 @@ test('routes roundtrip encoded IDs and overlays',()=>{
  assert.equal(parseRoute('#/library/i?sheet=adjust').adjust!==undefined,true)
  assert.equal(parseRoute('#/star-dive/%').view,'today')
 })
+
+test('mock event writes feed mastery and checklist overlays',async()=>{
+ const client=createMockRecordClient()
+ await client.addEvents({id:crypto.randomUUID(),at:new Date().toISOString(),kind:'recall',subject:'concept:t-0/c-0',cardId:null,result:'remembered'})
+ assert.equal((await client.getMastery('t-0')).data.find(m=>m.subject==='concept:t-0/c-0').level,2)
+ await client.addEvents({id:crypto.randomUUID(),at:new Date().toISOString(),kind:'checklist',subject:'procitem:t-0/p-paper/paper',cardId:'p-paper',checked:true})
+ assert.equal((await client.getTopicLearn('t-0')).data.overlay.checklist['procitem:t-0/p-paper/paper'],true)
+})

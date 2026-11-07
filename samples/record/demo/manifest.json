@@ -18,7 +18,7 @@
   "counts": {
     "chapters": 0,
     "concepts": 3,
-    "procedures": 0
+    "procedures": 1
   },
   "source": {
     "title": "合成样例",
@@ -68,7 +68,18 @@
       ]
     }
   ],
-  "procedures": [],
+  "procedures": [
+    {
+      "id": "p-paper",
+      "title": "做一次纸上观察",
+      "items": [
+        {
+          "id": "paper",
+          "text": "准备一张纸"
+        }
+      ]
+    }
+  ],
   "route": [
     "c-0",
     "c-1",

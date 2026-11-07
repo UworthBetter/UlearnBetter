@@ -1,3 +1,4 @@
+import type { TopicOverlay } from '../record/types.ts'
 import type { EvidenceRef } from '../assistant/contracts.ts'
 import type { CardSpec, StarDiveData } from './types.ts'
 
@@ -7,7 +8,8 @@ const shapes = new Set(['definition', 'structure', 'process', 'comparison', 'var
 const style: Record<string, string> = { definition: 'definition', structure: 'definition', process: 'process', comparison: 'compare', variation: 'formula', procedure: 'process' }
 
 /** Normalize imported notes without guessing timestamps, relations, or computations. */
-export function adaptLearnDocument(value: unknown): StarDiveData {
+export function adaptLearnDocument(value: unknown, overlay?: TopicOverlay): StarDiveData {
+  value = structuredClone(value)
   if (!object(value) || value.schema !== 'learning.learn/0.1' || !object(value.topic)
     || typeof value.topic.id !== 'string' || typeof value.topic.title !== 'string'
     || !Array.isArray(value.concepts) || value.concepts.length < 1 || value.concepts.length > 500
@@ -59,7 +61,10 @@ export function adaptLearnDocument(value: unknown): StarDiveData {
   for (const procedure of value.procedures || []) {
     if (!object(procedure) || ids.has(procedure.id)) throw new Error('实操编号重复或无效。')
     ids.add(procedure.id)
-    concepts.push({ id: procedure.id, label: String(procedure.title || '实操清单'), summary: '按步骤实践，勾选仅记录本次卡片打开期间的操作。', shape: 'process', relations: [], cards: [card(procedure)] })
+    procedure.recordTopicId = topic.id
+    procedure.recordChecked = {}
+    for (const g of procedure.groups || []) for (const item of g.items || []) if (item.id) procedure.recordChecked[item.id] = !!overlay?.checklist[`procitem:${topic.id}/${procedure.id}/${item.id}`]
+    concepts.push({ id: procedure.id, label: String(procedure.title || '实操清单'), summary: '按步骤实践，勾选会写入学习记录；不会修改原笔记。', shape: 'process', relations: [], cards: [card(procedure)] })
   }
   const byId = new Map(concepts.map((c) => [c.id, c]))
   for (const relation of value.relations) {
@@ -68,6 +73,13 @@ export function adaptLearnDocument(value: unknown): StarDiveData {
     if (!a.relations.includes(b.id)) a.relations.push(b.id)
     if (!b.relations.includes(a.id)) b.relations.push(a.id)
   }
+  const visible = concepts.filter(c => !overlay?.hidden.includes(c.id) && !overlay?.hidden.includes(`concept:${topic.id}/${c.id}`))
+  for (const c of visible) {
+    const mastery = overlay?.mastery.find(m => m.subject === `concept:${topic.id}/${c.id}`)
+    Object.assign(c, {masteryLevel: mastery?.level ?? 0, due: mastery?.due ?? null, importance: overlay?.pins[c.id] ?? overlay?.pins[`concept:${topic.id}/${c.id}`] ?? 1})
+    c.label = overlay?.renames[c.id] ?? overlay?.renames[`concept:${topic.id}/${c.id}`] ?? c.label
+    c.relations = c.relations.filter(id => visible.some(c => c.id === id))
+  }
   return { meta: { topic_id: topic.id, title: topic.title, channel: '导入的学习笔记', source_count: sources.size,
-    video_id: '', url: '', duration_sec: 0 }, concepts }
+    video_id: '', url: '', duration_sec: 0 }, concepts: visible }
 }

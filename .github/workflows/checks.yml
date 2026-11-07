@@ -19,6 +19,11 @@ jobs:
       - run: npm run lint
         working-directory: concept-graph
       - run: node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs tests/learn-adapter.test.mjs tests/record-*.test.mjs
+      - name: UI contract tests when delivered
+        run: |
+          if compgen -G "tests/ui-*.test.mjs" > /dev/null; then
+            node --experimental-strip-types --test tests/ui-*.test.mjs
+          fi
   python:
     runs-on: ubuntu-latest
     steps:

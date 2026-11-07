@@ -24,3 +24,10 @@
 工具不再使用工作目录后，再统一移除目录与已合并分支。
 
 本地浏览器测试记录 `.playwright-mcp/` 已忽略，不删除现有内容，也不提交。
+
+## Sprint 2 integration
+
+`codex/s2-integration` starts from local main `1fa4e0e`.
+C0: `98562d4b871d34e0459cb1d9ad7dee17b88a1641`.
+Other executors start from C0. Main stays at `1fa4e0e`.
+No Sprint 2 commits have been pushed. See S2_INTEGRATION_HANDOFF.md.

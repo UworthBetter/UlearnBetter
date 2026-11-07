@@ -350,3 +350,14 @@
   .star-dive .steps .track{margin:6px 22px}.star-dive .steps .nlabel{font-size:10px;max-width:60px;white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){.star-dive *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Record layer: brightness expresses mastery, size expresses pinned importance. */
+.star-dive .star[data-mastery="0"] .core {opacity:.38}
+.star-dive .star[data-mastery="1"] .core {opacity:.65}
+.star-dive .star[data-mastery="2"] .core {opacity:.85}
+.star-dive .star[data-mastery="3"] .core {opacity:1;box-shadow:0 0 18px #ffd48a}
+.star-dive .star.due::after {content:"";position:absolute;inset:-18px;border:1px solid #ffb547;border-radius:50%;animation:record-due 2.5s infinite;pointer-events:none}
+@keyframes record-due {50%{transform:scale(1.25);opacity:.3}}
+.star-dive .timeline {bottom:calc(var(--ub-agent-bar-height, 84px) + 28px)}
+.star-dive .mastery-host {margin-top:18px;padding-top:10px;border-top:1px solid #ffb54733;color:#ffd48a;font-size:12px}
+@media(prefers-reduced-motion:reduce){.star-dive .star.due::after{animation:none}}

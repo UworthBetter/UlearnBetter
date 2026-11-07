@@ -10,7 +10,11 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
     const root = rootRef.current
     if (!root) return
     const scene = createStarDive(root, data, {
-      initialFocus, onContextChange: learningSession.updateScene,
+      initialFocus, onContextChange: context => {
+        const record=learningSession.getSnapshot().record
+        const c=data.concepts.find(c=>c.id===context.concept?.id)
+        learningSession.updateScene({...context,...(record?{record:{...record,mastery:c?{subject:`concept:${data.meta.topic_id}/${c.id}`,level:c.masteryLevel??0,due:c.due??null}:null}}:{})})
+      },
     })
     handle.current = scene
     const unbind = learningSession.bindActions((action) => {

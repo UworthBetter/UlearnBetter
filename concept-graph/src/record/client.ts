@@ -81,9 +81,36 @@ export function createMockRecordClient(fixtures: MockFixtures = {'assignment': f
  const result = async <V>(data: V): Promise<T.Envelope<V>> => structuredClone({schema:'learning.record-api/0.1',data,meta:{source:'mock',generatedAt:new Date().toISOString(),warnings:['示例数据；写入仅保留在内存']}})
  const find = <V extends {id: string}>(rows: V[],id: string) => {const v = rows.find(v=>v.id===id);if(!v)throw new RecordError('not_found','记录不存在',404);return v}
  const topic = (id: string): T.TopicLearn => {const t = Object.values(f).find((v:any)=>v?.learn?.topic?.id===id);if(!t)throw new RecordError('not_found','主题不存在',404);return t}
+ function masteries(): T.MasteryState[] {
+  const subjects=new Set<T.SubjectRef>([f.mastery.subject,...events.filter(e=>e.kind==='visit'||e.kind==='recall').map(e=>e.subject)])
+  return [...subjects].map(subject=>{
+   const rows=events.filter(e=>e.subject===subject)
+   const visits=rows.filter((e): e is Extract<T.LearningEvent,{kind:'visit'}>=>e.kind==='visit').reduce((n,e)=>n+e.durationSec,0)
+   const recalls=rows.filter((e): e is Extract<T.LearningEvent,{kind:'recall'}>=>e.kind==='recall'&&e.result!=='skipped').sort((a,b)=>a.at.localeCompare(b.at))
+   const last=recalls.at(-1)
+   const days=new Set(recalls.filter(e=>e.result==='remembered').map(e=>e.at.slice(0,10)))
+   let level: T.MasteryState['level']=visits>=20?1:0
+   if(last)level=last.result==='forgot'?1:days.size>=2?3:2
+   let due=subject===f.mastery.subject?f.mastery.due:null
+   if(last)due=new Date(Date.parse(last.at)+86400000*(last.result==='forgot'?1:[1,3,7,14,30][Math.min(4,days.size-1)])).toISOString()
+   return {subject,level,due,visitSeconds:visits,rememberedCount:recalls.filter(e=>e.result==='remembered').length,lastRecall:last?.result??(subject===f.mastery.subject?f.mastery.lastRecall:null)}
+  })
+ }
+ function topicWithEvents(id: string): T.TopicLearn {
+  const value=structuredClone(topic(id));value.overlay.mastery=masteries().filter(m=>m.subject.startsWith('concept:'+id+'/'))
+  for(const e of events)if(e.kind==='checklist'&&e.subject.startsWith('procitem:'+id+'/'))value.overlay.checklist[e.subject]=e.checked
+  for(const {override:o} of overrides) {
+   if(!o.target.startsWith('concept:'+id+'/'))continue
+   const conceptId=o.target.split('/')[1]
+   if(o.op==='rename')value.overlay.renames[conceptId]=o.value.label
+   if(o.op==='hide'){value.overlay.hidden=value.overlay.hidden.filter(v=>v!==conceptId);if(o.value.hidden)value.overlay.hidden.push(conceptId)}
+   if(o.op==='pin_importance'){if(o.value.level)value.overlay.pins[conceptId]=o.value.level;else delete value.overlay.pins[conceptId]}
+  }
+  return value
+ }
  const client: RecordClient = {
  listTopics: () => result([0,1,2].map(i=>({topicId:'t-'+i,title:f['topic-'+i].learn.topic.title,conceptCount:3,generatedAt:f.envelope.meta.generatedAt,compilerVersion:'0.1'}))),
- getTopicLearn: id => result(topic(id)), listGoals: () => result(goals),
+ getTopicLearn: id => result(topicWithEvents(id)), listGoals: () => result(goals),
  createGoal: input => {const v: T.Goal = {...input,id:crypto.randomUUID(),confirmedAt:new Date().toISOString()};goals.push(v);return result(v)},
  updateGoal: (id,input) => {const v=find(goals,id);Object.assign(v,input,{id});return result(v)},
  getProposals: () => result(f.proposals), listItems: (filter={}) => result(items.filter(v=>(!filter.kind||filter.kind===v.kind)&&(!filter.status||filter.status===v.status))),
@@ -98,7 +125,7 @@ export function createMockRecordClient(fixtures: MockFixtures = {'assignment': f
  return result(v)},
  listEvents: (filter={}) => result(events.filter(e=>!filter.since||e.at>=filter.since).slice(0,filter.limit??events.length)),
  addEvents: input => {const batch=Array.isArray(input)?input:[input];if(batch.length>50)throw new RecordError('batch_limit','最多 50 条',422);for(const e of batch)if(!events.some(v=>v.id===e.id))events.push(structuredClone(e));return result(batch)},
- getMastery: topicId => result(!topicId||topicId==='t-0'?[f.mastery]:[]), getToday: (date,tz) => result({...f.today,...(date?{date}:{}),...(tz?{tz}:{})}),
+ getMastery: topicId => result(masteries().filter(m=>!topicId||m.subject.startsWith('concept:'+topicId+'/'))), getToday: (date,tz) => result({...f.today,...(date?{date}:{}),...(tz?{tz}:{})}),
  getStats: (range,tz) => result({...f.stats,...(range?{range}:{}),...(tz?{tz}:{})}), getPanorama: goalId => {if(goalId)find(goals,goalId);return result(f.panorama)},
  }
  return Object.fromEntries(Object.entries(client).map(([key, fn]) => [key, async (...args: unknown[]) => fn(...args)])) as unknown as RecordClient

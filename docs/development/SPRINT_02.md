@@ -391,5 +391,9 @@ interface ViewProps {
 - 原型、UI 方案和定位稿 v2 已收录到 `docs/reference/`。
 - 编译器已经输出 `concept.group`（学习主页「核心概念卡」表的分组），
   全景分组直接使用；UI 方案里「learn.json 没有分组」的说法已过时。
-- C0：契约已实现，待本次提交；提交号见后续进展提交。
+- C0：`98562d4b871d34e0459cb1d9ad7dee17b88a1641`，已通过全部 C0 检查。
 - 按负责人指示，C0 不合并 main、不推送；其余三方从 C0 提交启动。
+
+- 外壳与潜航已实现；待三方交付后完整验收，当前视图仍为占位。
+- C0：Node 16/16、Python 73/73、后端 24/24；build/lint 通过。
+- lint 5 条既有警告，无新增。最新检查见 S2_INTEGRATION_HANDOFF.md。
