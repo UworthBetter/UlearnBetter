@@ -1,0 +1,359 @@
+{
+  "schema": "learning.manifest/0.1",
+  "topic": {
+    "id": "nn-basics",
+    "title": "神经网络入门",
+    "idOrigin": "frontmatter"
+  },
+  "contentHash": "sha1:70678bcf9bb44a27dab5bd128f69944f7c9ed9b1",
+  "compilerVersion": "notes-compiler/0.2.0",
+  "generatedAt": "2026-10-14T00:00:00+00:00",
+  "folderHint": "机器学习",
+  "identity": {
+    "what": "课程笔记：12 章、12 张概念卡、2 份实操清单",
+    "about": "跟随 3Blue1Brown 深度学习三部曲，从神经元与分层结构，到代价函数、梯度下降与反向传播，看懂神经网络如何“学会”识别手写数字。",
+    "route": "第一阶段 · 看懂结构 → 第二阶段 · 理解学习 → 第三阶段 · 深入机制"
+  },
+  "counts": {
+    "chapters": 12,
+    "concepts": 12,
+    "procedures": 2
+  },
+  "source": {
+    "title": "But what is a neural network? | Deep learning chapter 1",
+    "author": "3Blue1Brown",
+    "duration": 1120,
+    "url": "https://www.youtube.com/watch?v=aircAruvnKk"
+  },
+  "concepts": [
+    {
+      "id": "mnist-数据集",
+      "label": "MNIST 数据集",
+      "aliases": [
+        "MNIST"
+      ],
+      "group": "训练实践",
+      "order": 0,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 4 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 2
+    },
+    {
+      "id": "relu",
+      "label": "ReLU",
+      "aliases": [
+        "Rectified Linear Unit"
+      ],
+      "group": "网络结构",
+      "order": 1,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 2
+    },
+    {
+      "id": "sigmoid-函数",
+      "label": "Sigmoid 函数",
+      "aliases": [
+        "Sigmoid",
+        "Logistic Curve"
+      ],
+      "group": "网络结构",
+      "order": 2,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 5 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "代价函数",
+      "label": "代价函数",
+      "aliases": [
+        "Cost Function",
+        "Loss Function"
+      ],
+      "group": "学习机制",
+      "order": 3,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 4 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 5
+    },
+    {
+      "id": "分层结构",
+      "label": "分层结构",
+      "aliases": [
+        "Layers",
+        "Hidden Layer"
+      ],
+      "group": "网络结构",
+      "order": 4,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 2 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "反向传播",
+      "label": "反向传播",
+      "aliases": [
+        "Backpropagation"
+      ],
+      "group": "学习机制",
+      "order": 5,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 2 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "局部最小值",
+      "label": "局部最小值",
+      "aliases": [
+        "Local Minimum"
+      ],
+      "group": "优化方法",
+      "order": 6,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 4 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 2
+    },
+    {
+      "id": "权重与偏置",
+      "label": "权重与偏置",
+      "aliases": [
+        "Weights and Biases"
+      ],
+      "group": "网络结构",
+      "order": 7,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 3 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 4
+    },
+    {
+      "id": "梯度下降",
+      "label": "梯度下降",
+      "aliases": [
+        "Gradient Descent"
+      ],
+      "group": "优化方法",
+      "order": 8,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 4 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "梯度向量",
+      "label": "梯度向量",
+      "aliases": [
+        "Gradient Vector"
+      ],
+      "group": "优化方法",
+      "order": 9,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 2 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "神经元与激活",
+      "label": "神经元与激活",
+      "aliases": [
+        "Neuron",
+        "Activation"
+      ],
+      "group": "网络结构",
+      "order": 10,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 5 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 2
+    },
+    {
+      "id": "随机梯度下降",
+      "label": "随机梯度下降",
+      "aliases": [
+        "SGD",
+        "Stochastic Gradient Descent"
+      ],
+      "group": "优化方法",
+      "order": 11,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    }
+  ],
+  "groups": [
+    {
+      "name": "训练实践",
+      "conceptIds": [
+        "mnist-数据集"
+      ]
+    },
+    {
+      "name": "网络结构",
+      "conceptIds": [
+        "relu",
+        "sigmoid-函数",
+        "分层结构",
+        "权重与偏置",
+        "神经元与激活"
+      ]
+    },
+    {
+      "name": "学习机制",
+      "conceptIds": [
+        "代价函数",
+        "反向传播"
+      ]
+    },
+    {
+      "name": "优化方法",
+      "conceptIds": [
+        "局部最小值",
+        "梯度下降",
+        "梯度向量",
+        "随机梯度下降"
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "proc.手算一个神经元的前向传播",
+      "title": "手算一个神经元的前向传播",
+      "items": [
+        {
+          "id": "t5c0e1d6f",
+          "text": "画一张 4×4 的像素网格，每个格子填 0–1 的灰度值（0 黑、1 白），当作上一层激活值（验证：每个格子数值都在 0 与 1 之间）"
+        },
+        {
+          "id": "t45e583d2",
+          "text": "为 16 个格子各写一个权重 w，用绿=正、红=负标记符号（验证：颜色与正负号一一对应）"
+        },
+        {
+          "id": "t6d72135c",
+          "text": "自定一个偏置 b（建议先取 -10 这类明显的负数，便于观察阈值效果，以视频为准）"
+        },
+        {
+          "id": "teb3d3bba",
+          "text": "把每个像素值与对应权重相乘，再全部相加：$z=\\sum w_i a_i$（验证：求和项数 = 16，与格子数一致）"
+        },
+        {
+          "id": "tfd74b9e9",
+          "text": "在和上加偏置：$z+b$（验证：手动重算一遍，两次结果相同）"
+        },
+        {
+          "id": "ta68d303d",
+          "text": "观察规律：只有目标区域像素亮、周围像素暗且配负权重时，加权和才最大——这正是视频中“边缘检测”神经元的直觉（验证：把周围像素调暗，确认 z+b 变大）"
+        },
+        {
+          "id": "te5166a0b",
+          "text": "把 $z+b$ 代入 Sigmoid：$a=\\sigma(z+b)=\\frac{1}{1+e^{-(z+b)}}$（验证：结果落在 0 与 1 之间）"
+        },
+        {
+          "id": "t67c92d13",
+          "text": "用极端输入自测：输入很大的正数时 a 接近 1，很大的负数时 a 接近 0（验证：分别取 $z+b=100$ 与 $=-100$ 各算一次）"
+        },
+        {
+          "id": "t2ca6e31e",
+          "text": "调整偏置再算一遍：把 b 从 -10 改为 0，观察激活变大的效果——偏置决定“加权和要多高神经元才开始激活”（验证：同一输入下，b=0 的激活值 > b=-10 的激活值）"
+        }
+      ]
+    },
+    {
+      "id": "proc.清点网络参数并做结构实验",
+      "title": "清点网络参数并做结构实验",
+      "items": [
+        {
+          "id": "t33c89163",
+          "text": "写下网络结构：输入层 784 个神经元、两个隐藏层各 16 个神经元、输出层 10 个神经元，确认各层 neuron 数与视频一致（对应 [[ch04 权重偏置与学习]] 中 [11:51] 起的讲解）"
+        },
+        {
+          "id": "t028fb237",
+          "text": "计算第一段连接的参数量：每条连接一个权重，共 784 × 16 = 12,544 个权重，再加 16 个偏置（验证方式：手算或在 Python 里运行 `784*16 + 16`，预期输出 `12560`）"
+        },
+        {
+          "id": "t28acaa19",
+          "text": "计算第二段连接的参数量：16 × 16 = 256 个权重，加 16 个偏置（验证方式：`16*16 + 16`，预期输出 `272`）"
+        },
+        {
+          "id": "te5847659",
+          "text": "计算第三段连接的参数量：16 × 10 = 160 个权重，加 10 个偏置（验证方式：`16*10 + 10`，预期输出 `170`）"
+        },
+        {
+          "id": "tadf3fe62",
+          "text": "把三段相加验证总量：12,560 + 272 + 170 = 13,002 ≈ “几乎正好 13,000”（验证方式：`12560+272+170`，预期输出 `13002`；视频原话为“almost exactly 13,000”，以视频为准）"
+        },
+        {
+          "id": "tb7cff3a9",
+          "text": "保持输入 784、输出 10 不变，只改隐藏层：例如改成两层各 32 个神经元，重新算三段参数量（验证方式：`784*32+32 + 32*32+32 + 32*10+10`，预期输出 `26266`）"
+        },
+        {
+          "id": "t6a86d3b1",
+          "text": "再试一组对照结构，如一层 32 个神经元（验证方式：`784*32+32 + 32*10+10`，预期输出 `25410`）"
+        },
+        {
+          "id": "tbb9559d1",
+          "text": "做一张对照表：列出「结构 → 权重数 → 偏置数 → 总参数数」，检查每行总数都随宽度/层数平滑变化，确认计算无误"
+        },
+        {
+          "id": "ta4312e0b",
+          "text": "思考题（视频 [12:14] 处提到）：作者说 13,000 个参数就是 13,000 个可调的旋钮，“学习”就是让机器找到这一大堆数字的合适设置——参数数量越多，搜索空间越大，这个直觉先记下来"
+        },
+        {
+          "id": "t5b1148e8",
+          "text": "记下视频中作者当时测得的两个准确率：默认结构（2 层 × 16）约 **96%** 正确率；调整隐藏层结构后可提升到 **98%**（作者当时测得，勿照搬结论，以视频为准，见第二集 [13:01] \"Analyzing the network\"）"
+        },
+        {
+          "id": "tf5f9bce1",
+          "text": "对照实验：把你改过的两三个结构写在同一行旁边，体会“稍微调一调隐藏层结构就能从 96% 到 98%”是什么量级的变化（结论以视频为准，不必自己训练复现）"
+        },
+        {
+          "id": "t7785a205",
+          "text": "核对一个关键事实：视频说这个网络其实是「一个函数」——784 个数进、10 个数出，由约 13,000 个参数刻画（见 ch06 结语与激活函数 [15:47]）；确认你的表里每个结构都能写成同样的“函数”描述"
+        }
+      ]
+    }
+  ],
+  "route": [
+    "神经元与激活",
+    "mnist-数据集",
+    "分层结构",
+    "权重与偏置",
+    "sigmoid-函数",
+    "relu",
+    "代价函数",
+    "局部最小值",
+    "梯度下降",
+    "梯度向量",
+    "反向传播",
+    "随机梯度下降"
+  ]
+}

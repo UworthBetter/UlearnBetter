@@ -1,0 +1,68 @@
+{
+  "schema": "learning.vault.ingest/0.1",
+  "generated_at": "2026-11-07T10:54:03",
+  "tool": "video_ingest 0.1.0",
+  "platform": "youtube",
+  "id": "Ilg3gGewQ5U",
+  "url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U",
+  "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+  "channel": "3Blue1Brown",
+  "upload_date": "20171103",
+  "duration_sec": 767,
+  "description": "What's actually happening to a neural network as it learns?\nHelp fund future projects: https://www.patreon.com/3blue1brown\nAn equally valuable form of support is to simply share some of the videos.\nSpecial thanks to these supporters: http://3b1b.co/nn3-thanks\nWritten/interactive form of this series: https://www.3blue1brown.com/topics/neural-networks\n\nAnd by CrowdFlower: http://3b1b.co/crowdflower\nHome page: https://www.3blue1brown.com/\n\nThe following video is sort of an appendix to this one.  The main goal with the follow-on video is to show the connection between the visual walkthrough here, and the representation of these \"nudges\" in terms of partial derivatives that you will find when reading about backpropagation in other resources, like Michael Nielsen's book or Chis Olah's blog.\n\nVideo timeline:\n0:00 - Introduction\n0:23 - Recap\n3:07 - Intuitive walkthrough example\n9:33 - Stochastic gradient descent\n12:28 - Final words\n\nThanks to these viewers for their contributions to translations\nЗвуковая дорожка на русском языке: Влад Бурмистров.\nItalian: @teobucci\nVietnamese: CyanGuy111",
+  "thumbnail": "https://i.ytimg.com/vi_webp/Ilg3gGewQ5U/maxresdefault.webp",
+  "chapters": [
+    {
+      "start": 0.0,
+      "end": 23.0,
+      "title": "Introduction",
+      "origin": "official"
+    },
+    {
+      "start": 23.0,
+      "end": 187.0,
+      "title": "Recap",
+      "origin": "official"
+    },
+    {
+      "start": 187.0,
+      "end": 573.0,
+      "title": "Intuitive walkthrough example",
+      "origin": "official"
+    },
+    {
+      "start": 573.0,
+      "end": 748.0,
+      "title": "Stochastic gradient descent",
+      "origin": "official"
+    },
+    {
+      "start": 748.0,
+      "end": 767.0,
+      "title": "Final words",
+      "origin": "official"
+    }
+  ],
+  "transcript": {
+    "source": "auto",
+    "lang": "en",
+    "segment_count": 193,
+    "omitted": "字幕正文未入库（AGENTS.md：不提交字幕全集；第三方版权）。用 tools/video_ingest.py 重新抓取即可复现。"
+  },
+  "quality_flags": {
+    "chapters_total": 5,
+    "chapters_matched": 4,
+    "per_chapter": [
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "trusted": true,
+    "transcript_source": "auto",
+    "notes": [
+      "自动字幕（平台 ASR 生成），可能含识别错误；与官方章节矛盾时按规则弃用"
+    ]
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "schema": "ulearnbetter.demo-notes-generation/0.1",
+  "tool": "demo-notes/0.1",
+  "promptVersion": "notes-from-ingest/0.1",
+  "skill": "youtube-obsidian-notes",
+  "model": "glm-5.3-flash",
+  "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+  "mock": false,
+  "generatedAt": "2026-11-07T19:08:44+00:00",
+  "topic": {
+    "name": "凯利公式与仓位管理",
+    "id": "kelly-sizing",
+    "folder": "量化交易"
+  },
+  "videos": [
+    {
+      "videoId": "THYLv5_0Vm8",
+      "url": "https://www.youtube.com/watch?v=THYLv5_0Vm8",
+      "title": "KELLY CRITERION | Ed Thorp | Optimal Position Sizing For Stock Trading",
+      "channel": "Financial Wisdom",
+      "durationSec": 493,
+      "uploadDate": "20200822",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "4/4",
+      "ingestedAt": "2026-11-07T10:52:49"
+    }
+  ],
+  "plan": {
+    "chapterNotes": [
+      "ch01 引言与凯利公式原理",
+      "ch02 凯利公式手算实例",
+      "ch03 分数凯利与动态调仓",
+      "ch04 全凯利曲线与适用边界"
+    ],
+    "concepts": [
+      "凯利公式",
+      "交易优势",
+      "真实概率",
+      "最优仓位",
+      "分数凯利",
+      "仓位与风险换算",
+      "动态调仓",
+      "全凯利曲线"
+    ],
+    "checklists": [
+      "凯利仓位计算清单",
+      "交易表现记录与调仓清单"
+    ]
+  },
+  "variationAnnotations": [
+    {
+      "concept": "凯利公式",
+      "accepted": true,
+      "statesDropped": 3,
+      "title": "示意：凯利比例如何随胜率与盈亏比变化",
+      "series": [
+        "x - (1 - x) / b",
+        "0.33 * (x - (1 - x) / b)"
+      ]
+    },
+    {
+      "concept": "仓位与风险换算",
+      "accepted": true,
+      "statesDropped": 3,
+      "title": "示意：仓位换算成每笔风险占本金的比例",
+      "series": [
+        "100 * k * x",
+        "100 * k * x * s"
+      ]
+    }
+  ],
+  "linkFixes": [],
+  "brokenLinksAfterRepair": 0,
+  "calls": [
+    {
+      "purpose": "plan",
+      "requestId": "20261108030421b84be8cf95224fd4",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8923,
+      "completionTokens": 7284,
+      "latencyMs": 99646,
+      "thinking": true
+    },
+    {
+      "purpose": "chapter:ch01 引言与凯利公式原理",
+      "requestId": "20261108030600d85f87d211a04883",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4913,
+      "completionTokens": 900,
+      "latencyMs": 14006,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch02 凯利公式手算实例",
+      "requestId": "202611080306004f314f5c08474fe7",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6971,
+      "completionTokens": 1288,
+      "latencyMs": 17696,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch03 分数凯利与动态调仓",
+      "requestId": "20261108030600e95e5f95910c4ca8",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6988,
+      "completionTokens": 1336,
+      "latencyMs": 18417,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch04 全凯利曲线与适用边界",
+      "requestId": "202611080306148c82cddd08c140a7",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4843,
+      "completionTokens": 1020,
+      "latencyMs": 14853,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:交易优势",
+      "requestId": "202611080306192651de5e40de4939",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8006,
+      "completionTokens": 756,
+      "latencyMs": 11942,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:凯利公式",
+      "requestId": "202611080306186d815ac157ed4390",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7999,
+      "completionTokens": 1047,
+      "latencyMs": 15452,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:真实概率",
+      "requestId": "202611080306295a401412dea6488b",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7966,
+      "completionTokens": 654,
+      "latencyMs": 9722,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:最优仓位",
+      "requestId": "20261108030631a61c7b9a7e854f85",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 10079,
+      "completionTokens": 1119,
+      "latencyMs": 15333,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:分数凯利",
+      "requestId": "20261108030634bb1e0186ccfa475b",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7977,
+      "completionTokens": 1025,
+      "latencyMs": 15678,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:仓位与风险换算",
+      "requestId": "202611080306393344f6202cb149c3",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7111,
+      "completionTokens": 795,
+      "latencyMs": 13633,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:全凯利曲线",
+      "requestId": "2026110803064940b488a2be92472f",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4999,
+      "completionTokens": 647,
+      "latencyMs": 9842,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:动态调仓",
+      "requestId": "2026110803064672425d80a9b249bc",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 7108,
+      "completionTokens": 847,
+      "latencyMs": 13013,
+      "thinking": false
+    },
+    {
+      "purpose": "home:00-Home",
+      "requestId": "202611080306592a717c5404e049de",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4382,
+      "completionTokens": 500,
+      "latencyMs": 6012,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:凯利仓位计算清单",
+      "requestId": "20261108030653c8dad87814c644cf",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8916,
+      "completionTokens": 991,
+      "latencyMs": 16650,
+      "thinking": false
+    },
+    {
+      "purpose": "readme:README",
+      "requestId": "20261108030705e693d3874c8d4049",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4003,
+      "completionTokens": 517,
+      "latencyMs": 6241,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:交易表现记录与调仓清单",
+      "requestId": "20261108030659c8007f5745bb40cd",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8910,
+      "completionTokens": 937,
+      "latencyMs": 15570,
+      "thinking": false
+    },
+    {
+      "purpose": "glossary:术语表",
+      "requestId": "202611080307091050647c316d497e",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8790,
+      "completionTokens": 578,
+      "latencyMs": 6929,
+      "thinking": false
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "202611080307174b79d3b26f9e4a5e",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8448,
+      "completionTokens": 6087,
+      "latencyMs": 88099,
+      "thinking": true
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "2026110803094707c4be3d76004796",
+      "model": "glm-5.3-flash",
+      "finish": "length",
+      "promptTokens": 8454,
+      "completionTokens": 8192,
+      "latencyMs": 124830,
+      "thinking": true
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "202611080311528d3c398114334514",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 8454,
+      "completionTokens": 6703,
+      "latencyMs": 100113,
+      "thinking": true
+    }
+  ],
+  "usage": {
+    "calls": 21,
+    "promptTokens": 154240,
+    "completionTokens": 43223
+  },
+  "variationRuns": [
+    {
+      "at": "2026-11-07T19:13:32+00:00",
+      "previous": [
+        {
+          "concept": "凯利公式",
+          "accepted": false,
+          "reason": "states.when 含非法标识符"
+        },
+        {
+          "concept": "仓位与风险换算",
+          "accepted": false,
+          "reason": "states.when 含非法标识符"
+        }
+      ]
+    }
+  ],
+  "videoLinkFixes": [
+    {
+      "note": "00-Home.md",
+      "action": "about_to_abstract_callout"
+    },
+    {
+      "note": "00-Home.md",
+      "action": "about_strip_highlight"
+    }
+  ]
+}

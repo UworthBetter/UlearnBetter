@@ -1,0 +1,32 @@
+[
+  {
+    "id": "g-4b9744c4-99ce-4f07-bf93-4edb362ee795",
+    "title": "机器学习入门：理解神经网络",
+    "intent": "系统理解神经网络的基本结构与训练原理，包括神经元与激活、代价函数、梯度下降、反向传播等核心概念。",
+    "status": "active",
+    "origin": "proposed",
+    "confirmedAt": "2026-10-14T12:02:00.000Z",
+    "colorKey": "amber",
+    "folders": []
+  },
+  {
+    "id": "g-33639007-ffc5-40b0-a95a-bde8912759d5",
+    "title": "掌握 Git 版本控制",
+    "intent": "掌握 Git 从初始化、暂存提交、分支合并到 GitHub 开源协作的完整流程，并熟悉变基、Revert、Stash 等进阶提效技巧。",
+    "status": "active",
+    "origin": "proposed",
+    "confirmedAt": "2026-10-18T12:02:00.000Z",
+    "colorKey": "cyan",
+    "folders": []
+  },
+  {
+    "id": "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66",
+    "title": "量化交易：凯利公式与仓位管理",
+    "intent": "理解凯利公式如何把胜率与盈亏比换算成最优仓位，学会用分数凯利在充满随机性的市场中控制风险，并随表现动态调仓。",
+    "status": "active",
+    "origin": "proposed",
+    "confirmedAt": "2026-10-24T12:02:00.000Z",
+    "colorKey": "violet",
+    "folders": []
+  }
+]

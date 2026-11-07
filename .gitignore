@@ -22,3 +22,7 @@ node_modules/
 /server/.data/
 /server/logs/
 /.playwright-mcp/
+
+# 预置数据（真实流水线产出：笔记、编译产物、整理与学习记录、去掉字幕正文的 ingest 元数据）入库。
+# 原始字幕全集 /ingest/、运行副本 /server/.data/、.env 与密钥仍然忽略。
+!/samples/demo/

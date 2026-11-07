@@ -1,0 +1,2900 @@
+{
+  "schema": "learning.learn/0.1",
+  "topic": {
+    "id": "git-basics",
+    "title": "Git版本控制",
+    "flags": {
+      "disclaimer": null,
+      "asof": null
+    },
+    "generated": {
+      "at": "2026-10-18T00:00:00+00:00",
+      "by": "notes-compiler",
+      "compiler_version": "notes-compiler/0.2.0",
+      "model": null,
+      "extractor": "frontmatter-annotated",
+      "notes_dir": "Git版本控制"
+    }
+  },
+  "sources": [
+    {
+      "id": "v1",
+      "kind": "video",
+      "platform": "youtube",
+      "ref": "HkdAHXoRtos",
+      "title": "Git It? How to use Git and Github",
+      "author": "Fireship",
+      "duration_sec": 739,
+      "meta_from": "90-资源/视频信息 · Git It How to use Git and Github.md",
+      "discovered_in": [
+        "01-课程笔记/ch01 认识 Git 与初始化仓库.md",
+        "01-课程笔记/ch02 忽略文件、暂存与提交.md",
+        "01-课程笔记/ch03 分支与快进合并.md",
+        "01-课程笔记/ch04 Stash 与合并策略.md",
+        "01-课程笔记/ch05 推送 GitHub 与开源协作.md",
+        "02-概念卡/分支 Branch.md",
+        "02-概念卡/合并冲突.md",
+        "02-概念卡/快进合并.md",
+        "02-概念卡/忽略文件.md",
+        "02-概念卡/提交 Commit.md",
+        "02-概念卡/暂存区.md",
+        "02-概念卡/贮藏 Stash.md",
+        "03-实操清单/新仓库上手清单.md",
+        "90-资源/视频信息 · Git It How to use Git and Github.md"
+      ]
+    },
+    {
+      "id": "v2",
+      "kind": "video",
+      "platform": "youtube",
+      "ref": "ecK3EnyGD8o",
+      "title": "13 Advanced (but useful) Git Techniques and Shortcuts",
+      "author": "Fireship",
+      "duration_sec": 486,
+      "meta_from": "90-资源/视频信息 · 13 Advanced (but useful) Git Techniques.md",
+      "discovered_in": [
+        "01-课程笔记/ch06 快速提交与命令别名.md",
+        "01-课程笔记/ch07 修补与撤销提交.md",
+        "01-课程笔记/ch08 云端开发与 Stash 进阶.md",
+        "01-课程笔记/ch09 日志美化与历史排查.md",
+        "01-课程笔记/ch10 钩子、清理与快速切换.md",
+        "02-概念卡/二分排查 Bisect.md",
+        "02-概念卡/修补提交 Amend.md",
+        "02-概念卡/变基与压缩.md",
+        "02-概念卡/撤销提交 Revert.md",
+        "02-概念卡/贮藏 Stash.md",
+        "90-资源/视频信息 · 13 Advanced (but useful) Git Techniques.md"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "title": "第一阶段 · Git 基础与本地工作流",
+      "chapters": [
+        "ch01 认识 Git 与初始化仓库",
+        "ch02 忽略文件、暂存与提交",
+        "ch03 分支与快进合并"
+      ],
+      "origin": "home-page"
+    },
+    {
+      "title": "第二阶段 · 合并协作与远程开源",
+      "chapters": [
+        "ch04 Stash 与合并策略",
+        "ch05 推送 GitHub 与开源协作"
+      ],
+      "origin": "home-page"
+    },
+    {
+      "title": "第三阶段 · 进阶技巧与效率提升",
+      "chapters": [
+        "ch06 快速提交与命令别名",
+        "ch07 修补与撤销提交",
+        "ch08 云端开发与 Stash 进阶",
+        "ch09 日志美化与历史排查",
+        "ch10 钩子、清理与快速切换"
+      ],
+      "origin": "home-page"
+    }
+  ],
+  "relations": [
+    {
+      "a": "二分排查-bisect",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/二分排查 Bisect.md"
+        }
+      ]
+    },
+    {
+      "a": "二分排查-bisect",
+      "b": "撤销提交-revert",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/二分排查 Bisect.md"
+        }
+      ]
+    },
+    {
+      "a": "二分排查-bisect",
+      "b": "修补提交-amend",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/二分排查 Bisect.md"
+        }
+      ]
+    },
+    {
+      "a": "修补提交-amend",
+      "b": "撤销提交-revert",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/修补提交 Amend.md"
+        }
+      ]
+    },
+    {
+      "a": "修补提交-amend",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/修补提交 Amend.md"
+        }
+      ]
+    },
+    {
+      "a": "修补提交-amend",
+      "b": "暂存区",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/修补提交 Amend.md"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "快进合并",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分支 Branch.md"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "合并冲突",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分支 Branch.md"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "贮藏-stash",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分支 Branch.md"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分支 Branch.md"
+        }
+      ]
+    },
+    {
+      "a": "变基与压缩",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/变基与压缩.md"
+        }
+      ]
+    },
+    {
+      "a": "变基与压缩",
+      "b": "修补提交-amend",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/变基与压缩.md"
+        }
+      ]
+    },
+    {
+      "a": "变基与压缩",
+      "b": "分支-branch",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/变基与压缩.md"
+        }
+      ]
+    },
+    {
+      "a": "变基与压缩",
+      "b": "二分排查-bisect",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/变基与压缩.md"
+        }
+      ]
+    },
+    {
+      "a": "合并冲突",
+      "b": "快进合并",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/合并冲突.md"
+        }
+      ]
+    },
+    {
+      "a": "合并冲突",
+      "b": "贮藏-stash",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/合并冲突.md"
+        }
+      ]
+    },
+    {
+      "a": "合并冲突",
+      "b": "变基与压缩",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/合并冲突.md"
+        }
+      ]
+    },
+    {
+      "a": "快进合并",
+      "b": "变基与压缩",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/快进合并.md"
+        }
+      ]
+    },
+    {
+      "a": "快进合并",
+      "b": "贮藏-stash",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/快进合并.md"
+        }
+      ]
+    },
+    {
+      "a": "快进合并",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/快进合并.md"
+        }
+      ]
+    },
+    {
+      "a": "忽略文件",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/忽略文件.md"
+        }
+      ]
+    },
+    {
+      "a": "忽略文件",
+      "b": "暂存区",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/忽略文件.md"
+        }
+      ]
+    },
+    {
+      "a": "提交-commit",
+      "b": "暂存区",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/提交 Commit.md"
+        }
+      ]
+    },
+    {
+      "a": "提交-commit",
+      "b": "撤销提交-revert",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/提交 Commit.md"
+        }
+      ]
+    },
+    {
+      "a": "贮藏-stash",
+      "b": "提交-commit",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/贮藏 Stash.md"
+        }
+      ]
+    },
+    {
+      "a": "贮藏-stash",
+      "b": "暂存区",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/贮藏 Stash.md"
+        }
+      ]
+    },
+    {
+      "a": "忽略文件",
+      "b": "暂存区",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "暂存区",
+      "b": "提交-commit",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "提交-commit",
+      "b": "分支-branch",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "快进合并",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "分支-branch",
+      "b": "合并冲突",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "修补提交-amend",
+      "b": "提交-commit",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "撤销提交-revert",
+      "b": "提交-commit",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "二分排查-bisect",
+      "b": "提交-commit",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "贮藏-stash",
+      "b": "分支-branch",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "变基与压缩",
+      "b": "分支-branch",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "二分排查-bisect",
+      "label": "二分排查 Bisect",
+      "aliases": [
+        "git bisect",
+        "binary search"
+      ],
+      "note": "02-概念卡/二分排查 Bisect.md",
+      "note_hash": "sha1:ca1c8d18ff95501c3513ce5699a8566918d029f6",
+      "id_origin": "title-slug",
+      "one_liner": "==在已知好与坏的两个提交之间做二分搜索，快速定位引入 bug 的那一笔。==",
+      "key": "在已知好与坏的两个提交之间做二分搜索，快速定位引入 bug 的那一笔。",
+      "group": "工作流提效",
+      "chapters": [
+        "ch09 日志美化与历史排查"
+      ],
+      "blocks": [
+        {
+          "id": "二分排查-bisect.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "当项目越来越复杂，`git log` 的输出越来越难读，而其中很可能藏着某笔正在让应用出问题的提交（[4:48](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=288s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 288.0
+                }
+              ]
+            },
+            {
+              "text": "`git bisect` 让你从一个已知有 bug 的提交出发（通常是最近的提交），再指定一个你确定应用还能正常工作的提交（比如几小时前的某笔）作为“好”的边界。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "指定两端之后，Git 会在好与坏之间执行二分搜索（binary search），逐笔带你检查中间的提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "每到一个检查点，如果该提交看起来正常，就输入 `bisect good` 跳到下一笔；持续标注，直到锁定那笔坏提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "最终你能精确找到出问题的提交，从而知道到底哪段代码需要修复（[5:09](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=309s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 309.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/二分排查 Bisect.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "二分排查-bisect.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/二分排查 Bisect.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "用二分搜索逐段缩小范围，比逐笔人工翻查历史快得多；最终能精确指出引入 bug 的提交，明确该修哪段代码；是作者强调“每个开发者都该掌握”的进阶排查技巧"
+              },
+              {
+                "text": "需要你先知道（或能找到）一笔“好”的提交作为边界；每个中间检查点都需要你手动判断提交是好是坏（以视频为准）；前提是 bug 确实是由某笔提交引入的，其他成因需另行排查（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "二分排查-bisect.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "确认当前有一笔已知有 bug 的提交（通常是最新提交），以它为起点启动 `git bisect`。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "指定最后一个你确定应用正常工作的提交作为“好”的边界。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "Git 在两笔提交之间做二分搜索，把你带到中间的某个提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "检查该提交：如果没问题，输入 `bisect good`，Git 继续走查下一笔。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "重复标注，直到最终锁定那笔坏提交，明确知道哪段代码需要修复。",
+              "ev": [
+                {
+                  "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/二分排查 Bisect.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "修补提交-amend",
+      "label": "修补提交 Amend",
+      "aliases": [
+        "git commit --amend",
+        "amend"
+      ],
+      "note": "02-概念卡/修补提交 Amend.md",
+      "note_hash": "sha1:7e5b14a4210e1b2b492ce79afbecd50950768128",
+      "id_origin": "title-slug",
+      "one_liner": "==用 `--amend` 直接修改最近一次提交的信息或补交漏掉的文件，不必新建提交。==",
+      "key": "用 `--amend` 直接修改最近一次提交的信息或补交漏掉的文件，不必新建提交。",
+      "group": "撤销与修复",
+      "chapters": [
+        "ch07 修补与撤销提交"
+      ],
+      "blocks": [
+        {
+          "id": "修补提交-amend.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "当你在最近一次提交信息里打错了字，不需要 reset 后重新提交——在提交命令后面加上 `--amend` 标志并附带新信息，就会直接更新最新那次提交（[1:39](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=99s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 99.0
+                }
+              ]
+            },
+            {
+              "text": "如果忘了把某些文件加入（stage）最近一次提交，也可以先用 `git add` 暂存这些文件，再用 amend 标志把它们补进上一次提交（[1:39](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=99s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 99.0
+                }
+              ]
+            },
+            {
+              "text": "补文件时若想保留原来的提交信息，再加上 `--no-edit` 标志即可（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 120.0
+                }
+              ]
+            },
+            {
+              "text": "==关键前提==：amend 只适合在代码**尚未推送到远程仓库**时使用（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 120.0
+                }
+              ]
+            },
+            {
+              "text": "如果已经推送了还想 amend，视频警告除非你“喜欢活得危险”，否则别用 `git push --force` 强推：它会用本地状态覆盖远程提交，且若远程分支上有你没有的提交，那些提交会**永久丢失**，同事也不会高兴（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 120.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/修补提交 Amend.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "修补提交-amend.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/修补提交 Amend.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "直接更新最新提交，不必 reset 后新建提交，历史保持干净；既能改提交信息，也能补交漏掉/漏 stage 的文件，加 `--no-edit` 还可沿用原信息"
+              },
+              {
+                "text": "只能修改**最近一次**提交，对更早的提交无能为力；已推送到远程后再 amend 需要 force push，会覆盖远程提交；远程上你没有的提交会永久丢失，影响协作（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "修补提交-amend.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "发现最近一次提交有 typo 或漏了文件。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "（补文件时）用 `git add` 把遗漏的文件加入暂存区。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "执行 `git commit --amend` 并附上新提交信息；若想沿用原信息，加 `--no-edit`。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "确认代码**尚未推送**到远程仓库。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "若已推送且坚持修改，只能 `git push --force` 强推——先确认远程没有你缺少的提交，否则会永久丢失（不推荐，以视频为准）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/修补提交 Amend.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "分支-branch",
+      "label": "分支 Branch",
+      "aliases": [
+        "branch",
+        "master",
+        "main"
+      ],
+      "note": "02-概念卡/分支 Branch.md",
+      "note_hash": "sha1:23d8a5cbc394d86c858eb8b19216c71e4c50b619",
+      "id_origin": "title-slug",
+      "one_liner": "==从最新提交分出的平行开发路径，让多人多任务互不干扰。==",
+      "key": "从最新提交分出的平行开发路径，让多人多任务互不干扰。",
+      "group": "分支与合并",
+      "chapters": [
+        "ch03 分支与快进合并"
+      ],
+      "blocks": [
+        {
+          "id": "分支-branch.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "master（主分支）就像树的主干，存放要发布给客户的实际源码，此前所有工作都默认在它上面进行（[4:53](https://www.youtube.com/watch?v=HkdAHXoRtos&t=293s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 293.0
+                }
+              ]
+            },
+            {
+              "text": "当代码库已稳定、又需要修 bug 或试验新特性时，典型的做法是：基于最近一次提交创建一个新分支，在上面修复，完成后合并回 master（[4:53](https://www.youtube.com/watch?v=HkdAHXoRtos&t=293s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 293.0
+                }
+              ]
+            },
+            {
+              "text": "这样多个开发者可以各自在自己的分支上开发同一个代码库，而不会互相踩脚（[5:14](https://www.youtube.com/watch?v=HkdAHXoRtos&t=314s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 314.0
+                }
+              ]
+            },
+            {
+              "text": "用 `git branch` 可以查看当前代码库里的所有分支；用 `checkout` 命令可以在分支之间切换；分支尚未创建时，用 `-b` 标志可以在切换的同时创建它（视频示例中命名为 `feature`）（[5:14](https://www.youtube.com/watch?v=HkdAHXoRtos&t=314s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 314.0
+                }
+              ]
+            },
+            {
+              "text": "在新分支上写的代码会被隔离在该分支内；切回 master 时，分支上未合并的新文件会“消失”，回到 master 的原始状态（[5:55](https://www.youtube.com/watch?v=HkdAHXoRtos&t=355s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 355.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/分支 Branch.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "分支-branch.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/分支 Branch.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "多人可同时在各自分支上开发同一代码库，互不踩脚；新特性/修 bug 的代码被隔离在分支内，稳定主干不受影响；完成后可合并回 master，历史清晰、随时可切回原始状态"
+              },
+              {
+                "text": "两条分支改到同一处代码时会产生 [[合并冲突]]，需人工裁决；切换分支前若有未完成的改动，需提交或用 `git stash` 收起；以视频为准"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "分支-branch.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "用 `git branch` 查看现有分支（初始通常只有 master）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "用 `checkout -b <分支名>`（如 `feature`）创建并切换到新分支",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在新分支上写代码，改动会隔离在该分支内",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "提交（commit）改动到该分支（视频里是在 VS Code 中直接提交）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "用 `checkout` 切回 master，工作区回到原始状态",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "分支就绪后，再合并回 master（详见 快进合并）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/分支 Branch.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "变基与压缩",
+      "label": "变基与压缩",
+      "aliases": [
+        "rebase",
+        "interactive rebase",
+        "squash"
+      ],
+      "note": "02-概念卡/变基与压缩.md",
+      "note_hash": "sha1:7ed2afd6ab9dfaafdaa5546fe45cbb30134de928",
+      "id_origin": "title-slug",
+      "one_liner": "==用交互式 rebase 的 squash 或 fixup 把零散提交整理压缩成一个干净的提交。==",
+      "key": "用交互式 rebase 的 squash 或 fixup 把零散提交整理压缩成一个干净的提交。",
+      "group": "分支与合并",
+      "chapters": [
+        "ch09 日志美化与历史排查"
+      ],
+      "blocks": [
+        {
+          "id": "变基与压缩.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "常见场景：在特性分支上积累了多个提交（如三个），提交信息大多没有意义，合并进 main 之前最好压缩成一个干净的提交，让历史更易读（[5:09](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=309s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 309.0
+                }
+              ]
+            },
+            {
+              "text": "核心命令是在特性分支上运行 `git rebase` 并带上交互选项（interactive），目标分支为 main：`git rebase -i main`（[5:30](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=330s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 330.0
+                }
+              ]
+            },
+            {
+              "text": "执行后 Git 会打开一个文件，列出该分支上的所有提交；可用 `pick` 保留提交、`reword` 修改提交信息、`squash` 把提交合并进原始提交（[5:30](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=330s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 330.0
+                }
+              ]
+            },
+            {
+              "text": "保存关闭文件后，Git 会再打开一个文件让你更新合并后的提交信息，默认内容是所有被压缩提交信息的组合；如果不想保留这些信息，可用 `fixup` 代替 `squash`（[5:51](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=351s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 351.0
+                }
+              ]
+            },
+            {
+              "text": "提效技巧：提交时就用 `--fixup` / `--squash` 标志，提前告诉 Git 这笔提交将来要被压缩；之后 rebase 时配合 `--autosquash` 标志即可自动完成压缩（[6:12](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=372s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 372.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/变基与压缩.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "变基与压缩.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/变基与压缩.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "把一堆无意义的零散提交合并成一个干净提交，历史更易读；`fixup` 不保留被压缩提交的信息，省去编辑合并信息的麻烦；配合 `--autosquash` 可自动完成压缩，非常高效"
+              },
+              {
+                "text": "交互式 rebase 改写提交历史，操作步骤较多、需谨慎；平时就要有意识地用 `--fixup`/`--squash` 提交，事后补救则需手动整理；已推送到共享分支的提交是否适合变基，视频未展开，以视频为准"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "变基与压缩.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "在特性分支上运行交互式 rebase，指向 main 分支（如 `git rebase -i main`）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在弹出的文件中，用 `pick` 保留要用的提交，用 `reword` 改信息，用 `squash` 把后续提交合并进第一个提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "保存并关闭文件。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "Git 弹出第二个文件，编辑合并后的提交信息（默认是所有被 squash 提交信息的组合；若用 `fixup` 则跳过合并信息）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "（提效做法）平时提交时用 `--fixup` / `--squash` 标记，之后 rebase 加 `--autosquash` 自动完成压缩。",
+              "ev": [
+                {
+                  "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/变基与压缩.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "合并冲突",
+      "label": "合并冲突",
+      "aliases": [
+        "merge conflict"
+      ],
+      "note": "02-概念卡/合并冲突.md",
+      "note_hash": "sha1:c8e484332a6b7ebe5acaa4405fa9ae234d648428",
+      "id_origin": "title-slug",
+      "one_liner": "==两条分支改动了同一处代码，Git 无法自动裁决，需要人工选择保留哪一边。==",
+      "key": "两条分支改动了同一处代码，Git 无法自动裁决，需要人工选择保留哪一边。",
+      "group": "分支与合并",
+      "chapters": [
+        "ch04 Stash 与合并策略"
+      ],
+      "blocks": [
+        {
+          "id": "合并冲突.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "多数情况下合并能自动完成，但==合并是最容易出问题的地方==：当你开发分支时，master 分支也发生了改动，两边改到同一行代码，就会产生冲突。[视频 6:58](https://www.youtube.com/watch?v=HkdAHXoRtos&t=418s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 418.0
+                }
+              ]
+            },
+            {
+              "text": "冲突的本质是 Git “开箱即用”时无法判断该用哪边的变化，因此不会自动合并这些文件。[视频 7:20](https://www.youtube.com/watch?v=HkdAHXoRtos&t=440s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 440.0
+                }
+              ]
+            },
+            {
+              "text": "编辑器（如 VS Code）会给出解决选项：接受当前改动（accept current change）、接受传入的改动（accept incoming change）或两者都保留。[视频 7:20](https://www.youtube.com/watch?v=HkdAHXoRtos&t=440s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 440.0
+                }
+              ]
+            },
+            {
+              "text": "作者建议：遇到冲突时先仔细审阅，很多时候==直接中止合并（abort the merge）、手动修复文件==反而更稳妥。[视频 7:20](https://www.youtube.com/watch?v=HkdAHXoRtos&t=440s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 440.0
+                }
+              ]
+            },
+            {
+              "text": "做大量小提交是缓解冲突的好习惯——修一个文件的冲突，远比修一百个文件的冲突容易。[视频 7:40](https://www.youtube.com/watch?v=HkdAHXoRtos&t=460s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 460.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/合并冲突.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "合并冲突.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/合并冲突.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "冲突机制保住了两边的改动都不会被悄悄覆盖，强迫开发者做出明确选择；冲突通常只发生在少数文件，配合小提交习惯可以快速修复"
+              },
+              {
+                "text": "Git 无法自动裁决同处改动，“开箱即用”时无法直接合并这些文件；冲突文件一多，人工逐个修复成本很高；作者建议复杂时中止合并手动处理"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "合并冲突.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "运行合并时遇到冲突，先 ==审阅冲突内容==，看清两边各改了什么。视频 7:20",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "借助编辑器提供的选项处理：接受当前改动 / 接受传入改动 / 两者都保留。",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "冲突复杂时，考虑直接 ==中止合并（abort the merge）==，改为手动修复文件。视频 7:20",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "长期开发分支时，==定期把 master 合并回自己的分支==（master 有变化就合，活跃仓库可每天一次），尽早暴露冲突。视频 8:02",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "日常坚持小步提交，缩小未来冲突的修复面。",
+              "ev": [
+                {
+                  "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/合并冲突.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "快进合并",
+      "label": "快进合并",
+      "aliases": [
+        "fast forward",
+        "fast-forward merge"
+      ],
+      "note": "02-概念卡/快进合并.md",
+      "note_hash": "sha1:ed66062d7ee670c1a01f5459267b79f550cba759",
+      "id_origin": "title-slug",
+      "one_liner": "==当目标分支没有新提交时，合并只是把指针直接前移到特性分支的最新提交，不产生新的合并提交。==",
+      "key": "当目标分支没有新提交时，合并只是把指针直接前移到特性分支的最新提交，不产生新的合并提交。",
+      "group": "分支与合并",
+      "chapters": [
+        "ch03 分支与快进合并"
+      ],
+      "blocks": [
+        {
+          "id": "快进合并.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "Git 的一种合并方式：目标分支（如 master）自分叉后没有任何新提交时，Git 无需真正“合并”，只需把分支指针直接移到特性分支的最新提交即可。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "视频中的典型场景：从最新提交创建新分支（如 `git checkout -b feature`），在新分支上修 bug 或开发新功能并提交，然后切回 master 合并回来——由于 master 期间没有新提交，这次合并就是快进合并（[4:53](https://www.youtube.com/watch?v=HkdAHXoRtos&t=293s)、[5:34](https://www.youtube.com/watch?v=HkdAHXoRtos&t=334s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 293.0
+                },
+                {
+                  "src": "v1",
+                  "t": 334.0
+                }
+              ]
+            },
+            {
+              "text": "这种分支 + 合回的工作流让多个开发者可以在各自的分支上工作而不互相干扰（[5:14](https://www.youtube.com/watch?v=HkdAHXoRtos&t=314s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 314.0
+                }
+              ]
+            },
+            {
+              "text": "快进合并意味着提交历史是线性的，不会出现“合并提交”（merge commit）；若 master 有新提交则不能快进，可能产生冲突——参见 [[合并冲突]]。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 是什么"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/快进合并.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "快进合并.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/快进合并.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "不产生多余的合并提交，历史保持线性、干净；合并过程零风险，不会触发人工解决冲突的步骤；特性分支上的开发被完全隔离，多人协作互不干扰（[5:14](https://www.youtube.com/watch?v=HkdAHXoRtos&t=314s)）"
+              },
+              {
+                "text": "仅当目标分支没有新提交时才可能；一旦双方都有新提交就无法快进；若目标分支已前进，合并可能遇到 [[合并冲突]]，需人工裁决（以视频为准）；线性历史会丢失“这批提交来自哪个特性分支”的信息，是否需要保留需结合团队习惯（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "快进合并.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "基于最新提交创建并切换到新分支：`git checkout -b feature`（5:34）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在特性分支上开发，把改动暂存并提交到该分支（5:34、5:55）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "切回 master：`git checkout master`，此时特性分支上的新文件会消失、回到 master 原状（5:55）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在 master 上合并特性分支；因为 master 没有新提交，Git 直接快进指针到特性分支的最新提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "（若改动只完成一半不想提交，可先用 git stash 收起，切回后再取回，详见 贮藏 Stash。）",
+              "ev": [
+                {
+                  "note": "02-概念卡/快进合并.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/快进合并.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "忽略文件",
+      "label": "忽略文件",
+      "aliases": [
+        "gitignore",
+        ".gitignore"
+      ],
+      "note": "02-概念卡/忽略文件.md",
+      "note_hash": "sha1:c9d38f9ebf553e98bdc09f750227d315270d135e",
+      "id_origin": "title-slug",
+      "one_liner": "==通过 `.gitignore` 声明哪些文件不进版本库，挡住密钥、node_modules 和日志等不该被追踪的内容。==",
+      "key": "通过 `.gitignore` 声明哪些文件不进版本库，挡住密钥、node_modules 和日志等不该被追踪的内容。",
+      "group": "核心机制",
+      "chapters": [
+        "ch02 忽略文件、暂存与提交"
+      ],
+      "blocks": [
+        {
+          "id": "忽略文件.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "新建 GitHub 仓库时的「下一个重要步骤」就是创建 git ignore 文件，因为并非所有文件都适合放进版本控制 [2:41](https://www.youtube.com/watch?v=HkdAHXoRtos&t=161s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 161.0
+                }
+              ]
+            },
+            {
+              "text": "必须挡在仓库外的典型内容：敏感的私有 API 密钥（密钥一旦提交就等于公开）、依赖的源码如 `node_modules`、以及不必要的日志文件 [2:41](https://www.youtube.com/watch?v=HkdAHXoRtos&t=161s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 161.0
+                }
+              ]
+            },
+            {
+              "text": "Git 会自动读取 `.gitignore`，把匹配其中文件路径或模式的文件过滤掉，不纳入版本库 [2:41](https://www.youtube.com/watch?v=HkdAHXoRtos&t=161s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 161.0
+                }
+              ]
+            },
+            {
+              "text": "可以手动创建该文件，但视频推荐的「专业做法」是用 VS Code 插件自动生成适配你开发环境的默认规则，省去大量时间 [3:03](https://www.youtube.com/watch?v=HkdAHXoRtos&t=183s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 183.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/忽略文件.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "忽略文件.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/忽略文件.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "自动过滤敏感内容（API 密钥），避免密钥泄露到 GitHub；排除 `node_modules`、日志等无关文件，保持仓库干净、提交历史清晰；用 VS Code 插件一键生成环境默认规则，省时省力"
+              },
+              {
+                "text": "规则写漏了照样会被提交，不能只靠插件生成的默认配置（以视频为准）；视频未提及已提交文件的取消忽略方法，细节以视频为准；手动编写规则需要了解路径/模式语法，有学习成本（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "忽略文件.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "初始化仓库后，准备首次提交前，先创建 `.gitignore` 文件",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "手写或（推荐）用 VS Code 插件自动生成适配当前环境的默认忽略规则",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在文件中声明要排除的路径或模式：API 密钥文件、`node_modules`、日志文件等",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "之后正常执行 `git add` 暂存——Git 会自动过滤掉所有被匹配的文件",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "提交后，被忽略的文件将不出现在版本历史中",
+              "ev": [
+                {
+                  "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/忽略文件.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "提交-commit",
+      "label": "提交 Commit",
+      "aliases": [
+        "commit",
+        "快照"
+      ],
+      "note": "02-概念卡/提交 Commit.md",
+      "note_hash": "sha1:884f17863f1af462e6083d037099209fcd7abbdf",
+      "id_origin": "title-slug",
+      "one_liner": "==给整个项目拍一张带唯一 ID、不可篡改的快照，相当于代码历史书的一页。==",
+      "key": "给整个项目拍一张带唯一 ID、不可篡改的快照，相当于代码历史书的一页。",
+      "group": "核心机制",
+      "chapters": [
+        "ch02 忽略文件、暂存与提交"
+      ],
+      "blocks": [
+        {
+          "id": "提交-commit.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "**快照本质**：每次 commit 都是对当前工作目录的一次快照，拥有自己的唯一 ID，任何篡改 Git 都会察觉，因此历史记录是可信的。[3:03](https://www.youtube.com/watch?v=HkdAHXoRtos&t=183s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 183.0
+                }
+              ]
+            },
+            {
+              "text": "**历史书比喻**：视频把 commit 比作\"历史书中的一页\"，整个 Git 历史就是由一页页 commit 组成的。[3:03](https://www.youtube.com/watch?v=HkdAHXoRtos&t=183s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 183.0
+                }
+              ]
+            },
+            {
+              "text": "**先暂存、再提交**：commit 只包含被暂存（staged）的文件，所以提交前需要先用 `git add` 挑选要进入这次快照的内容，见 [[暂存区]]。[3:24](https://www.youtube.com/watch?v=HkdAHXoRtos&t=204s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 204.0
+                }
+              ]
+            },
+            {
+              "text": "**提交信息很关键**：用 `git commit -m` 加描述性信息说明改了什么；视频还建议第一行写摘要、第二行写更详细的改动说明，甚至可用 emoji 装点提交信息。[4:06](https://www.youtube.com/watch?v=HkdAHXoRtos&t=246s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 246.0
+                }
+              ]
+            },
+            {
+              "text": "**小步提交原则**：作者强调\"做很多小提交\"，既能防止代码灾难性丢失，也让改动历史更容易阅读。[3:45](https://www.youtube.com/watch?v=HkdAHXoRtos&t=225s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 225.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/提交 Commit.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "提交-commit.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/提交 Commit.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "带唯一 ID 且不可篡改，历史可信、可追溯；频繁的小提交可防止代码灾难性丢失，也让改动更易读；VS Code / GitLens 让暂存与历史浏览可视化"
+              },
+              {
+                "text": "只记录被暂存的内容，忘记 `git add` 就会漏提交（以视频为准）；提交写多了若无清晰的提交信息，历史反而难以阅读；`git reset --hard` 配合使用不当会永久删除文件，风险高"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "提交-commit.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "用 `git add` 暂存要提交的文件（可以加单个文件，也可以用 `.` 加入整个工作目录；VS Code 里点 + / - 按钮即可暂存或取消暂存）。3:24",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "如需反悔，用 `git reset` 取消暂存——千万别带 `--hard` 标志，否则不仅取消暂存还会永久删除文件。3:45",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "运行 `git commit -m \"<描述信息>\"`，为这次改动写上描述性消息。4:06",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "（可选）用多行提交信息：第一行写摘要，第二行写详细说明。",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "提交后暂存区清空、工作目录变干净，Git 会报告本次创建/修改/删除了哪些文件；可用 GitLens 插件浏览历史，逐行查看代码变化。4:27",
+              "ev": [
+                {
+                  "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/提交 Commit.md#📌 执行顺序"
+            }
+          ]
+        },
+        {
+          "id": "提交-commit.overview",
+          "shape": "structure",
+          "title": "🗺️ 全景图",
+          "grounding": "note",
+          "layout": "flow",
+          "nodes": [
+            {
+              "id": "A",
+              "label": "忽略文件",
+              "concept": "忽略文件"
+            },
+            {
+              "id": "B",
+              "label": "暂存区",
+              "concept": "暂存区"
+            },
+            {
+              "id": "C",
+              "label": "提交 Commit",
+              "concept": "提交-commit"
+            },
+            {
+              "id": "D",
+              "label": "分支 Branch",
+              "concept": "分支-branch"
+            },
+            {
+              "id": "E",
+              "label": "快进合并",
+              "concept": "快进合并"
+            },
+            {
+              "id": "F",
+              "label": "合并冲突",
+              "concept": "合并冲突"
+            },
+            {
+              "id": "G",
+              "label": "修补提交 Amend",
+              "concept": "修补提交-amend"
+            },
+            {
+              "id": "H",
+              "label": "撤销提交 Revert",
+              "concept": "撤销提交-revert"
+            },
+            {
+              "id": "I",
+              "label": "二分排查 Bisect",
+              "concept": "二分排查-bisect"
+            },
+            {
+              "id": "J",
+              "label": "贮藏 Stash",
+              "concept": "贮藏-stash"
+            },
+            {
+              "id": "K",
+              "label": "变基与压缩",
+              "concept": "变基与压缩"
+            }
+          ],
+          "edges": [
+            {
+              "from": "A",
+              "to": "B",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "B",
+              "to": "C",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "C",
+              "to": "D",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "D",
+              "to": "E",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "D",
+              "to": "F",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "G",
+              "to": "C",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "H",
+              "to": "C",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "I",
+              "to": "C",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "J",
+              "to": "D",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "K",
+              "to": "D",
+              "label": null,
+              "kind": "flow"
+            }
+          ],
+          "ev": [
+            {
+              "note": "00-Home.md#🗺️ 全景图"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "撤销提交-revert",
+      "label": "撤销提交 Revert",
+      "aliases": [
+        "git revert"
+      ],
+      "note": "02-概念卡/撤销提交 Revert.md",
+      "note_hash": "sha1:9929fb9e4d2321bbf0e19a8179ba900c90e62db4",
+      "id_origin": "title-slug",
+      "one_liner": "==生成一个反向提交把代码退回过去，原历史保留，是已推送提交上最安全的撤销方式。==",
+      "key": "生成一个反向提交把代码退回过去，原历史保留，是已推送提交上最安全的撤销方式。",
+      "group": "撤销与修复",
+      "chapters": [
+        "ch07 修补与撤销提交"
+      ],
+      "blocks": [
+        {
+          "id": "撤销提交-revert.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "`git revert` 的作用类似“撤销（undo）”：选中某一笔提交，把代码退回到它之前的状态，但==不删除原提交==，而是新建一笔反向提交来抵消它（[2:21](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=141s)，秒数以视频为准）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 141.0
+                }
+              ]
+            },
+            {
+              "text": "与 `--amend` 的适用场景正好互补：amend 适合还没推送的最近一次提交；一旦代码已经推到远程仓库，就应改用 revert 来撤销（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 120.0
+                }
+              ]
+            },
+            {
+              "text": "因为它不重写历史，所以不会像 `git push --force` 那样覆盖远程提交、让协作者的提交丢失——作者原话提醒强推会让“co-workers 可能不太高兴”（[2:00](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=120s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 120.0
+                }
+              ]
+            },
+            {
+              "text": "视频里的比喻：revert 比事后像“创伤外科医生”一样把东西拼回去要容易得多（[2:42](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=162s)，以视频为准）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 162.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/撤销提交 Revert.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "撤销提交-revert.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/撤销提交 Revert.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "原提交保留在历史中，不重写历史，对已推送/共享分支安全；不需要 `git push --force`，不会覆盖远程、不会丢掉协作者的提交"
+              },
+              {
+                "text": "撤销操作本身会多出一笔提交，历史不如 amend 干净（以视频为准）；只能“回退到之前的状态”；若想彻底抹除痕迹，revert 做不到（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "撤销提交-revert.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "确认要撤销的那笔提交已经推送到远程（或任何不便改写历史的场合）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "运行 `git revert <提交>`（具体命令参数以视频为准）",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "Git 自动生成一笔反向提交，代码回到目标提交之前的状态",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "正常 `git push` 推送即可，无需强推",
+              "ev": [
+                {
+                  "note": "02-概念卡/撤销提交 Revert.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/撤销提交 Revert.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "暂存区",
+      "label": "暂存区",
+      "aliases": [
+        "staging area",
+        "git add"
+      ],
+      "note": "02-概念卡/暂存区.md",
+      "note_hash": "sha1:df62b0f8527d3a0174bcd993a949fc91a238fbb9",
+      "id_origin": "title-slug",
+      "one_liner": "==用 git add 挑出这次要提交的改动，是工作区与提交之间的待办清单。==",
+      "key": "用 git add 挑出这次要提交的改动，是工作区与提交之间的待办清单。",
+      "group": "核心机制",
+      "chapters": [
+        "ch02 忽略文件、暂存与提交"
+      ],
+      "blocks": [
+        {
+          "id": "暂存区.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "提交（commit）不是直接打包整个工作目录，而是先「staging（暂存）」——把想要纳入这次提交的文件挑出来（作者原话：\"the first thing we want to do is stage the files that we want included in this commit\"）[3:24](https://www.youtube.com/watch?v=HkdAHXoRtos&t=204s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 204.0
+                }
+              ]
+            },
+            {
+              "text": "命令是 `git add`：可以添加单个文件，也可以用 `.`（句点）把整个工作目录的改动全部暂存 [3:24](https://www.youtube.com/watch?v=HkdAHXoRtos&t=204s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 204.0
+                }
+              ]
+            },
+            {
+              "text": "VS Code 让暂存变得可视化：点加号按钮暂存（stage）、点减号取消暂存（unstage），不用敲命令 [3:24](https://www.youtube.com/watch?v=HkdAHXoRtos&t=204s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 204.0
+                }
+              ]
+            },
+            {
+              "text": "从暂存区撤回文件用 `git reset`，但要小心 `--hard` 标志——它不仅取消暂存，还会把文件永久删除、无法恢复（作者强调\"be careful with this one\"）[3:24](https://www.youtube.com/watch?v=HkdAHXoRtos&t=204s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 204.0
+                }
+              ]
+            },
+            {
+              "text": "暂存 → 提交是一套固定流程：先 `git add` 暂存，再 `git commit -m` 写描述信息提交；提交后暂存区清空，得到干净的工作目录 [4:06](https://www.youtube.com/watch?v=HkdAHXoRtos&t=246s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 246.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/暂存区.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "暂存区.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/暂存区.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "可以精确挑选这次提交包含哪些改动，不必一次打包整个目录（以视频为准）；VS Code 提供加减号按钮，暂存/取消暂存非常直观，降低命令行门槛"
+              },
+              {
+                "text": "`git reset --hard` 一旦误用会永久删除文件、无法恢复，风险很高（视频明确警告）；新手容易把「暂存」「提交」两个步骤混淆，流程比直觉多一步"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "暂存区.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "修改文件后，用 `git add <文件>`（或 `git add .`）暂存要提交的改动。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "也可以在 VS Code 中点击文件旁的加号按钮完成暂存。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "若挑错了，用 `git reset` 取消暂存（切勿随意加 `--hard`）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "运行 `git commit -m \"<描述信息>\"` 提交。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "提交完成后暂存区被清空，工作目录恢复干净，Git 会列出本次创建/修改/删除的文件。",
+              "ev": [
+                {
+                  "note": "02-概念卡/暂存区.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/暂存区.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "贮藏-stash",
+      "label": "贮藏 Stash",
+      "aliases": [
+        "git stash",
+        "stash pop",
+        "stash apply"
+      ],
+      "note": "02-概念卡/贮藏 Stash.md",
+      "note_hash": "sha1:d34aaa1a626465cd4865f4a23e506bc001a93f0c",
+      "id_origin": "title-slug",
+      "one_liner": "==把未完成的改动临时收起而不提交，之后用 pop 或 apply 取回继续干活。==",
+      "key": "把未完成的改动临时收起而不提交，之后用 pop 或 apply 取回继续干活。",
+      "group": "工作流提效",
+      "chapters": [
+        "ch04 Stash 与合并策略",
+        "ch08 云端开发与 Stash 进阶"
+      ],
+      "blocks": [
+        {
+          "id": "贮藏-stash.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "**贮藏（Stash）** 是 Git 提供的临时存取机制：把当前工作目录的改动“收起来”，工作区立即回到干净状态，之后想继续时再取回（[6:18](https://www.youtube.com/watch?v=HkdAHXoRtos&t=378s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 378.0
+                }
+              ]
+            },
+            {
+              "text": "它是**“暂不提交”的替代方案**：当改动还不能提交（比如功能没写完、代码很乱、会把项目弄坏）时，用 stash 而不是硬着头皮 commit（[6:38](https://www.youtube.com/watch?v=HkdAHXoRtos&t=398s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 398.0
+                }
+              ]
+            },
+            {
+              "text": "典型场景：改动“差不多能跑但还差点意思”，或代码太粗糙还不想让同事看到（[3:09](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=189s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 189.0
+                }
+              ]
+            },
+            {
+              "text": "取回时既可以用 `git stash pop`（取出并删除贮藏记录），也可以用 `git stash apply`（应用但保留记录），二者都把改动还原到当前工作目录（[6:18](https://www.youtube.com/watch?v=HkdAHXoRtos&t=378s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 378.0
+                }
+              ]
+            },
+            {
+              "text": "常用变体：`git stash save <名字>` 给贮藏命名，`git stash list` 列出所有贮藏，再用 `git stash apply <索引>` 取回指定那一份（[3:30](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=210s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 210.0
+                }
+              ]
+            },
+            {
+              "text": "**ch04 Stash 与合并策略**：作为基础命令介绍，说明它是“不提交代码的另一种选择”，先收起改动、清理工作区，再去处理分支合并等操作。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#🧩 在视频/系统中的角色"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/贮藏 Stash.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "贮藏-stash.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/贮藏 Stash.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "不必为了切任务而制造一个不成熟的提交，改动依然保留；操作极简：`git stash` 收起、`git stash pop` 取回，两步搞定；可通过 Codespace 让贮藏保存在云端，跨设备继续工作"
+              },
+              {
+                "text": "贮藏只存在本地仓库，换台电脑（如没有带笔记本出门）就取不到；贮藏多了容易忘记每一份是什么内容，需要 `stash save` 命名 + `stash list` 来管理；apply 与 pop 行为不同（是否删除记录），用错可能造成重复或遗漏，以视频为准"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "贮藏-stash.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "改动写到一半但不能提交时，运行 `git stash`，改动被收起、工作区变干净。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "去干别的事（切换分支、处理紧急任务等）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "回来想继续时，简单场景直接 `git stash pop` 取回改动。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "多份贮藏时，先 `git stash save <名字>` 命名保存，之后 `git stash list` 查看列表。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "用 `git stash apply <索引>` 取回对应那份改动继续干活。",
+              "ev": [
+                {
+                  "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/贮藏 Stash.md#📌 执行顺序"
+            }
+          ]
+        }
+      ],
+      "preserved": [
+        {
+          "heading": null,
+          "text": "**ch08 云端开发与 Stash 进阶**：作为作者“最喜欢的 Git 命令”之一，讲进阶用法（命名保存、list + apply 按索引取回），并提到一个限制——本地 stash 只存在本机，想在别处（如“奶奶家”的电脑）用，需要借助 GitHub Codespace，贮藏才会保存在云端（[3:52](https://www.youtube.com/watch?v=ecK3EnyGD8o&t=232s)）。"
+        }
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "proc.git-提效与自救清单",
+      "shape": "procedure",
+      "title": "Git 提效与自救清单",
+      "grounding": "note",
+      "ev": [
+        {
+          "note": "03-实操清单/Git 提效与自救清单.md"
+        }
+      ],
+      "groups": [
+        {
+          "title": "1️⃣ 提效捷径：别名与快速提交",
+          "items": [
+            {
+              "id": "ta41d0ce1",
+              "text": "用 `git commit -am \"消息\"` 跳过单独的 `git add`，直接提交已跟踪文件的改动（验证：`git log` 中出现新提交，工作目录干净）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#1️⃣ 提效捷径：别名与快速提交"
+                }
+              ],
+              "verify": "`git log` 中出现新提交，工作目录干净",
+              "cmd": "git commit -am \"消息\""
+            },
+            {
+              "id": "tba0cfc6b",
+              "text": "创建别名把常用命令缩短，例如把 add + commit 做成两字母命令（验证：`git config --list` 中能看到该别名，输入别名能正常提交）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#1️⃣ 提效捷径：别名与快速提交"
+                }
+              ],
+              "verify": "`git config --list` 中能看到该别名，输入别名能正常提交",
+              "cmd": "git config --list"
+            },
+            {
+              "id": "t2cce207e",
+              "text": "忘了分支名时，用 `git checkout -` 直接回到上一个工作分支（验证：`git branch` 显示当前已切回原分支）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#1️⃣ 提效捷径：别名与快速提交"
+                }
+              ],
+              "verify": "`git branch` 显示当前已切回原分支",
+              "cmd": "git checkout -"
+            }
+          ]
+        },
+        {
+          "title": "2️⃣ 修补与撤销",
+          "items": [
+            {
+              "id": "tad22ccc1",
+              "text": "提交信息写错时，用 `git commit --amend -m \"新消息\"` 修补最近一次提交（验证：`git log` 中最新提交信息已更新）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#2️⃣ 修补与撤销"
+                }
+              ],
+              "verify": "`git log` 中最新提交信息已更新",
+              "cmd": "git commit --amend -m \"新消息\""
+            },
+            {
+              "id": "te4d9d735",
+              "text": "漏加文件时，先 `git add <文件>` 再 `git commit --amend --no-edit` 并入上次提交（验证：`git show --stat` 中包含新文件）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#2️⃣ 修补与撤销"
+                }
+              ],
+              "verify": "`git show --stat` 中包含新文件",
+              "cmd": "git add <文件>"
+            },
+            {
+              "id": "t4e1b55fa",
+              "text": "已推送的错误提交用 `git revert <提交>` 撤销，生成反向提交而不篡改历史（验证：`git log` 出现一条 \"Revert...\" 提交，代码回到之前状态）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#2️⃣ 修补与撤销"
+                }
+              ],
+              "verify": "`git log` 出现一条 \"Revert...\" 提交，代码回到之前状态",
+              "cmd": "git revert <提交>"
+            }
+          ]
+        },
+        {
+          "title": "3️⃣ 命名 Stash 与日志排查",
+          "items": [
+            {
+              "id": "t7a461399",
+              "text": "半成品改动用 `git stash save \"名字\"` 命名保存（验证：`git stash list` 中能看到带名字的条目）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#3️⃣ 命名 Stash 与日志排查"
+                }
+              ],
+              "verify": "`git stash list` 中能看到带名字的条目",
+              "cmd": "git stash save \"名字\""
+            },
+            {
+              "id": "t26ffea30",
+              "text": "恢复时用 `git stash list` 找到索引，再 `git stash apply <索引>` 取回（验证：`git status` 中改动重新出现）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#3️⃣ 命名 Stash 与日志排查"
+                }
+              ],
+              "verify": "`git status` 中改动重新出现",
+              "cmd": "git stash list"
+            },
+            {
+              "id": "t0366cbc1",
+              "text": "日志难读时，用 `git log --graph --oneline --decorate` 查看分支连接关系（验证：输出为单行、带图形与装饰信息）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#3️⃣ 命名 Stash 与日志排查"
+                }
+              ],
+              "verify": "输出为单行、带图形与装饰信息",
+              "cmd": "git log --graph --oneline --decorate"
+            },
+            {
+              "id": "t7304db80",
+              "text": "应用出 bug 时，先 `git bisect start`，标记当前坏提交（`git bisect bad`）与最后的好提交（`git bisect good <提交>`），逐个用 `git bisect good/bad` 二分定位坏提交（验证：bisect 输出指向具体提交哈希，结束用 `git bisect reset`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#3️⃣ 命名 Stash 与日志排查"
+                }
+              ],
+              "verify": "bisect 输出指向具体提交哈希，结束用 `git bisect reset`",
+              "cmd": "git bisect start"
+            }
+          ]
+        },
+        {
+          "title": "4️⃣ 安全重置：让本地回到远程状态",
+          "items": [
+            {
+              "id": "t9566200c",
+              "text": "先 `git fetch` 拉取远程最新代码但不合并（验证：`git status` 显示本地落后于远程）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#4️⃣ 安全重置：让本地回到远程状态"
+                }
+              ],
+              "verify": "`git status` 显示本地落后于远程",
+              "cmd": "git fetch"
+            },
+            {
+              "id": "t82f505d1",
+              "text": "用 `git reset --hard origin/<分支>` 把本地代码硬重置为远程状态（验证：`git diff origin/<分支>` 无差异）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#4️⃣ 安全重置：让本地回到远程状态"
+                }
+              ],
+              "verify": "`git diff origin/<分支>` 无差异",
+              "cmd": "git reset --hard origin/<分支>"
+            },
+            {
+              "id": "tf688d2cd",
+              "text": "残留的未跟踪文件/构建产物用 `git clean` 清除（验证：`git status` 中不再有 untracked 文件）",
+              "ev": [
+                {
+                  "note": "03-实操清单/Git 提效与自救清单.md#4️⃣ 安全重置：让本地回到远程状态"
+                }
+              ],
+              "verify": "`git status` 中不再有 untracked 文件",
+              "cmd": "git clean"
+            }
+          ]
+        }
+      ],
+      "warnings": [
+        "`amend` 只适合**尚未推送**的提交；已推送后强行修改需 `git push --force`，会覆盖远程提交——若远程有你没有的提交将**永久丢失**，同事也可能受影响（作者原话提醒，慎用）",
+        "`git reset --hard` 会**永久丢失**本地未提交改动；`git clean` 会删掉未跟踪文件——两者执行前确认没有还想保留的东西",
+        "直接删除隐藏的 `.git` 目录即可完全解除 Git 跟踪，但历史记录也随之消失，慎用",
+        "改提交历史（amend/force push）之前，宁可先确认远程状态再动手"
+      ],
+      "preserved": [
+        {
+          "heading": "🛠️ Git 提效与自救清单",
+          "text": "> [!info] 覆盖内容\n> 主要来自视频二《13 Advanced (but useful) Git Techniques》（ch06–ch10），配合视频一的基础操作。所有命令请先在测试仓库演练。"
+        },
+        {
+          "heading": "🔗 相关",
+          "text": "[[ch06 快速提交与命令别名]] · [[ch07 修补与撤销提交]] · [[ch08 云端开发与 Stash 进阶]] · [[ch09 日志美化与历史排查]] · [[ch10 钩子、清理与快速切换]] · [[修补提交 Amend]] · [[撤销提交 Revert]] · [[二分排查 Bisect]] · [[贮藏 Stash]] · [[新仓库上手清单]] · [[00-Home]]"
+        }
+      ]
+    },
+    {
+      "id": "proc.新仓库上手清单",
+      "shape": "procedure",
+      "title": "新仓库上手清单",
+      "grounding": "note",
+      "ev": [
+        {
+          "note": "03-实操清单/新仓库上手清单.md"
+        }
+      ],
+      "groups": [
+        {
+          "title": "1️⃣ 初始化仓库",
+          "items": [
+            {
+              "id": "tcbd75381",
+              "text": "在项目目录运行 `git init`，把当前目录变成 Git 仓库（验证方式：终端输出 \"Initialized empty Git repository\"；VS Code 源代码管理面板出现变更列表）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#1️⃣ 初始化仓库"
+                }
+              ],
+              "cmd": "git init"
+            },
+            {
+              "id": "tfe49a85d",
+              "text": "确认项目里的文件显示为 **U（Untracked）** 图标，说明文件尚未被跟踪（验证方式：VS Code 源代码管理面板查看）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#1️⃣ 初始化仓库"
+                }
+              ]
+            },
+            {
+              "id": "ta2314c66",
+              "text": "了解\"反悔入口\"：删除隐藏的 `.git` 目录即可完全取消 Git 初始化（验证方式：`ls -a` 能看到 `.git`；删除后源代码管理面板恢复 \"No source control provider\"）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#1️⃣ 初始化仓库"
+                }
+              ],
+              "cmd": ".git"
+            }
+          ]
+        },
+        {
+          "title": "2️⃣ 创建 .gitignore 挡住敏感文件",
+          "items": [
+            {
+              "id": "tb8bffe84",
+              "text": "在仓库根目录创建 `.gitignore` 文件（验证方式：`ls` 可见该文件）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#2️⃣ 创建 .gitignore 挡住敏感文件"
+                }
+              ],
+              "cmd": ".gitignore"
+            },
+            {
+              "id": "t90b417cf",
+              "text": "写入要排除的路径/模式：私密的 API 密钥、依赖目录（如 `node_modules`）、无用的日志文件（验证方式：被排除的文件不再出现在源代码管理变更列表中）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#2️⃣ 创建 .gitignore 挡住敏感文件"
+                }
+              ],
+              "cmd": "node_modules"
+            },
+            {
+              "id": "t98f7af1e",
+              "text": "（可选）用 VS Code 插件自动生成对应环境的默认忽略规则，省去手写（验证方式：生成的 `.gitignore` 包含常见条目）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#2️⃣ 创建 .gitignore 挡住敏感文件"
+                }
+              ],
+              "cmd": ".gitignore"
+            }
+          ]
+        },
+        {
+          "title": "3️⃣ 首次暂存与提交",
+          "items": [
+            {
+              "id": "ta4e4e785",
+              "text": "运行 `git add .` 暂存整个工作目录，或 `git add <文件名>` 只暂存单个文件；也可在 VS Code 里点 **+** 号暂存（验证方式：`git status` 中文件进入 staged 状态）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#3️⃣ 首次暂存与提交"
+                }
+              ],
+              "cmd": "git add ."
+            },
+            {
+              "id": "t85415ce9",
+              "text": "运行 `git commit -m \"描述本次改动的信息\"` 完成首次提交；提交信息可写成多行——第一行摘要、第二行详细说明（验证方式：命令输出列出本次创建/修改/删除的文件，暂存区清空、工作目录干净）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#3️⃣ 首次暂存与提交"
+                }
+              ],
+              "cmd": "git commit -m \"描述本次改动的信息\""
+            },
+            {
+              "id": "t832fb718",
+              "text": "记住撤销暂存用 `git reset`（不要加 `--hard`）（验证方式：`git status` 中文件回到 unstaged 状态）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#3️⃣ 首次暂存与提交"
+                }
+              ],
+              "cmd": "git reset"
+            }
+          ]
+        },
+        {
+          "title": "4️⃣ 用 GitLens 回看历史",
+          "items": [
+            {
+              "id": "t1d048740",
+              "text": "在 VS Code 中安装 GitLens 插件（验证方式：插件列表中显示已安装，编辑器内出现行内溯源信息）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#4️⃣ 用 GitLens 回看历史"
+                }
+              ]
+            },
+            {
+              "id": "tdb3173b8",
+              "text": "打开 GitLens 面板浏览提交历史，逐条查看每次提交改了哪些行（验证方式：能看到刚做的首次提交及其变更详情）",
+              "ev": [
+                {
+                  "note": "03-实操清单/新仓库上手清单.md#4️⃣ 用 GitLens 回看历史"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "warnings": [
+        "`git reset --hard` 会把未提交的改动**永久删除**，在新项目上误用等于从零重来——只用它时务必三思（视频原话提醒）。",
+        "`.git` 目录是仓库的全部历史，删除它 = 彻底放弃版本控制，删之前确认真的不要了。",
+        "没写 `.gitignore` 就提交，容易把 API 密钥、`node_modules`、日志等一并入库，敏感信息一旦推上远端很难撤干净。",
+        "养成\"多而小的提交\"习惯：提交越细粒度，出错时越容易定位和回退，合并冲突也好修（作者反复强调的核心实践）。"
+      ],
+      "preserved": [
+        {
+          "heading": "🛠️ 新仓库上手清单",
+          "text": "对应视频一《Git It? How to use Git and Github》ch01–ch02（[0:42 What is Git](https://www.youtube.com/watch?v=HkdAHXoRtos&t=42s) – [4:52](https://www.youtube.com/watch?v=HkdAHXoRtos&t=292s)）。"
+        },
+        {
+          "heading": "🔗 相关",
+          "text": "[[ch01 认识 Git 与初始化仓库]] · [[ch02 忽略文件、暂存与提交]] · [[提交 Commit]] · [[暂存区]] · [[忽略文件]] · [[Git 提效与自救清单]] · [[00-Home]]"
+        }
+      ]
+    }
+  ]
+}

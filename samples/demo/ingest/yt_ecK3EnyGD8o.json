@@ -1,0 +1,138 @@
+{
+  "schema": "learning.vault.ingest/0.1",
+  "generated_at": "2026-11-07T10:53:01",
+  "tool": "video_ingest 0.1.0",
+  "platform": "youtube",
+  "id": "ecK3EnyGD8o",
+  "url": "https://www.youtube.com/watch?v=ecK3EnyGD8o",
+  "title": "13 Advanced (but useful) Git Techniques and Shortcuts",
+  "channel": "Fireship",
+  "upload_date": "20210907",
+  "duration_sec": 486,
+  "description": "Productive programmers tend to be really good at Git. Take a look at 13 advanced git tips and tricks to supercharge your development workflow. 🔥 Enroll in the New Full Git Course https://fireship.io/courses/git/\n\n💰 Extra big 40% discount (expires in 1 week). Use code: oqBi9fWv\nUpgrade to PRO at https://fireship.io/pro\n\n#git #learntocode #tips\n\n🔗 Resources\n\nThe Full Git & GitHub Course https://fireship.io/courses/git/\nGit Docs https://git-scm.com/\nGit in 100 Seconds https://youtu.be/hwP7WQkmECE\n\n📚 Chapters\n\n00:00 Git Started\n00:59 Combine add & commit\n01:20 Aliases\n01:38 Amend\n02:03 Force Push\n02:24 Revert\n02:47 Codespaces\n03:21 Stash\n04:05 PC Master Branch\n04:27 Pretty Logs\n04:51 Bisect\n05:14 Autosquash\n06:18 Hooks\n06:58 Destroy Things\n07:41 Checkout to Last\n\n\n🎨 My Editor Settings\n\n- Atom One Dark \n- vscode-icons\n- Fira Code Font\n\n🏷️ Topics Covered\n\n- Git Shortcuts\n- Github Codespaces Cloud VSCode\n- Software Version Control\n- Dealing with Merge Conflicts\n- Git Merge & Rebase\n- How to Squash Commits",
+  "thumbnail": "https://i.ytimg.com/vi/ecK3EnyGD8o/maxresdefault.jpg",
+  "chapters": [
+    {
+      "start": 0.0,
+      "end": 59.0,
+      "title": "Git Started",
+      "origin": "official"
+    },
+    {
+      "start": 59.0,
+      "end": 80.0,
+      "title": "Combine add & commit",
+      "origin": "official"
+    },
+    {
+      "start": 80.0,
+      "end": 98.0,
+      "title": "Aliases",
+      "origin": "official"
+    },
+    {
+      "start": 98.0,
+      "end": 123.0,
+      "title": "Amend",
+      "origin": "official"
+    },
+    {
+      "start": 123.0,
+      "end": 144.0,
+      "title": "Force Push",
+      "origin": "official"
+    },
+    {
+      "start": 144.0,
+      "end": 167.0,
+      "title": "Revert",
+      "origin": "official"
+    },
+    {
+      "start": 167.0,
+      "end": 201.0,
+      "title": "Codespaces",
+      "origin": "official"
+    },
+    {
+      "start": 201.0,
+      "end": 245.0,
+      "title": "Stash",
+      "origin": "official"
+    },
+    {
+      "start": 245.0,
+      "end": 267.0,
+      "title": "PC Master Branch",
+      "origin": "official"
+    },
+    {
+      "start": 267.0,
+      "end": 291.0,
+      "title": "Pretty Logs",
+      "origin": "official"
+    },
+    {
+      "start": 291.0,
+      "end": 314.0,
+      "title": "Bisect",
+      "origin": "official"
+    },
+    {
+      "start": 314.0,
+      "end": 378.0,
+      "title": "Autosquash",
+      "origin": "official"
+    },
+    {
+      "start": 378.0,
+      "end": 418.0,
+      "title": "Hooks",
+      "origin": "official"
+    },
+    {
+      "start": 418.0,
+      "end": 461.0,
+      "title": "Destroy Things",
+      "origin": "official"
+    },
+    {
+      "start": 461.0,
+      "end": 486.0,
+      "title": "Checkout to Last",
+      "origin": "official"
+    }
+  ],
+  "transcript": {
+    "source": "auto",
+    "lang": "en",
+    "segment_count": 502,
+    "omitted": "字幕正文未入库（AGENTS.md：不提交字幕全集；第三方版权）。用 tools/video_ingest.py 重新抓取即可复现。"
+  },
+  "quality_flags": {
+    "chapters_total": 15,
+    "chapters_matched": 15,
+    "per_chapter": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "trusted": true,
+    "transcript_source": "auto",
+    "notes": [
+      "自动字幕（平台 ASR 生成），可能含识别错误；与官方章节矛盾时按规则弃用"
+    ]
+  }
+}

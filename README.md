@@ -24,6 +24,10 @@ Vite 的进程中设置 `ASSISTANT_BACKEND_URL`。
 时间序列实验仍保留公式和参数说明，尚未实现均线计算演示。
 通过“CS 样例”可返回原始演示。打开卡面后导入入口暂时收起，关闭卡面恢复。
 
+**预置数据一键演示**：`cd server && npm run demo`，然后打开 `http://localhost:5173/#/today`。
+数据来自 6 个公开视频，经真实流水线和模型生成（3 个目标、3 个主题、约三周的学习记录），
+说明见 [samples/demo/README.md](samples/demo/README.md)。
+
 ## 架构（三层 + 一条原则）
 
 ```

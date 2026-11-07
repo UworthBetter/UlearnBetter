@@ -1,0 +1,3053 @@
+{
+  "schema": "learning.learn/0.1",
+  "topic": {
+    "id": "nn-basics",
+    "title": "神经网络入门",
+    "flags": {
+      "disclaimer": null,
+      "asof": null
+    },
+    "generated": {
+      "at": "2026-10-14T00:00:00+00:00",
+      "by": "notes-compiler",
+      "compiler_version": "notes-compiler/0.2.0",
+      "model": null,
+      "extractor": "frontmatter-annotated",
+      "notes_dir": "神经网络入门"
+    }
+  },
+  "sources": [
+    {
+      "id": "v1",
+      "kind": "video",
+      "platform": "youtube",
+      "ref": "aircAruvnKk",
+      "title": "But what is a neural network? | Deep learning chapter 1",
+      "author": "3Blue1Brown",
+      "duration_sec": 1120,
+      "meta_from": "90-资源/视频信息 · But what is a neural network.md",
+      "discovered_in": [
+        "01-课程笔记/ch01 认识神经元.md",
+        "01-课程笔记/ch02 分层结构.md",
+        "01-课程笔记/ch03 边缘检测的期望.md",
+        "01-课程笔记/ch04 权重偏置与学习.md",
+        "01-课程笔记/ch05 记号与线性代数.md",
+        "01-课程笔记/ch06 结语与激活函数.md",
+        "02-概念卡/ReLU.md",
+        "02-概念卡/Sigmoid 函数.md",
+        "02-概念卡/分层结构.md",
+        "02-概念卡/权重与偏置.md",
+        "02-概念卡/神经元与激活.md",
+        "90-资源/视频信息 · But what is a neural network.md"
+      ]
+    },
+    {
+      "id": "v2",
+      "kind": "video",
+      "platform": "youtube",
+      "ref": "IHZwWFHWa-w",
+      "title": "Gradient descent, how neural networks learn | Deep Learning Chapter 2",
+      "author": "3Blue1Brown",
+      "duration_sec": 1233,
+      "meta_from": "90-资源/视频信息 · Gradient descent, how neural networks le.md",
+      "discovered_in": [
+        "01-课程笔记/ch07 训练数据入门.md",
+        "01-课程笔记/ch08 代价函数.md",
+        "01-课程笔记/ch09 梯度下降.md",
+        "01-课程笔记/ch10 网络实际学到了什么.md",
+        "02-概念卡/MNIST 数据集.md",
+        "02-概念卡/代价函数.md",
+        "02-概念卡/局部最小值.md",
+        "02-概念卡/梯度下降.md",
+        "02-概念卡/梯度向量.md",
+        "90-资源/视频信息 · Gradient descent, how neural networks le.md"
+      ]
+    },
+    {
+      "id": "v3",
+      "kind": "video",
+      "platform": "youtube",
+      "ref": "Ilg3gGewQ5U",
+      "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+      "author": "3Blue1Brown",
+      "duration_sec": 767,
+      "meta_from": "90-资源/视频信息 · Backpropagation, intuitively.md",
+      "discovered_in": [
+        "01-课程笔记/ch11 反向传播直觉.md",
+        "01-课程笔记/ch12 随机梯度下降.md",
+        "02-概念卡/反向传播.md",
+        "02-概念卡/局部最小值.md",
+        "02-概念卡/随机梯度下降.md",
+        "90-资源/视频信息 · Backpropagation, intuitively.md"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "title": "第一阶段 · 看懂结构",
+      "chapters": [
+        "ch01 认识神经元",
+        "ch02 分层结构",
+        "ch03 边缘检测的期望",
+        "ch04 权重偏置与学习",
+        "ch05 记号与线性代数",
+        "ch06 结语与激活函数"
+      ],
+      "origin": "home-page"
+    },
+    {
+      "title": "第二阶段 · 理解学习",
+      "chapters": [
+        "ch07 训练数据入门",
+        "ch08 代价函数",
+        "ch09 梯度下降",
+        "ch10 网络实际学到了什么"
+      ],
+      "origin": "home-page"
+    },
+    {
+      "title": "第三阶段 · 深入机制",
+      "chapters": [
+        "ch11 反向传播直觉",
+        "ch12 随机梯度下降"
+      ],
+      "origin": "home-page"
+    }
+  ],
+  "relations": [
+    {
+      "a": "mnist-数据集",
+      "b": "代价函数",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/MNIST 数据集.md"
+        }
+      ]
+    },
+    {
+      "a": "mnist-数据集",
+      "b": "梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/MNIST 数据集.md"
+        }
+      ]
+    },
+    {
+      "a": "mnist-数据集",
+      "b": "随机梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/MNIST 数据集.md"
+        }
+      ]
+    },
+    {
+      "a": "mnist-数据集",
+      "b": "分层结构",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/MNIST 数据集.md"
+        }
+      ]
+    },
+    {
+      "a": "relu",
+      "b": "sigmoid-函数",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/ReLU.md"
+        }
+      ]
+    },
+    {
+      "a": "relu",
+      "b": "权重与偏置",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/ReLU.md"
+        }
+      ]
+    },
+    {
+      "a": "relu",
+      "b": "神经元与激活",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/ReLU.md"
+        }
+      ]
+    },
+    {
+      "a": "sigmoid-函数",
+      "b": "权重与偏置",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/Sigmoid 函数.md"
+        }
+      ]
+    },
+    {
+      "a": "sigmoid-函数",
+      "b": "神经元与激活",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/Sigmoid 函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "神经元与激活",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "分层结构",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "权重与偏置",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "局部最小值",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "梯度向量",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "随机梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/代价函数.md"
+        }
+      ]
+    },
+    {
+      "a": "分层结构",
+      "b": "神经元与激活",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分层结构.md"
+        }
+      ]
+    },
+    {
+      "a": "分层结构",
+      "b": "权重与偏置",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分层结构.md"
+        }
+      ]
+    },
+    {
+      "a": "分层结构",
+      "b": "sigmoid-函数",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/分层结构.md"
+        }
+      ]
+    },
+    {
+      "a": "反向传播",
+      "b": "梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/反向传播.md"
+        }
+      ]
+    },
+    {
+      "a": "反向传播",
+      "b": "代价函数",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/反向传播.md"
+        }
+      ]
+    },
+    {
+      "a": "反向传播",
+      "b": "随机梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/反向传播.md"
+        }
+      ]
+    },
+    {
+      "a": "反向传播",
+      "b": "梯度向量",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/反向传播.md"
+        }
+      ]
+    },
+    {
+      "a": "局部最小值",
+      "b": "梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/局部最小值.md"
+        }
+      ]
+    },
+    {
+      "a": "局部最小值",
+      "b": "梯度向量",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/局部最小值.md"
+        }
+      ]
+    },
+    {
+      "a": "局部最小值",
+      "b": "随机梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/局部最小值.md"
+        }
+      ]
+    },
+    {
+      "a": "权重与偏置",
+      "b": "神经元与激活",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/权重与偏置.md"
+        }
+      ]
+    },
+    {
+      "a": "权重与偏置",
+      "b": "梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/权重与偏置.md"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "sigmoid-函数",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/梯度下降.md"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "relu",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/梯度下降.md"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "随机梯度下降",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/梯度下降.md"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "梯度向量",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/梯度下降.md"
+        }
+      ]
+    },
+    {
+      "a": "随机梯度下降",
+      "b": "梯度向量",
+      "kind": "related",
+      "ev": [
+        {
+          "note": "02-概念卡/随机梯度下降.md"
+        }
+      ]
+    },
+    {
+      "a": "神经元与激活",
+      "b": "分层结构",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "神经元与激活",
+      "b": "权重与偏置",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "权重与偏置",
+      "b": "sigmoid-函数",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "sigmoid-函数",
+      "b": "relu",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "分层结构",
+      "b": "代价函数",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "权重与偏置",
+      "b": "代价函数",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "mnist-数据集",
+      "b": "代价函数",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "代价函数",
+      "b": "梯度下降",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "梯度向量",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "梯度向量",
+      "b": "反向传播",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "反向传播",
+      "b": "随机梯度下降",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "梯度下降",
+      "b": "局部最小值",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    },
+    {
+      "a": "随机梯度下降",
+      "b": "局部最小值",
+      "kind": "uses",
+      "ev": [
+        {
+          "note": "00-Home.md#🗺️ 全景图"
+        }
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "mnist-数据集",
+      "label": "MNIST 数据集",
+      "aliases": [
+        "MNIST"
+      ],
+      "note": "02-概念卡/MNIST 数据集.md",
+      "note_hash": "sha1:7057ffdebd29da7291379cb147d1b9de6770a6a7",
+      "id_origin": "title-slug",
+      "one_liner": "==数万张带人工标签的手写数字图像库，是本系列网络训练与测试所用的经典数据集。==",
+      "key": "数万张带人工标签的手写数字图像库，是本系列网络训练与测试所用的经典数据集。",
+      "group": "训练实践",
+      "chapters": [
+        "ch07 训练数据入门"
+      ],
+      "blocks": [
+        {
+          "id": "mnist-数据集.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "由 MNIST 数据库的一群好心人整理出来的数据集，包含**数万张**手写数字图像，每张都带有人工标注的正确标签，这正是它成为入门经典案例的原因（[2:17](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=137s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 137.0
+                }
+              ]
+            },
+            {
+              "text": "每张图像渲染在 **28×28 像素网格**上，每个像素有一个 0 到 1 之间的灰度值（[0:28](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=28s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 28.0
+                }
+              ]
+            },
+            {
+              "text": "展开成 784 个像素值后，它们决定了网络输入层 784 个神经元的激活值，最终层的 10 个神经元对应数字 0–9 的分类结果（[0:28](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=28s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 28.0
+                }
+              ]
+            },
+            {
+              "text": "它的作用是充当**训练数据**：把大量带标签的手写数字图像展示给网络，让其调整约 13,000 个权重和偏置以提升在训练数据上的表现（[1:52](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=112s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 112.0
+                }
+              ]
+            },
+            {
+              "text": "它也支撑**泛化能力的测试**：训练完成后，用网络从未见过的新带标签图像来检验分类准确率（[1:52](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=112s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 112.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/MNIST 数据集.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "mnist-数据集.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/MNIST 数据集.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "由 MNIST 数据库整理，包含数万张带人工标签的图像，让人门学习不需要自己收集标注数据（以视频为准）；图像固定为 28×28、像素值 0–1，天然适配 784 个输入神经元的网络结构"
+              },
+              {
+                "text": "训练集之外的泛化效果不能只看训练数据上的表现，必须用未见过的测试图像检验；本系列仅是手写数字识别这一经典入门例子，任务相对简单（以视频为准）"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relu",
+      "label": "ReLU",
+      "aliases": [
+        "Rectified Linear Unit"
+      ],
+      "note": "02-概念卡/ReLU.md",
+      "note_hash": "sha1:eceb7fc06e5f1063f5a0214eb835fbe3179dd47b",
+      "id_origin": "title-slug",
+      "one_liner": "==取 0 与加权和 $a$ 二者中较大者的激活函数，在现代深度网络中比 Sigmoid 更容易训练。==",
+      "key": "取 0 与加权和 $a$ 二者中较大者的激活函数，在现代深度网络中比 Sigmoid 更容易训练。",
+      "group": "网络结构",
+      "chapters": [
+        "ch06 结语与激活函数"
+      ],
+      "blocks": [
+        {
+          "id": "relu.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "全称 Rectified Linear Unit（修正线性单元），定义为 $\\mathrm{ReLU}(a) = \\max(0, a)$，其中 $a$ 是该神经元的加权和。",
+              "ev": [
+                {
+                  "note": "02-概念卡/ReLU.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "当加权和 $a$ 超过某个阈值时，输出就是 $a$ 本身（恒等函数）；不足阈值时直接输出 0，神经元“不激活”（[17:19](https://www.youtube.com/watch?v=aircAruvnKk&t=1039s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/ReLU.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 1039.0
+                }
+              ]
+            },
+            {
+              "text": "最初的动机部分来自生物学类比：真实神经元要么被激活、要么静默，超过阈值才有输出，ReLU 是这一行为的简化版（[17:47](https://www.youtube.com/watch?v=aircAruvnKk&t=1067s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/ReLU.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 1067.0
+                }
+              ]
+            },
+            {
+              "text": "视频中 Lisha Li 提到，早期网络普遍使用 Sigmoid 把加权和压缩到 0–1 区间，但如今很少有现代网络还在用 Sigmoid；人们转用 ReLU 后发现在非常深的网络里训练效果好得多（[17:19](https://www.youtube.com/watch?v=aircAruvnKk&t=1039s)–[18:15](https://www.youtube.com/watch?v=aircAruvnKk&t=1095s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/ReLU.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 1039.0
+                },
+                {
+                  "src": "v1",
+                  "t": 1095.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/ReLU.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "relu.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/ReLU.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "在极深的神经网络中比 Sigmoid 更容易训练，实际效果很好；与真实神经元“超过阈值才激活”的行为有类比，概念上直观"
+              },
+              {
+                "text": "并非从理论出发的最优设计，而是“试出来好用”的简化（以视频为准）；当加权和小于 0 时输出恒为 0，具体的其他缺点视频未展开（以视频为准）"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sigmoid-函数",
+      "label": "Sigmoid 函数",
+      "aliases": [
+        "Sigmoid",
+        "Logistic Curve"
+      ],
+      "note": "02-概念卡/Sigmoid 函数.md",
+      "note_hash": "sha1:f0ff15b15c19f4cd9f241b248dc37261440e8872",
+      "id_origin": "title-slug",
+      "one_liner": "==把任意实数压缩到 0–1 之间的 S 形曲线，早期网络用它做激活函数，如今较少使用。==",
+      "key": "把任意实数压缩到 0–1 之间的 S 形曲线，早期网络用它做激活函数，如今较少使用。",
+      "group": "网络结构",
+      "chapters": [
+        "ch03 边缘检测的期望",
+        "ch06 结语与激活函数"
+      ],
+      "blocks": [
+        {
+          "id": "sigmoid-函数.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "也叫 logistic curve（逻辑曲线），作用是把整个实数轴“挤压”进 0 与 1 之间：非常负的输入趋近 0，正的输入趋近 1，在输入 0 附近平稳递增（[10:28](https://www.youtube.com/watch?v=aircAruvnKk&t=628s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 628.0
+                }
+              ]
+            },
+            {
+              "text": "公式为 $$\\sigma(x)=\\frac{1}{1+e^{-x}}$$（公式为标准形式，视频中未展开写出，以视频为准）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "在网络中的用途：加权和可能算出任意大小的数字，但这个网络的激活值要求在 0–1 之间，所以把加权和“泵入”Sigmoid 这类函数做 squishification（挤压）处理（[9:59](https://www.youtube.com/watch?v=aircAruvnKk&t=599s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 599.0
+                }
+              ]
+            },
+            {
+              "text": "神经元的激活值因此大致衡量了“相关加权和有多正”（[10:52](https://www.youtube.com/watch?v=aircAruvnKk&t=652s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 652.0
+                }
+              ]
+            },
+            {
+              "text": "早期网络采用它，部分动机是生物类比：神经元要么不激活、要么激活（[17:19](https://www.youtube.com/watch?v=aircAruvnKk&t=1039s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 1039.0
+                }
+              ]
+            },
+            {
+              "text": "出现于 ch03 边缘检测的期望：在讲解“第二层某个神经元如何检测小区域内的边缘”时，加权和之后需要 Sigmoid 把结果压到 0–1，成为激活值（[10:28](https://www.youtube.com/watch?v=aircAruvnKk&t=628s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#🧩 在视频/系统中的角色"
+                },
+                {
+                  "src": "v1",
+                  "t": 628.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/Sigmoid 函数.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "sigmoid-函数.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/Sigmoid 函数.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "把任意加权和平滑压到 0–1，与“激活值在 0–1 之间”的网络设定吻合（[9:59](https://www.youtube.com/watch?v=aircAruvnKk&t=599s)）；有生物类比：对应神经元“不激活 / 激活”两种状态（[17:19](https://www.youtube.com/watch?v=aircAruvnKk&t=1039s)）"
+              },
+              {
+                "text": "使用 Sigmoid 的网络很难训练（至少某段时期如此）（[18:15](https://www.youtube.com/watch?v=aircAruvnKk&t=1095s)）；现代网络很少使用，已被 ReLU 取代；ReLU 在极深网络中训练效果更好（[17:47](https://www.youtube.com/watch?v=aircAruvnKk&t=1067s)）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "sigmoid-函数.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "前一层各神经元的激活值分别乘上对应的权重，求加权和",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在加权和上加上偏置（bias），例如加上 -10，表示希望神经元默认不激活（11:20）",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "把结果代入 Sigmoid 函数，挤压到 0–1 之间",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "得到的值就是该神经元的激活值，作为下一层的输入",
+              "ev": [
+                {
+                  "note": "02-概念卡/Sigmoid 函数.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/Sigmoid 函数.md#📌 执行顺序"
+            }
+          ]
+        }
+      ],
+      "preserved": [
+        {
+          "heading": null,
+          "text": "出现于 ch06 结语与激活函数：与嘉宾 Lisha Li 讨论其历史地位——早期网络用它配合“神经元激活/不激活”的生物类比，但现代网络很少再用 Sigmoid，普遍改用 [[ReLU]]，因为后者在实践中更容易训练，尤其在非常深的网络中（[17:19](https://www.youtube.com/watch?v=aircAruvnKk&t=1039s)、[18:15](https://www.youtube.com/watch?v=aircAruvnKk&t=1095s)）"
+        }
+      ]
+    },
+    {
+      "id": "代价函数",
+      "label": "代价函数",
+      "aliases": [
+        "Cost Function",
+        "Loss Function"
+      ],
+      "note": "02-概念卡/代价函数.md",
+      "note_hash": "sha1:45ce8cca1fe7c1115c90f22466543825edf7621f",
+      "id_origin": "title-slug",
+      "one_liner": "==把网络输出与目标输出之差的平方求和，再对全部训练样本取平均，得到衡量网络多“糟糕”的单一数值。==",
+      "key": "把网络输出与目标输出之差的平方求和，再对全部训练样本取平均，得到衡量网络多“糟糕”的单一数值。",
+      "group": "学习机制",
+      "chapters": [
+        "ch08 代价函数",
+        "ch09 梯度下降"
+      ],
+      "blocks": [
+        {
+          "id": "代价函数.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "网络初始时权重和偏置全部随机初始化，输入一张手写的 3，输出层一团混乱——代价函数就是告诉计算机“这个输出很糟糕”的方式。[3:01–3:24](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=201s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 201.0
+                }
+              ]
+            },
+            {
+              "text": "**单个训练样本的代价**：把输出层每个激活值与目标值之差取平方再求和；网络自信地分类正确时这个和很小，网络“不知所措”时很大。[3:51](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=231s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 231.0
+                }
+              ]
+            },
+            {
+              "text": "**网络的代价**：对数万个训练样本的单样本代价取平均，作为衡量网络整体表现多差的指标。[4:22](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=262s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 262.0
+                }
+              ]
+            },
+            {
+              "text": "数学上可写为：",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "网络本身是一个输入 784 个像素、输出 10 个数字的函数；代价函数是叠加在其上的又一层函数——输入约 13,000 个权重和偏置，输出一个表示“这组参数有多差”的数。[4:46](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=286s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 286.0
+                }
+              ]
+            },
+            {
+              "text": "训练的目标就是**最小化这个代价函数**：由于对 13,000 输入的函数无法显式求解最小值，实际采用沿斜坡往下走的策略，也就是 [[梯度下降]]。[5:12–5:41](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=312s)",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 312.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/代价函数.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "代价函数.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/代价函数.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "把数万样本上的网络表现压缩成一个数，为学习提供明确可优化的目标；平方和形式简单直观：分类自信正确时代价小、混乱时代价大；步长与斜率成比例时，接近最小值会自动减小步子，避免越过谷底"
+              },
+              {
+                "text": "它是约 13,000 个输入的复杂函数，无法像一元函数那样显式解出最小值，只能用数值方法（梯度下降）逐步逼近；梯度下降只能到达某个局部最小值，起点不同落点不同，且不保证是全局最低的代价（见 [[局部最小值]]）；以视频为准：单一代价数值本身不告诉计算机具体该改哪些参数，还需配合梯度信息"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "代价函数.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "随机初始化全部权重和偏置，此时网络输出一团混乱。3:01",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "输入一个训练样本，得到输出层的实际激活值。",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "把每个输出激活与其目标值之差取平方并求和，得到**单样本代价**。3:51",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对数万个训练样本重复上述计算，取平均值，得到**整体代价**。4:22",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "后续（ch09）沿负梯度方向小步调整约 13,000 个参数，反复迭代使代价下降。",
+              "ev": [
+                {
+                  "note": "02-概念卡/代价函数.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/代价函数.md#📌 执行顺序"
+            }
+          ]
+        },
+        {
+          "shape": "variation",
+          "domain": "function",
+          "grounding": "illustrative",
+          "title": "示意：单样本代价（输出与目标的平方差）",
+          "inputs": [
+            {
+              "name": "y",
+              "label": "目标输出 y",
+              "min": 0,
+              "max": 1,
+              "step": 1,
+              "default": 1
+            }
+          ],
+          "x": {
+            "label": "网络输出激活 a",
+            "range": [
+              0,
+              1
+            ],
+            "cursor": 0.5
+          },
+          "series": [
+            {
+              "id": "cost",
+              "label": "单样本代价",
+              "expr": "(x - y)^2"
+            }
+          ],
+          "role": "principle",
+          "ev": [
+            {
+              "note": "02-概念卡/代价函数.md"
+            }
+          ],
+          "id": "代价函数.variation-ann"
+        },
+        {
+          "id": "代价函数.overview",
+          "shape": "structure",
+          "title": "🗺️ 全景图",
+          "grounding": "note",
+          "layout": "flow",
+          "nodes": [
+            {
+              "id": "N1",
+              "label": "神经元与激活",
+              "concept": "神经元与激活"
+            },
+            {
+              "id": "N2",
+              "label": "分层结构",
+              "concept": "分层结构"
+            },
+            {
+              "id": "N3",
+              "label": "权重与偏置",
+              "concept": "权重与偏置"
+            },
+            {
+              "id": "N4",
+              "label": "Sigmoid 函数",
+              "concept": "sigmoid-函数"
+            },
+            {
+              "id": "N5",
+              "label": "ReLU",
+              "concept": "relu"
+            },
+            {
+              "id": "N6",
+              "label": "代价函数",
+              "concept": "代价函数"
+            },
+            {
+              "id": "N12",
+              "label": "MNIST 数据集",
+              "concept": "mnist-数据集"
+            },
+            {
+              "id": "N7",
+              "label": "梯度下降",
+              "concept": "梯度下降"
+            },
+            {
+              "id": "N8",
+              "label": "梯度向量",
+              "concept": "梯度向量"
+            },
+            {
+              "id": "N9",
+              "label": "反向传播",
+              "concept": "反向传播"
+            },
+            {
+              "id": "N10",
+              "label": "随机梯度下降",
+              "concept": "随机梯度下降"
+            },
+            {
+              "id": "N11",
+              "label": "局部最小值",
+              "concept": "局部最小值"
+            }
+          ],
+          "edges": [
+            {
+              "from": "N1",
+              "to": "N2",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N1",
+              "to": "N3",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N3",
+              "to": "N4",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N4",
+              "to": "N5",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N2",
+              "to": "N6",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N3",
+              "to": "N6",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N12",
+              "to": "N6",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N6",
+              "to": "N7",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N7",
+              "to": "N8",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N8",
+              "to": "N9",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N9",
+              "to": "N10",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N7",
+              "to": "N11",
+              "label": null,
+              "kind": "flow"
+            },
+            {
+              "from": "N10",
+              "to": "N11",
+              "label": null,
+              "kind": "flow"
+            }
+          ],
+          "ev": [
+            {
+              "note": "00-Home.md#🗺️ 全景图"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "分层结构",
+      "label": "分层结构",
+      "aliases": [
+        "Layers",
+        "Hidden Layer"
+      ],
+      "note": "02-概念卡/分层结构.md",
+      "note_hash": "sha1:0f0878ebd2eb71a8d8769550934453aef742c166",
+      "id_origin": "title-slug",
+      "one_liner": "==神经元按层组织，前一层的激活决定下一层的激活，实现从像素到边缘再到图案的逐级抽象。==",
+      "key": "神经元按层组织，前一层的激活决定下一层的激活，实现从像素到边缘再到图案的逐级抽象。",
+      "group": "网络结构",
+      "chapters": [
+        "ch01 认识神经元",
+        "ch02 分层结构",
+        "ch03 边缘检测的期望",
+        "ch10 网络实际学到了什么"
+      ],
+      "blocks": [
+        {
+          "id": "分层结构.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "输入层由 784 个神经元组成，对应 28×28 像素图像的每个像素，激活值表示灰度（0 黑到 1 白）；输出层有 10 个神经元，各自对应一个数字，激活值表示系统认为图像是该数字的程度。（[3:36](https://www.youtube.com/watch?v=aircAruvnKk&t=216s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 216.0
+                }
+              ]
+            },
+            {
+              "text": "输入层与输出层之间是隐藏层；示例网络用了两个隐藏层、每层 16 个神经元——这个选择比较任意，两层是为了后面讲解结构的动机，16 只是方便屏幕展示，实际结构有很大实验空间。（[4:06](https://www.youtube.com/watch?v=aircAruvnKk&t=246s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 246.0
+                }
+              ]
+            },
+            {
+              "text": "网络的运作方式：==一层的激活决定下一层的激活==，这是整个信息处理机制的核心，也是“网络如何学习”要回答的问题；这 loosely 类比于生物神经网络中一群神经元放电引发另一群放电。（[4:33](https://www.youtube.com/watch?v=aircAruvnKk&t=273s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 273.0
+                }
+              ]
+            },
+            {
+              "text": "对分层结构的期望：倒数第二层的神经元对应\"上圈\"\"竖线\"这类子组件，倒数第三层对应组成它们的**小边缘**；识别 9 时，边缘点亮图案层，图案层再点亮输出层的 9。（[5:45](https://www.youtube.com/watch?v=aircAruvnKk&t=345s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 345.0
+                }
+              ]
+            },
+            {
+              "text": "这种逐级抽象不限于图像：解析语音也是从原始音频 → 音素 → 音节 → 单词 → 短语和更抽象思想的分层过程。（[8:16](https://www.youtube.com/watch?v=aircAruvnKk&t=496s)）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 496.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/分层结构.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "分层结构.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/分层结构.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "逐级抽象：像素 → 边缘 → 图案 → 数字，把识别问题分解成层层子问题；边缘与图案检测能力可迁移到其他图像识别乃至语音等分层抽象任务；结构 loosely 类比生物神经网络的群体放电"
+              },
+              {
+                "text": "中间隐藏层如何工作暂时是个\"巨大的问号\"，机制要看后续章节；分层结构（层数、每层神经元数）的选择相当任意，需要实验摸索；这种\"边缘 → 图案\"的期望是否是网络实际学到的东西，要等训练后验证（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "分层结构.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "把图像的每个像素亮度填入输入层 784 个神经元的激活值。",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "该激活模式触发隐藏层中特定的激活模式。",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "第二个隐藏层随之产生新的激活模式。",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "输出层 10 个神经元产生最终激活，==最亮的神经元==就是网络对数字的判断。（5:22）",
+              "ev": [
+                {
+                  "note": "02-概念卡/分层结构.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/分层结构.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "反向传播",
+      "label": "反向传播",
+      "aliases": [
+        "Backpropagation"
+      ],
+      "note": "02-概念卡/反向传播.md",
+      "note_hash": "sha1:f3a3e5b541474f68533f75b6be492239baf52b91",
+      "id_origin": "title-slug",
+      "one_liner": "==从输出层出发，逐层汇总每个训练样本对权重和偏置的期望微调，高效算出代价函数梯度的核心算法。==",
+      "key": "从输出层出发，逐层汇总每个训练样本对权重和偏置的期望微调，高效算出代价函数梯度的核心算法。",
+      "group": "学习机制",
+      "chapters": [
+        "ch11 反向传播直觉",
+        "ch12 随机梯度下降"
+      ],
+      "blocks": [
+        {
+          "id": "反向传播.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "神经网络学习的核心算法：[0:04] 开篇即点明反向传播是“神经网络如何学习背后的核心算法”，本视频先做不含公式的直觉走查，数学细节留到下一视频（[0:04](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=4s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 4.0
+                }
+              ]
+            },
+            {
+              "text": "它要解决的问题是：[1:45] 学习就是找到让代价函数最小的权重和偏置，而 [[梯度下降]] 需要代价函数的负梯度——反向传播正是**计算这个“极其复杂的梯度”**的算法（[1:45](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=105s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 105.0
+                }
+              ]
+            },
+            {
+              "text": "梯度分量的含义：在约 13,000 维空间里无法直接想象梯度方向，但每个分量的大小表示**代价函数对该权重/偏置的敏感程度**——例如某分量 3.2 vs 0.1，意味着动前者的效果是后者的 32 倍（[2:11](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=131s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 131.0
+                }
+              ]
+            },
+            {
+              "text": "直觉理解方式：对单个训练样本（比如一张\"2\"的图片），记录输出层希望各激活如何被微调（希望的目标神经元升、其余降，幅度与差距成正比），再逐层向前传导这些“期望”（[3:31](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=211s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 211.0
+                }
+              ]
+            },
+            {
+              "text": "每个输出神经元都有自己对前一层的“期望”，按权重和所需变化量比例加权汇总，递归地向前重复此过程；对所有训练样本的期望微调取平均，就（大致）得到代价函数的负梯度（[8:44](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=524s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 524.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/反向传播.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "反向传播.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/反向传播.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "高效计算复杂代价函数的梯度：把每个样本对全部权重/偏置的期望微调逐层汇总，而非盲目试探每个参数；各分量大小指示“性价比”：告诉你微调哪些权重最划算（最大的调整发生在最活跃神经元与期望激活神经元之间，类似 Hebbian 的“一起放电的神经元连在一起”）；机制本身直觉上不难理解，只是记号与下标追逐容易让人困惑（作者自述）"
+              },
+              {
+                "text": "严格来说要对每个梯度下降步遍历全部数万个训练样本，单步计算量大——所以才需要小批次技巧（后由随机梯度下降解决）；只对单个样本做反向传播会让网络偏向把所有图都判成那一类，必须对所有样本取平均才合理；视频本集刻意回避了定量公式，梯度只是“大致成正比”的负梯度，精确数学以视频及后续内容为准"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "反向传播.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "前向传播输入（如手写数字\"2\"的 784 个像素），得到当前输出层激活。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对输出层记录期望微调：目标神经元激活升高、其余降低，幅度与各值离目标的差距成正比。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对每个输出神经元，从三条途径提高/降低其激活：调偏置、调权重、改变前一层激活；权重调整幅度与相连前一层的激活大小成正比。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "把所有输出神经元的“期望”按权重比例加总，形成对倒数第二层的一组期望微调。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "递归地对更早的层重复同样过程，逐层向后（向输入方向）传播。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对所有训练样本重复上述流程，把各自期望的权重/偏置微调取平均，得到负梯度，供梯度下降使用。",
+              "ev": [
+                {
+                  "note": "02-概念卡/反向传播.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/反向传播.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "局部最小值",
+      "label": "局部最小值",
+      "aliases": [
+        "Local Minimum"
+      ],
+      "note": "02-概念卡/局部最小值.md",
+      "note_hash": "sha1:4085b64d2b578f0d410fb8af62cd83d262eb1a71",
+      "id_origin": "title-slug",
+      "one_liner": "==梯度下降最终可能停驻的“山谷”，取决于初始点且不保证是全局最低的代价。==",
+      "key": "梯度下降最终可能停驻的“山谷”，取决于初始点且不保证是全局最低的代价。",
+      "group": "优化方法",
+      "chapters": [
+        "ch09 梯度下降",
+        "ch12 随机梯度下降"
+      ],
+      "blocks": [
+        {
+          "id": "局部最小值.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "直观图像：把代价函数想象成一座“地形图”，梯度下降像一个小球沿坡面向下滚，最终停进一个“山谷”——这个山谷就是局部最小值（[10:17](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=617s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/局部最小值.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 617.0
+                }
+              ]
+            },
+            {
+              "text": "它是梯度下降“收敛”的终点：反复沿负梯度方向小步挪动，逐步逼近代价函数的某个局部最小值，而不是直接找到全局最优（[10:26](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=626s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/局部最小值.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 626.0
+                }
+              ]
+            },
+            {
+              "text": "停在哪个山谷取决于初始点——即网络权重和偏置的初始值；视频未保证该点是全局最低点，只说明算法会收敛到某个局部最小值（以视频为准）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/局部最小值.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "正因为要靠“逐步下坡”找局部最小值，代价函数必须平滑连续，这也是人工神经元采用连续激活值、而不是像生物神经元那样非 0 即 1 的原因之一（[9:55](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=595s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/局部最小值.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 595.0
+                }
+              ]
+            },
+            {
+              "text": "在实际训练中配合小批量（mini-batch）使用时，每步只按一批样本的近似梯度下降，轨迹“更像醉汉踉跄下坡但步子快”，最终仍会收敛到代价函数的某个局部最小值（[10:00](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=600s)、[11:17](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=677s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/局部最小值.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 600.0
+                },
+                {
+                  "src": "v3",
+                  "t": 677.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/局部最小值.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "局部最小值.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/局部最小值.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "给“网络学习”提供了清晰可行的目标：只要沿负梯度反复小步调整，原则上就能收敛到代价函数的某个局部最小值；收敛到局部最小值即意味着网络在全部训练样本上表现更好（代价函数是对所有训练数据取平均的）"
+              },
+              {
+                "text": "只保证收敛到局部最小值，不保证是全局最优的代价；停在哪个局部最小值取决于初始点，结果存在不确定性（以视频为准）"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "权重与偏置",
+      "label": "权重与偏置",
+      "aliases": [
+        "Weights and Biases"
+      ],
+      "note": "02-概念卡/权重与偏置.md",
+      "note_hash": "sha1:532d1bb721effe6eb42f490caf8be558cf068da6",
+      "id_origin": "title-slug",
+      "one_liner": "==权重刻画神经元关注前一层的哪种像素模式，偏置决定加权和要多大才让神经元显著激活。==",
+      "key": "权重刻画神经元关注前一层的哪种像素模式，偏置决定加权和要多大才让神经元显著激活。",
+      "group": "网络结构",
+      "chapters": [
+        "ch03 边缘检测的期望",
+        "ch04 权重偏置与学习"
+      ],
+      "blocks": [
+        {
+          "id": "权重与偏置.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "权重（weight）是前一层每个神经元与本层神经元连接上的一个数字；把前一层所有激活按权重求和，得到**加权和**，权重可以用绿色（正）/红色（负）像素网格来可视化 ([9:03](https://www.youtube.com/watch?v=aircAruvnKk&t=543s))。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 543.0
+                }
+              ]
+            },
+            {
+              "text": "想让第二层某个神经元检测某个区域的边缘，可以把该区域像素的权重设为正、周围像素设为负——这样当中间像素亮、周围暗时加和最大 ([9:31](https://www.youtube.com/watch?v=aircAruvnKk&t=571s))。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 571.0
+                }
+              ]
+            },
+            {
+              "text": "加权和可以是任意实数，但激活值需要在 0–1 之间，所以要把加权和经 Sigmoid 函数“挤压”到 0–1 ([10:28](https://www.youtube.com/watch?v=aircAruvnKk&t=628s))。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 628.0
+                }
+              ]
+            },
+            {
+              "text": "偏置（bias）是在加权和进入 Sigmoid 之前额外加上的一个数，例如 −10，用来要求加和大于某个阈值（比如 10）神经元才显著激活 ([10:52](https://www.youtube.com/watch?v=aircAruvnKk&t=652s))。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 652.0
+                }
+              ]
+            },
+            {
+              "text": "整个示例网络（784 输入 × 隐藏层 16 神经元等）共有约 13,000 个权重和偏置，学习就是找到让网络正确解决问题的一组合适取值 ([11:59](https://www.youtube.com/watch?v=aircAruvnKk&t=719s))。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 719.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/权重与偏置.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "权重与偏置.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/权重与偏置.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "表达力强：通过调节权重可让神经元捕捉任意像素模式，如边缘、图案等；权重可按正/负网格可视化，帮助建立对网络行为的直觉，便于实验与改进结构"
+              },
+              {
+                "text": "数量庞大（示例网络约 13,000 个），无法靠人工手工设定出有效解；网络可能“看起来能用但原因与预期不符”，需要深入检查权重偏置才能验证假设（以视频为准）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "权重与偏置.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "取前一层所有神经元的激活值。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "按各自的权重做加权求和。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "在加和上加上偏置（例如 −10）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "把结果送入 Sigmoid 等压缩函数，压到 0–1 区间。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "得到的值就是本神经元的激活值。",
+              "ev": [
+                {
+                  "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/权重与偏置.md#📌 执行顺序"
+            }
+          ]
+        },
+        {
+          "shape": "variation",
+          "domain": "function",
+          "grounding": "illustrative",
+          "title": "示意：神经元激活 σ(w·x + b)",
+          "inputs": [
+            {
+              "name": "w",
+              "label": "权重 w",
+              "min": -3,
+              "max": 3,
+              "step": 0.5,
+              "default": 1
+            },
+            {
+              "name": "b",
+              "label": "偏置 b",
+              "min": -10,
+              "max": 10,
+              "step": 1,
+              "default": 0
+            }
+          ],
+          "x": {
+            "label": "前一层激活加权和对应的自变量 x",
+            "range": [
+              -10,
+              10
+            ],
+            "cursor": 0
+          },
+          "series": [
+            {
+              "id": "act",
+              "label": "激活值 a",
+              "expr": "1/(1+exp(-(w*x+b)))"
+            }
+          ],
+          "role": "principle",
+          "ev": [
+            {
+              "note": "02-概念卡/权重与偏置.md"
+            }
+          ],
+          "id": "权重与偏置.variation-ann"
+        }
+      ]
+    },
+    {
+      "id": "梯度下降",
+      "label": "梯度下降",
+      "aliases": [
+        "Gradient Descent"
+      ],
+      "note": "02-概念卡/梯度下降.md",
+      "note_hash": "sha1:3a99532e8153b8cd931da895a0a65def16762fa8",
+      "id_origin": "title-slug",
+      "one_liner": "==反复沿负梯度方向对约 13,000 个权重和偏置做小步调整，使代价函数收敛到局部最小值的学习算法。==",
+      "key": "反复沿负梯度方向对约 13,000 个权重和偏置做小步调整，使代价函数收敛到局部最小值的学习算法。",
+      "group": "优化方法",
+      "chapters": [
+        "ch09 梯度下降",
+        "ch12 随机梯度下降",
+        "ch11 反向传播直觉"
+      ],
+      "blocks": [
+        {
+          "id": "梯度下降.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "别名 **Gradient Descent**。视频用「球滚下山坡」作直观比喻：代价函数画成输入空间上方的曲面，学习就是不断朝“下坡方向”迈小步（[7:22](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=442s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 442.0
+                }
+              ]
+            },
+            {
+              "text": "多元微积分中，**梯度指向上升最快的方向**，因此取负梯度就得到下降最快的方向；梯度向量的长度还表示坡度有多陡（[7:47](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=467s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 467.0
+                }
+              ]
+            },
+            {
+              "text": "把网络全部约 13,000 个权重和偏置排成一个巨大的列向量，负梯度就是这个超高维空间里的一个方向，指示对哪些数字做怎样的微调能让代价下降最快（[8:36](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=516s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 516.0
+                }
+              ]
+            },
+            {
+              "text": "每个负梯度分量有两层含义：**符号**说明对应参数该调大还是调小，**相对大小**说明哪些调整“更划算”——梯度编码了各权重与偏置的相对重要性（[10:45](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=645s)）。例如二维梯度 $(3,1)$ 可读作：改动第一个变量的价值是第二个变量的 3 倍（[11:37](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=697s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 645.0
+                },
+                {
+                  "src": "v2",
+                  "t": 697.0
+                }
+              ]
+            },
+            {
+              "text": "代价函数对所有训练样本取平均，最小化它意味着网络在全部样本上的整体表现变好；要让输出从“随机的 10 个数”变成我们想要的决策（[9:02](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=542s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 542.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/梯度下降.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "梯度下降.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/梯度下降.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "梯度向量编码了每个权重和偏置的相对重要性，知道“改动哪些参数最划算”（[10:45](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=645s)）；原则上存在可行的方法计算这个方向向量，不必精通多元微积分的细节也能理解算法（[7:47](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=467s)）；概念上对 2 输入和 13,000 输入的函数是同一个基本思想，易于推广（[8:12](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=492s)）"
+              },
+              {
+                "text": "只能收敛到某个[[局部最小值]]（图上的“山谷”），结果取决于初始点，不保证是全局最低代价（[10:17](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=617s)）；对全部约 13,000 个参数、在全部训练样本上算梯度代价高昂，因此实践中引入 [[随机梯度下降]] 加速（以视频为准）；要求代价函数输出平滑连续，否则“小步下坡”无从谈起——这是激活函数必须连续的原因（[9:50](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=590s)）"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "梯度下降.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "用全部训练数据计算代价函数的梯度（实践中由 反向传播 高效完成）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "沿**负梯度**方向确定下坡方向与坡度。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对全部约 13,000 个权重和偏置做一次小步调整。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "重复以上过程，使代价收敛到某个局部最小值（8:12、10:17）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度下降.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/梯度下降.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "梯度向量",
+      "label": "梯度向量",
+      "aliases": [
+        "Gradient Vector"
+      ],
+      "note": "02-概念卡/梯度向量.md",
+      "note_hash": "sha1:9cb02e0ed30c06ed0c1ad60b6a042f11f23728d5",
+      "id_origin": "title-slug",
+      "one_liner": "==指向代价上升最快方向的向量，其长度表示坡度；各分量大小暗示哪个参数的调整最划算。==",
+      "key": "指向代价上升最快方向的向量，其长度表示坡度；各分量大小暗示哪个参数的调整最划算。",
+      "group": "优化方法",
+      "chapters": [
+        "ch09 梯度下降",
+        "ch08 代价函数"
+      ],
+      "blocks": [
+        {
+          "id": "梯度向量.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "多元函数的梯度（Gradient）给出**上升最快**的方向，取其负值即得到**下降最快**的方向——学习算法正是沿负梯度方向“下山”[7:22](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=442s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 442.0
+                }
+              ]
+            },
+            {
+              "text": "梯度向量的**长度**表示最陡坡度有多陡，让你同时知道往哪走、走多急[7:47](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=467s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 467.0
+                }
+              ]
+            },
+            {
+              "text": "在神经网络里，约 13,000 个权重和偏置被组织成一个巨大的列向量，代价函数的负梯度就是这个超维输入空间中的一个方向，指出“对哪些数字做多大的微调”能让代价下降最快[8:36](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=516s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 516.0
+                }
+              ]
+            },
+            {
+              "text": "梯度还有一层非空间的读法：**各分量的相对大小**编码了每个权重、偏置的相对重要性。例如梯度为 $(3, 1)$ 意味着改动第一个变量的“性价比”是第二个的三倍[10:45](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=645s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 645.0
+                }
+              ]
+            },
+            {
+              "text": "分量的**正负号**告诉对应参数应该向上还是向下微调[10:45](https://www.youtube.com/watch?v=IHZwWFHWa-w&t=645s)。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 是什么"
+                },
+                {
+                  "src": "v2",
+                  "t": 645.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/梯度向量.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "梯度向量.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/梯度向量.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "同时给出下山方向与坡度，编码了每个参数调整的相对性价比；原则上存在高效计算它的算法（反向传播），不必精通多元微积分的细节也能使用；可从二维直觉推广到 13,000 维输入空间"
+              },
+              {
+                "text": "只保证收敛到某个局部最小值，取决于初始点，不一定是全局最优（与 [[局部最小值]] 相关）；要求代价函数平滑连续，才能靠小步下山找到谷底——这也是人工神经元用连续激活值而非二值输出的原因；以视频为准：每步实际迭代多少次、步长如何选取等细节本视频未展开"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "梯度向量.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "把网络所有权重和偏置组织成一个巨大的列向量（输入空间的一个点）8:36。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "用反向传播等方法高效算出该点处代价函数的梯度向量。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "沿**负梯度**方向取一小步，更新全部参数。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "重复计算梯度、下山小步，不断迭代，收敛到某个局部最小值（山谷）10:17。",
+              "ev": [
+                {
+                  "note": "02-概念卡/梯度向量.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/梯度向量.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "神经元与激活",
+      "label": "神经元与激活",
+      "aliases": [
+        "Neuron",
+        "Activation"
+      ],
+      "note": "02-概念卡/神经元与激活.md",
+      "note_hash": "sha1:4ac5ad9d026d90e38161bb5896cc29abd655d9ff",
+      "id_origin": "title-slug",
+      "one_liner": "==神经元（Neuron）是保存 0–1 之间一个数字（激活值，Activation）的基本单元，整层神经元的激活共同表示当前输入。==",
+      "key": "神经元（Neuron）是保存 0–1 之间一个数字（激活值，Activation）的基本单元，整层神经元的激活共同表示当前输入。",
+      "group": "网络结构",
+      "chapters": [
+        "ch01 认识神经元",
+        "ch02 分层结构"
+      ],
+      "blocks": [
+        {
+          "id": "神经元与激活.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "神经网络虽受大脑启发，但这里的\"神经元\"概念极简：**它就是一个装着数字的容器**，这个数字在 0 到 1 之间，没有更多神秘之处（[2:29](https://www.youtube.com/watch?v=aircAruvnKk&t=149s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/神经元与激活.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 149.0
+                }
+              ]
+            },
+            {
+              "text": "神经元里保存的那个数字叫做它的**激活值（activation）**；直观的画面是：激活值越大，这个神经元就被“点亮”得越亮（[3:25](https://www.youtube.com/watch?v=aircAruvnKk&t=205s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/神经元与激活.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 205.0
+                }
+              ]
+            },
+            {
+              "text": "在本系列的手写数字识别网络中，输入层每个神经元对应 28×28 图像的一个像素，共 **784 个神经元**，各自保存对应像素的灰度值：0 代表黑，1 代表白（[2:58](https://www.youtube.com/watch?v=aircAruvnKk&t=178s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/神经元与激活.md#📌 是什么"
+                },
+                {
+                  "src": "v1",
+                  "t": 178.0
+                }
+              ]
+            },
+            {
+              "text": "一整层神经元的激活值合起来，就是当前输入在网络这一层中的“表示”——输入层的激活就是原图本身，后续层的激活则逐级抽象出边缘、图案乃至最终的数字。",
+              "ev": [
+                {
+                  "note": "02-概念卡/神经元与激活.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "激活值如何从前一层算出下一层，靠的是权重、偏置和激活函数，详见 [[权重与偏置]]、[[Sigmoid 函数]]、[[ReLU]]。",
+              "ev": [
+                {
+                  "note": "02-概念卡/神经元与激活.md#📌 是什么"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/神经元与激活.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "神经元与激活.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/神经元与激活.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "概念极简（一个 0–1 之间的数），让人能把神经网络当作一块数学而非流行语来理解（作者在 [1:18](https://www.youtube.com/watch?v=aircAruvnKk&t=78s) 附近的动机）；0–1 的激活值有直观物理含义（如像素灰度、神经元“点亮”程度），便于可视化网络各层在“看到”什么"
+              },
+              {
+                "text": "这个最简模型只是最朴素的 vanilla 形式，是理解现代各种变体的前置基础，本身并非当今最强架构（[2:07](https://www.youtube.com/watch?v=aircAruvnKk&t=127s) 附近提到近年有很多变体研究）；单个神经元的激活只携带一个数字的信息，语义必须依赖整层乃至整个网络的激活共同表达；具体局限细节以视频为准"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "随机梯度下降",
+      "label": "随机梯度下降",
+      "aliases": [
+        "SGD",
+        "Stochastic Gradient Descent"
+      ],
+      "note": "02-概念卡/随机梯度下降.md",
+      "note_hash": "sha1:001f536e383c52266c429ff2a40bfeee26c0e011",
+      "id_origin": "title-slug",
+      "one_liner": "==把训练数据随机分成小批次，用每批的近似梯度代替全量梯度来更新参数，大幅加快学习速度。==",
+      "key": "把训练数据随机分成小批次，用每批的近似梯度代替全量梯度来更新参数，大幅加快学习速度。",
+      "group": "优化方法",
+      "chapters": [
+        "ch12 随机梯度下降",
+        "ch09 梯度下降",
+        "ch11 反向传播直觉"
+      ],
+      "blocks": [
+        {
+          "id": "随机梯度下降.def",
+          "shape": "definition",
+          "title": "核心定义",
+          "grounding": "note",
+          "points": [
+            {
+              "text": "全量梯度下降要求每一步都对**全部训练样本**求梯度再取平均，实际计算中这样做极其耗时——计算机逐个累加每个训练样本的影响要花非常长的时间（[9:33](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=573s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 573.0
+                }
+              ]
+            },
+            {
+              "text": "常见做法是：先把训练数据**随机打乱**，再切成许多**小批次（mini-batch）**，视频举例每批约 100 个训练样本，然后按每个小批次计算一步更新。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+                }
+              ]
+            },
+            {
+              "text": "小批次算出的不是代价函数的真实梯度（真实梯度依赖全部训练数据），因此不是\"最有效率\"的下坡方向，但它是相当好的**近似**，更重要的是带来巨大的计算加速（[10:00](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=600s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 600.0
+                }
+              ]
+            },
+            {
+              "text": "视频的比喻：在代价表面上，随机梯度下降像\"醉汉摇摇晃晃但步子很快地下山\"，而不是\"每步都精确计算方向、缓慢谨慎迈步的清醒人\"（[10:00](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=600s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 600.0
+                }
+              ]
+            },
+            {
+              "text": "反复遍历所有小批次并不断调整，最终会收敛到代价函数的一个**局部最小值**，即网络在训练样本上表现很好（[11:17](https://www.youtube.com/watch?v=Ilg3gGewQ5U&t=677s)）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+                },
+                {
+                  "src": "v3",
+                  "t": 677.0
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/随机梯度下降.md#📌 是什么"
+            }
+          ]
+        },
+        {
+          "id": "随机梯度下降.comparison.8a392549",
+          "shape": "comparison",
+          "title": "⚖️ 优点与局限",
+          "grounding": "note",
+          "ev": [
+            {
+              "note": "02-概念卡/随机梯度下降.md#⚖️ 优点与局限"
+            }
+          ],
+          "compare_mode": "pros_cons",
+          "items": [
+            {
+              "label": "✅ 优点",
+              "concept": null
+            },
+            {
+              "label": "⚠️ 局限",
+              "concept": null
+            }
+          ],
+          "dims": [
+            "要点"
+          ],
+          "cells": [
+            [
+              {
+                "text": "相比全量梯度有显著的计算速度提升；每个小批次仍是全量梯度的\"相当好的近似\"；让反向传播 + 梯度下降在数万样本规模的训练中切实可行"
+              },
+              {
+                "text": "每步用小批次近似梯度，不是最精确的下坡方向（作者形容为\"醉汉下山\"）；轨迹更随机摇摆；最终收敛的是局部最小值而非保证全局最优；具体批次大小等参数以视频为准"
+              }
+            ]
+          ]
+        },
+        {
+          "id": "随机梯度下降.process.69424486",
+          "shape": "process",
+          "title": "📌 执行顺序",
+          "grounding": "note",
+          "mode": "causal",
+          "steps": [
+            {
+              "label": "随机打乱全部训练数据。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "把数据切分成许多小批次（视频举例：每批 100 个样本）。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "对当前小批次，用反向传播算出每个样本对权重和偏置的期望微调，取平均得到近似梯度。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "沿该近似梯度方向做一步参数更新。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "换下一个小批次重复，直到遍历完所有批次。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            },
+            {
+              "label": "反复多轮遍历，网络收敛到代价函数的局部最小值。",
+              "ev": [
+                {
+                  "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+                }
+              ]
+            }
+          ],
+          "ev": [
+            {
+              "note": "02-概念卡/随机梯度下降.md#📌 执行顺序"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "proc.手算一个神经元的前向传播",
+      "shape": "procedure",
+      "title": "手算一个神经元的前向传播",
+      "grounding": "note",
+      "ev": [
+        {
+          "note": "03-实操清单/手算一个神经元的前向传播.md"
+        }
+      ],
+      "groups": [
+        {
+          "title": "1️⃣ 准备输入与参数",
+          "items": [
+            {
+              "id": "t5c0e1d6f",
+              "text": "画一张 4×4 的像素网格，每个格子填 0–1 的灰度值（0 黑、1 白），当作上一层激活值（验证：每个格子数值都在 0 与 1 之间）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#1️⃣ 准备输入与参数"
+                }
+              ],
+              "verify": "每个格子数值都在 0 与 1 之间"
+            },
+            {
+              "id": "t45e583d2",
+              "text": "为 16 个格子各写一个权重 w，用绿=正、红=负标记符号（验证：颜色与正负号一一对应）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#1️⃣ 准备输入与参数"
+                }
+              ],
+              "verify": "颜色与正负号一一对应"
+            },
+            {
+              "id": "t6d72135c",
+              "text": "自定一个偏置 b（建议先取 -10 这类明显的负数，便于观察阈值效果，以视频为准）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#1️⃣ 准备输入与参数"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "2️⃣ 加权求和并加偏置",
+          "items": [
+            {
+              "id": "teb3d3bba",
+              "text": "把每个像素值与对应权重相乘，再全部相加：$z=\\sum w_i a_i$（验证：求和项数 = 16，与格子数一致）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#2️⃣ 加权求和并加偏置"
+                }
+              ],
+              "verify": "求和项数 = 16，与格子数一致"
+            },
+            {
+              "id": "tfd74b9e9",
+              "text": "在和上加偏置：$z+b$（验证：手动重算一遍，两次结果相同）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#2️⃣ 加权求和并加偏置"
+                }
+              ],
+              "verify": "手动重算一遍，两次结果相同"
+            },
+            {
+              "id": "ta68d303d",
+              "text": "观察规律：只有目标区域像素亮、周围像素暗且配负权重时，加权和才最大——这正是视频中“边缘检测”神经元的直觉（验证：把周围像素调暗，确认 z+b 变大）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#2️⃣ 加权求和并加偏置"
+                }
+              ],
+              "verify": "把周围像素调暗，确认 z+b 变大"
+            }
+          ]
+        },
+        {
+          "title": "3️⃣ Sigmoid 压缩得到激活",
+          "items": [
+            {
+              "id": "te5166a0b",
+              "text": "把 $z+b$ 代入 Sigmoid：$a=\\sigma(z+b)=\\frac{1}{1+e^{-(z+b)}}$（验证：结果落在 0 与 1 之间）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#3️⃣ Sigmoid 压缩得到激活"
+                }
+              ],
+              "verify": "结果落在 0 与 1 之间"
+            },
+            {
+              "id": "t67c92d13",
+              "text": "用极端输入自测：输入很大的正数时 a 接近 1，很大的负数时 a 接近 0（验证：分别取 $z+b=100$ 与 $=-100$ 各算一次）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#3️⃣ Sigmoid 压缩得到激活"
+                }
+              ],
+              "verify": "分别取 $z+b=100$ 与 $=-100$ 各算一次"
+            },
+            {
+              "id": "t2ca6e31e",
+              "text": "调整偏置再算一遍：把 b 从 -10 改为 0，观察激活变大的效果——偏置决定“加权和要多高神经元才开始激活”（验证：同一输入下，b=0 的激活值 > b=-10 的激活值）",
+              "ev": [
+                {
+                  "note": "03-实操清单/手算一个神经元的前向传播.md#3️⃣ Sigmoid 压缩得到激活"
+                }
+              ],
+              "verify": "同一输入下，b=0 的激活值 > b=-10 的激活值"
+            }
+          ]
+        }
+      ],
+      "warnings": [
+        "忘加偏置就直接过 Sigmoid——偏置是加在加权和之后、压缩之前的",
+        "权重符号弄反：正权重想“点亮”的区域要配正权重，想抑制的周围像素配负权重",
+        "Sigmoid 输出超出 [0,1] 说明指数项算错了符号",
+        "视频里的 -10 只是演示用的示例数值，勿照搬结论；真实网络参数由训练得出"
+      ],
+      "preserved": [
+        {
+          "heading": "🔗 相关",
+          "text": "[[神经元与激活]] · [[权重与偏置]] · [[Sigmoid 函数]] · [[ch04 权重偏置与学习]] · [[ch06 结语与激活函数]] · [[00-Home]]"
+        }
+      ]
+    },
+    {
+      "id": "proc.清点网络参数并做结构实验",
+      "shape": "procedure",
+      "title": "清点网络参数并做结构实验",
+      "grounding": "note",
+      "ev": [
+        {
+          "note": "03-实操清单/清点网络参数并做结构实验.md"
+        }
+      ],
+      "groups": [
+        {
+          "title": "1️⃣ 数清各段的权重与偏置",
+          "items": [
+            {
+              "id": "t33c89163",
+              "text": "写下网络结构：输入层 784 个神经元、两个隐藏层各 16 个神经元、输出层 10 个神经元，确认各层 neuron 数与视频一致（对应 [[ch04 权重偏置与学习]] 中 [11:51] 起的讲解）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#1️⃣ 数清各段的权重与偏置"
+                }
+              ]
+            },
+            {
+              "id": "t028fb237",
+              "text": "计算第一段连接的参数量：每条连接一个权重，共 784 × 16 = 12,544 个权重，再加 16 个偏置（验证方式：手算或在 Python 里运行 `784*16 + 16`，预期输出 `12560`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#1️⃣ 数清各段的权重与偏置"
+                }
+              ],
+              "cmd": "784*16 + 16"
+            },
+            {
+              "id": "t28acaa19",
+              "text": "计算第二段连接的参数量：16 × 16 = 256 个权重，加 16 个偏置（验证方式：`16*16 + 16`，预期输出 `272`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#1️⃣ 数清各段的权重与偏置"
+                }
+              ],
+              "cmd": "16*16 + 16"
+            },
+            {
+              "id": "te5847659",
+              "text": "计算第三段连接的参数量：16 × 10 = 160 个权重，加 10 个偏置（验证方式：`16*10 + 10`，预期输出 `170`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#1️⃣ 数清各段的权重与偏置"
+                }
+              ],
+              "cmd": "16*10 + 10"
+            },
+            {
+              "id": "tadf3fe62",
+              "text": "把三段相加验证总量：12,560 + 272 + 170 = 13,002 ≈ “几乎正好 13,000”（验证方式：`12560+272+170`，预期输出 `13002`；视频原话为“almost exactly 13,000”，以视频为准）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#1️⃣ 数清各段的权重与偏置"
+                }
+              ],
+              "cmd": "12560+272+170"
+            }
+          ]
+        },
+        {
+          "title": "2️⃣ 改变结构，重新数参数",
+          "items": [
+            {
+              "id": "tb7cff3a9",
+              "text": "保持输入 784、输出 10 不变，只改隐藏层：例如改成两层各 32 个神经元，重新算三段参数量（验证方式：`784*32+32 + 32*32+32 + 32*10+10`，预期输出 `26266`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#2️⃣ 改变结构，重新数参数"
+                }
+              ],
+              "cmd": "784*32+32 + 32*32+32 + 32*10+10"
+            },
+            {
+              "id": "t6a86d3b1",
+              "text": "再试一组对照结构，如一层 32 个神经元（验证方式：`784*32+32 + 32*10+10`，预期输出 `25410`）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#2️⃣ 改变结构，重新数参数"
+                }
+              ],
+              "cmd": "784*32+32 + 32*10+10"
+            },
+            {
+              "id": "tbb9559d1",
+              "text": "做一张对照表：列出「结构 → 权重数 → 偏置数 → 总参数数」，检查每行总数都随宽度/层数平滑变化，确认计算无误",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#2️⃣ 改变结构，重新数参数"
+                }
+              ]
+            },
+            {
+              "id": "ta4312e0b",
+              "text": "思考题（视频 [12:14] 处提到）：作者说 13,000 个参数就是 13,000 个可调的旋钮，“学习”就是让机器找到这一大堆数字的合适设置——参数数量越多，搜索空间越大，这个直觉先记下来",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#2️⃣ 改变结构，重新数参数"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "3️⃣ 对照视频给出的准确率数字",
+          "items": [
+            {
+              "id": "t5b1148e8",
+              "text": "记下视频中作者当时测得的两个准确率：默认结构（2 层 × 16）约 **96%** 正确率；调整隐藏层结构后可提升到 **98%**（作者当时测得，勿照搬结论，以视频为准，见第二集 [13:01] \"Analyzing the network\"）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#3️⃣ 对照视频给出的准确率数字"
+                }
+              ]
+            },
+            {
+              "id": "tf5f9bce1",
+              "text": "对照实验：把你改过的两三个结构写在同一行旁边，体会“稍微调一调隐藏层结构就能从 96% 到 98%”是什么量级的变化（结论以视频为准，不必自己训练复现）",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#3️⃣ 对照视频给出的准确率数字"
+                }
+              ]
+            },
+            {
+              "id": "t7785a205",
+              "text": "核对一个关键事实：视频说这个网络其实是「一个函数」——784 个数进、10 个数出，由约 13,000 个参数刻画（见 ch06 结语与激活函数 [15:47]）；确认你的表里每个结构都能写成同样的“函数”描述",
+              "ev": [
+                {
+                  "note": "03-实操清单/清点网络参数并做结构实验.md#3️⃣ 对照视频给出的准确率数字"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "warnings": [
+        "视频中说“约 13,000”是模糊说法，精确数出来是 13,002（含全部偏置）；只数权重不数偏置会得到 12,960，别混在一起加。",
+        "隐藏层的「2 层 × 16」是作者当时**随意**选的（16 只是为了排版好看），不要误以为这是最优结构。",
+        "96% 与 98% 是作者当时训练测得的结果，随环境与实现而变，勿照搬结论。",
+        "忘记每层都有独立的偏置（每个神经元一个偏置）是最常见的少算错误。"
+      ],
+      "preserved": [
+        {
+          "heading": "🔗 相关",
+          "text": "[[ch04 权重偏置与学习]] · [[ch05 记号与线性代数]] · [[ch10 网络实际学到了什么]] · [[权重与偏置]] · [[手算一个神经元的前向传播]] · [[00-Home]]"
+        }
+      ]
+    }
+  ]
+}
