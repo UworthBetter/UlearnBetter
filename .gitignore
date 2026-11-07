@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 解析产出（用户数据，不入库；契约样例在 samples/）
+ingest/
+
+# 系统
+.DS_Store
+Thumbs.db
