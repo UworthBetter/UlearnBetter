@@ -9,6 +9,7 @@ export default defineConfig({
     proxy: {
       '/api/copilotkit': assistantTarget,
       '/api/record': assistantTarget,
+      '/api/settings': assistantTarget,
       '/health': assistantTarget,
     },
   },

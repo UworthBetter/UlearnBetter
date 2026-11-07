@@ -9,6 +9,7 @@ import type { Assignment, Override } from '../../record/types.ts'
 import { classifyAgentInput, classifyDrop } from './classify-input.ts'
 import { buildDemoAnswer } from './demo-answer.ts'
 import { useLearningTools } from './learning-tools.ts'
+import { ModelSettingsDialog } from './ModelSettingsDialog.tsx'
 import { AssistantRuntime } from './runtime.tsx'
 import { SafeMarkdown } from './safe-markdown.tsx'
 import { formatCapturedAt, sameSubject, sceneChip, sceneTitle, selectionPreview, viewLabel } from './scene-label.ts'
@@ -158,6 +159,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const [nudgeDismissed, setNudgeDismissed] = useState(false)
   const [composeMode, setComposeMode] = useState<'ask' | 'idea'>('ask')
   const [plusOpen, setPlusOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [dropping, setDropping] = useState(false)
   const [proposals, setProposals] = useState<Assignment[]>([])
   const [proposalTick, setProposalTick] = useState(0)
@@ -332,6 +334,9 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (event.key === 'Escape') {
+        // The settings dialog registers its own capture listener on window;
+        // both run for the same event, so it must be skipped here while open.
+        if (settingsOpen) return
         if (open) {
           event.preventDefault()
           event.stopPropagation()
@@ -382,7 +387,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     }
     window.addEventListener('keydown', onKey, true)
     return () => window.removeEventListener('keydown', onKey, true)
-  }, [open, videoUrl, folderNote, notice, showAnswer, showNudge])
+  }, [open, videoUrl, folderNote, notice, showAnswer, showNudge, settingsOpen])
 
   useEffect(() => {
     const node = logRef.current
@@ -871,6 +876,16 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
           >
             演示模式
           </button>
+          <button
+            type="button"
+            className="ula-text-button"
+            aria-haspopup="dialog"
+            aria-expanded={settingsOpen}
+            data-testid="assistant-settings"
+            onClick={() => setSettingsOpen(true)}
+          >
+            设置
+          </button>
         </p>
         {demoMode
           ? <p className="ula-banner" data-testid="assistant-status">演示模式已打开。回答在本地生成，标有「演示回复 · 未调用真实模型」。</p>
@@ -885,6 +900,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
           </p>
         )}
       </div>
+      {settingsOpen && <ModelSettingsDialog onClose={() => setSettingsOpen(false)} />}
     </div>
   )
 }
