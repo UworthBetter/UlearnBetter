@@ -387,13 +387,16 @@ interface ViewProps {
 
 ## 当前进展
 
-- 起点：`main @ 4d5d9c8`。本计划在 `codex/sprint-02-plan` 上提交，未推送。
-- 原型、UI 方案和定位稿 v2 已收录到 `docs/reference/`。
-- 编译器已经输出 `concept.group`（学习主页「核心概念卡」表的分组），
-  全景分组直接使用；UI 方案里「learn.json 没有分组」的说法已过时。
-- C0：`98562d4b871d34e0459cb1d9ad7dee17b88a1641`，已通过全部 C0 检查。
-- 按负责人指示，C0 不合并 main、不推送；其余三方从 C0 提交启动。
+本轮集成在 `codex/s2-integration` 完成；按负责人指示，不合并 main，
+不推送。完整记录见 [集成交付报告](S2_INTEGRATION_HANDOFF.md)。
 
-- 外壳与潜航已实现；待三方交付后完整验收，当前视图仍为占位。
-- C0：Node 16/16、Python 73/73、后端 24/24；build/lint 通过。
-- lint 5 条既有警告，无新增。最新检查见 S2_INTEGRATION_HANDOFF.md。
+- 起点：`main @ 1fa4e0e`，main 当前仍停在此提交。
+- C0：`98562d4b871d34e0459cb1d9ad7dee17b88a1641`。
+- 按顺序合入 Zcode `70ade72` → Claude `2f64913` → Grok `6157c72`。
+- 集成实现与修正：`f3d624f2a18118e524c2acd26198bf03b66ae855`。
+- C0.1 允许无依据 importanceHint 为 null；C0.2 补充想法叠加与编译关联。
+- build/lint 通过；lint 5 条既有警告，无新增。
+- Node 36/36、Python 102/102、后端 69/69 通过。
+- 合成主题 + 真实记录 API + 浏览器：验收 1–7 通过。
+- 验收 8–10 未完成：没有真实模型配置；未用模拟结果代替。
+- 已知范围限制：概念归属随所属资料，不单独移动；单个目标提议暂不能忽略。

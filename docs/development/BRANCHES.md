@@ -27,7 +27,19 @@
 
 ## Sprint 2 integration
 
-`codex/s2-integration` starts from local main `1fa4e0e`.
-C0: `98562d4b871d34e0459cb1d9ad7dee17b88a1641`.
-Other executors start from C0. Main stays at `1fa4e0e`.
-No Sprint 2 commits have been pushed. See S2_INTEGRATION_HANDOFF.md.
+`codex/s2-integration` starts from local main `1fa4e0e`. C0 is
+`98562d4b871d34e0459cb1d9ad7dee17b88a1641`. Deliveries were merged in order:
+
+| Branch | Source | Integrated merge |
+| --- | --- | --- |
+| `codex/s2-notes` | `70ade72` | `8b75b07` |
+| `origin/codex/s2-backend` | `2f64913` | `edceeec` |
+| `codex/s2-ui` | `6157c72` | `11af2dd` |
+
+Integration fixes are in `f3d624f`. All checks pass; acceptance 1–7 passes
+with compiled synthetic notes and the real record API. Real-model acceptance
+8–10 remains unverified. See [the delivery report](S2_INTEGRATION_HANDOFF.md).
+
+The owner requested no merge to main and no push. Main stays at `1fa4e0e`;
+no commits from this integration run were pushed. The fetched remote C0 and
+backend branch remain unchanged. Other executors' worktrees stay intact.
