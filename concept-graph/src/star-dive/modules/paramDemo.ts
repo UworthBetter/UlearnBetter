@@ -113,7 +113,7 @@ registerModule({
     const hidden = new Set<number>()
     const cp = spec.params.find((p: any) => p.name === cfg.cursor)
     root.innerHTML = `<div class="pd">
-      <div class="pd-tags"><span class="tag ghost">${esc(cfg.kind)}</span>${spec.supplementary ? '<span class="tag supp">补充例子（视频未讲）</span>' : '<span class="tag">视频原意</span>'}</div>
+      <div class="pd-tags"><span class="tag ghost">${esc(cfg.kind)}</span>${spec.grounding ? `<span class="tag">${esc(({ note: '笔记整理', derived: '公式推算', illustrative: '示意材料', supplementary: '补充内容', video: '视频内容' } as Record<string,string>)[spec.grounding] || '来源未标注')}</span>` : spec.supplementary ? '<span class="tag supp">补充例子（视频未讲）</span>' : '<span class="tag">视频原意</span>'}</div>
       <div class="params"></div>
       ${cfg.bits ? '<div class="pd-bits" aria-hidden="true"></div>' : ''}
       <div class="pd-legend"></div>

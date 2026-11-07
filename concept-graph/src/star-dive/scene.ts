@@ -6,7 +6,7 @@
 import { cardTs, MODULES, moduleUi, mountModule, registerModule, resolveCard, runSchema, type MountedModule } from './modules'
 import type { CardSpec, StarDiveConcept, StarDiveData } from './types'
 import { el, esc, fmt, ICONS, makeYtUrl, rng, SHAPES } from './util'
-import type { ActionResult, JsonValue, LearningSceneContext } from '../assistant/contracts'
+import type { ActionResult, EvidenceRef, JsonValue, LearningSceneContext } from '../assistant/contracts'
 import type { InteractionState } from './modules/interaction'
 
 export interface SceneOptions {
@@ -50,7 +50,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   const DPR = Math.min(2, devicePixelRatio || 1)
   const META = DATA.meta
   let nodes: StarNode[] = []
-  const byId: Record<string, StarNode> = {}
+  const byId: Record<string, StarNode> = Object.create(null)
   let edges: [StarNode, StarNode][] = []
   const cam = { x: 0, y: 0, k: 1 }, camT = { x: 0, y: 0, k: 1 }
   const state: { focus: string | null; panel: CardSpec | null; hover: string | null } = { focus: null, panel: null, hover: null }
@@ -58,12 +58,13 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   const ytUrl = makeYtUrl(META.url)
   const cardId = (c: StarDiveConcept, card: CardSpec) =>
     typeof card.id === 'string' && card.id ? card.id : `${c.id}:card:${c.cards.indexOf(card)}`
+  const evidenceOf = (card: CardSpec): EvidenceRef[] => Array.isArray(card.evidence) ? card.evidence : cardTs(card).map((t) => ({ sourceId: META.video_id, startSec: t, url: ytUrl(t) }))
   function publishContext() {
     const c = DATA.concepts.find((item) => item.id === state.focus)
     const card = state.panel
     opts.onContextChange?.({
       view: 'star-dive',
-      topic: { id: META.video_id, title: META.title },
+      topic: { id: META.topic_id || META.video_id, title: META.title },
       concept: c ? {
         id: c.id, label: c.label, summary: c.summary, relatedIds: [...c.relations],
         cards: c.cards.map((item) => ({ id: cardId(c, item), title: item.title || c.label, type: item.type })),
@@ -71,7 +72,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
       card: c && card ? {
         id: cardId(c, card), title: card.title || c.label, type: card.type,
         content: card as JsonValue,
-        evidence: cardTs(card).map((t) => ({ sourceId: META.video_id, startSec: t, url: ytUrl(t) })),
+        evidence: evidenceOf(card),
       } : null,
       interaction,
     })
@@ -332,7 +333,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     <p class="sum">${esc(c.summary)}</p>
     <div class="sect">相关概念 · 已点亮</div>
     <div class="chips">${rel.map((r) => `<button class="chip" data-go="${esc(r)}">${esc(byId[r].c.label)}</button>`).join('')}</div>
-    <div class="sect">视频出处</div>
+    <div class="sect">${META.topic_id ? '资料出处见各卡片' : '视频出处'}</div>
     <div class="chips">${ts.map((t) => `<a class="chip ts" href="${esc(ytUrl(t))}" target="_blank" rel="noopener">${fmt(t)}</a>`).join('')}</div>
   </div>`
     mc.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); focusStar(b.dataset.go!) }))
@@ -424,12 +425,12 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     panelWrap.innerHTML = ''
     const p = el('div', 'panel glass')
     p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', r.spec.title || ui.text)
-    const ts = cardTs(r.spec)
+    const refs = evidenceOf(card)
     p.innerHTML = `<div class="p-head"><span class="oc-ic">${ICONS[ui.icon] || ICONS.book}</span>
       <div><div class="crumb">${esc(c.label)} · ${esc(ui.text)}</div><h3>${esc(r.spec.title || '')}</h3></div>
       <button class="p-close" aria-label="关闭">×</button></div>
     <div class="p-body"></div>
-    ${ts.length ? `<div class="p-foot"><span class="lbl">出处</span>${ts.map((t) => `<a class="chip ts" href="${esc(ytUrl(t))}" target="_blank" rel="noopener">${fmt(t)}</a>`).join('')}</div>` : ''}`
+    ${refs.length ? `<div class="p-foot"><span class="lbl">出处</span>${refs.map((ref) => ref.url && /^https?:\/\//.test(ref.url) ? `<a class="chip ts" href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.startSec != null ? fmt(ref.startSec) : ref.sourceId)}</a>` : `<span class="chip">${esc(ref.note || ref.sourceId)}</span>`).join('')}</div>` : ''}`
     p.addEventListener('click', (e) => e.stopPropagation())
     p.querySelector('.p-close')!.addEventListener('click', () => closePanel())
     panelWrap.appendChild(p); panelWrap.classList.add('on')
@@ -459,6 +460,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   /* ================= HUD (timeline; brand + legend are rendered by the React view) ================= */
   function buildHud() {
     const tl = $('#timeline'), D = META.duration_sec
+    if (META.topic_id) { tl.innerHTML = '<div class="tl-cap">笔记主题 · 出处见各卡片</div>'; return }
     const chapters = META.chapters || []
     tl.innerHTML = `<div class="tl-cap" id="tlcap"></div><div class="tl-bar">
     ${chapters.map((ch) => `<div class="tl-seg" data-t="${esc(ch.title)} · ${fmt(ch.start)}" style="left:calc(${ch.start / D * 100}% + 1px);width:calc(${(ch.end - ch.start) / D * 100}% - 2px)"></div>`).join('')}

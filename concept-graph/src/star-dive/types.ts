@@ -15,6 +15,8 @@ export interface StarDiveMeta {
   duration_sec: number
   lang_note?: string
   chapters?: StarDiveChapter[]
+  topic_id?: string
+  source_count?: number
 }
 
 export type ConceptShape = 'definition' | 'process' | 'formula' | 'compare' | 'timeline' | 'example'

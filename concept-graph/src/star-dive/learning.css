@@ -1,0 +1,9 @@
+.star-dive-import { position: fixed; left: 24px; top: 112px; z-index: 35; max-width: min(560px, calc(100vw - 48px)); padding: 8px 12px; border: 1px solid #ffffff30; border-radius: 12px; background: #080e24ed; color: #e6eaff; font-size: 12px; }
+.star-dive-import input { max-width: 200px; }
+.star-dive-import button { margin: 0 10px; color: #ffd48a; background: #182344; border: 1px solid #ffffff30; border-radius: 6px; padding: 4px 8px; }
+.star-dive-import p { color: #ffb4b4; }
+.star-dive:has(#panelWrap.on) + .star-dive-import { visibility: hidden; }
+.learning-block details { padding: 8px 0; }
+.learning-block input[type=checkbox] { accent-color: #ffb547; }
+.learning-block select { max-width: 100%; padding: 8px; background: #152044; color: #fff; }
+@media (max-width: 720px) { .star-dive-import { top: auto; bottom: 72px; left: 12px; max-width: calc(100vw - 24px); } .star-dive-import > span { display: none; } }
