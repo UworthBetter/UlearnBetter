@@ -1,0 +1,1505 @@
+{
+  "meta": {
+    "title": "100+ Computer Science Concepts Explained",
+    "channel": "Fireship",
+    "video_id": "-uleG_Vecis",
+    "url": "https://www.youtube.com/watch?v=-uleG_Vecis",
+    "duration_sec": 787,
+    "lang_note": "概念与摘要仅依据该视频自动字幕整理；timestamps 为视频秒数。",
+    "chapters": [
+      {
+        "start": 0.0,
+        "end": 33.0,
+        "title": "Intro"
+      },
+      {
+        "start": 33.0,
+        "end": 79.0,
+        "title": "The Computer"
+      },
+      {
+        "start": 79.0,
+        "end": 201.0,
+        "title": "Binary"
+      },
+      {
+        "start": 201.0,
+        "end": 259.0,
+        "title": "Variables"
+      },
+      {
+        "start": 259.0,
+        "end": 318.0,
+        "title": "Data Types"
+      },
+      {
+        "start": 318.0,
+        "end": 403.0,
+        "title": "Data Structures"
+      },
+      {
+        "start": 403.0,
+        "end": 548.0,
+        "title": "Functions"
+      },
+      {
+        "start": 548.0,
+        "end": 592.0,
+        "title": "Dynamic Programming"
+      },
+      {
+        "start": 592.0,
+        "end": 787.0,
+        "title": "Implementation"
+      }
+    ]
+  },
+  "concepts": [
+    {
+      "id": "turing",
+      "label": "图灵机",
+      "en": "Turing Machine",
+      "summary": "计算机最朴素的模型：一条存放 1 和 0 的纸带，加上一个能读写纸带的装置。理论上它可以计算任何东西——包括本视频的画面和推荐你看它的算法。",
+      "shape": "definition",
+      "relations": [
+        "bits",
+        "binary"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "什么是图灵机",
+          "body": "\"This is a computer — it's just a piece of tape that holds ones and zeros along with a device that can read and write to it.\"",
+          "terms": [
+            {
+              "term": "纸带 Tape",
+              "note": "存放 1 和 0 的存储"
+            },
+            {
+              "term": "读写头 Device",
+              "note": "读取并改写纸带上的符号"
+            },
+            {
+              "term": "可计算一切",
+              "note": "in theory it can compute anything"
+            }
+          ],
+          "timestamps": [
+            33,
+            39
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "图灵机",
+          "start": 33,
+          "end": 46,
+          "quote": "it's called a turing machine and in theory it can compute anything",
+          "timestamps": [
+            33
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=33s"
+        }
+      ]
+    },
+    {
+      "id": "bits",
+      "label": "比特与字节",
+      "en": "Bit & Byte",
+      "summary": "CPU 的硅片里有数十亿个晶体管——微型开关。一个开关的值就是一个 bit，是计算机能用的最小信息；8 个 bit 组成 1 byte，可表示 256 种值，键盘上的字符通过 ASCII / UTF-8 编码映射成二进制。",
+      "shape": "formula",
+      "relations": [
+        "turing",
+        "binary",
+        "datatypes",
+        "concurrency"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "从晶体管到字符",
+          "body": "晶体管是微观的开/关；一个开关的值 = 1 bit。8 bit 打包成 1 byte，1 byte = 2⁸ = 256 种取值，足以覆盖键盘上的所有字符。",
+          "terms": [
+            {
+              "term": "CPU",
+              "note": "central processing unit，现代计算机的核心"
+            },
+            {
+              "term": "Transistor 晶体管",
+              "note": "microscopic on/off switches"
+            },
+            {
+              "term": "Bit",
+              "note": "the smallest piece of information"
+            },
+            {
+              "term": "Byte",
+              "note": "a package of eight bits"
+            },
+            {
+              "term": "Character Encoding",
+              "note": "ASCII 或 UTF-8，把字符映射到二进制值"
+            }
+          ],
+          "timestamps": [
+            46,
+            55,
+            63,
+            76
+          ]
+        },
+        {
+          "type": "param_demo",
+          "title": "bit 数量 → 可表示多少种值",
+          "formula": "binary",
+          "params": [
+            {
+              "name": "n",
+              "label": "bit 数量 n",
+              "min": 1,
+              "max": 16,
+              "step": 1,
+              "default": 8
+            }
+          ],
+          "cursor": "n",
+          "xRange": [
+            1,
+            16
+          ],
+          "xLabel": "bit 数量 n",
+          "yLabel": "可表示的值（对数刻度）",
+          "yScale": "log",
+          "explain": [
+            {
+              "param": "n",
+              "value": 1,
+              "text": "1 bit：一个晶体管开关的值，是计算机能用的最小信息单位",
+              "ts": 57
+            },
+            {
+              "param": "n",
+              "value": 4,
+              "text": "4 bit = 1 nibble：正好用 1 个十六进制字符表示",
+              "ts": 95
+            },
+            {
+              "param": "n",
+              "value": 8,
+              "text": "8 bit = 1 byte：可表示 256 种值，足以覆盖键盘上的所有字符",
+              "ts": 65
+            },
+            {
+              "text": "n 个 bit 可表示 2ⁿ 种值（视频给出 1 byte = 8 bit = 256 种）；拖动滑块或点击 ◆ 跳到视频提到的数值"
+            }
+          ],
+          "source_timestamps": [
+            57,
+            63,
+            65,
+            95
+          ],
+          "supplementary": false
+        },
+        {
+          "type": "video_clip",
+          "title": "Bit / Byte / ASCII",
+          "start": 55,
+          "end": 79,
+          "quote": "the value at one of these switches is called a bit",
+          "timestamps": [
+            55
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=55s"
+        }
+      ]
+    },
+    {
+      "id": "binary",
+      "label": "二进制与十六进制",
+      "en": "Binary & Hex",
+      "summary": "二进制只是另一种计数方式：像十进制一样，但只有 1 和 0。人类难以读二进制，所以常用十六进制（10 个数字 + 6 个字母）表示 4 bit 一组的 nibble。代码最终会被转换成 CPU 能解码执行的机器码。",
+      "shape": "formula",
+      "relations": [
+        "bits",
+        "turing",
+        "compile",
+        "hardware"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "进制与机器码",
+          "body": "Binary 是 base 2，Hex 是 base 16。一个十六进制字符正好对应一个 nibble（4 bit），两个字符对应一个 byte。",
+          "terms": [
+            {
+              "term": "Binary",
+              "note": "a system for counting… only has two characters"
+            },
+            {
+              "term": "Hexadecimal",
+              "note": "base 16: ten numbers and six letters"
+            },
+            {
+              "term": "Nibble",
+              "note": "a four bit group"
+            },
+            {
+              "term": "Machine Code",
+              "note": "binary format decoded and executed by the CPU"
+            }
+          ],
+          "timestamps": [
+            79,
+            91,
+            95,
+            100
+          ]
+        },
+        {
+          "type": "interactive",
+          "title": "进制转换器",
+          "widget": "radix",
+          "caption": "拖动数值，观察它的二进制被切成两个 nibble，每个 nibble 正好是一个十六进制字符。",
+          "params": [
+            {
+              "name": "v",
+              "label": "十进制数值",
+              "min": 0,
+              "max": 255,
+              "step": 1,
+              "default": 202
+            }
+          ],
+          "timestamps": [
+            91,
+            95
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Binary / Hex",
+          "start": 79,
+          "end": 107,
+          "quote": "binary is just a system for counting",
+          "timestamps": [
+            79
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=79s"
+        }
+      ]
+    },
+    {
+      "id": "hardware",
+      "label": "从硬件到 Shell",
+      "en": "RAM · Kernel · Shell",
+      "summary": "CPU 不存储应用数据，那是 RAM 的工作：像一片街区，每栋房子里住着一个 byte，都有自己的内存地址。操作系统内核通过驱动控制硬件，Shell 包裹内核并以命令行（CLI）暴露给用户，SSH 还能连接远程计算机。",
+      "shape": "process",
+      "relations": [
+        "binary",
+        "concurrency",
+        "network",
+        "memory"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "层层包裹的计算机",
+          "body": "\"It's called a shell because it wraps the kernel.\" 从硬件、内核到 Shell，每一层都把下一层包装得更易用。",
+          "terms": [
+            {
+              "term": "RAM",
+              "note": "random access memory，像街区，每栋房子住一个 byte"
+            },
+            {
+              "term": "Memory Address",
+              "note": "CPU 读写的位置编号"
+            },
+            {
+              "term": "I/O",
+              "note": "键盘鼠标输入，显示器输出"
+            },
+            {
+              "term": "Kernel + Drivers",
+              "note": "Linux / Mac / Windows 通过驱动控制硬件"
+            },
+            {
+              "term": "Shell / CLI / SSH",
+              "note": "文本输入→输出；可经网络连接远程主机"
+            }
+          ],
+          "timestamps": [
+            110,
+            115,
+            125,
+            133,
+            142,
+            152,
+            157
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "一次按键之旅",
+          "steps": [
+            {
+              "label": "CPU + RAM",
+              "detail": "CPU 与 RAM 合起来是计算机的大脑；RAM 每个地址存一个 byte。",
+              "ts": 119
+            },
+            {
+              "label": "I/O 设备",
+              "detail": "键盘鼠标是输入设备，显示器是输出设备。",
+              "ts": 125
+            },
+            {
+              "label": "内核 + 驱动",
+              "detail": "操作系统内核通过设备驱动控制所有硬件资源。",
+              "ts": 133
+            },
+            {
+              "label": "Shell",
+              "detail": "包裹内核的程序，把操作系统暴露给终端用户。",
+              "ts": 142
+            },
+            {
+              "label": "CLI",
+              "detail": "输入一行文本，产生输出：命令行界面。",
+              "ts": 150
+            },
+            {
+              "label": "SSH",
+              "detail": "secure shell 协议，经网络连接远程计算机。",
+              "ts": 157
+            }
+          ],
+          "timestamps": [
+            119,
+            133,
+            142,
+            157
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "RAM → Kernel → Shell",
+          "start": 107,
+          "end": 163,
+          "quote": "it's called a shell because it wraps the kernel",
+          "timestamps": [
+            107,
+            146
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=107s"
+        }
+      ]
+    },
+    {
+      "id": "compile",
+      "label": "解释与编译",
+      "en": "Interpreted vs Compiled",
+      "summary": "编程语言利用抽象原则，一层层简化系统让人能驾驭计算机。Python 这类解释型语言由解释器逐行执行；C++ 这类编译型语言先用编译器把整个程序转成机器码，生成无需额外依赖的可执行文件。",
+      "shape": "compare",
+      "relations": [
+        "binary",
+        "datatypes",
+        "paradigms"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "编程语言 = 抽象",
+          "body": "\"A tool that uses the abstraction principle to make computers practical to work with for humans by simplifying different systems layer by layer.\"",
+          "terms": [
+            {
+              "term": "Abstraction",
+              "note": "逐层简化复杂系统"
+            },
+            {
+              "term": "Interpreter",
+              "note": "逐行执行代码"
+            },
+            {
+              "term": "Compiler",
+              "note": "提前把整个程序转成机器码"
+            },
+            {
+              "term": "Executable",
+              "note": "操作系统可直接运行，无额外依赖"
+            }
+          ],
+          "timestamps": [
+            164,
+            174,
+            182,
+            188
+          ]
+        },
+        {
+          "type": "compare_table",
+          "title": "解释型 vs 编译型",
+          "columns": [
+            "",
+            "解释型 Interpreted",
+            "编译型 Compiled"
+          ],
+          "rows": [
+            [
+              "例子",
+              "Python",
+              "C++"
+            ],
+            [
+              "执行者",
+              "解释器 interpreter",
+              "编译器 compiler → CPU"
+            ],
+            [
+              "转换时机",
+              "运行时逐行执行",
+              "运行前整体转为机器码"
+            ],
+            [
+              "产物",
+              "源代码 + 解释器",
+              "可执行文件 executable"
+            ],
+            [
+              "依赖",
+              "需要解释器",
+              "无需额外依赖"
+            ]
+          ],
+          "timestamps": [
+            172,
+            179,
+            188
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Interpreted / Compiled",
+          "start": 163,
+          "end": 194,
+          "quote": "some languages like python are interpreted",
+          "timestamps": [
+            172
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=163s"
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "内存：栈、堆与指针",
+      "en": "Pointer · GC · Heap",
+      "summary": "指针是一个值为另一个变量内存地址的变量，用于底层内存控制；许多语言改用垃圾回收器，在对象不再被引用时自动分配与释放内存。短期执行用调用栈，长期存活的数据放在可伸缩的堆上，并可按引用传递。",
+      "shape": "compare",
+      "relations": [
+        "datatypes",
+        "recursion",
+        "paradigms",
+        "hardware"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "管理内存的几种方式",
+          "body": "你可能需要在程序中手动分配和释放内存；也可以交给垃圾回收器。数据活多久，决定了它放在栈还是堆。",
+          "terms": [
+            {
+              "term": "Pointer 指针",
+              "note": "值是另一个变量的内存地址"
+            },
+            {
+              "term": "Garbage Collector",
+              "note": "对象不再被引用时自动回收"
+            },
+            {
+              "term": "Call Stack 调用栈",
+              "note": "执行代码的短期内存"
+            },
+            {
+              "term": "Heap 堆",
+              "note": "长期数据；可增长收缩；按引用传递"
+            }
+          ],
+          "timestamps": [
+            232,
+            235,
+            246,
+            496,
+            658
+          ]
+        },
+        {
+          "type": "compare_table",
+          "title": "调用栈 vs 堆",
+          "columns": [
+            "",
+            "调用栈 Call Stack",
+            "堆 Heap"
+          ],
+          "rows": [
+            [
+              "用途",
+              "执行函数时的短期内存",
+              "长期存活的数据 / 对象"
+            ],
+            [
+              "大小",
+              "有限，压太多帧会 stack overflow",
+              "随应用使用增长和收缩"
+            ],
+            [
+              "典型内容",
+              "函数调用帧 frames",
+              "class 实例化出的对象"
+            ],
+            [
+              "共享方式",
+              "随函数返回而弹出",
+              "按引用传递，多个变量指向同一块内存"
+            ]
+          ],
+          "timestamps": [
+            496,
+            504,
+            656,
+            665
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Pointer & Garbage Collector",
+          "start": 228,
+          "end": 259,
+          "quote": "a pointer is a variable whose value is the memory address of another variable",
+          "timestamps": [
+            235
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=228s"
+        },
+        {
+          "type": "video_clip",
+          "title": "Heap & Reference",
+          "start": 651,
+          "end": 675,
+          "quote": "most languages have a separate area of memory called the heap",
+          "timestamps": [
+            658
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=651s"
+        }
+      ]
+    },
+    {
+      "id": "datatypes",
+      "label": "变量与数据类型",
+      "en": "Variables & Data Types",
+      "summary": "声明变量就是给数据点起名字以便复用；Python 动态推断类型，C 需静态声明。常见类型有 int（有/无符号整数）、float（有限精度的小数，类似科学计数法）、double（内存翻倍换更大范围/精度）、char 与 string。多字节数据按大端或小端顺序存入内存。",
+      "shape": "compare",
+      "relations": [
+        "compile",
+        "bits",
+        "structures",
+        "memory"
+      ],
+      "cards": [
+        {
+          "type": "compare_table",
+          "title": "动态类型 vs 静态类型",
+          "columns": [
+            "",
+            "动态类型 Dynamic",
+            "静态类型 Static"
+          ],
+          "rows": [
+            [
+              "例子",
+              "Python",
+              "C"
+            ],
+            [
+              "类型从哪来",
+              "程序自动推断",
+              "代码中显式声明"
+            ],
+            [
+              "写法示意",
+              "x = 42",
+              "int x = 42;"
+            ],
+            [
+              "共同点",
+              "值都存放在内存中的某处",
+              "值都存放在内存中的某处"
+            ]
+          ],
+          "timestamps": [
+            212,
+            222,
+            228
+          ]
+        },
+        {
+          "type": "compare_table",
+          "title": "常见数据类型",
+          "columns": [
+            "类型",
+            "表示什么",
+            "要点"
+          ],
+          "rows": [
+            [
+              "int",
+              "整数",
+              "signed / unsigned 决定能否表示负数"
+            ],
+            [
+              "float",
+              "带小数点的数",
+              "一定范围与精度，类似科学计数法"
+            ],
+            [
+              "double",
+              "更大范围 / 精度的小数",
+              "内存用量是 float 的两倍"
+            ],
+            [
+              "char",
+              "单个字符",
+              "最终存放在某个内存地址"
+            ],
+            [
+              "string",
+              "多个字符",
+              "按特定顺序存储"
+            ]
+          ],
+          "timestamps": [
+            262,
+            272,
+            284,
+            289,
+            293
+          ]
+        },
+        {
+          "type": "interactive",
+          "title": "大端 vs 小端",
+          "widget": "endian",
+          "caption": "同一个 32 位整数，大端把最高有效字节放在最小地址，小端反过来。",
+          "params": [
+            {
+              "name": "v",
+              "label": "32 位整数值",
+              "min": 0,
+              "max": 4294967295,
+              "step": 1,
+              "default": 305419896
+            }
+          ],
+          "timestamps": [
+            300,
+            305,
+            309
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Variables & Data Types",
+          "start": 201,
+          "end": 261,
+          "quote": "this attaches a name to a data point",
+          "timestamps": [
+            206,
+            272
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=201s"
+        }
+      ]
+    },
+    {
+      "id": "structures",
+      "label": "数据结构",
+      "en": "Data Structures",
+      "summary": "把数据组织起来：数组/列表按整数索引排序；链表每项指向下一项；栈后进先出、队列先进先出；哈希（map / 字典）用自定义键存键值对；树按层级组织以便更快遍历，图用节点和边以几乎无限的方式连接数据。",
+      "shape": "compare",
+      "relations": [
+        "datatypes",
+        "algorithms",
+        "functions",
+        "bigo"
+      ],
+      "cards": [
+        {
+          "type": "compare_table",
+          "title": "七种数据结构",
+          "columns": [
+            "结构",
+            "组织方式",
+            "视频中的比喻"
+          ],
+          "rows": [
+            [
+              "Array / List",
+              "有序，索引从 0 开始",
+              "购物清单"
+            ],
+            [
+              "Linked List",
+              "每项有指向下一项的指针",
+              "—"
+            ],
+            [
+              "Stack",
+              "后进先出 LIFO",
+              "一摞盘子，从顶部 pop"
+            ],
+            [
+              "Queue",
+              "先进先出 FIFO",
+              "排队，先到先吃"
+            ],
+            [
+              "Hash / Map",
+              "自定义 key → value",
+              "像数组但键由你定义"
+            ],
+            [
+              "Tree",
+              "节点按层级组织，遍历更快",
+              "—"
+            ],
+            [
+              "Graph",
+              "节点 + 边，任意连接",
+              "—"
+            ]
+          ],
+          "timestamps": [
+            319,
+            335,
+            339,
+            349,
+            358,
+            374,
+            383
+          ]
+        },
+        {
+          "type": "interactive",
+          "title": "栈 vs 队列",
+          "widget": "stack_queue",
+          "caption": "push 若干元素后 pop：栈取走最后放入的，队列取走最先进入的。",
+          "params": [
+            {
+              "name": "n",
+              "label": "已放入元素数",
+              "min": 1,
+              "max": 7,
+              "step": 1,
+              "default": 5
+            }
+          ],
+          "timestamps": [
+            341,
+            351
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Data Structures",
+          "start": 318,
+          "end": 378,
+          "quote": "a stack that follows the last in first out principle",
+          "timestamps": [
+            339
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=318s"
+        }
+      ]
+    },
+    {
+      "id": "functions",
+      "label": "函数与控制流",
+      "en": "Functions & Control Flow",
+      "summary": "算法就是解决问题的代码，最基本的载体是函数：接收输入（参数）、做事、返回输出。运算符比较两个值得到布尔值——产生值的代码是表达式，只做事的是语句，如 if 条件分支、while 与 for 循环。",
+      "shape": "process",
+      "relations": [
+        "structures",
+        "recursion",
+        "paradigms"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "函数",
+          "body": "\"A block of code that takes an input, then does something and returns an output.\" 它有名字，可以带不同参数在别处被调用。",
+          "terms": [
+            {
+              "term": "Algorithm",
+              "note": "code that solves a problem"
+            },
+            {
+              "term": "Arguments",
+              "note": "调用时传入的参数"
+            },
+            {
+              "term": "Boolean",
+              "note": "true / false"
+            },
+            {
+              "term": "Expression vs Statement",
+              "note": "产生值 vs 只做事"
+            },
+            {
+              "term": "Void Function",
+              "note": "没有输出的函数"
+            }
+          ],
+          "timestamps": [
+            396,
+            407,
+            417,
+            435,
+            441,
+            480
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "函数体里发生了什么",
+          "steps": [
+            {
+              "label": "输入参数",
+              "detail": "函数被调用，传入参数 arguments。",
+              "ts": 414
+            },
+            {
+              "label": "比较运算",
+              "detail": "用 ==、>、< 比较 a 与 b：a > b 为 true。",
+              "ts": 425
+            },
+            {
+              "label": "布尔表达式",
+              "detail": "产生 true/false 的代码叫表达式 expression。",
+              "ts": 435
+            },
+            {
+              "label": "if / else",
+              "detail": "条件为真执行此块，否则短路运行 else 块。",
+              "ts": 447
+            },
+            {
+              "label": "while / for",
+              "detail": "while 重复执行直到条件为假；for 遍历可迭代结构。",
+              "ts": 459
+            },
+            {
+              "label": "返回输出",
+              "detail": "返回结果；没有输出的叫 void 函数。",
+              "ts": 478
+            }
+          ],
+          "timestamps": [
+            407,
+            425,
+            447,
+            459
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Functions",
+          "start": 403,
+          "end": 463,
+          "quote": "a function which is a block of code that takes an input",
+          "timestamps": [
+            407
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=403s"
+        }
+      ]
+    },
+    {
+      "id": "recursion",
+      "label": "递归与调用栈",
+      "en": "Recursion & Call Stack",
+      "summary": "函数调用自身就是递归。调用函数时，语言会把它放入调用栈这块短期内存；不断自调用就会不停压入帧，直到 stack overflow。要避免它，算法需要一个基准条件（base condition）来终止。",
+      "shape": "process",
+      "relations": [
+        "functions",
+        "memory",
+        "algorithms"
+      ],
+      "cards": [
+        {
+          "type": "steps",
+          "title": "压栈直到溢出",
+          "steps": [
+            {
+              "label": "调用函数",
+              "detail": "函数被放进内存中的调用栈 call stack。",
+              "ts": 493
+            },
+            {
+              "label": "调用自己",
+              "detail": "函数调用自身，即递归 recursion。",
+              "ts": 485
+            },
+            {
+              "label": "不断压帧",
+              "detail": "每次自调用都把新的帧压入调用栈。",
+              "ts": 501
+            },
+            {
+              "label": "Stack Overflow",
+              "detail": "没有终点就会无限递归，栈满报错。",
+              "ts": 504
+            },
+            {
+              "label": "基准条件",
+              "detail": "加上 base condition，算法知道何时终止。",
+              "ts": 506
+            }
+          ],
+          "timestamps": [
+            485,
+            496,
+            504,
+            508
+          ]
+        },
+        {
+          "type": "interactive",
+          "title": "调用栈模拟",
+          "widget": "recursion",
+          "caption": "调整递归深度，切换是否有基准条件；栈容量为 12 帧。",
+          "params": [
+            {
+              "name": "n",
+              "label": "递归深度 n",
+              "min": 1,
+              "max": 10,
+              "step": 1,
+              "default": 4
+            }
+          ],
+          "timestamps": [
+            501,
+            508
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Recursion",
+          "start": 482,
+          "end": 512,
+          "quote": "when a function calls itself it's called recursion",
+          "timestamps": [
+            485
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=482s"
+        }
+      ]
+    },
+    {
+      "id": "bigo",
+      "label": "大 O 记号",
+      "en": "Big-O Notation",
+      "summary": "评估算法好坏的标准格式：近似描述算法在规模增长时的表现。时间复杂度衡量运行有多快，空间复杂度衡量需要多少内存。",
+      "shape": "formula",
+      "relations": [
+        "algorithms",
+        "structures"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "Big-O",
+          "body": "\"A standard format for approximating the performance of an algorithm at scale.\"",
+          "terms": [
+            {
+              "term": "Time Complexity",
+              "note": "how fast your algorithm will run"
+            },
+            {
+              "term": "Space Complexity",
+              "note": "how much memory is required"
+            }
+          ],
+          "timestamps": [
+            514,
+            520,
+            524
+          ]
+        },
+        {
+          "type": "param_demo",
+          "title": "规模增长时，复杂度如何拉开差距",
+          "formula": "growth_curves",
+          "curves": [
+            "1",
+            "log n",
+            "n",
+            "n log n",
+            "n^2",
+            "2^n"
+          ],
+          "curveNotes": {
+            "log n": "二分查找",
+            "2^n": "穷举组合"
+          },
+          "params": [
+            {
+              "name": "n",
+              "label": "输入规模 n",
+              "min": 1,
+              "max": 40,
+              "step": 1,
+              "default": 16
+            }
+          ],
+          "cursor": "n",
+          "xRange": [
+            1,
+            40
+          ],
+          "yScale": "log",
+          "yMax": 10000000,
+          "explain": [
+            {
+              "param": "n",
+              "value": 1,
+              "text": "规模很小时，各种算法几乎没有差别——Big-O 关心的是“规模增长时”"
+            },
+            {
+              "param": "n",
+              "value": 20,
+              "text": "n = 20：穷举所有组合（2ⁿ）已超过一百万次，暴力法很快变得不可行",
+              "ts": 531
+            },
+            {
+              "param": "n",
+              "value": 32,
+              "text": "n = 32：二分查找每次把问题切成一半，约 5 步就能找到（log₂32 = 5）",
+              "ts": 540
+            },
+            {
+              "text": "Big-O 近似描述算法在规模增长时的表现；这里画的是操作次数（时间复杂度）",
+              "ts": 516
+            }
+          ],
+          "source_timestamps": [
+            514,
+            516,
+            520,
+            531,
+            540
+          ],
+          "supplementary": true
+        },
+        {
+          "type": "video_clip",
+          "title": "Big-O",
+          "start": 510,
+          "end": 527,
+          "quote": "the system for doing that is called big-o notation",
+          "timestamps": [
+            514
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=510s"
+        }
+      ]
+    },
+    {
+      "id": "algorithms",
+      "label": "算法策略",
+      "en": "Algorithm Types",
+      "summary": "暴力法遍历所有组合；分治法如二分查找把问题反复对半切；动态规划把问题拆成子问题并用记忆化存储结果；贪心算法只做短期最优选择，如 Dijkstra 最短路径；回溯法像老鼠走迷宫，逐步探索所有可能路径。",
+      "shape": "compare",
+      "relations": [
+        "bigo",
+        "recursion",
+        "structures"
+      ],
+      "cards": [
+        {
+          "type": "compare_table",
+          "title": "五种算法策略",
+          "columns": [
+            "策略",
+            "思路",
+            "视频中的例子"
+          ],
+          "rows": [
+            [
+              "Brute Force",
+              "遍历每一种可能组合",
+              "破解信用卡 PIN"
+            ],
+            [
+              "Divide & Conquer",
+              "反复把问题切成两半",
+              "二分查找 binary search"
+            ],
+            [
+              "Dynamic Programming",
+              "拆成子问题并存储结果",
+              "记忆化 memoization"
+            ],
+            [
+              "Greedy",
+              "只做眼前最有利的选择",
+              "Dijkstra 最短路径"
+            ],
+            [
+              "Backtracking",
+              "增量式探索所有选项",
+              "老鼠走迷宫"
+            ]
+          ],
+          "timestamps": [
+            531,
+            538,
+            545,
+            561,
+            571
+          ]
+        },
+        {
+          "type": "param_demo",
+          "title": "记忆化：函数调用次数对比",
+          "formula": [
+            {
+              "label": "朴素递归",
+              "expr": "2*round(phi^(x+1)/sqrt(5))-1",
+              "note": "每次从头重算"
+            },
+            {
+              "label": "记忆化",
+              "expr": "2*x-1",
+              "note": "复用已有结果"
+            }
+          ],
+          "params": [
+            {
+              "name": "n",
+              "label": "fib(n) 的 n",
+              "min": 1,
+              "max": 30,
+              "step": 1,
+              "default": 20
+            }
+          ],
+          "cursor": "n",
+          "xRange": [
+            1,
+            30
+          ],
+          "xLabel": "n",
+          "yLabel": "函数调用次数（对数刻度）",
+          "yScale": "log",
+          "discrete": true,
+          "explain": [
+            {
+              "param": "n",
+              "value": 30,
+              "text": "n = 30：朴素递归要调用约 270 万次，记忆化只需 59 次"
+            },
+            {
+              "text": "斐波那契是补充例子；视频讲的原理是：函数已被调用过，就使用已有结果而不是从头重算",
+              "ts": 556
+            }
+          ],
+          "source_timestamps": [
+            545,
+            553,
+            556
+          ],
+          "supplementary": true
+        },
+        {
+          "type": "video_clip",
+          "title": "Algorithm Types",
+          "start": 527,
+          "end": 581,
+          "quote": "dynamic programming algorithms where a problem is broken down into multiple smaller sub-problems",
+          "timestamps": [
+            545
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=527s"
+        }
+      ]
+    },
+    {
+      "id": "paradigms",
+      "label": "编程范式与 OOP",
+      "en": "Paradigms & OOP",
+      "summary": "声明式代码描述程序做什么和结果，不关心控制流，常见于 Haskell 这类函数式语言；命令式用 if、while 等语句明确给出怎么做，与 C 这类过程式语言相关。Python、JavaScript、Kotlin、Swift 等现代语言大多是多范式的。 此外还有面向对象：用 class 写蓝图，封装属性与方法，通过继承共享行为，并实例化出对象。",
+      "shape": "compare",
+      "relations": [
+        "functions",
+        "compile",
+        "memory"
+      ],
+      "cards": [
+        {
+          "type": "compare_table",
+          "title": "声明式 vs 命令式",
+          "columns": [
+            "",
+            "声明式 Declarative",
+            "命令式 Imperative"
+          ],
+          "rows": [
+            [
+              "描述什么",
+              "程序做什么、结果是什么",
+              "如何一步步产生结果"
+            ],
+            [
+              "控制流",
+              "不关心",
+              "用 if、while 显式控制"
+            ],
+            [
+              "相关语言",
+              "函数式：Haskell",
+              "过程式：C"
+            ],
+            [
+              "现代语言",
+              "Python / JS / Kotlin / Swift 多范式，两者兼支持",
+              "Python / JS / Kotlin / Swift 多范式，两者兼支持"
+            ]
+          ],
+          "timestamps": [
+            584,
+            593,
+            596,
+            606
+          ]
+        },
+        {
+          "type": "definition",
+          "title": "Class 与 Object",
+          "body": "\"The idea behind OOP is that you use classes to write a blueprint for the data or objects in your code.\"",
+          "terms": [
+            {
+              "term": "Class",
+              "note": "数据 / 对象的蓝图"
+            },
+            {
+              "term": "Property / Method",
+              "note": "封装的变量 / 函数"
+            },
+            {
+              "term": "Inheritance",
+              "note": "子类扩展并覆盖父类行为"
+            },
+            {
+              "term": "Design Patterns",
+              "note": "继承打开的更多组织思路"
+            },
+            {
+              "term": "Object",
+              "note": "由 class 实例化，活在内存中"
+            }
+          ],
+          "timestamps": [
+            616,
+            622,
+            635,
+            641,
+            645
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Paradigms",
+          "start": 579,
+          "end": 614,
+          "quote": "one programming paradigm is declarative",
+          "timestamps": [
+            584
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=579s"
+        },
+        {
+          "type": "video_clip",
+          "title": "OOP",
+          "start": 614,
+          "end": 651,
+          "quote": "you use classes to write a blueprint for the data",
+          "timestamps": [
+            618
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=614s"
+        }
+      ]
+    },
+    {
+      "id": "concurrency",
+      "label": "并行与并发",
+      "en": "Threads & Concurrency",
+      "summary": "CPU 含有多个线程：把物理核心拆成可同时运行代码的虚拟核心。支持并行的语言能让代码真正同时跑在两个线程上；单线程语言则用事件循环或协程等并发模型，在一个线程上暂停、延迟执行来处理多个任务。",
+      "shape": "compare",
+      "relations": [
+        "bits",
+        "hardware",
+        "network"
+      ],
+      "cards": [
+        {
+          "type": "compare_table",
+          "title": "并行 vs 并发",
+          "columns": [
+            "",
+            "并行 Parallelism",
+            "并发 Concurrency"
+          ],
+          "rows": [
+            [
+              "线程",
+              "多个线程同时执行",
+              "单个线程"
+            ],
+            [
+              "机制",
+              "代码真的在两个线程上同时运行",
+              "事件循环 / 协程 暂停、延迟执行"
+            ],
+            [
+              "效果",
+              "同时做多件事",
+              "看起来同时处理多个任务"
+            ]
+          ],
+          "timestamps": [
+            680,
+            689,
+            700
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Threads",
+          "start": 674,
+          "end": 709,
+          "quote": "a thread takes the physical cpu core and breaks it into virtual cores",
+          "timestamps": [
+            680
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=674s"
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "label": "云与网络",
+      "en": "Cloud & Networking",
+      "summary": "如今我们很少直接操作裸机，而是在云端使用虚拟机。机器经 IP 地址相连，DNS 把 URL 映射到 IP；TCP 握手后交换数据包，SSL 加密，HTTP 传输网页；API（最常见的是 REST）为客户端提供标准化的数据请求方式。",
+      "shape": "timeline",
+      "relations": [
+        "concurrency",
+        "hardware"
+      ],
+      "cards": [
+        {
+          "type": "definition",
+          "title": "互联网的骨干",
+          "body": "\"A virtual machine is just a piece of software that simulates hardware.\" 这些虚拟机通过互联网协议连接，构成互联网的骨干。",
+          "terms": [
+            {
+              "term": "Virtual Machine",
+              "note": "模拟硬件的软件，把大机器拆成小机器"
+            },
+            {
+              "term": "IP Address / DNS",
+              "note": "唯一地址；全球数据库把 URL 映射到 IP"
+            },
+            {
+              "term": "TCP / SSL",
+              "note": "握手交换数据包；加密与解密"
+            },
+            {
+              "term": "HTTP / API / REST",
+              "note": "请求网页与数据的标准化方式"
+            }
+          ],
+          "timestamps": [
+            715,
+            728,
+            740,
+            746,
+            753,
+            763,
+            767
+          ]
+        },
+        {
+          "type": "steps",
+          "title": "一次请求的旅程",
+          "steps": [
+            {
+              "label": "虚拟机",
+              "detail": "云端的大计算机被拆成许多小的虚拟计算机。",
+              "ts": 715
+            },
+            {
+              "label": "IP 地址",
+              "detail": "每台机器都有唯一 IP，在网络上标识自己。",
+              "ts": 726
+            },
+            {
+              "label": "DNS",
+              "detail": "URL 是 IP 的别名，登记在域名服务这个全球数据库里。",
+              "ts": 732
+            },
+            {
+              "label": "TCP 握手",
+              "detail": "两台计算机握手建立连接，交换数据包 packets。",
+              "ts": 740
+            },
+            {
+              "label": "SSL",
+              "detail": "安全层对网络上的消息加密与解密。",
+              "ts": 746
+            },
+            {
+              "label": "HTTP",
+              "detail": "客户端请求网页，服务器返回 HTML。",
+              "ts": 753
+            },
+            {
+              "label": "API / REST",
+              "detail": "URL 映射到服务器上的数据实体。",
+              "ts": 763
+            }
+          ],
+          "timestamps": [
+            715,
+            732,
+            740,
+            753,
+            767
+          ]
+        },
+        {
+          "type": "video_clip",
+          "title": "Cloud & Networking",
+          "start": 709,
+          "end": 769,
+          "quote": "we work in the cloud with a virtual machine",
+          "timestamps": [
+            713
+          ],
+          "url": "https://www.youtube.com/watch?v=-uleG_Vecis&t=709s"
+        }
+      ]
+    }
+  ]
+}

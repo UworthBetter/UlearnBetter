@@ -25,6 +25,7 @@ export default function ConceptList({
       <header className="col-head">
         <div className="eyebrow">概念</div>
         <div className="head-title">按重要性</div>
+        <a className="star-dive-link" href="#/star-dive" title="Star Dive · 星图潜航">星图潜航 →</a>
       </header>
       <ul className="concept-list">
         {ordered.map((concept) => {
