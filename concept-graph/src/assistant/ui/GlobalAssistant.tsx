@@ -1,4 +1,4 @@
-import { Component, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
+import { Component, useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
 import { contentToText } from '@ag-ui/core'
 import { useAgent, useAgentContext, useCopilotKit, type JsonSerializable } from '@copilotkit/react-core/v2/headless'
 import type { LearningContext } from '../contracts.ts'
@@ -181,7 +181,7 @@ function AssistantSession({ initialDemoMode, initialOpen }: { initialDemoMode: b
     return () => subscription.unsubscribe()
   }, [copilotkit])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     demoModeRef.current = demoMode
     const job = pendingRef.current
     if (!job || demoMode) return
