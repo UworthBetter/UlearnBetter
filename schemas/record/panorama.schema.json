@@ -1,0 +1,304 @@
+{
+  "type": "object",
+  "properties": {
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "$ref": "goal.schema.json"
+          },
+          "topicIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+            }
+          }
+        },
+        "required": [
+          "goal",
+          "topicIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "goalIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "concepts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "level": {
+                        "enum": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ]
+                      },
+                      "due": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "importance": {
+                        "enum": [
+                          1,
+                          2,
+                          3
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "level",
+                      "due",
+                      "importance"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "concepts"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "topicId",
+          "title",
+          "goalIds",
+          "groups"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "topicId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "group": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "why": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "topicId",
+          "group",
+          "count",
+          "why"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "nextSteps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "review",
+              "new",
+              "practice"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "topicId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "conceptId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "goalIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "subject",
+          "title",
+          "why",
+          "topicId",
+          "conceptId",
+          "goalIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "relationCandidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "a": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "b": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "a",
+          "b",
+          "kind",
+          "reason",
+          "confirmed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "goals": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "topics": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "concepts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "learned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recalled": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unassigned": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "goals",
+        "topics",
+        "concepts",
+        "learned",
+        "recalled",
+        "stable",
+        "unassigned"
+      ],
+      "additionalProperties": false
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "goals",
+    "topics",
+    "gaps",
+    "nextSteps",
+    "relationCandidates",
+    "summary"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "panorama.schema.json",
+  "title": "panorama"
+}

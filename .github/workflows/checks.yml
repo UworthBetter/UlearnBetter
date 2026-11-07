@@ -18,7 +18,7 @@ jobs:
         working-directory: concept-graph
       - run: npm run lint
         working-directory: concept-graph
-      - run: node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs tests/learn-adapter.test.mjs
+      - run: node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs tests/learn-adapter.test.mjs tests/record-*.test.mjs
   python:
     runs-on: ubuntu-latest
     steps:

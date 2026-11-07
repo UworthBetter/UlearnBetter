@@ -1,0 +1,187 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "learning.organize/0.1"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "kind": {
+            "enum": [
+              "notes",
+              "video",
+              "idea",
+              "article",
+              "pdf"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "about": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "folderHint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "conceptLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30
+          }
+        },
+        "required": [
+          "subject",
+          "kind",
+          "title",
+          "about",
+          "folderHint",
+          "conceptLabels"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "intent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "intent",
+          "folders"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "subject": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              },
+              "goalIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+                }
+              }
+            },
+            "required": [
+              "subject",
+              "goalIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "rejected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "subject": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              },
+              "goalId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              }
+            },
+            "required": [
+              "subject",
+              "goalId"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "accepted",
+        "rejected"
+      ],
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "allowGoalProposals": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "allowGoalProposals"
+      ],
+      "additionalProperties": false
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema",
+    "items",
+    "goals",
+    "decisions",
+    "options"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "organize-request.schema.json",
+  "title": "organize-request"
+}

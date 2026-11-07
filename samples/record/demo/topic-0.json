@@ -1,0 +1,108 @@
+{
+  "sample": true,
+  "learn": {
+    "schema": "learning.learn/0.1",
+    "topic": {
+      "id": "t-0",
+      "title": "光影观察",
+      "generated": {
+        "at": "2026-11-07T12:00:00Z",
+        "by": "synthetic",
+        "compiler_version": "0.1",
+        "extractor": "null",
+        "notes_dir": "synthetic"
+      }
+    },
+    "sources": [],
+    "relations": [],
+    "procedures": [],
+    "concepts": [
+      {
+        "id": "c-0",
+        "label": "观察",
+        "one_liner": "这是用于接口验收的合成概念。",
+        "group": "基础实验",
+        "blocks": [
+          {
+            "id": "b-0",
+            "shape": "definition",
+            "title": "实验笔记",
+            "points": [
+              {
+                "text": "记录一次观察。",
+                "ev": []
+              }
+            ],
+            "ev": [],
+            "grounding": "note"
+          }
+        ],
+        "note": "synthetic.md",
+        "note_hash": "sha1:0000000000000000000000000000000000000000"
+      },
+      {
+        "id": "c-1",
+        "label": "记录",
+        "one_liner": "这是用于接口验收的合成概念。",
+        "group": "基础实验",
+        "blocks": [
+          {
+            "id": "b-1",
+            "shape": "definition",
+            "title": "实验笔记",
+            "points": [
+              {
+                "text": "记录一次观察。",
+                "ev": []
+              }
+            ],
+            "ev": [],
+            "grounding": "note"
+          }
+        ],
+        "note": "synthetic.md",
+        "note_hash": "sha1:0000000000000000000000000000000000000000"
+      },
+      {
+        "id": "c-2",
+        "label": "比较",
+        "one_liner": "这是用于接口验收的合成概念。",
+        "group": "基础实验",
+        "blocks": [
+          {
+            "id": "b-2",
+            "shape": "definition",
+            "title": "实验笔记",
+            "points": [
+              {
+                "text": "记录一次观察。",
+                "ev": []
+              }
+            ],
+            "ev": [],
+            "grounding": "note"
+          }
+        ],
+        "note": "synthetic.md",
+        "note_hash": "sha1:0000000000000000000000000000000000000000"
+      }
+    ],
+    "stages": []
+  },
+  "overlay": {
+    "renames": {},
+    "hidden": [],
+    "pins": {},
+    "mastery": [
+      {
+        "subject": "concept:t-0/c-0",
+        "level": 1,
+        "due": "2026-11-06T12:00:00Z",
+        "visitSeconds": 40,
+        "rememberedCount": 0,
+        "lastRecall": "forgot"
+      }
+    ],
+    "checklist": {}
+  }
+}

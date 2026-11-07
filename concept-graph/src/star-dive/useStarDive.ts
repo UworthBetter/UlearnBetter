@@ -19,6 +19,7 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
         scene.closeCard()
         return { ok: true, message: '已关闭卡片' }
       }
+      if (action.type !== 'focus_concept') return { ok: false, message: '不支持的星图动作' }
       if (!data.concepts.some((c) => c.id === action.conceptId)) return { ok: false, message: '概念不存在' }
       // The scene starts after document.fonts.ready; commands must not claim success before init.
       if (learningSession.getSnapshot().view !== 'star-dive') return { ok: false, message: '星图尚未就绪' }

@@ -1,7 +1,7 @@
 # UlearnBetter 协作约定
 
 本仓库用于视频笔记和星图内交互学习。当前执行依据是
-`docs/development/SPRINT_01.md` 和 `docs/development/CONTRACTS.md`。
+`docs/development/SPRINT_02.md` 和 `docs/development/CONTRACTS.md`。
 
 - 保留现有星图、节点聚焦、环绕卡和原地展开面板。
 - 全局 AI 助手持续存在，并理解当前内容和交互状态。

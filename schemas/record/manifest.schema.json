@@ -1,0 +1,314 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "learning.manifest/0.1"
+    },
+    "topic": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "idOrigin": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "idOrigin"
+      ],
+      "additionalProperties": false
+    },
+    "contentHash": {
+      "type": "string"
+    },
+    "compilerVersion": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "folderHint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "what": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "about": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "route": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "what",
+        "about",
+        "route"
+      ],
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "chapters": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "concepts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "procedures": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "chapters",
+        "concepts",
+        "procedures"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duration": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "author",
+        "duration",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "importanceHint": {
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          },
+          "importanceFactors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blockCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "aliases",
+          "group",
+          "order",
+          "importanceHint",
+          "importanceFactors",
+          "blockCount"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "conceptIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "conceptIds"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "procedures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+                },
+                "text": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "route": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+      }
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema",
+    "topic",
+    "contentHash",
+    "compilerVersion",
+    "generatedAt",
+    "folderHint",
+    "identity",
+    "counts",
+    "source",
+    "concepts",
+    "groups",
+    "procedures",
+    "route"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "manifest.schema.json",
+  "title": "manifest"
+}

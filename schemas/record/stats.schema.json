@@ -1,0 +1,160 @@
+{
+  "type": "object",
+  "properties": {
+    "range": {
+      "enum": [
+        "week",
+        "month",
+        "all"
+      ]
+    },
+    "tz": {
+      "type": "string"
+    },
+    "weekMinutes": {
+      "type": "number"
+    },
+    "streakDays": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "todayDone": {
+      "type": "boolean"
+    },
+    "learned": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "recallRate": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trend": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "minutes": {
+            "type": "number"
+          },
+          "beforeStart": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "date",
+          "minutes",
+          "beforeStart"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goalId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "learned": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "recalled": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "date",
+                "recalled"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "goalId",
+          "title",
+          "learned",
+          "total",
+          "history"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sharedTopicsNote": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "range",
+    "tz",
+    "weekMinutes",
+    "streakDays",
+    "todayDone",
+    "learned",
+    "total",
+    "recallRate",
+    "trend",
+    "days",
+    "goals",
+    "sharedTopicsNote"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stats.schema.json",
+  "title": "stats"
+}

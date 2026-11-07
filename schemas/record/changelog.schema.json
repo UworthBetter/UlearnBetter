@@ -1,0 +1,113 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "trigger": {
+      "type": "string",
+      "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+    },
+    "organizer": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "component",
+            "compiler",
+            "user"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "promptVersion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mock": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "name",
+        "version",
+        "model",
+        "promptVersion",
+        "mock"
+      ],
+      "additionalProperties": false
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assignmentId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "proposed",
+              "accepted",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "assignmentId",
+          "summary",
+          "state"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "undone": {
+      "type": "boolean"
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "at",
+    "trigger",
+    "organizer",
+    "changes",
+    "undone"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "changelog.schema.json",
+  "title": "changelog"
+}

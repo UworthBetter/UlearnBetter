@@ -1,0 +1,77 @@
+{
+  "sample": true,
+  "schema": "learning.manifest/0.1",
+  "topic": {
+    "id": "t-0",
+    "title": "光影观察",
+    "idOrigin": "explicit"
+  },
+  "contentHash": "synthetic",
+  "compilerVersion": "0.1",
+  "generatedAt": "2026-11-07T12:00:00Z",
+  "folderHint": "实验",
+  "identity": {
+    "what": "合成笔记",
+    "about": null,
+    "route": null
+  },
+  "counts": {
+    "chapters": 0,
+    "concepts": 3,
+    "procedures": 0
+  },
+  "source": {
+    "title": "合成样例",
+    "author": null,
+    "duration": null,
+    "url": null
+  },
+  "concepts": [
+    {
+      "id": "c-0",
+      "label": "观察",
+      "aliases": [],
+      "group": "基础实验",
+      "order": 0,
+      "importanceHint": 1,
+      "importanceFactors": [],
+      "blockCount": 1
+    },
+    {
+      "id": "c-1",
+      "label": "记录",
+      "aliases": [],
+      "group": "基础实验",
+      "order": 1,
+      "importanceHint": 1,
+      "importanceFactors": [],
+      "blockCount": 1
+    },
+    {
+      "id": "c-2",
+      "label": "比较",
+      "aliases": [],
+      "group": "基础实验",
+      "order": 2,
+      "importanceHint": 1,
+      "importanceFactors": [],
+      "blockCount": 1
+    }
+  ],
+  "groups": [
+    {
+      "name": "基础实验",
+      "conceptIds": [
+        "c-0",
+        "c-1",
+        "c-2"
+      ]
+    }
+  ],
+  "procedures": [],
+  "route": [
+    "c-0",
+    "c-1",
+    "c-2"
+  ]
+}

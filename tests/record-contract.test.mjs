@@ -1,0 +1,24 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { createMockRecordClient, createHttpRecordClient, RecordError } from '../concept-graph/src/record/client.ts'
+import { parseRoute, routeHash } from '../concept-graph/src/shell/routes.ts'
+test('mock reads are cloned, writes isolated and event IDs idempotent', async()=>{
+ const a=createMockRecordClient(), b=createMockRecordClient()
+ const rows=await a.listItems();assert.equal(rows.meta.source,'mock');rows.data.length=0
+ assert.equal((await a.listItems()).data.length,6)
+ const event={id:crypto.randomUUID(),at:new Date().toISOString(),kind:'recall',subject:'concept:t-0/c-0',cardId:null,result:'remembered'}
+ await a.addEvents([event,event]);assert.equal((await a.listEvents()).data.length,2);assert.equal((await b.listEvents()).data.length,1)
+ await assert.rejects(a.getItem('missing'),e=>e instanceof RecordError&&e.code==='not_found')
+ for(const method of ['listTopics','listGoals','getProposals','listChangeLog','listOverrides','getMastery','getToday','getStats','getPanorama'])assert.equal((await a[method]()).meta.source,'mock')
+})
+test('HTTP preserves errors and encodes IDs and query values',async()=>{
+ const original=globalThis.fetch;let url
+ try {globalThis.fetch=async u=>{url=u;return new Response(JSON.stringify({error:'not_found',message:'missing'}),{status:404})}
+ await assert.rejects(createHttpRecordClient().getItem('a/b'),e=>e.code==='not_found');assert.equal(url,'/api/record/items/a%2Fb')
+ }finally{globalThis.fetch=original}
+})
+test('routes roundtrip encoded IDs and overlays',()=>{
+ for(const r of [{view:'today',layer:'stats'},{view:'library',itemId:'光 线'},{view:'panorama',goalId:'g'},{view:'star-dive',topicId:'t',conceptId:'c'}])assert.deepEqual({...parseRoute(routeHash(r)),adjust:undefined},{...r,adjust:undefined})
+ assert.equal(parseRoute('#/library/i?sheet=adjust').adjust!==undefined,true)
+ assert.equal(parseRoute('#/star-dive/%').view,'today')
+})
