@@ -5,6 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { createApp } from '../../server/src/app.mjs'
+import { createSettingsStore } from '../../server/src/settings/store.mjs'
 
 export async function tempDir(t, prefix = 'ulb-record-') {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), prefix))
@@ -98,7 +99,12 @@ export function clock(iso) {
 }
 
 export async function startApp(t, { env = {}, record = {} } = {}) {
-  const { app, record: service } = await createApp(env, { record })
+  // Hermetic settings: never read the real server/.data/settings.json.
+  const settingsDir = await tempDir(t, 'ulb-settings-')
+  const { app, record: service } = await createApp(env, {
+    record,
+    settingsStore: createSettingsStore(path.join(settingsDir, 'settings.json')),
+  })
   const server = app.listen(0, '127.0.0.1')
   await new Promise((r) => server.once('listening', r))
   t.after(() => new Promise((r) => { server.closeAllConnections(); server.close(r) }))

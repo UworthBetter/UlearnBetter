@@ -58,6 +58,25 @@ npm install
 \* 缺少 provider 或密钥时，后端**不会**用 mock 回答：`/health` 返回
 `ready:false` 和明确原因，`/api/copilotkit` 返回 HTTP 503。
 
+### 设置页（无需编辑 .env）
+
+服务启动后打开 <http://127.0.0.1:4000/settings>（`/` 会重定向过去），可在页面里
+选择 provider、填写密钥 / 模型 / Base URL，**保存即生效，无需重启**：
+
+- 配置保存在 `server/.data/settings.json`（已 gitignore），密钥只落在本机后端，
+  不进入前端、仓库或日志；`GET` 接口只返回打码密钥。
+- 优先级：设置页保存的非空字段 **覆盖** 环境变量；留空字段回落到环境变量/默认值。
+  清除已保存配置后回到纯环境变量状态。
+- 「测试连接」调用各家 provider 的免费模型列表接口验证密钥与 Base URL
+  （`/v1/models` 等），不消耗 token、不保存任何内容；openai-compatible 端点若
+  不支持模型列表，会如实返回未验证。
+- 后端 API（同源，页面自用）：`GET /api/settings`、`PUT /api/settings`、
+  `POST /api/settings/test`、`DELETE /api/settings`。
+- 可用 `ASSISTANT_SETTINGS_FILE` 改设置文件路径（默认 `server/.data/settings.json`）。
+- 保存失败（校验不过、provider 初始化失败）时保留原配置继续服务，返回 400 与原因。
+  已知限制：`RECORD_ORGANIZER=llm` 的归类模型在启动时确定，设置页改动不会
+  重建它（重启后生效）。
+
 ### 默认模型
 
 | provider | 默认模型 |

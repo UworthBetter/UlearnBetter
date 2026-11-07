@@ -1,9 +1,17 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import fs from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
 import { createApp } from '../../server/src/app.mjs'
+import { createSettingsStore } from '../../server/src/settings/store.mjs'
 
 async function withServer(env, fn) {
-  const { app, ready, reason, config } = await createApp(env)
+  // Hermetic settings: never read the real server/.data/settings.json.
+  const settingsDir = await fs.mkdtemp(path.join(os.tmpdir(), 'ulb-app-settings-'))
+  const { app, ready, reason, config } = await createApp(env, {
+    settingsStore: createSettingsStore(path.join(settingsDir, 'settings.json')),
+  })
   const server = app.listen(0)
   await new Promise((r) => server.once('listening', r))
   const { port } = server.address()
@@ -12,6 +20,7 @@ async function withServer(env, fn) {
     return await fn({ base, ready, reason, config })
   } finally {
     await new Promise((r) => server.close(r))
+    await fs.rm(settingsDir, { recursive: true, force: true })
   }
 }
 
