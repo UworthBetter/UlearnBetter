@@ -1,0 +1,5 @@
+# tools/learning 依赖说明
+# 核心转换零第三方依赖（Python 3.10+ 标准库）。
+# 以下仅为可选增强：安装后可用 --schema-file 做 JSON Schema 校验，
+# 未安装时自动跳过并在报告中说明。
+# jsonschema>=4.0

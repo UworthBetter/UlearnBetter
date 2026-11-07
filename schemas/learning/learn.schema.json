@@ -1,0 +1,392 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "ulearnbetter://schemas/learning/learn.schema.json",
+  "title": "learning.learn/0.1",
+  "description": "由 Obsidian 笔记离线编译得到的学习内容结构。六类内容块：definition / structure / process / comparison / variation / procedure。原文与来源（ev）必须保留；来源与推测通过 grounding 区分。",
+  "type": "object",
+  "required": ["schema", "topic", "sources", "stages", "relations", "concepts", "procedures"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "learning.learn/0.1" },
+    "topic": {
+      "type": "object",
+      "required": ["id", "title", "generated"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "flags": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "disclaimer": { "type": ["string", "null"] },
+            "asof": { "type": ["string", "null"], "description": "内容截至日期 YYYY-MM-DD，用于时效提示" }
+          }
+        },
+        "generated": {
+          "type": "object",
+          "required": ["at", "by", "compiler_version", "extractor", "notes_dir"],
+          "additionalProperties": false,
+          "properties": {
+            "at": { "type": "string", "description": "ISO-8601 时间；--now 可指定" },
+            "by": { "type": "string" },
+            "compiler_version": { "type": "string" },
+            "model": { "type": ["string", "null"], "description": "仅当真实 LLM 参与抽取时填写；离线编译为 null" },
+            "extractor": { "type": "string", "description": "抽取器名称，如 null / frontmatter-annotated / 自定义" },
+            "notes_dir": { "type": "string", "description": "输入主题目录（仅路径名，不承诺读取授权范围之外的内容）" }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/source" }
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "chapters"],
+        "additionalProperties": false,
+        "properties": {
+          "title": { "type": "string" },
+          "chapters": { "type": "array", "items": { "type": "string" } },
+          "origin": { "enum": ["home-page", "auto-by-chapters"] }
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "description": "kind=related 来自概念卡 wikilink；uses 来自主页全景图；contrast 来自对比块。不生成 prereq：出现顺序只用于建议路线。",
+      "items": {
+        "type": "object",
+        "required": ["a", "b", "kind", "ev"],
+        "additionalProperties": false,
+        "properties": {
+          "a": { "type": "string" },
+          "b": { "type": "string" },
+          "kind": { "enum": ["related", "uses", "contrast", "part_of", "prereq"] },
+          "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } }
+        }
+      }
+    },
+    "concepts": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/concept" }
+    },
+    "procedures": {
+      "type": "array",
+      "description": "主题级实操清单（航线终点）。不挂到任意概念上，避免硬凑归属。",
+      "items": { "$ref": "#/definitions/block" }
+    }
+  },
+  "definitions": {
+    "source": {
+      "type": "object",
+      "required": ["id", "kind", "ref", "discovered_in"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^v\\d+$" },
+        "kind": { "enum": ["video", "pdf"] },
+        "platform": { "type": ["string", "null"] },
+        "ref": { "type": "string", "description": "视频 ID 或文件引用" },
+        "title": { "type": ["string", "null"] },
+        "author": { "type": ["string", "null"] },
+        "duration_sec": { "type": ["integer", "null"] },
+        "meta_from": { "type": ["string", "null"], "description": "元数据来源笔记；null 表示仅从链接发现" },
+        "discovered_in": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "ev": {
+      "type": "object",
+      "description": "证据。t 为链接里明确给出的起点秒数（粗粒度），不伪造结束点与逐句引文。",
+      "oneOf": [
+        { "required": ["note"] },
+        { "required": ["src", "t"] },
+        { "required": ["src", "page"] }
+      ],
+      "properties": {
+        "note": { "type": "string", "description": "主题内相对路径，可带 #标题 锚点" },
+        "src": { "type": "string", "description": "sources[].id" },
+        "t": { "type": "number", "minimum": 0 },
+        "page": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "concept": {
+      "type": "object",
+      "required": ["id", "label", "note", "note_hash", "one_liner", "blocks"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "note": { "type": "string", "description": "概念卡相对路径" },
+        "note_hash": { "type": "string", "pattern": "^sha1:[0-9a-f]{40}$" },
+        "id_origin": { "enum": ["frontmatter", "title-slug"] },
+        "one_liner": { "type": "string", "description": "一句话定义原文" },
+        "key": { "type": ["string", "null"], "description": "一句话定义中的 ==高亮== 片段" },
+        "group": { "type": ["string", "null"], "description": "学习主页核心概念卡表的分组" },
+        "chapters": { "type": "array", "items": { "type": "string" } },
+        "blocks": {
+          "type": "array",
+          "description": "第一个必须是 definition",
+          "items": { "$ref": "#/definitions/block" }
+        },
+        "preserved": {
+          "type": "array",
+          "description": "未转换成块的内容按原文保留（我的思考除外，留给用户）",
+          "items": {
+            "type": "object",
+            "required": ["heading", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "heading": { "type": ["string", "null"] },
+              "text": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "required": ["id", "shape", "title", "grounding", "ev"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "shape": {
+          "enum": ["definition", "structure", "process", "comparison", "variation", "procedure"]
+        },
+        "title": { "type": "string" },
+        "role": { "enum": ["principle", "example", "case", "pitfall"], "default": "principle" },
+        "grounding": {
+          "enum": ["video", "note", "derived", "illustrative", "supplementary"],
+          "description": "note=笔记整理；video 要求逐句字幕核对（离线编译不产出该档）；supplementary 每概念最多 1 块"
+        },
+        "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } },
+        "preserved": {
+          "type": "array",
+          "description": "块内未转换内容按原文保留",
+          "items": {
+            "type": "object",
+            "required": ["heading", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "heading": { "type": ["string", "null"] },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "points": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": ["text"],
+            "additionalProperties": false,
+            "properties": {
+              "text": { "type": "string" },
+              "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } }
+            }
+          }
+        },
+        "terms": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object", "required": ["term", "gloss"],
+            "additionalProperties": false,
+            "properties": { "term": { "type": "string" }, "gloss": { "type": "string" } }
+          }
+        },
+        "math": { "type": "string" },
+        "artifact": {
+          "type": "object", "required": ["lang", "code"],
+          "additionalProperties": false,
+          "properties": { "lang": { "type": "string" }, "code": { "type": "string" } }
+        },
+        "layout": { "enum": ["flow", "hub", "cycle", "layers", "tree"] },
+        "nodes": {
+          "type": "array", "minItems": 2, "maxItems": 24,
+          "items": {
+            "type": "object", "required": ["id", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "concept": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "edges": {
+          "type": "array", "maxItems": 48,
+          "items": {
+            "type": "object", "required": ["from", "to", "kind"],
+            "additionalProperties": false,
+            "properties": {
+              "from": { "type": "string" }, "to": { "type": "string" },
+              "label": { "type": ["string", "null"] }, "kind": { "enum": ["part", "flow", "transition", "depends"] }
+            }
+          }
+        },
+        "mode": { "enum": ["causal", "time", "derivation", "story"] },
+        "steps": {
+          "type": "array", "minItems": 2, "maxItems": 12,
+          "items": {
+            "type": "object", "required": ["label"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "detail": { "type": ["string", "null"] },
+              "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } }
+            }
+          }
+        },
+        "compare_mode": { "enum": ["matrix", "rules", "pros_cons"] },
+        "items": {
+          "type": "array", "minItems": 1, "maxItems": 8,
+          "items": {
+            "type": "object", "required": ["label"],
+            "additionalProperties": false,
+            "properties": { "label": { "type": "string" }, "concept": { "type": ["string", "null"] } }
+          }
+        },
+        "dims": { "type": "array", "minItems": 1, "maxItems": 8, "items": { "type": "string" } },
+        "cells": {
+          "type": "array",
+          "description": "外层=dim，内层=item，与 dims/items 顺序对齐",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object", "required": ["text"],
+              "additionalProperties": false,
+              "properties": {
+                "text": { "type": "string" },
+                "mark": { "enum": ["good", "warn", "bad"], "type": "string" }
+              }
+            }
+          }
+        },
+        "verdict": { "type": "string" },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "groups": {
+          "type": "array", "maxItems": 12,
+          "items": {
+            "type": "object", "required": ["title", "items"],
+            "additionalProperties": false,
+            "properties": {
+              "title": { "type": ["string", "null"] },
+              "items": {
+                "type": "array", "maxItems": 16,
+                "items": {
+                  "type": "object", "required": ["id", "text"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": { "type": "string" },
+                    "text": { "type": "string" },
+                    "cmd": { "type": "string" },
+                    "verify": { "type": "string" },
+                    "warn": { "type": "string" },
+                    "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "domain": { "enum": ["function", "series"] },
+        "inputs": {
+          "type": "array", "minItems": 1, "maxItems": 6,
+          "items": {
+            "type": "object", "required": ["name", "label", "min", "max", "step", "default"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" }, "label": { "type": "string" },
+              "min": { "type": "number" }, "max": { "type": "number" },
+              "step": { "type": "number" }, "default": { "type": "number" },
+              "presets": { "type": "array", "items": { "type": "number" } }
+            }
+          }
+        },
+        "x": {
+          "type": "object", "required": ["label", "range", "cursor"],
+          "additionalProperties": false,
+          "properties": {
+            "label": { "type": "string" }, "range": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+            "cursor": { "type": "number" }
+          }
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "gen": { "enum": ["trend_up", "trend_down", "range", "reversal_up", "reversal_down", "accel_up", "cycle"] },
+            "n": { "type": "integer", "minimum": 10 },
+            "seed": { "type": "integer" },
+            "inline": { "type": "array", "items": { "type": "number" } },
+            "label": { "type": ["string", "null"] },
+            "asof": { "type": ["string", "null"] }
+          }
+        },
+        "series": {
+          "type": "array", "minItems": 1, "maxItems": 6,
+          "items": {
+            "type": "object", "required": ["id", "label", "expr"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" }, "label": { "type": "string" }, "expr": { "type": "string" },
+              "mark": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "readouts": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object", "required": ["label", "expr"],
+            "additionalProperties": false,
+            "properties": { "label": { "type": "string" }, "expr": { "type": "string" }, "fmt": { "type": "string" } }
+          }
+        },
+        "states": {
+          "type": "array", "maxItems": 12,
+          "items": {
+            "type": "object", "required": ["when", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "when": { "type": "string" }, "text": { "type": "string" },
+              "implies": { "type": "string" }
+            }
+          }
+        },
+        "notables": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "find": { "type": "string" }, "at": { "type": "object" }, "text": { "type": "string" },
+              "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } }
+            }
+          }
+        },
+        "claims": {
+          "type": "array", "maxItems": 8,
+          "items": {
+            "type": "object", "required": ["text", "ev"],
+            "additionalProperties": false,
+            "properties": {
+              "text": { "type": "string" },
+              "ev": { "type": "array", "items": { "$ref": "#/definitions/ev" } },
+              "check": {
+                "type": "object", "required": ["expr", "expect"],
+                "additionalProperties": false,
+                "properties": {
+                  "expr": { "type": "string" }, "at": { "type": "object" },
+                  "expect": { "type": "number" }, "tol": { "type": "number" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
