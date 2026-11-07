@@ -88,7 +88,7 @@ test('topics: unknown 404, invalid / traversal ids 400, symlink escape and bad m
   const outside = await tempDir(t)
   const evil = manifest({ id: 'evil', title: '外部', concepts: [{ id: 'x', label: 'x' }] })
   await writeTopic(outside, evil)
-  await fs.symlink(path.join(outside, 'evil'), path.join(learn, 'evil'))
+  await fs.symlink(path.join(outside, 'evil'), path.join(learn, 'evil'), process.platform === 'win32' ? 'junction' : 'dir')
   await fs.mkdir(path.join(learn, 'broken'))
   await fs.writeFile(path.join(learn, 'broken', 'manifest.json'), '{"schema":"learning.manifest/0.1"}')
   await fs.writeFile(path.join(learn, 'broken', 'learn.json'), '{}')

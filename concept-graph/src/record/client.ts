@@ -56,17 +56,18 @@ export function createHttpRecordClient(base = '/api/record'): RecordClient {
    if (data.schema !== 'learning.record-api/0.1' || !['record','mock'].includes(data.meta?.source || '')) throw new RecordError('invalid_response', '记录信封无效')
    return value as T.Envelope<T>
  }
+ const tz = () => Intl.DateTimeFormat().resolvedOptions().timeZone
  const id = encodeURIComponent
  const query = (values: object) => {const q = new URLSearchParams(); for (const [k,v] of Object.entries(values)) if (v !== undefined) q.set(k,String(v)); return q.size ? '?' + q : ''}
  return {
- listTopics: () => request('/topics'), getTopicLearn: (v) => request('/topics/'+id(v)+'/learn'),
+ listTopics: () => request('/topics'), getTopicLearn: (v) => request('/topics/'+id(v)+'/learn'+query({tz:tz()})),
  listGoals: () => request('/goals'), createGoal: (v) => request('/goals','POST',v), updateGoal: (v,b) => request('/goals/'+id(v),'PATCH',b),
  getProposals: () => request('/proposals'), listItems: (v = {}) => request('/items'+query(v)), getItem: (v) => request('/items/'+id(v)), addItem: (v) => request('/items','POST',v), organizeItem: (v) => request('/items/'+id(v)+'/organize','POST'),
  listChangeLog: (itemId) => request('/changelog'+query({itemId})), undoChangeLog: (v) => request('/changelog/'+id(v)+'/undo','POST'),
  listOverrides: (target) => request('/overrides'+query({target})), addOverride: (v) => request('/overrides','POST',v),
  listEvents: (v = {}) => request('/events'+query(v)), addEvents: (v) => request('/events','POST',v),
- getMastery: (topicId) => request('/mastery'+query({topicId})), getToday: (date,tz) => request('/today'+query({date,tz})),
- getStats: (range,tz) => request('/stats'+query({range,tz})), getPanorama: (goalId) => request('/panorama'+query({goalId})),
+ getMastery: (topicId) => request('/mastery'+query({topicId,tz:tz()})), getToday: (date,tz) => request('/today'+query({date,tz})),
+ getStats: (range,tz) => request('/stats'+query({range,tz})), getPanorama: (goalId) => request('/panorama'+query({goalId,tz:tz()})),
  }
 }
 export type MockFixtures = Record<string, unknown>
