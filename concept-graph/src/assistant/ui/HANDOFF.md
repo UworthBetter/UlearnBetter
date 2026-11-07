@@ -25,7 +25,12 @@ import GlobalAssistant from './assistant/ui/GlobalAssistant.tsx'
 | `runtimeUrl` | `/api/copilotkit` | 同源运行时 |
 | `agentId` | `default` | 必须和后端 `/info` 里的 agent id 一致 |
 | `initialDemoMode` | `false` | 测试时可直接打开演示 |
-| `initialOpen` | `false` | 测试时可直接展开面板 |
+| `initialOpen` | `false` | 测试时可直接展开历史 |
+| `record` | 不传 | `{ client, navigate, openAdjust }`，与视图用同一个客户端 |
+
+`record` 不传时，栏仍能提问。归类提示、记想法、加入视频都不会写决定层，只提示「学习记录还没接上」。集成时请把 `Root` 里已经创建的 `client`、`navigate`、`openAdjust` 传进来，不要再 new 一个客户端。
+
+栏是底部常驻，不是右下角按钮。历史从「历史」打开。全景页请在文档根上设置 `--ub-rail-width`（摘要栏宽度，原型 332px）。栏会把自己的占位高度写到 `--ub-agent-bar-height`，潜航时间轴用这个值上移。视图里的全景目前会暂时写 `--ub-rail-width`，外壳接手后可以去掉那段。
 
 ## Vite 代理
 
@@ -46,7 +51,7 @@ server: {
 
 ## 不需要扩展桥
 
-`focus_concept`、`open_card`、`close_card` 直接调用 `learningSession.execute`。不要读 `window.__starDive`，不要用选择器点页面。
+`focus_concept`、`open_card`、`close_card`、`navigate`、`open_adjust` 直接调用 `learningSession.execute`。后两个只打开页面，不接受、不拒绝、不改归属。不要读 `window.__starDive`，不要用选择器点页面。不要再给模型加写决定层的工具。
 
 ## 行为约定
 
