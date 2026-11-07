@@ -1,0 +1,335 @@
+.ula-root {
+  --ula-bg: rgba(6, 12, 32, 0.94);
+  --ula-bg-2: rgba(16, 28, 68, 0.72);
+  --ula-ink: #f3f5ff;
+  --ula-muted: rgba(200, 212, 250, 0.68);
+  --ula-line: rgba(255, 222, 170, 0.2);
+  --ula-amber: #ffb547;
+  --ula-amber-2: #ffd48a;
+  --ula-cyan: #86dcff;
+  --ula-danger: #ffb4b4;
+  color: var(--ula-ink);
+  font-family: Inter, "SF Pro Text", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ula-root button,
+.ula-root textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.ula-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px 0 12px;
+  border: 1px solid var(--ula-line);
+  border-radius: 999px;
+  background: rgba(8, 14, 36, 0.92);
+  color: var(--ula-amber-2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.ula-launcher:hover,
+.ula-launcher:focus-visible {
+  border-color: var(--ula-amber);
+  outline: 2px solid var(--ula-amber);
+  outline-offset: 2px;
+}
+
+.ula-star {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #fff, var(--ula-amber) 55%, #ff9a5a);
+  box-shadow: 0 0 10px var(--ula-amber);
+}
+
+.ula-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 76px;
+  z-index: 60;
+  display: none;
+  width: min(420px, calc(100vw - 32px));
+  height: min(720px, calc(100vh - 108px));
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--ula-line);
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(255, 181, 71, 0.16), transparent 42%),
+    var(--ula-bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.ula-panel-open { display: flex; }
+
+.ula-head,
+.ula-scene,
+.ula-compose {
+  padding: 12px 14px;
+}
+
+.ula-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--ula-line);
+}
+
+.ula-kicker {
+  margin: 0;
+  color: var(--ula-amber);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ula-head h2 {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.ula-head-actions,
+.ula-compose-row,
+.ula-error-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ula-head-actions { align-items: center; }
+
+.ula-text-button,
+.ula-send,
+.ula-retry {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--ula-line);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ula-text-button[aria-pressed='true'] {
+  border-color: var(--ula-amber);
+  background: rgba(255, 181, 71, 0.16);
+  color: var(--ula-amber-2);
+}
+
+.ula-text-button:focus-visible,
+.ula-send:focus-visible,
+.ula-retry:focus-visible,
+.ula-compose textarea:focus-visible {
+  outline: 2px solid var(--ula-amber);
+  outline-offset: 2px;
+}
+
+.ula-scene {
+  border-bottom: 1px solid rgba(255, 222, 170, 0.12);
+}
+
+.ula-scene-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ula-scene h3,
+.ula-chip span,
+.ula-turn-meta {
+  margin: 0;
+  color: var(--ula-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ula-turn-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+}
+
+.ula-stopped {
+  margin: 8px 0 0;
+  color: var(--ula-amber-2);
+}
+
+.ula-scene p,
+.ula-banner,
+.ula-chip,
+.ula-empty,
+.ula-status,
+.ula-tool {
+  margin: 6px 0 0;
+}
+
+.ula-scene strong { color: var(--ula-ink); }
+
+.ula-selection {
+  color: var(--ula-cyan);
+  overflow-wrap: anywhere;
+}
+
+.ula-banner {
+  margin: 0;
+  padding: 8px 14px;
+  color: var(--ula-amber-2);
+  background: rgba(255, 181, 71, 0.08);
+}
+
+.ula-banner-error {
+  color: var(--ula-danger);
+  background: rgba(120, 24, 32, 0.35);
+}
+
+.ula-log {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px 14px 16px;
+}
+
+.ula-empty {
+  color: var(--ula-muted);
+}
+
+.ula-turn + .ula-turn { margin-top: 16px; }
+
+.ula-user,
+.ula-assistant {
+  border: 1px solid rgba(255, 222, 170, 0.14);
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.ula-user { background: rgba(255, 181, 71, 0.08); }
+
+.ula-assistant {
+  margin-top: 8px;
+  background: var(--ula-bg-2);
+}
+
+.ula-chip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 0;
+}
+
+.ula-chip strong { font-weight: 650; }
+
+.ula-question {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ula-tool {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(4, 9, 25, 0.45);
+  color: var(--ula-cyan);
+}
+
+.ula-status { color: var(--ula-muted); }
+
+.ula-error {
+  margin-top: 8px;
+  color: var(--ula-danger);
+}
+
+.ula-compose { border-top: 1px solid var(--ula-line); }
+
+.ula-compose textarea {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--ula-line);
+  border-radius: 12px;
+  background: rgba(4, 9, 25, 0.55);
+}
+
+.ula-compose-row {
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.ula-send {
+  background: var(--ula-amber);
+  color: #2a1600;
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.ula-send:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.ula-md p,
+.ula-md ul,
+.ula-md blockquote,
+.ula-md h3,
+.ula-md h4 { margin: 0 0 8px; }
+
+.ula-md ul { padding-left: 18px; }
+
+.ula-md code,
+.ula-code {
+  font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  font-size: 12.5px;
+}
+
+.ula-md code {
+  padding: 0 4px;
+  border-radius: 4px;
+  background: rgba(4, 9, 25, 0.55);
+}
+
+.ula-code {
+  overflow: auto;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(4, 9, 25, 0.72);
+  white-space: pre-wrap;
+}
+
+.ula-math-block {
+  overflow-x: auto;
+  margin: 0 0 8px;
+}
+
+.ula-fallback {
+  padding: 16px;
+}
+
+@media (max-width: 760px) {
+  .ula-panel-open {
+    inset: 0;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: #070d22;
+  }
+
+  .ula-root[data-open='true'] .ula-launcher { display: none; }
+}
