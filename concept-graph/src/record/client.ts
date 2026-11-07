@@ -66,8 +66,8 @@ export function createHttpRecordClient(base = '/api/record'): RecordClient {
  listChangeLog: (itemId) => request('/changelog'+query({itemId})), undoChangeLog: (v) => request('/changelog/'+id(v)+'/undo','POST'),
  listOverrides: (target) => request('/overrides'+query({target})), addOverride: (v) => request('/overrides','POST',v),
  listEvents: (v = {}) => request('/events'+query(v)), addEvents: (v) => request('/events','POST',v),
- getMastery: (topicId) => request('/mastery'+query({topicId,tz:tz()})), getToday: (date,tz) => request('/today'+query({date,tz})),
- getStats: (range,tz) => request('/stats'+query({range,tz})), getPanorama: (goalId) => request('/panorama'+query({goalId,tz:tz()})),
+ getMastery: (topicId) => request('/mastery'+query({topicId,tz:tz()})), getToday: (date,zone) => request('/today'+query({date,tz:zone??tz()})),
+ getStats: (range,zone) => request('/stats'+query({range,tz:zone??tz()})), getPanorama: (goalId) => request('/panorama'+query({goalId,tz:tz()})),
  }
 }
 export type MockFixtures = Record<string, unknown>

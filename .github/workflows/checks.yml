@@ -19,11 +19,7 @@ jobs:
       - run: npm run lint
         working-directory: concept-graph
       - run: node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs tests/learn-adapter.test.mjs tests/record-*.test.mjs
-      - name: UI contract tests when delivered
-        run: |
-          if compgen -G "tests/ui-*.test.mjs" > /dev/null; then
-            node --experimental-strip-types --test tests/ui-*.test.mjs
-          fi
+      - run: node --experimental-strip-types --test tests/ui-*.test.mjs
   python:
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +30,10 @@ jobs:
       - run: python -m pip install "jsonschema>=4,<5"
       - run: python -m unittest discover -s tests
       - run: python tools/learning/notes_compile.py samples/learn/demo-topic --out "${{ runner.temp }}/learn-check" --extractor annotated --schema-file schemas/learning/learn.schema.json
+      - name: Folder organizer conformance
+        run: |
+          python tools/learning/organize.py --request samples/record/organize/request.json --organizer folder --out "${{ runner.temp }}/organize-check.json"
+          python -c "import json; from pathlib import Path; assert json.loads(Path('${{ runner.temp }}/organize-check.json').read_text(encoding='utf-8')) == json.loads(Path('samples/record/organize/folder.expected.json').read_text(encoding='utf-8'))"
   backend:
     runs-on: ubuntu-latest
     env:

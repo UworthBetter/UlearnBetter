@@ -125,12 +125,8 @@ def main(argv=None) -> int:
             report["manifest_schema_validation"] = _schema_check(
                 result.manifest, manifest_schema)
             if report["manifest_schema_validation"].get("valid") is False:
-                # 已知契约缺口（见 tools/learning/HANDOFF.md）：importanceHint
-                # 无依据时按任务规则输出 null，schema 暂未允许 null。只告警，
-                # 不阻塞发布，等集成人发 C0.x 补丁。
-                print("警告：manifest 未通过 JSON Schema 校验"
-                      "（详见 report.manifest_schema_validation；"
-                      "已知缺口见 tools/learning/HANDOFF.md）", file=sys.stderr)
+                print("错误：manifest 未通过 JSON Schema 校验，不发布产物", file=sys.stderr)
+                return 1
         if report["schema_validation"].get("valid") is False:
             print("错误：输出未通过 JSON Schema 校验，不发布产物", file=sys.stderr)
             return 1

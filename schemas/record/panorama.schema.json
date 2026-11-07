@@ -287,6 +287,29 @@
     },
     "sample": {
       "const": true
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "a",
+          "b",
+          "kind"
+        ],
+        "additionalProperties": false
+      }
     }
   },
   "required": [

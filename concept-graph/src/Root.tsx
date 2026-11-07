@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState, useSyncExternalStore, type ComponentType, type CSSProperties } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react'
 import App from './App'
 import { learningSession } from './assistant/context-store'
 import { createHttpRecordClient, createMockRecordClient, type RecordClient } from './record/client'
@@ -20,13 +20,13 @@ let sawMock = mock
 const client = Object.fromEntries(Object.entries(transport).map(([key,fn])=>[key,async (...args: unknown[])=>{
  const response=await fn(...args)
  if(response.meta.source==='mock'){sawMock=true;window.dispatchEvent(new Event('record:mock'))}
+ if(['createGoal','updateGoal','addItem','organizeItem','undoChangeLog','addOverride','addEvents'].includes(key))window.dispatchEvent(new Event('record:changed'))
  return response
 }])) as unknown as RecordClient
 const navigate = (route: RecordRoute) => {location.hash = routeHash(route)}
 const openAdjust = (opts: AdjustOptions = {}) => {const [path,query='']=location.hash.split('?'); const q=new URLSearchParams(query);q.set('sheet','adjust');for(const k of ['changeLogId','itemId'] as const)if(opts[k])q.set(k,opts[k]);location.hash=path+'?'+q}
 const assistantRecord = {client,navigate,openAdjust}
-// Optional prop is consumed by Grok's delivery; the existing S1 assistant stays mounted.
-const GlobalAssistant = lazy(async () => ({default:(await import('./assistant/ui/GlobalAssistant')).default as ComponentType<{record?: typeof assistantRecord}>}))
+const GlobalAssistant = lazy(() => import('./assistant/ui/GlobalAssistant'))
 let storage: Storage|undefined
 try {storage=localStorage}catch{/* In-memory queue remains available. */}
 const queue = createEventQueue(client,storage,'ulearnbetter.events.'+(mock?'mock':'record'),mock?undefined:'/api/record/events')
@@ -40,8 +40,15 @@ export default function Root() {
  const [recalls,setRecalls]=useState<RecallRequest[]>([])
  const [queueStatus,setQueueStatus]=useState(queue.status)
  const snapshot=useSyncExternalStore(learningSession.subscribe,learningSession.getSnapshot)
+ const baseRecord=useRef<RecordScene['record']>(null)
  const requestRecall=useCallback((r: RecallRequest)=>setRecalls(rows=>[...rows,r]),[])
- const reportScene=useCallback((scene: RecordScene)=>learningSession.updateRecord({...scene,layer:parseRoute(location.hash).adjust?'adjust':scene.layer}),[])
+ const reportScene=useCallback((scene: RecordScene)=>{
+   const base=baseRecord.current
+   const record=scene.record?{...scene.record,todayPlan:scene.record.todayPlan??base?.todayPlan??null,stats:scene.record.stats??base?.stats??null,pendingCount:base?.pendingCount??scene.record.pendingCount}:null
+   learningSession.updateRecord({record,layer:parseRoute(location.hash).adjust?'adjust':scene.layer})
+ },[])
+ useEffect(()=>{const changed=()=>setReload(v=>v+1);window.addEventListener('record:changed',changed);return()=>window.removeEventListener('record:changed',changed)},[])
+ useEffect(()=>{const root=document.documentElement;root.style.setProperty('--ub-rail-width',route.view==='panorama'?'332px':'0px');return()=>{root.style.removeProperty('--ub-rail-width')}},[route.view])
  useEffect(()=>{const change=()=>setRoute(parseRoute(location.hash));addEventListener('hashchange',change);return()=>removeEventListener('hashchange',change)},[])
  useEffect(()=>{const unsubscribe=queue.subscribe(()=>setQueueStatus(queue.status()));const retry=()=>void queue.flush();const timer=setInterval(retry,5000);window.addEventListener('online',retry);retry();return()=>{unsubscribe();clearInterval(timer);window.removeEventListener('online',retry)}},[])
  useEffect(()=>{
@@ -54,8 +61,10 @@ export default function Root() {
     const goal=g.data.find(g=>g.id===goalId)
     const current=learningSession.getSnapshot()
     const focusedMastery=route.view==='star-dive'&&current.concept?mastery.data.find(m=>m.subject===`concept:${route.topicId}/${current.concept!.id}`):null
-    const record: NonNullable<RecordScene['record']>={source:p.meta.source,goal:goal?{id:goal.id,title:goal.title}:null,todayPlan:t.data,pendingCount:p.data.assignments.length+p.data.goalProposals.length+p.data.ideaAttachments.length+p.data.relationCandidates.filter(r=>!r.confirmed).length,selectedItem:null,mastery:focusedMastery??null,stats:{weekMinutes:s.data.weekMinutes,streakDays:s.data.streakDays,recallRate:s.data.recallRate,learned:s.data.learned,total:s.data.total}}
+    const record: NonNullable<RecordScene['record']>={source:p.meta.source,goal:goal?{id:goal.id,title:goal.title}:null,todayPlan:t.data,pendingCount:items.data.filter(i=>i.status==='pending').length+p.data.goalProposals.length+p.data.relationCandidates.filter(r=>!r.confirmed).length,selectedItem:null,mastery:focusedMastery??null,stats:{weekMinutes:s.data.weekMinutes,streakDays:s.data.streakDays,recallRate:s.data.recallRate,learned:s.data.learned,total:s.data.total}}
     if(route.view==='library'&&route.itemId)client.getItem(route.itemId).then(item=>{if(live)reportScene({record:{...record,selectedItem:item.data},layer:route.adjust?'adjust':null})}).catch(e=>{if(live)setError(e.message)})
+    baseRecord.current=record
+    if(route.view==='library'&&!route.itemId&&current.record?.selectedItem)record.selectedItem=current.record.selectedItem
     reportScene({record,layer:route.adjust?'adjust':route.view==='today'?route.layer??null:null});setError('')
    }).catch(e=>{if(live)setError(e instanceof Error?e.message:'记录服务不可用')})
    return()=>{live=false}
@@ -83,7 +92,7 @@ export default function Root() {
      else if(route.view==='star-dive'&&!learningSession.getSnapshot().concept){e.preventDefault();e.stopImmediatePropagation();navigate({view:'panorama'})}
     }
     if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!(e.target instanceof Element&&e.target.closest('input,textarea,[contenteditable=true]'))) {
-      const input=document.querySelector<HTMLElement>('[data-agent-input],.ga-composer textarea,.global-assistant textarea,.ula-panel-open textarea')
+      const input=document.querySelector<HTMLElement>('[data-agent-input],.ga-composer textarea,.global-assistant textarea,.ula-panel-open textarea,.ula-bar textarea')
       if(input){e.preventDefault();input.focus()}
       else {e.preventDefault();document.querySelector<HTMLButtonElement>('[data-testid=assistant-launcher][aria-expanded=false]')?.click();requestAnimationFrame(()=>document.querySelector<HTMLTextAreaElement>('[data-testid=assistant-input]')?.focus());document.dispatchEvent(new CustomEvent('ulearnbetter:focus-agent'))}
     }
@@ -91,15 +100,15 @@ export default function Root() {
  },[route])
  const props={client,route:route as RecordRoute,navigate,openAdjust,reportScene}
  const active=recalls[0]
- return <div className="ub-shell" style={{'--ub-rail-width':route.view==='panorama'?'300px':'0px'} as CSSProperties}>
+ return <div className="ub-shell" style={{'--ub-rail-width':route.view==='panorama'?'332px':'0px'} as CSSProperties}>
  <header className="ub-topbar"><a className="ub-brand" href="#/today">ULEARNBETTER <span>学习留下的星光</span></a><nav aria-label="主导航">{([['today','今天'],['panorama','全景'],['library','资料']] as const).map(([view,label])=><a key={view} href={'#/'+view} aria-current={route.view===view?'page':undefined}>{label}{view==='library'&&(snapshot.record?.pendingCount??0)>0&&<span className="ub-pending" aria-label={`${snapshot.record?.pendingCount} 项待确认`}/>}</a>)}</nav>{(mockSeen||snapshot.record?.source==='mock')&&<span className="ub-mock">示例数据</span>}</header>
  {error&&<div className="ub-service-error" role="alert">{error} <button onClick={()=>setReload(v=>v+1)}>重试</button><a href="?record=mock#/today">查看示例数据</a></div>}
  {queueStatus.pending>0&&<div className="ub-sync" role="status">{queueStatus.error||'正在同步学习记录'} · {queueStatus.pending}</div>}
  <main className={route.view==='star-dive'||route.view==='graph'?'ub-immersive':'ub-view'}>
- {route.view==='graph'?<App/>:route.view==='dev'?<ViewsPreview/>:route.view==='today'?<TodayView {...props}/>:route.view==='library'?<LibraryView {...props}/>:route.view==='panorama'?<PanoramaView {...props}/>:<Suspense fallback={<p>正在加载星图…</p>}><StarDive key={route.topicId} topicId={route.topicId} initialFocus={route.conceptId} client={client} queue={queue} onRecall={requestRecall}/></Suspense>}
+ {route.view==='graph'?<App/>:route.view==='dev'?<ViewsPreview/>:route.view==='today'?<TodayView key={reload} {...props}/>:route.view==='library'?<LibraryView key={reload} {...props}/>:route.view==='panorama'?<PanoramaView key={reload} {...props}/>:<Suspense fallback={<p>正在加载星图…</p>}><StarDive key={route.topicId} topicId={route.topicId} initialFocus={route.conceptId} client={client} queue={queue} onRecall={requestRecall}/></Suspense>}
  </main>
- {route.adjust&&<div className="ub-overlay"><AdjustLayer client={client} {...route.adjust} navigate={navigate} onClose={closeAdjust}/></div>}
- {active&&<div className="ub-recall"><RecallPrompt subject={active.subject} label={active.label} onResult={result=>{
+ {route.adjust&&<div className="ub ub-overlay"><AdjustLayer client={client} {...route.adjust} navigate={navigate} onClose={()=>{closeAdjust();setReload(v=>v+1)}}/></div>}
+ {active&&<div className="ub ub-recall-host"><RecallPrompt subject={active.subject} label={active.label} onResult={result=>{
    queue.enqueue({id:crypto.randomUUID(),at:new Date().toISOString(),kind:'recall',subject:active.subject,cardId:null,result})
    setRecalls(rows=>rows.slice(1));void queue.flush().then(async()=>{try{const response=await client.getMastery(active.topicId);window.dispatchEvent(new CustomEvent('learning-mastery',{detail:{topicId:active.topicId,mastery:response.data}}));setReload(v=>v+1)}catch{/* Queue status keeps failures visible. */}})
  }}/></div>}

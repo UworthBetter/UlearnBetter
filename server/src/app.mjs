@@ -13,7 +13,7 @@
 
 import express from 'express'
 import { copilotRuntimeNodeHttpEndpoint } from '@copilotkit/runtime'
-import { loadConfig, describeConfig, ConfigError } from './config.mjs'
+import { loadConfig, describeConfig, ConfigError, parseOrigins } from './config.mjs'
 import { buildRuntime } from './runtime.mjs'
 import { buildServiceAdapter } from './providers.mjs'
 import { loadRecordConfig } from './record/config.mjs'
@@ -91,7 +91,7 @@ export async function createApp(env = {}, options = {}) {
   }
 
   const ready = Boolean(config && adapter && runtime)
-  const allowedOrigins = config?.allowedOrigins ?? ['http://localhost:5173', 'http://127.0.0.1:5173']
+  const allowedOrigins = config?.allowedOrigins ?? parseOrigins(env.ASSISTANT_ALLOWED_ORIGINS)
   const endpoint = config?.endpoint ?? '/api/copilotkit'
 
   const app = express()

@@ -74,7 +74,7 @@ function parsePositiveInt(value, fallback) {
   return n
 }
 
-function parseOrigins(value) {
+export function parseOrigins(value) {
   if (!value || value.trim() === '') {
     // Vite dev defaults for the concept-graph single-page app.
     return ['http://localhost:5173', 'http://127.0.0.1:5173']

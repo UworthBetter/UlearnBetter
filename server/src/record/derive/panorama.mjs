@@ -124,6 +124,7 @@ export function computePanorama(view, { today, goalId }) {
   const nextSteps = (goalId ? today.entries.filter((e) => e.goalIds.includes(goalId)) : today.entries).slice(0, 3)
   const topicIds = new Set(topics.map((t) => t.topicId))
   return {
+    relations: topics.flatMap(t => (t.entry.compiledRelations || []).filter(r => t.visible.some(c=>c.id===r.a) && t.visible.some(c=>c.id===r.b)).map(r=>({a:`concept:${t.topicId}/${r.a}`,b:`concept:${t.topicId}/${r.b}`,kind:r.kind}))),
     goals: goals.map((goal) => ({ goal, topicIds: view.topics.filter((t) => t.goalIds.includes(goal.id)).map((t) => t.topicId) })),
     topics: outTopics,
     gaps,

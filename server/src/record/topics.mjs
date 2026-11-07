@@ -125,7 +125,15 @@ export function createTopicIndex(learnDir) {
           if (!check.ok) skip = { dir: dirName, reason: `manifest.json 不符合 learning.manifest/0.1：${check.message}` }
           else if (manifest.topic.id !== dirName) skip = { dir: dirName, reason: `manifest.topic.id「${manifest.topic.id}」与目录名不一致` }
           else {
+            let compiledRelations = []
+            if (lStat.size <= MAX_LEARN_BYTES) {
+              try {
+                const learn = JSON.parse(await fs.readFile(learnPath, 'utf8'))
+                compiledRelations = Array.isArray(learn.relations) ? learn.relations.filter(r => typeof r.a === 'string' && typeof r.b === 'string' && typeof r.kind === 'string') : []
+              } catch { /* A malformed learn remains an explicit error at the read endpoint. */ }
+            }
             entryValue = {
+              compiledRelations,
               topicId: dirName,
               manifest,
               learnPath,

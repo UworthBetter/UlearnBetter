@@ -1,3 +1,4 @@
+import type { RecordRoute } from '../../record/view-props.ts'
 import { Component, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ClipboardEvent as ReactClipboardEvent, type DragEvent as ReactDragEvent, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
 import { contentToText } from '@ag-ui/core'
 import { useAgent, useAgentContext, useCopilotKit, type JsonSerializable } from '@copilotkit/react-core/v2/headless'
@@ -39,7 +40,7 @@ const FOCUSABLE = 'button:not([disabled]), textarea:not([disabled]), a[href], [t
 
 export interface AssistantRecordBridge {
   client: RecordClient
-  navigate: (to: { view: string; layer?: 'stats' | null; goalId?: string | null; itemId?: string | null; topicId?: string; conceptId?: string | null }) => void
+  navigate(to: RecordRoute): void
   openAdjust: (opts?: { changeLogId?: string; itemId?: string }) => void
 }
 

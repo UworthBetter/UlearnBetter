@@ -47,3 +47,8 @@ test('procedure item stable IDs restore backend checklist values',()=>{
  const card=adaptLearnDocument(input,overlay).concepts.find(c=>c.id==='p').cards[0]
  assert.equal(card.block.recordChecked.paper,true);assert.equal(card.block.recordTopicId,'finance')
 })
+
+test('effective thoughts become a card without modifying compiled content',()=>{
+ const input=fixture();const result=adaptLearnDocument(input,{renames:{},hidden:[],pins:{},mastery:[],checklist:{},ideas:{ma:[{itemId:'idea',text:'我想比较两种方法',at:new Date().toISOString()}]}})
+ assert.equal(result.concepts[0].cards.at(-1).title,'我的思考');assert.equal(result.concepts[0].cards.at(-1).block.points[0].text,'我想比较两种方法');assert.equal(input.concepts[0].blocks.length,1)
+})

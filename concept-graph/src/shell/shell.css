@@ -12,8 +12,8 @@
 .ub-mock {font-size:11px;color:#ffd0b0;border:1px solid #ff9a5a70;border-radius:20px;padding:5px 12px;background:#331e21}
 .ub-view {padding:110px 6vw calc(var(--ub-agent-bar-height) + 36px);height:100dvh;overflow:auto;background:radial-gradient(ellipse at 32% 28%,#13224f90,transparent 65%)}
 .ub-overlay {position:fixed;inset:80px 20px calc(var(--ub-agent-bar-height) + 16px);z-index:90;overflow:auto;background:#0a1536ee;border:1px solid #c9b6ff55;border-radius:20px;padding:24px;backdrop-filter:blur(20px)}
-.ub-recall {position:fixed;z-index:110;bottom:calc(var(--ub-agent-bar-height) + 30px);left:50%;transform:translateX(-50%);background:#13224ff5;border:1px solid #ffb54770;border-radius:18px;padding:20px;box-shadow:0 20px 70px #0009;max-width:90vw}
-.ub-recall button {margin:5px;padding:8px 14px;border-radius:9px;background:#ffffff0d;color:#f3f5ff;border:1px solid #ffffff30}
+.ub-recall-host {position:fixed;z-index:110;bottom:calc(var(--ub-agent-bar-height) + 30px);left:50%;transform:translateX(-50%);background:#13224ff5;border:1px solid #ffb54770;border-radius:18px;padding:20px;box-shadow:0 20px 70px #0009;max-width:90vw}
+.ub-recall-host button {margin:5px;padding:8px 14px;border-radius:9px;background:#ffffff0d;color:#f3f5ff;border:1px solid #ffffff30}
 .ub-service-error,.ub-sync {position:fixed;z-index:120;top:75px;left:32px;max-width:85vw;background:#241d31f0;color:#ffd0b0;padding:10px 16px;border-radius:12px;font-size:12px}
 .ub-service-error a {color:#86dcff;margin-left:12px}.ub-sync {top:auto;bottom:calc(var(--ub-agent-bar-height) + 10px)}
 .ub-shell .star-dive .brand {top:100px}.ub-shell .star-dive .legend {top:100px}
@@ -23,3 +23,9 @@
 @media(max-width:700px){.ub-topbar{left:12px;right:12px;gap:8px}.ub-brand span{display:none}.ub-topbar nav a{padding:7px 13px}.ub-view{padding-left:20px;padding-right:20px}.ub-mock{padding:4px;font-size:10px}.dive-breadcrumb{left:16px}.ub-shell .star-dive .legend{display:none}}
 
 .dive-example{position:fixed;right:32px;bottom:calc(var(--ub-agent-bar-height) + 12px);z-index:55;color:#ffd0b0;font-size:11px}
+
+.ub-overlay{inset:0;background:none;border:0;border-radius:0;padding:0;backdrop-filter:none}
+.ub-recall-host .ub-recall{position:static;transform:none;border:0;box-shadow:none;padding:0}
+
+.ub.ub-overlay{inset:0;background:none;border:0;padding:0;backdrop-filter:none;z-index:90}
+.ub.ub-recall-host{inset:auto auto calc(var(--ub-agent-bar-height) + 30px) 50%;width:max-content;overflow:visible;z-index:110}

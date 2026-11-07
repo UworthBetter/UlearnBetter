@@ -30,3 +30,11 @@ test('mock event writes feed mastery and checklist overlays',async()=>{
  await client.addEvents({id:crypto.randomUUID(),at:new Date().toISOString(),kind:'checklist',subject:'procitem:t-0/p-paper/paper',cardId:'p-paper',checked:true})
  assert.equal((await client.getTopicLearn('t-0')).data.overlay.checklist['procitem:t-0/p-paper/paper'],true)
 })
+
+test('all date-sensitive HTTP reads include the local IANA timezone',async()=>{
+ const original=globalThis.fetch,urls=[]
+ try{globalThis.fetch=async url=>{urls.push(url);return new Response(JSON.stringify({schema:'learning.record-api/0.1',data:null,meta:{source:'record',generatedAt:new Date().toISOString(),warnings:[]}}))}
+ const client=createHttpRecordClient();await client.getToday();await client.getStats();await client.getMastery('t');await client.getPanorama();await client.getTopicLearn('t')
+ for(const url of urls)assert.equal(new URL(url,'http://localhost').searchParams.get('tz'),Intl.DateTimeFormat().resolvedOptions().timeZone)
+ }finally{globalThis.fetch=original}
+})

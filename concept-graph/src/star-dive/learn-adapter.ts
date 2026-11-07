@@ -50,6 +50,8 @@ export function adaptLearnDocument(value: unknown, overlay?: TopicOverlay): Star
       block: { shape: 'definition', grounding: 'note', preserved: c.preserved },
       evidence: [{ sourceId: topic.id, note: c.note }],
     })
+    const ideas = overlay?.ideas?.[c.id] ?? []
+    if (ideas.length) cards.push({type:'learning_block',id:`${c.id}:thoughts`,title:'我的思考',block:{id:`${c.id}:thoughts`,shape:'definition',grounding:'note',title:'我的思考',points:ideas.map(idea=>({text:idea.text,ev:[]})),ev:[]},evidence:[]})
     const visible = cards.length > 4 ? [...cards.slice(0, 3), {
       type: 'learning_block', id: `${c.id}:more`, title: `更多笔记（${cards.length - 3}）`,
       block: { shape: 'collection', grounding: 'note', children: cards.slice(3).map((item) => item.block) },

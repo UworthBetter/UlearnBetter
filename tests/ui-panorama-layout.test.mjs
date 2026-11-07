@@ -35,3 +35,10 @@ test('只有一个目标时不画分区', () => {
   assert.equal(layout.showPartitions, false)
   assert.deepEqual(layout.goals, [])
 })
+
+test('已确认关联画实线；没有后端候选时不凭同名补画虚线',()=>{
+ const input=sample(1);input.topics[1].groups[0].concepts[0].label='观察'
+ assert.equal(layoutPanorama(input,900,700).links.length,0)
+ input.relationCandidates=[{id:'r',a:'concept:t-0/c-0',b:'concept:t-1/c-2',confirmed:true}]
+ assert.equal(layoutPanorama(input,900,700).links[0].kind,'confirmed')
+})

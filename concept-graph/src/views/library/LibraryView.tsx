@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ViewProps } from '../../record/view-props.ts'
-import type { Assignment, Goal, Item, ItemDetail, Override, Panorama, SubjectRef, TopicLearn } from '../../record/types.ts'
+import type { Assignment, Goal, Item, ItemDetail, Override, Panorama, SubjectRef, TopicLearn, By } from '../../record/types.ts'
 import { formatDay, goalSwatch, kindLabel, organizerPhrase, PIPELINE_STEPS, statusCopy, stepLabel } from '../format.ts'
 import '../views.css'
 
@@ -28,6 +28,7 @@ const STATUS_FILTERS: { id: StatusFilter; label: string }[] = [
 
 export default function LibraryView({ client, route, navigate, openAdjust, reportScene }: ViewProps) {
   const [items, setItems] = useState<Item[]>([])
+  const [organizerBy,setOrganizerBy]=useState<By|null>(null)
   const [goals, setGoals] = useState<Goal[]>([])
   const [source, setSource] = useState<'record' | 'mock' | null>(null)
   const [status, setStatus] = useState<StatusFilter>('all')
@@ -45,9 +46,11 @@ export default function LibraryView({ client, route, navigate, openAdjust, repor
       client.listGoals(),
       client.getProposals(),
       client.getPanorama(),
-    ]).then(([itemEnv, goalEnv, proposalEnv, panoramaEnv]) => {
+      client.listChangeLog(),
+    ]).then(([itemEnv, goalEnv, proposalEnv, panoramaEnv,logEnv]) => {
       if (!live) return
       setItems(itemEnv.data)
+      setOrganizerBy(logEnv.data.find(log=>!log.undone)?.organizer??null)
       setGoals(goalEnv.data)
       setSource(itemEnv.meta.source)
       const names = new Map<string, string>()
@@ -110,7 +113,7 @@ export default function LibraryView({ client, route, navigate, openAdjust, repor
           <h1>你丢进来的 {items.length} 份资料</h1>
           <p className="ub-meta">
             已整理 {counts.status.done} · 整理中 {counts.status.organizing} · 待确认 {counts.status.pending}
-            {items[0] && <> · {organizerPhrase(items[0].identity.by)}{items[0].identity.by.mock && <span className="ub-tag mock">模拟</span>}</>}
+            {organizerBy && <> · {organizerPhrase(organizerBy)}{organizerBy.mock && <span className="ub-tag mock">模拟</span>}</>}
           </p>
         </div>
         <div>
@@ -238,6 +241,7 @@ function Detail({
   if (!detail) return <p className="ub-note">正在打开这份资料…</p>
   const assignment = detail.assignments[0]
   const pending = detail.status === 'pending'
+  const membershipChanged = goalPick.length !== detail.goalIds.length || goalPick.some(id=>!detail.goalIds.includes(id))
   const groups = groupRows(rows)
   const stars = panorama?.topics.flatMap((topic) => topic.groups.flatMap((group) => group.concepts.map((concept) => ({
     ref: `concept:${topic.topicId}/${concept.id}` as SubjectRef,
@@ -245,11 +249,13 @@ function Detail({
   })))) ?? []
 
   async function write(override: Override) {
-    await client.addOverride(override)
-    onChanged()
-    const next = await client.getItem(itemId)
-    setDetail(next.data)
-    setGoalPick(next.data.goalIds)
+    try {
+      await client.addOverride(override)
+      onChanged()
+      const next = await client.getItem(itemId)
+      setDetail(next.data)
+      setGoalPick(next.data.goalIds)
+    } catch (reason) {setError(reason instanceof Error?reason.message:'修正没有保存')}
   }
 
   function base(op: Override['op'], value: Override['value'], target: SubjectRef = `item:${detail!.id}`): Override {
@@ -262,7 +268,7 @@ function Detail({
     <article className="ub-detail ub-glass">
       <p className="ub-row">
         <span className="ub-tag">{kindLabel(detail.kind)}</span>
-        <span className={`ub-stp ${detail.status === 'pending' ? 'pend' : detail.status === 'failed' ? 'bad' : detail.status === 'organizing' ? 'run' : 'done'}`}>{detail.status}</span>
+        <span className={`ub-stp ${detail.status === 'pending' ? 'pend' : detail.status === 'failed' ? 'bad' : detail.status === 'organizing' ? 'run' : 'done'}`}>{({organizing:'整理中',pending:'待确认',done:'已整理',failed:'失败'})[detail.status]}</span>
         {detail.identity.by.mock && <span className="ub-tag mock">模拟</span>}
         <span className="ub-muted">{formatDay(detail.addedAt.slice(0, 10))} 丢进来</span>
       </p>
@@ -289,7 +295,7 @@ function Detail({
               <div key={key} className={`s ${mark}`}>
                 <i />
                 <b>{stepLabel(key)}</b>
-                <span>{skipped ? '不适用' : step?.note || state}</span>
+                <span>{skipped ? '不适用' : step?.note || ({pending:'尚未开始',running:'处理中',done:'完成',skipped:'不适用',failed:'失败'} as Record<string,string>)[state] || state}</span>
               </div>
             )
           })}
@@ -302,7 +308,7 @@ function Detail({
             <p className="ub-note">想法不拆成新概念，只挂到已有的星。</p>
             <label className="ub-meta">
               挂到
-              <select value={starPick} onChange={(event) => setStarPick(event.target.value)}>
+              <select aria-label="挂到" value={starPick} onChange={(event) => setStarPick(event.target.value)}>
                 <option value="">选一颗星</option>
                 {stars.map((star) => <option key={star.ref} value={star.ref}>{star.label}</option>)}
               </select>
@@ -341,7 +347,7 @@ function Detail({
                 {assignment.autoAccepted && ' · 高于阈值 0.85，已自动接受；随时可以改'}
               </p>
             )}
-            {pending && (
+            {(pending || membershipChanged) && (
               <div className="ub-row">
                 <button type="button" className="ub-btn pri" onClick={() => void saveAssignment(assignment, goalPick, write, base)}>按这样保存</button>
                 <button type="button" className="ub-btn" onClick={() => onAdjust(assignment?.changeLogId)}>看这次整理的全部 {detail.assignments.length} 处</button>
@@ -370,7 +376,7 @@ function Detail({
                       void write(base('rename', { label }, `concept:${detail.topicId}/${row.id}`))
                     }}>改名</button>
                     <button type="button" className="ub-btn sm" onClick={() => void write(base('hide', { hidden: !row.hidden }, `concept:${detail.topicId}/${row.id}`))}>{row.hidden ? '取消隐藏' : '隐藏'}</button>
-                    <button type="button" className="ub-btn sm" onClick={() => void write(base('reassign', { goalIds: goalPick }, `concept:${detail.topicId}/${row.id}`))}>改归属</button>
+                    <button type="button" className="ub-btn sm" onClick={() => void write(base('reassign', { goalIds: goalPick }))}>改所属资料归属</button>
                     <button type="button" className="ub-btn sm" onClick={() => {
                       const next = row.pinned === 3 ? null : ((row.pinned ?? 0) + 1) as 1 | 2 | 3
                       void write(base('pin_importance', { level: next }, `concept:${detail.topicId}/${row.id}`))
@@ -397,9 +403,9 @@ function Detail({
         <button type="button" className="ub-btn" onClick={() => onPanorama(detail.goalIds[0])}>在全景中看</button>
         {detail.topicId && <button type="button" className="ub-btn" onClick={() => onDive(detail.topicId!, null)}>潜航</button>}
         <span className="ub-note">打开原笔记：{notePath ?? '这份资料没有笔记相对路径'}</span>
-        <button type="button" className="ub-btn" onClick={() => void client.organizeItem(detail.id).then(onChanged)}>重新整理</button>
+        <button type="button" className="ub-btn" disabled={!['notes','idea'].includes(detail.kind)} onClick={() => void client.organizeItem(detail.id).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'重新整理失败'))}>重新整理</button>
         {detail.changeLogIds[0] && (
-          <button type="button" className="ub-btn" onClick={() => void client.undoChangeLog(detail.changeLogIds[0]).then(onChanged)}>撤销这次整理</button>
+          <button type="button" className="ub-btn" onClick={() => void client.undoChangeLog(detail.changeLogIds[0]).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'撤销失败'))}>撤销这次整理</button>
         )}
         {detail.status === 'failed' && (
           <button type="button" className="ub-btn" onClick={() => void write(base('reassign', { goalIds: [] }))}>先放未归属</button>
@@ -415,7 +421,7 @@ async function saveAssignment(
   write: (override: Override) => Promise<void>,
   base: (op: Override['op'], value: Override['value']) => Override,
 ) {
-  if (assignment && goalIds.length === 1 && goalIds[0] === assignment.goalId && !assignment.autoAccepted) {
+  if (assignment?.state === 'proposed' && goalIds.length === 1 && goalIds[0] === assignment.goalId && !assignment.autoAccepted) {
     await write(base('accept_assignment', { assignmentId: assignment.id }))
     return
   }

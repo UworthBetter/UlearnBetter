@@ -47,7 +47,7 @@ export default function StarDive({ initialFocus, topicId, client, queue, onRecal
       const visit=makeVisit(subject,c.started,now(),c.cardId)
       if(visit)queue!.enqueue(visit)
       const m=overlay!.mastery.find(m=>m.subject===subject)
-      if(recall&&(visit||c.opened)&&((m?.level??0)<3||!!m?.due&&Date.parse(m.due)<=Date.now()))onRecall?.({subject,label:data.concepts.find(v=>v.id===c.id)?.label||c.id,topicId:data.meta.topic_id!})
+      if(recall&&!isProcedure&&(visit||c.opened)&&((m?.level??0)<3||!!m?.due&&Date.parse(m.due)<=Date.now()))onRecall?.({subject,label:data.concepts.find(v=>v.id===c.id)?.label||c.id,topicId:data.meta.topic_id!})
       void queue!.flush()
     }
     const sync=()=>{const scene=learningSession.getSnapshot();const id=scene.topic?.id===data.meta.topic_id?scene.concept?.id:null

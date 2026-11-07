@@ -290,3 +290,13 @@ C0 stays on codex/s2-integration until the owner approves merging main.
 
 Manifest importanceHint accepts null when no evidence supports a score. This
 matches the notes task: lack of evidence must not create invented importance.
+
+## C0.2 additive integration fields
+
+TopicOverlay optionally includes ideas keyed by local concept ID. Each entry
+has itemId (null for reflection events), text, and at. Only effective user
+attachments and submitted reflection events appear; raw learn remains intact.
+Panorama optionally includes relations with full a/b SubjectRefs and kind,
+read only from compiled learn relations. Confirmed relations render solid;
+candidates render dashed. Rejected candidates must not reappear from labels.
+Clients send the browser IANA timezone for all time-sensitive reads.

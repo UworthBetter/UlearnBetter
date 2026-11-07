@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "topic-overlay.schema.json",
+  "type": "object",
+  "required": [
+    "renames",
+    "hidden",
+    "pins",
+    "mastery",
+    "checklist"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "renames": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "hidden": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pins": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "mastery": {
+      "type": "array",
+      "items": {
+        "$ref": "mastery.schema.json"
+      }
+    },
+    "checklist": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "ideas": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "itemId",
+            "text",
+            "at"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "itemId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "text": {
+              "type": "string"
+            },
+            "at": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    }
+  }
+}

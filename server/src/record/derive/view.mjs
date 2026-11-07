@@ -46,7 +46,7 @@ export function buildView({ state, topics, overlay, tz, until }) {
           aliases: c.aliases,
           group: c.group,
           order: c.order,
-          importance: pin ?? c.importanceHint,
+          importance: pin ?? c.importanceHint ?? 1, // Neutral minimum display size when no hint exists.
           pin,
           hidden: overlay.hidden(subject),
           mastery: masteryFromFacts(subject, facts.get(subject), tz),

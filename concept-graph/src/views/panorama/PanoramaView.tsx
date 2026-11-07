@@ -5,20 +5,12 @@ import { goalSwatch } from '../format.ts'
 import { layoutPanorama, type LayoutInput, type PanoramaLayout } from './layout.ts'
 import '../views.css'
 
-const RAIL = '332px'
-
 export default function PanoramaView({ client, route, navigate, openAdjust, reportScene }: ViewProps) {
   const goalId = route.view === 'panorama' ? route.goalId ?? null : null
   const [data, setData] = useState<Panorama | null>(null)
   const [source, setSource] = useState<'record' | 'mock' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [size, setSize] = useState({ width: 1100, height: 760 })
-
-  useEffect(() => {
-    const root = document.documentElement
-    root.style.setProperty('--ub-rail-width', RAIL)
-    return () => { root.style.removeProperty('--ub-rail-width') }
-  }, [])
 
   useEffect(() => {
     let live = true
@@ -164,7 +156,7 @@ function Sky({
             x2={link.x2}
             y2={link.y2}
             stroke={link.kind === 'tether' ? 'rgba(201,182,255,.7)' : 'rgba(201,182,255,.85)'}
-            strokeDasharray="5 5"
+            strokeDasharray={link.kind === 'confirmed' ? undefined : '5 5'}
             strokeWidth="1.4"
           />
         ))}
@@ -228,7 +220,7 @@ function toLayout(data: Panorama): LayoutInput {
     topics: data.topics,
     gaps: data.gaps,
     nextSteps: data.nextSteps,
-    relationCandidates: data.relationCandidates,
+    relationCandidates: [...data.relationCandidates,...(data.relations||[]).map((r,i)=>({...r,id:`compiled-${i}`,confirmed:true}))],
   }
 }
 

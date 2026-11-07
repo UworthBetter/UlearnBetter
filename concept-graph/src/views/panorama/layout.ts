@@ -110,7 +110,7 @@ export interface PlacedLink {
   y1: number
   x2: number
   y2: number
-  kind: 'relation' | 'same-name' | 'tether'
+  kind: 'relation' | 'same-name' | 'tether' | 'confirmed'
 }
 
 export interface PanoramaLayout {
@@ -266,23 +266,10 @@ export function layoutPanorama(input: LayoutInput, width: number, height: number
   const links: PlacedLink[] = []
   const starByKey = new Map(stars.map((star) => [star.key, star]))
   for (const relation of input.relationCandidates) {
-    if (relation.confirmed) continue
     const left = starByKey.get(relation.a.replace(/^concept:/, ''))
     const right = starByKey.get(relation.b.replace(/^concept:/, ''))
     if (!left || !right) continue
-    links.push({ x1: left.x, y1: left.y, x2: right.x, y2: right.y, kind: 'relation' })
-  }
-  const byLabel = new Map<string, PlacedStar[]>()
-  for (const star of stars) {
-    const list = byLabel.get(star.label) ?? []
-    list.push(star)
-    byLabel.set(star.label, list)
-  }
-  for (const group of byLabel.values()) {
-    const topicsInLabel = new Set(group.map((star) => star.topicId))
-    if (topicsInLabel.size < 2) continue
-    const [left, right] = group
-    links.push({ x1: left.x, y1: left.y, x2: right.x, y2: right.y, kind: 'same-name' })
+    links.push({ x1: left.x, y1: left.y, x2: right.x, y2: right.y, kind: relation.confirmed ? 'confirmed' : 'relation' })
   }
   if (showPartitions) {
     for (const topic of topics) {

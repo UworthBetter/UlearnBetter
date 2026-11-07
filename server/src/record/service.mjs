@@ -522,7 +522,18 @@ export function createRecordService(cfg, opts = {}) {
           if (checks.has(s)) checklist[s] = checks.get(s).checked
         }
       }
-      return { learn, overlay: { renames, hidden, pins, mastery, checklist } }
+      const ideas = {}
+      const appendIdea = (subject, row) => {
+        const parsed = parseRef(subject)
+        if (parsed?.kind !== 'concept' || parsed.topicId !== topicId || !entry.concepts.has(parsed.conceptId)) return
+        ;(ideas[parsed.conceptId] ||= []).push(row)
+      }
+      for (const item of st.items) if (item.kind === 'idea') {
+        const attached = ov.attachment(item.id)
+        if (attached) appendIdea(attached, { itemId: item.id, text: item.ref.text, at: item.addedAt })
+      }
+      for (const event of st.events) if (event.kind === 'reflection') appendIdea(event.subject, { itemId: null, text: event.text, at: event.at })
+      return { learn, overlay: { renames, hidden, pins, mastery, checklist, ideas } }
     },
 
     // goals

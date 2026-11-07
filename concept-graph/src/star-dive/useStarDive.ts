@@ -44,7 +44,8 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
       unbind()
       document.removeEventListener('selectionchange', onSelection)
       scene.destroy()
-      learningSession.reset()
+      // The shell owns record/layer context across scene replacements.
+      learningSession.updateScene({view:'none',topic:null,concept:null,card:null,interaction:null})
       if (handle.current === scene) handle.current = null
     }
   }, [rootRef, data, initialFocus])

@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { AdjustLayerProps } from '../../record/view-props.ts'
-import type { Assignment, Goal, Override, Panorama, Proposals, RelationCandidate, SubjectRef } from '../../record/types.ts'
+import type { Assignment, Goal, Override, Proposals, RelationCandidate, SubjectRef } from '../../record/types.ts'
 import { goalSwatch, organizerPhrase } from '../format.ts'
 import '../views.css'
-
-interface SameName {
-  id: string
-  label: string
-  a: SubjectRef
-  b: SubjectRef
-}
 
 export default function AdjustLayer({ client, changeLogId, itemId, onClose, navigate }: AdjustLayerProps) {
   const [proposals, setProposals] = useState<Proposals | null>(null)
   const [goals, setGoals] = useState<Goal[]>([])
-  const [sameName, setSameName] = useState<SameName[]>([])
   const [source, setSource] = useState<'record' | 'mock' | null>(null)
   const [picks, setPicks] = useState<Record<string, string[]>>({})
   const [error, setError] = useState<string | null>(null)
@@ -26,14 +18,12 @@ export default function AdjustLayer({ client, changeLogId, itemId, onClose, navi
     Promise.all([
       client.getProposals(),
       client.listGoals(),
-      client.getPanorama().catch(() => null),
       changeLogId ? client.listChangeLog().catch(() => null) : Promise.resolve(null),
-    ]).then(([proposalEnv, goalEnv, panoramaEnv, logs]) => {
+    ]).then(([proposalEnv, goalEnv, logs]) => {
       if (!live) return
       setProposals(proposalEnv.data)
       setGoals(goalEnv.data)
       setSource(proposalEnv.meta.source)
-      setSameName(panoramaEnv ? sameNames(panoramaEnv.data) : [])
       const log = logs?.data.find((entry) => entry.id === changeLogId)
       const fromLog = log?.trigger.startsWith('item:') ? log.trigger.slice(5) : null
       setFocusItem(itemId ?? fromLog)
@@ -57,8 +47,8 @@ export default function AdjustLayer({ client, changeLogId, itemId, onClose, navi
   }, [onClose])
 
   async function write(override: Override) {
-    await client.addOverride(override)
-    setTick((value) => value + 1)
+    try {await client.addOverride(override);setTick((value) => value + 1)}
+    catch (reason) {setError(reason instanceof Error?reason.message:'修正没有保存')}
   }
 
   const pending = (proposals?.assignments ?? []).filter((row) => row.state === 'proposed' && !row.autoAccepted)
@@ -92,18 +82,8 @@ export default function AdjustLayer({ client, changeLogId, itemId, onClose, navi
           />
         ))}
         <h3 className="ub-eyebrow">合并 / 同名候选</h3>
-        {relations.length === 0 && sameName.length === 0 && <p className="ub-note">没有同名或待确认的关联。</p>}
+        {relations.length === 0 && <p className="ub-note">没有同名或待确认的关联。</p>}
         {relations.map((row) => <RelationCard key={row.id} row={row} onAccept={() => void write(relationOverride(row, 'confirm_relation'))} onReject={() => void write(relationOverride(row, 'reject_relation'))} />)}
-        {sameName.map((row) => (
-          <article key={row.id} className="ub-chg hot">
-            <h3>同名候选 · {row.label}</h3>
-            <p className="ub-note">{row.a} ↔ {row.b}</p>
-            <div className="ub-side">
-              <button type="button" className="ub-btn sm pri" onClick={() => void write(override(row.a, 'confirm_relation', { a: row.a, b: row.b, kind: 'related' }))}>接受</button>
-              <button type="button" className="ub-btn sm" onClick={() => void write(override(row.a, 'reject_relation', { a: row.a, b: row.b }))}>拒绝</button>
-            </div>
-          </article>
-        ))}
         <h3 className="ub-eyebrow">已自动接受</h3>
         {accepted.length === 0 && <p className="ub-note">没有高于阈值后自动接受的归属。</p>}
         {accepted.map((row) => (
@@ -182,30 +162,4 @@ function relationOverride(row: RelationCandidate, op: 'confirm_relation' | 'reje
     return override(row.a, op, { a: row.a, b: row.b, kind: 'related' })
   }
   return override(row.a, op, { a: row.a, b: row.b })
-}
-
-function sameNames(panorama: Panorama): SameName[] {
-  const found = new Map<string, { topicId: string; id: string }[]>()
-  for (const topic of panorama.topics) {
-    for (const group of topic.groups) {
-      for (const concept of group.concepts) {
-        const list = found.get(concept.label) ?? []
-        list.push({ topicId: topic.topicId, id: concept.id })
-        found.set(concept.label, list)
-      }
-    }
-  }
-  const rows: SameName[] = []
-  for (const [label, list] of found) {
-    const topics = new Set(list.map((item) => item.topicId))
-    if (topics.size < 2) continue
-    const [left, right] = list
-    rows.push({
-      id: `${left.topicId}/${left.id}~${right.topicId}/${right.id}`,
-      label,
-      a: `concept:${left.topicId}/${left.id}`,
-      b: `concept:${right.topicId}/${right.id}`,
-    })
-  }
-  return rows
 }
