@@ -5,7 +5,7 @@ __pycache__/
 venv/
 
 # 解析产出（用户数据，不入库；契约样例在 samples/）
-ingest/
+/ingest/
 
 # 系统
 .DS_Store

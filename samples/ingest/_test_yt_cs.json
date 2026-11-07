@@ -1,0 +1,2182 @@
+{
+  "schema": "learning.vault.ingest/0.1",
+  "generated_at": "2026-11-06T23:56:17",
+  "tool": "video_ingest 0.1.0",
+  "platform": "youtube",
+  "id": "-uleG_Vecis",
+  "url": "https://www.youtube.com/watch?v=-uleG_Vecis",
+  "title": "100+ Computer Science Concepts Explained",
+  "channel": "Fireship",
+  "upload_date": "20220504",
+  "duration_sec": 787,
+  "description": "Learn the fundamentals of Computer Science with a quick breakdown of jargon that every software engineer should know. Over 100 technical concepts from the CS curriculum are explained to provide a foundation for programmers.\n\n#compsci #programming #tech\n\n🔗 Resources\n\n- Computer Science https://undergrad.cs.umd.edu/what-computer-science\n- CS101 Stanford https://online.stanford.edu/courses/soe-ycscs101-sp-computer-science-101\n- Controversial Developer Opinions https://youtu.be/goy4lZfDtCE\n- Design Patterns https://youtu.be/tv-_1er1mWI\n\n\n🔥 Get More Content - Upgrade to PRO\n\nUpgrade to Fireship PRO at https://fireship.io/pro\nUse code lORhwXd2 for 25% off your first payment. \n\n🎨 My Editor Settings\n\n- Atom One Dark \n- vscode-icons\n- Fira Code Font\n\n🔖 Topics Covered\n\nTurning Machine\nCPU\nTransistor\nBit\nByte\nCharacter Encoding ASCII\nBinary\nHexadecimal\nNibble\nMachine Code\nRAM\nMemory Address\nI/O\nKernel (Drivers)\nShell\nCommand Line Interface\nSSH\nMainframe\nProgramming Language\nAbstraction\nInterpreted\nCompiled\nExecutable\nData Types\nVariable\nDynamic Typing\nStatic Typing\nPointer\nGarbage Collector\nint \nsigned / unsigned\nfloat \nDouble\nChar\nstring\nBig endian\nLittle endian\nArray\nLinked List\nSet\nStack\nQueue\nHash\nTree\nGraph\nNodes and Edges\nAlgorithms\nFunctions\nReturn\nArguments\nOperators\nBoolean\nExpression\nStatement\nConditional Logic\nWhile Loop\nFor Loop\nIterable\nVoid\nRecursion\nCall Stack\nStack Overflow\nBase Condition\nBig-O\nTime Complexity\nSpace Complexity\nBrute Force\nDivide and conquer\nDynamic Programming\nMemoization\nGreedy\nDijkstra's Shortest Path\nBacktracking\nDeclarative\nFunctional Language\nImperative\nProcedural Language\nMultiparadigm\nOOP\nClass\nProperties\nMethods\nInheritance\nDesign Patterns\nInstantiate\nHeap Memory\nReference\nThreads\nParallelism\nConcurrency\nBare Metal\nVirtual Machine\nIP Address\nURL\nDNS\nTCP\nPackets. \nSSL\nHTTP\nAPI\nPrinters",
+  "thumbnail": "https://i.ytimg.com/vi/-uleG_Vecis/maxresdefault.jpg",
+  "chapters": [
+    {
+      "start": 0.0,
+      "end": 33.0,
+      "title": "Intro",
+      "origin": "official"
+    },
+    {
+      "start": 33.0,
+      "end": 79.0,
+      "title": "The Computer",
+      "origin": "official"
+    },
+    {
+      "start": 79.0,
+      "end": 201.0,
+      "title": "Binary",
+      "origin": "official"
+    },
+    {
+      "start": 201.0,
+      "end": 259.0,
+      "title": "Variables",
+      "origin": "official"
+    },
+    {
+      "start": 259.0,
+      "end": 318.0,
+      "title": "Data Types",
+      "origin": "official"
+    },
+    {
+      "start": 318.0,
+      "end": 403.0,
+      "title": "Data Structures",
+      "origin": "official"
+    },
+    {
+      "start": 403.0,
+      "end": 548.0,
+      "title": "Functions",
+      "origin": "official"
+    },
+    {
+      "start": 548.0,
+      "end": 592.0,
+      "title": "Dynamic Programming",
+      "origin": "official"
+    },
+    {
+      "start": 592.0,
+      "end": 787.0,
+      "title": "Implementation",
+      "origin": "official"
+    }
+  ],
+  "transcript": {
+    "source": "auto",
+    "lang": "en",
+    "segment_count": 417,
+    "segments": [
+      {
+        "start": 1.35,
+        "end": 3.429,
+        "text": "what's the first thing you should do"
+      },
+      {
+        "start": 1.36,
+        "end": 5.11,
+        "text": "when your code throws an error obviously"
+      },
+      {
+        "start": 3.439,
+        "end": 6.789,
+        "text": "you should change nothing and try to run"
+      },
+      {
+        "start": 5.12,
+        "end": 8.15,
+        "text": "it again a few times if that doesn't"
+      },
+      {
+        "start": 6.799,
+        "end": 9.75,
+        "text": "work you're gonna need a computer"
+      },
+      {
+        "start": 8.16,
+        "end": 11.27,
+        "text": "science degree the awesome thing about"
+      },
+      {
+        "start": 9.76,
+        "end": 13.35,
+        "text": "software engineering is that you can"
+      },
+      {
+        "start": 11.28,
+        "end": 15.11,
+        "text": "learn to code and get a high paying job"
+      },
+      {
+        "start": 13.36,
+        "end": 16.55,
+        "text": "while literally having no idea how"
+      },
+      {
+        "start": 15.12,
+        "end": 18.87,
+        "text": "anything actually works it all just"
+      },
+      {
+        "start": 16.56,
+        "end": 20.31,
+        "text": "feels like magic like a pilot driving a"
+      },
+      {
+        "start": 18.88,
+        "end": 23.51,
+        "text": "giant metal tube in the sky while"
+      },
+      {
+        "start": 20.32,
+        "end": 24.71,
+        "text": "knowing nothing about aerodynamics"
+      },
+      {
+        "start": 23.52,
+        "end": 26.71,
+        "text": "[Music]"
+      },
+      {
+        "start": 24.72,
+        "end": 28.39,
+        "text": "welcome to computer science 101 in"
+      },
+      {
+        "start": 26.72,
+        "end": 29.589,
+        "text": "today's video you'll learn the science"
+      },
+      {
+        "start": 28.4,
+        "end": 31.589,
+        "text": "behind the garbage code you've been"
+      },
+      {
+        "start": 29.599,
+        "end": 33.75,
+        "text": "writing by learning 101 different"
+      },
+      {
+        "start": 31.599,
+        "end": 35.75,
+        "text": "computer science terms and concepts this"
+      },
+      {
+        "start": 33.76,
+        "end": 37.67,
+        "text": "is a computer it's just a piece of tape"
+      },
+      {
+        "start": 35.76,
+        "end": 39.51,
+        "text": "that holds ones and zeros along with a"
+      },
+      {
+        "start": 37.68,
+        "end": 41.11,
+        "text": "device that can read and write to it"
+      },
+      {
+        "start": 39.52,
+        "end": 43.03,
+        "text": "it's called a turing machine and in"
+      },
+      {
+        "start": 41.12,
+        "end": 44.95,
+        "text": "theory it can compute anything like the"
+      },
+      {
+        "start": 43.04,
+        "end": 46.63,
+        "text": "graphics in this video or the algorithm"
+      },
+      {
+        "start": 44.96,
+        "end": 48.47,
+        "text": "that recommended that you watch it at"
+      },
+      {
+        "start": 46.64,
+        "end": 50.389,
+        "text": "the core of modern computers we have the"
+      },
+      {
+        "start": 48.48,
+        "end": 52.15,
+        "text": "central processing unit if we crack it"
+      },
+      {
+        "start": 50.399,
+        "end": 54.15,
+        "text": "open we find a piece of silicon that"
+      },
+      {
+        "start": 52.16,
+        "end": 55.91,
+        "text": "contains billions of tiny transistors"
+      },
+      {
+        "start": 54.16,
+        "end": 57.43,
+        "text": "which are like microscopic on off"
+      },
+      {
+        "start": 55.92,
+        "end": 59.11,
+        "text": "switches the value at one of these"
+      },
+      {
+        "start": 57.44,
+        "end": 60.869,
+        "text": "switches is called a bit and is the"
+      },
+      {
+        "start": 59.12,
+        "end": 63.27,
+        "text": "smallest piece of information a computer"
+      },
+      {
+        "start": 60.879,
+        "end": 65.109,
+        "text": "can use however one bit by itself is not"
+      },
+      {
+        "start": 63.28,
+        "end": 66.789,
+        "text": "very useful so they come in a package of"
+      },
+      {
+        "start": 65.119,
+        "end": 69.59,
+        "text": "eight called a byte one byte can"
+      },
+      {
+        "start": 66.799,
+        "end": 71.03,
+        "text": "represent 256 different values like all"
+      },
+      {
+        "start": 69.6,
+        "end": 72.789,
+        "text": "the characters that you type on your"
+      },
+      {
+        "start": 71.04,
+        "end": 74.469,
+        "text": "keyboard in fact when you type into your"
+      },
+      {
+        "start": 72.799,
+        "end": 76.55,
+        "text": "keyboard the character produced is"
+      },
+      {
+        "start": 74.479,
+        "end": 79.19,
+        "text": "actually mapped to a binary value in a"
+      },
+      {
+        "start": 76.56,
+        "end": 81.35,
+        "text": "character encoding like ascii or utf-8"
+      },
+      {
+        "start": 79.2,
+        "end": 83.19,
+        "text": "binary is just a system for counting"
+      },
+      {
+        "start": 81.36,
+        "end": 85.03,
+        "text": "like the base 10 system you normally use"
+      },
+      {
+        "start": 83.2,
+        "end": 87.19,
+        "text": "when counting on your fingers but it"
+      },
+      {
+        "start": 85.04,
+        "end": 89.03,
+        "text": "only has two characters one and zero"
+      },
+      {
+        "start": 87.2,
+        "end": 91.109,
+        "text": "humans have a hard time reading binary"
+      },
+      {
+        "start": 89.04,
+        "end": 93.67,
+        "text": "so most often it's represented in a"
+      },
+      {
+        "start": 91.119,
+        "end": 95.91,
+        "text": "hexadecimal base 16 format where ten"
+      },
+      {
+        "start": 93.68,
+        "end": 97.749,
+        "text": "numbers and six letters can represent a"
+      },
+      {
+        "start": 95.92,
+        "end": 99.27,
+        "text": "four bit group called a nibble as a"
+      },
+      {
+        "start": 97.759,
+        "end": 100.87,
+        "text": "developer when you write code in a"
+      },
+      {
+        "start": 99.28,
+        "end": 102.71,
+        "text": "programming language it will eventually"
+      },
+      {
+        "start": 100.88,
+        "end": 104.95,
+        "text": "be converted into machine code which is"
+      },
+      {
+        "start": 102.72,
+        "end": 107.03,
+        "text": "a binary format that can be decoded and"
+      },
+      {
+        "start": 104.96,
+        "end": 108.63,
+        "text": "executed by the cpu what it doesn't do"
+      },
+      {
+        "start": 107.04,
+        "end": 110.55,
+        "text": "though is store data for your"
+      },
+      {
+        "start": 108.64,
+        "end": 113.03,
+        "text": "applications for that computers have"
+      },
+      {
+        "start": 110.56,
+        "end": 115.03,
+        "text": "random access memory or ram it's like a"
+      },
+      {
+        "start": 113.04,
+        "end": 117.27,
+        "text": "neighborhood and inside of every house"
+      },
+      {
+        "start": 115.04,
+        "end": 119.59,
+        "text": "lives a byte every location has a memory"
+      },
+      {
+        "start": 117.28,
+        "end": 121.67,
+        "text": "address which the cpu can read and write"
+      },
+      {
+        "start": 119.6,
+        "end": 123.35,
+        "text": "to you can think of the cpu and ram as"
+      },
+      {
+        "start": 121.68,
+        "end": 125.19,
+        "text": "the brain of the computer but in order"
+      },
+      {
+        "start": 123.36,
+        "end": 127.35,
+        "text": "for a computer to be useful it needs to"
+      },
+      {
+        "start": 125.2,
+        "end": 129.029,
+        "text": "handle input and output an input device"
+      },
+      {
+        "start": 127.36,
+        "end": 130.55,
+        "text": "might be the keyboard and mouse while an"
+      },
+      {
+        "start": 129.039,
+        "end": 132.15,
+        "text": "output device might be your monitor"
+      },
+      {
+        "start": 130.56,
+        "end": 133.51,
+        "text": "luckily most developers don't need to"
+      },
+      {
+        "start": 132.16,
+        "end": 135.19,
+        "text": "worry about how this hardware fits"
+      },
+      {
+        "start": 133.52,
+        "end": 137.03,
+        "text": "together because we have operating"
+      },
+      {
+        "start": 135.2,
+        "end": 138.63,
+        "text": "system kernels like linux mac and"
+      },
+      {
+        "start": 137.04,
+        "end": 141.03,
+        "text": "windows that control all hardware"
+      },
+      {
+        "start": 138.64,
+        "end": 142.71,
+        "text": "resources via device drivers now to"
+      },
+      {
+        "start": 141.04,
+        "end": 144.55,
+        "text": "start hacking on the operating system"
+      },
+      {
+        "start": 142.72,
+        "end": 146.309,
+        "text": "your first entry point is the shell"
+      },
+      {
+        "start": 144.56,
+        "end": 148.39,
+        "text": "which is a program that exposes the"
+      },
+      {
+        "start": 146.319,
+        "end": 150.07,
+        "text": "operating system to the end user it's"
+      },
+      {
+        "start": 148.4,
+        "end": 152.309,
+        "text": "called a shell because it wraps the"
+      },
+      {
+        "start": 150.08,
+        "end": 154.309,
+        "text": "kernel it takes a line of text as input"
+      },
+      {
+        "start": 152.319,
+        "end": 156.309,
+        "text": "and produces an output this is called a"
+      },
+      {
+        "start": 154.319,
+        "end": 157.91,
+        "text": "command line interface not only can it"
+      },
+      {
+        "start": 156.319,
+        "end": 159.83,
+        "text": "connect to your own computer but with"
+      },
+      {
+        "start": 157.92,
+        "end": 161.589,
+        "text": "the secure shell protocol it can also"
+      },
+      {
+        "start": 159.84,
+        "end": 163.19,
+        "text": "connect to remote computers over a"
+      },
+      {
+        "start": 161.599,
+        "end": 164.869,
+        "text": "network now that you have access to the"
+      },
+      {
+        "start": 163.2,
+        "end": 166.55,
+        "text": "mainframe it's time to pick a"
+      },
+      {
+        "start": 164.879,
+        "end": 168.47,
+        "text": "programming language which is a tool"
+      },
+      {
+        "start": 166.56,
+        "end": 170.07,
+        "text": "that uses the abstraction principle to"
+      },
+      {
+        "start": 168.48,
+        "end": 172.07,
+        "text": "make computers practical to work with"
+      },
+      {
+        "start": 170.08,
+        "end": 174.07,
+        "text": "for humans by simplifying different"
+      },
+      {
+        "start": 172.08,
+        "end": 176.07,
+        "text": "systems layer by layer some languages"
+      },
+      {
+        "start": 174.08,
+        "end": 177.91,
+        "text": "like python are interpreted that means"
+      },
+      {
+        "start": 176.08,
+        "end": 179.75,
+        "text": "there's a program called an interpreter"
+      },
+      {
+        "start": 177.92,
+        "end": 182.229,
+        "text": "that will execute each line of code one"
+      },
+      {
+        "start": 179.76,
+        "end": 184.55,
+        "text": "by one other languages like c plus are"
+      },
+      {
+        "start": 182.239,
+        "end": 186.79,
+        "text": "compiled they use a compiler to convert"
+      },
+      {
+        "start": 184.56,
+        "end": 188.79,
+        "text": "the entire program into machine code in"
+      },
+      {
+        "start": 186.8,
+        "end": 190.869,
+        "text": "advance before the cpu attempts to"
+      },
+      {
+        "start": 188.8,
+        "end": 192.71,
+        "text": "execute it this results in an executable"
+      },
+      {
+        "start": 190.879,
+        "end": 194.869,
+        "text": "file that can be run by the operating"
+      },
+      {
+        "start": 192.72,
+        "end": 196.55,
+        "text": "system without any extra dependencies"
+      },
+      {
+        "start": 194.879,
+        "end": 198.63,
+        "text": "now every programming language has a"
+      },
+      {
+        "start": 196.56,
+        "end": 200.309,
+        "text": "variety of built-in data types to"
+      },
+      {
+        "start": 198.64,
+        "end": 202.07,
+        "text": "represent the data we're working with in"
+      },
+      {
+        "start": 200.319,
+        "end": 203.509,
+        "text": "our code instead of bytes we work with"
+      },
+      {
+        "start": 202.08,
+        "end": 205.19,
+        "text": "more human-friendly things like"
+      },
+      {
+        "start": 203.519,
+        "end": 206.869,
+        "text": "characters and numbers now the most"
+      },
+      {
+        "start": 205.2,
+        "end": 209.19,
+        "text": "fundamental way to use data in your"
+      },
+      {
+        "start": 206.879,
+        "end": 211.11,
+        "text": "application is to declare a variable"
+      },
+      {
+        "start": 209.2,
+        "end": 212.949,
+        "text": "this attaches a name to a data point"
+      },
+      {
+        "start": 211.12,
+        "end": 215.11,
+        "text": "allowing you to reuse it somewhere else"
+      },
+      {
+        "start": 212.959,
+        "end": 216.789,
+        "text": "in your code python is a dynamically"
+      },
+      {
+        "start": 215.12,
+        "end": 218.789,
+        "text": "typed language which means we don't need"
+      },
+      {
+        "start": 216.799,
+        "end": 220.789,
+        "text": "to tell the program exactly which data"
+      },
+      {
+        "start": 218.799,
+        "end": 222.71,
+        "text": "type is assigned to a variable it just"
+      },
+      {
+        "start": 220.799,
+        "end": 224.789,
+        "text": "figures it out automatically however"
+      },
+      {
+        "start": 222.72,
+        "end": 226.55,
+        "text": "other languages like c are statically"
+      },
+      {
+        "start": 224.799,
+        "end": 228.63,
+        "text": "typed and that means you need to specify"
+      },
+      {
+        "start": 226.56,
+        "end": 230.63,
+        "text": "the data type of a variable in your code"
+      },
+      {
+        "start": 228.64,
+        "end": 232.07,
+        "text": "when you define a variable its value is"
+      },
+      {
+        "start": 230.64,
+        "end": 233.91,
+        "text": "stored somewhere in memory on the"
+      },
+      {
+        "start": 232.08,
+        "end": 235.35,
+        "text": "hardware and you may need to allocate"
+      },
+      {
+        "start": 233.92,
+        "end": 237.75,
+        "text": "and free up memory throughout the"
+      },
+      {
+        "start": 235.36,
+        "end": 239.91,
+        "text": "program a pointer is a variable whose"
+      },
+      {
+        "start": 237.76,
+        "end": 242.149,
+        "text": "value is the memory address of another"
+      },
+      {
+        "start": 239.92,
+        "end": 244.229,
+        "text": "variable which can be used for low-level"
+      },
+      {
+        "start": 242.159,
+        "end": 246.229,
+        "text": "memory control many languages don't want"
+      },
+      {
+        "start": 244.239,
+        "end": 247.83,
+        "text": "to deal with low-level memory management"
+      },
+      {
+        "start": 246.239,
+        "end": 249.83,
+        "text": "and instead implement a garbage"
+      },
+      {
+        "start": 247.84,
+        "end": 251.91,
+        "text": "collector which automatically allocates"
+      },
+      {
+        "start": 249.84,
+        "end": 256.05,
+        "text": "and de-allocates memory when an object"
+      },
+      {
+        "start": 251.92,
+        "end": 256.05,
+        "text": "is no longer referenced in the program"
+      },
+      {
+        "start": 259.759,
+        "end": 261.27,
+        "text": "[Music] now the data types available are"
+      },
+      {
+        "start": 261.27,
+        "end": 262.95,
+        "text": "now the data types available are"
+      },
+      {
+        "start": 261.28,
+        "end": 264.39,
+        "text": "different in every programming language"
+      },
+      {
+        "start": 262.96,
+        "end": 266.31,
+        "text": "but typically you'll find int to"
+      },
+      {
+        "start": 264.4,
+        "end": 268.629,
+        "text": "represent whole numbers which may or may"
+      },
+      {
+        "start": 266.32,
+        "end": 270.31,
+        "text": "not be signed or unsigned to represent"
+      },
+      {
+        "start": 268.639,
+        "end": 272.23,
+        "text": "negative numbers as well when numbers"
+      },
+      {
+        "start": 270.32,
+        "end": 274.07,
+        "text": "require a decimal point they typically"
+      },
+      {
+        "start": 272.24,
+        "end": 275.59,
+        "text": "use the floating point type it's called"
+      },
+      {
+        "start": 274.08,
+        "end": 277.51,
+        "text": "a float because there's only enough"
+      },
+      {
+        "start": 275.6,
+        "end": 279.35,
+        "text": "memory to represent a certain range of"
+      },
+      {
+        "start": 277.52,
+        "end": 281.35,
+        "text": "numbers at a certain precision and is"
+      },
+      {
+        "start": 279.36,
+        "end": 283.11,
+        "text": "basically a form of scientific notation"
+      },
+      {
+        "start": 281.36,
+        "end": 284.95,
+        "text": "to make computers faster if you need"
+      },
+      {
+        "start": 283.12,
+        "end": 286.629,
+        "text": "more range or precision many languages"
+      },
+      {
+        "start": 284.96,
+        "end": 288.31,
+        "text": "also have a double that doubles the"
+      },
+      {
+        "start": 286.639,
+        "end": 289.67,
+        "text": "amount of memory used for the number now"
+      },
+      {
+        "start": 288.32,
+        "end": 291.35,
+        "text": "when it comes to characters you'll"
+      },
+      {
+        "start": 289.68,
+        "end": 293.27,
+        "text": "typically find the char data type to"
+      },
+      {
+        "start": 291.36,
+        "end": 295.59,
+        "text": "represent a single character or more"
+      },
+      {
+        "start": 293.28,
+        "end": 297.27,
+        "text": "commonly a string to represent multiple"
+      },
+      {
+        "start": 295.6,
+        "end": 298.79,
+        "text": "characters together ultimately these"
+      },
+      {
+        "start": 297.28,
+        "end": 300.23,
+        "text": "characters get stored in a memory"
+      },
+      {
+        "start": 298.8,
+        "end": 302.15,
+        "text": "address somewhere but they need to be"
+      },
+      {
+        "start": 300.24,
+        "end": 303.67,
+        "text": "stored in a certain order when the order"
+      },
+      {
+        "start": 302.16,
+        "end": 305.27,
+        "text": "starts with the most significant byte"
+      },
+      {
+        "start": 303.68,
+        "end": 307.59,
+        "text": "and the smallest memory address it's"
+      },
+      {
+        "start": 305.28,
+        "end": 309.189,
+        "text": "called big endian or vice versa if the"
+      },
+      {
+        "start": 307.6,
+        "end": 310.95,
+        "text": "least significant byte is stored in the"
+      },
+      {
+        "start": 309.199,
+        "end": 312.55,
+        "text": "smallest address it's called little"
+      },
+      {
+        "start": 310.96,
+        "end": 313.909,
+        "text": "endian when it comes to practical"
+      },
+      {
+        "start": 312.56,
+        "end": 315.83,
+        "text": "software engineering one of the most"
+      },
+      {
+        "start": 313.919,
+        "end": 317.99,
+        "text": "fundamental things we do is organize"
+      },
+      {
+        "start": 315.84,
+        "end": 319.909,
+        "text": "data into data structures the most"
+      },
+      {
+        "start": 318.0,
+        "end": 322.55,
+        "text": "useful data structure is probably the"
+      },
+      {
+        "start": 319.919,
+        "end": 324.55,
+        "text": "array or list just like a shopping list"
+      },
+      {
+        "start": 322.56,
+        "end": 327.029,
+        "text": "it organizes multiple data points in"
+      },
+      {
+        "start": 324.56,
+        "end": 329.43,
+        "text": "order however it also maintains an index"
+      },
+      {
+        "start": 327.039,
+        "end": 331.51,
+        "text": "of integers that starts at zero and goes"
+      },
+      {
+        "start": 329.44,
+        "end": 333.029,
+        "text": "up for every new item in the list that"
+      },
+      {
+        "start": 331.52,
+        "end": 335.11,
+        "text": "can be useful but you don't actually"
+      },
+      {
+        "start": 333.039,
+        "end": 336.95,
+        "text": "need an index to create a list of items"
+      },
+      {
+        "start": 335.12,
+        "end": 339.11,
+        "text": "another option is a linked list where"
+      },
+      {
+        "start": 336.96,
+        "end": 341.43,
+        "text": "each item has a pointer to the next item"
+      },
+      {
+        "start": 339.12,
+        "end": 343.43,
+        "text": "in front of it another option is a stack"
+      },
+      {
+        "start": 341.44,
+        "end": 345.11,
+        "text": "that follows the last in first out"
+      },
+      {
+        "start": 343.44,
+        "end": 346.79,
+        "text": "principle it's like stacking a set of"
+      },
+      {
+        "start": 345.12,
+        "end": 349.029,
+        "text": "plates then when you want to access the"
+      },
+      {
+        "start": 346.8,
+        "end": 351.11,
+        "text": "data you pop the last one off the top"
+      },
+      {
+        "start": 349.039,
+        "end": 353.029,
+        "text": "the inverse option is a queue which is"
+      },
+      {
+        "start": 351.12,
+        "end": 354.71,
+        "text": "first in first out just like when you"
+      },
+      {
+        "start": 353.039,
+        "end": 356.629,
+        "text": "get into the red line the first person"
+      },
+      {
+        "start": 354.72,
+        "end": 358.469,
+        "text": "there is the first one to be fed now"
+      },
+      {
+        "start": 356.639,
+        "end": 360.629,
+        "text": "another extremely useful data structure"
+      },
+      {
+        "start": 358.479,
+        "end": 362.79,
+        "text": "is the hash which might also be called a"
+      },
+      {
+        "start": 360.639,
+        "end": 364.629,
+        "text": "map or dictionary it's like an array but"
+      },
+      {
+        "start": 362.8,
+        "end": 366.15,
+        "text": "instead of an index of integers you"
+      },
+      {
+        "start": 364.639,
+        "end": 368.469,
+        "text": "define the keys that point to each"
+      },
+      {
+        "start": 366.16,
+        "end": 370.79,
+        "text": "individual item giving you a collection"
+      },
+      {
+        "start": 368.479,
+        "end": 372.87,
+        "text": "of key value pairs in many cases though"
+      },
+      {
+        "start": 370.8,
+        "end": 374.71,
+        "text": "it's not efficient to organize data in a"
+      },
+      {
+        "start": 372.88,
+        "end": 376.79,
+        "text": "linear way to address that problem we"
+      },
+      {
+        "start": 374.72,
+        "end": 378.629,
+        "text": "have trees which organize nodes together"
+      },
+      {
+        "start": 376.8,
+        "end": 379.99,
+        "text": "in a hierarchy that can often be"
+      },
+      {
+        "start": 378.639,
+        "end": 381.59,
+        "text": "traversed more quickly this can"
+      },
+      {
+        "start": 380.0,
+        "end": 383.59,
+        "text": "sometimes be too rigid of a data"
+      },
+      {
+        "start": 381.6,
+        "end": 385.35,
+        "text": "structure though so instead a graph can"
+      },
+      {
+        "start": 383.6,
+        "end": 387.27,
+        "text": "be created to connect multiple nodes"
+      },
+      {
+        "start": 385.36,
+        "end": 389.59,
+        "text": "together in a virtually unlimited number"
+      },
+      {
+        "start": 387.28,
+        "end": 391.59,
+        "text": "of ways a graph has a node for the data"
+      },
+      {
+        "start": 389.6,
+        "end": 393.27,
+        "text": "and an edge for the relationship between"
+      },
+      {
+        "start": 391.6,
+        "end": 394.95,
+        "text": "the data points data structures are"
+      },
+      {
+        "start": 393.28,
+        "end": 396.95,
+        "text": "essential but they don't do anything by"
+      },
+      {
+        "start": 394.96,
+        "end": 398.629,
+        "text": "themselves to do something useful you'll"
+      },
+      {
+        "start": 396.96,
+        "end": 400.87,
+        "text": "need to code up an algorithm which is"
+      },
+      {
+        "start": 398.639,
+        "end": 402.309,
+        "text": "just code that solves a problem i took"
+      },
+      {
+        "start": 400.88,
+        "end": 404.07,
+        "text": "the initiative in"
+      },
+      {
+        "start": 402.319,
+        "end": 405.909,
+        "text": "creating the internet in our code we"
+      },
+      {
+        "start": 404.08,
+        "end": 407.67,
+        "text": "have several mechanisms for implementing"
+      },
+      {
+        "start": 405.919,
+        "end": 409.83,
+        "text": "algorithms the most fundamental of which"
+      },
+      {
+        "start": 407.68,
+        "end": 412.07,
+        "text": "is a function which is a block of code"
+      },
+      {
+        "start": 409.84,
+        "end": 414.309,
+        "text": "that takes an input then does something"
+      },
+      {
+        "start": 412.08,
+        "end": 416.15,
+        "text": "and returns an output like a variable a"
+      },
+      {
+        "start": 414.319,
+        "end": 417.67,
+        "text": "function has a name and it can be called"
+      },
+      {
+        "start": 416.16,
+        "end": 419.27,
+        "text": "from other parts of your code with"
+      },
+      {
+        "start": 417.68,
+        "end": 420.87,
+        "text": "different input parameters called"
+      },
+      {
+        "start": 419.28,
+        "end": 422.95,
+        "text": "arguments one thing you might do in the"
+      },
+      {
+        "start": 420.88,
+        "end": 425.189,
+        "text": "function body is compare one value to"
+      },
+      {
+        "start": 422.96,
+        "end": 427.67,
+        "text": "another every language has a variety of"
+      },
+      {
+        "start": 425.199,
+        "end": 429.589,
+        "text": "built-in operators like equality greater"
+      },
+      {
+        "start": 427.68,
+        "end": 431.67,
+        "text": "than and less than that you can use to"
+      },
+      {
+        "start": 429.599,
+        "end": 434.309,
+        "text": "compare two values if a is greater than"
+      },
+      {
+        "start": 431.68,
+        "end": 435.909,
+        "text": "b then it forms a value of true but if b"
+      },
+      {
+        "start": 434.319,
+        "end": 437.99,
+        "text": "is greater than a then the value is"
+      },
+      {
+        "start": 435.919,
+        "end": 439.83,
+        "text": "false true false is what's known as a"
+      },
+      {
+        "start": 438.0,
+        "end": 441.83,
+        "text": "boolean data type and whenever your code"
+      },
+      {
+        "start": 439.84,
+        "end": 443.749,
+        "text": "produces a value like this it's known as"
+      },
+      {
+        "start": 441.84,
+        "end": 445.43,
+        "text": "an expression but not all code will"
+      },
+      {
+        "start": 443.759,
+        "end": 447.43,
+        "text": "produce a value sometimes your code will"
+      },
+      {
+        "start": 445.44,
+        "end": 449.51,
+        "text": "simply do something which is known as a"
+      },
+      {
+        "start": 447.44,
+        "end": 451.35,
+        "text": "statement a good example is the if"
+      },
+      {
+        "start": 449.52,
+        "end": 453.43,
+        "text": "statement which handles conditional"
+      },
+      {
+        "start": 451.36,
+        "end": 455.67,
+        "text": "logic for example if the condition is"
+      },
+      {
+        "start": 453.44,
+        "end": 457.589,
+        "text": "true it will execute this code otherwise"
+      },
+      {
+        "start": 455.68,
+        "end": 459.67,
+        "text": "it will short circuit and run the code"
+      },
+      {
+        "start": 457.599,
+        "end": 461.749,
+        "text": "inside of the else block another very"
+      },
+      {
+        "start": 459.68,
+        "end": 463.51,
+        "text": "common type of statement is a loop a"
+      },
+      {
+        "start": 461.759,
+        "end": 465.43,
+        "text": "while loop will run this block of code"
+      },
+      {
+        "start": 463.52,
+        "end": 467.27,
+        "text": "over and over again until the condition"
+      },
+      {
+        "start": 465.44,
+        "end": 469.189,
+        "text": "in the parentheses becomes false that"
+      },
+      {
+        "start": 467.28,
+        "end": 470.95,
+        "text": "can be useful but more often than not"
+      },
+      {
+        "start": 469.199,
+        "end": 473.029,
+        "text": "you'll want to loop over an iterable"
+      },
+      {
+        "start": 470.96,
+        "end": 474.79,
+        "text": "data type like an array most languages"
+      },
+      {
+        "start": 473.039,
+        "end": 476.629,
+        "text": "have a for loop that can run some code"
+      },
+      {
+        "start": 474.8,
+        "end": 478.469,
+        "text": "for every object in the array or"
+      },
+      {
+        "start": 476.639,
+        "end": 480.869,
+        "text": "iterable data structure now in some"
+      },
+      {
+        "start": 478.479,
+        "end": 482.469,
+        "text": "cases a function may not have an output"
+      },
+      {
+        "start": 480.879,
+        "end": 483.99,
+        "text": "which is generally called a void"
+      },
+      {
+        "start": 482.479,
+        "end": 485.43,
+        "text": "function an interesting thing about"
+      },
+      {
+        "start": 484.0,
+        "end": 487.43,
+        "text": "functions is that they can call"
+      },
+      {
+        "start": 485.44,
+        "end": 489.189,
+        "text": "themselves when a function calls itself"
+      },
+      {
+        "start": 487.44,
+        "end": 490.95,
+        "text": "it's called recursion because when done"
+      },
+      {
+        "start": 489.199,
+        "end": 493.029,
+        "text": "like this by default it will recurse"
+      },
+      {
+        "start": 490.96,
+        "end": 494.71,
+        "text": "forever creating an infinite loop that"
+      },
+      {
+        "start": 493.039,
+        "end": 496.23,
+        "text": "happens because when you call a function"
+      },
+      {
+        "start": 494.72,
+        "end": 498.309,
+        "text": "the programming language will put it"
+      },
+      {
+        "start": 496.24,
+        "end": 499.83,
+        "text": "into memory on what's known as the call"
+      },
+      {
+        "start": 498.319,
+        "end": 501.749,
+        "text": "stack which is a short-term chunk of"
+      },
+      {
+        "start": 499.84,
+        "end": 503.27,
+        "text": "memory for executing your code when a"
+      },
+      {
+        "start": 501.759,
+        "end": 504.79,
+        "text": "function keeps calling itself the"
+      },
+      {
+        "start": 503.28,
+        "end": 506.71,
+        "text": "language will keep pushing frames onto"
+      },
+      {
+        "start": 504.8,
+        "end": 508.55,
+        "text": "the call stack until you get a stack"
+      },
+      {
+        "start": 506.72,
+        "end": 510.39,
+        "text": "overflow error to avoid this your"
+      },
+      {
+        "start": 508.56,
+        "end": 511.99,
+        "text": "algorithm needs a base condition so it"
+      },
+      {
+        "start": 510.4,
+        "end": 513.43,
+        "text": "knows when to terminate the loop now"
+      },
+      {
+        "start": 512.0,
+        "end": 514.87,
+        "text": "when you write an algorithm you'll need"
+      },
+      {
+        "start": 513.44,
+        "end": 516.79,
+        "text": "to determine if it's any good and the"
+      },
+      {
+        "start": 514.88,
+        "end": 518.79,
+        "text": "system for doing that is called big-o"
+      },
+      {
+        "start": 516.8,
+        "end": 520.31,
+        "text": "notation it's a standard format for"
+      },
+      {
+        "start": 518.8,
+        "end": 522.31,
+        "text": "approximating the performance of an"
+      },
+      {
+        "start": 520.32,
+        "end": 524.07,
+        "text": "algorithm at scale it may reference time"
+      },
+      {
+        "start": 522.32,
+        "end": 526.23,
+        "text": "complexity which is how fast your"
+      },
+      {
+        "start": 524.08,
+        "end": 527.75,
+        "text": "algorithm will run and space complexity"
+      },
+      {
+        "start": 526.24,
+        "end": 529.829,
+        "text": "which deals with how much memory is"
+      },
+      {
+        "start": 527.76,
+        "end": 531.19,
+        "text": "required to run it developers have many"
+      },
+      {
+        "start": 529.839,
+        "end": 533.269,
+        "text": "different algorithm types at their"
+      },
+      {
+        "start": 531.2,
+        "end": 534.87,
+        "text": "disposal the most crude option is brute"
+      },
+      {
+        "start": 533.279,
+        "end": 536.87,
+        "text": "force where you might loop over every"
+      },
+      {
+        "start": 534.88,
+        "end": 538.63,
+        "text": "possible combination to hack somebody's"
+      },
+      {
+        "start": 536.88,
+        "end": 540.31,
+        "text": "credit card pin a more sophisticated"
+      },
+      {
+        "start": 538.64,
+        "end": 541.99,
+        "text": "approach might be divide and conquer"
+      },
+      {
+        "start": 540.32,
+        "end": 543.91,
+        "text": "like binary search where you cut the"
+      },
+      {
+        "start": 542.0,
+        "end": 545.509,
+        "text": "problem in half multiple times until you"
+      },
+      {
+        "start": 543.92,
+        "end": 547.91,
+        "text": "find what you're looking for another"
+      },
+      {
+        "start": 545.519,
+        "end": 549.829,
+        "text": "option is dynamic programming algorithms"
+      },
+      {
+        "start": 547.92,
+        "end": 551.67,
+        "text": "where a problem is broken down into"
+      },
+      {
+        "start": 549.839,
+        "end": 553.91,
+        "text": "multiple smaller sub-problems and the"
+      },
+      {
+        "start": 551.68,
+        "end": 555.99,
+        "text": "result of each computation is stored for"
+      },
+      {
+        "start": 553.92,
+        "end": 557.91,
+        "text": "later use using a technique called"
+      },
+      {
+        "start": 556.0,
+        "end": 559.35,
+        "text": "memoization that means if a function has"
+      },
+      {
+        "start": 557.92,
+        "end": 561.509,
+        "text": "already been called it will use the"
+      },
+      {
+        "start": 559.36,
+        "end": 563.269,
+        "text": "existing value instead of recomputing it"
+      },
+      {
+        "start": 561.519,
+        "end": 564.63,
+        "text": "again from scratch then we have greedy"
+      },
+      {
+        "start": 563.279,
+        "end": 566.31,
+        "text": "algorithms that will make the choice"
+      },
+      {
+        "start": 564.64,
+        "end": 568.07,
+        "text": "that is most beneficial in the short"
+      },
+      {
+        "start": 566.32,
+        "end": 569.75,
+        "text": "term without considering the problem as"
+      },
+      {
+        "start": 568.08,
+        "end": 571.67,
+        "text": "a whole one example of this is"
+      },
+      {
+        "start": 569.76,
+        "end": 573.509,
+        "text": "dijkstra's shortest path algorithm on"
+      },
+      {
+        "start": 571.68,
+        "end": 575.43,
+        "text": "the flip side we have backtracking"
+      },
+      {
+        "start": 573.519,
+        "end": 577.35,
+        "text": "algorithms which take a more incremental"
+      },
+      {
+        "start": 575.44,
+        "end": 579.59,
+        "text": "approach by looking at all the possible"
+      },
+      {
+        "start": 577.36,
+        "end": 581.19,
+        "text": "options like a rat and a maze exploring"
+      },
+      {
+        "start": 579.6,
+        "end": 582.79,
+        "text": "all the different potential paths now"
+      },
+      {
+        "start": 581.2,
+        "end": 584.389,
+        "text": "when it comes to implementing your code"
+      },
+      {
+        "start": 582.8,
+        "end": 586.55,
+        "text": "there are always multiple ways to get"
+      },
+      {
+        "start": 584.399,
+        "end": 588.389,
+        "text": "the job done one programming paradigm is"
+      },
+      {
+        "start": 586.56,
+        "end": 590.31,
+        "text": "declarative where your code describes"
+      },
+      {
+        "start": 588.399,
+        "end": 591.67,
+        "text": "what the program does and the outcome"
+      },
+      {
+        "start": 590.32,
+        "end": 593.509,
+        "text": "but doesn't care about things like"
+      },
+      {
+        "start": 591.68,
+        "end": 595.11,
+        "text": "control flow this style of programming"
+      },
+      {
+        "start": 593.519,
+        "end": 596.87,
+        "text": "is often associated with functional"
+      },
+      {
+        "start": 595.12,
+        "end": 598.87,
+        "text": "languages like haskell the other"
+      },
+      {
+        "start": 596.88,
+        "end": 600.87,
+        "text": "paradigm is imperative programming where"
+      },
+      {
+        "start": 598.88,
+        "end": 602.87,
+        "text": "your code uses statements like if and"
+      },
+      {
+        "start": 600.88,
+        "end": 604.79,
+        "text": "while providing explicit instructions"
+      },
+      {
+        "start": 602.88,
+        "end": 606.55,
+        "text": "about how to produce an outcome it's"
+      },
+      {
+        "start": 604.8,
+        "end": 608.55,
+        "text": "associated with procedural languages"
+      },
+      {
+        "start": 606.56,
+        "end": 610.949,
+        "text": "like c today most general purpose"
+      },
+      {
+        "start": 608.56,
+        "end": 613.03,
+        "text": "languages like python javascript kotlin"
+      },
+      {
+        "start": 610.959,
+        "end": 614.63,
+        "text": "swift and so on are multi-paradigm which"
+      },
+      {
+        "start": 613.04,
+        "end": 616.31,
+        "text": "means they support all these options at"
+      },
+      {
+        "start": 614.64,
+        "end": 618.23,
+        "text": "the same time in addition to"
+      },
+      {
+        "start": 616.32,
+        "end": 620.47,
+        "text": "object-oriented programming the idea"
+      },
+      {
+        "start": 618.24,
+        "end": 622.47,
+        "text": "behind oop is that you use classes to"
+      },
+      {
+        "start": 620.48,
+        "end": 624.389,
+        "text": "write a blueprint for the data or"
+      },
+      {
+        "start": 622.48,
+        "end": 626.23,
+        "text": "objects in your code a class can"
+      },
+      {
+        "start": 624.399,
+        "end": 628.15,
+        "text": "encapsulate variables which are commonly"
+      },
+      {
+        "start": 626.24,
+        "end": 629.829,
+        "text": "called properties as well as functions"
+      },
+      {
+        "start": 628.16,
+        "end": 631.91,
+        "text": "which are usually called methods in this"
+      },
+      {
+        "start": 629.839,
+        "end": 633.99,
+        "text": "context it's a common way to organize"
+      },
+      {
+        "start": 631.92,
+        "end": 635.509,
+        "text": "and reuse code because classes can share"
+      },
+      {
+        "start": 634.0,
+        "end": 637.91,
+        "text": "behaviors between each other through"
+      },
+      {
+        "start": 635.519,
+        "end": 639.829,
+        "text": "inheritance where a subclass can extend"
+      },
+      {
+        "start": 637.92,
+        "end": 641.67,
+        "text": "and override the behaviors of the parent"
+      },
+      {
+        "start": 639.839,
+        "end": 643.75,
+        "text": "class and it opens the door to all kinds"
+      },
+      {
+        "start": 641.68,
+        "end": 645.59,
+        "text": "of other ideas called design patterns"
+      },
+      {
+        "start": 643.76,
+        "end": 647.509,
+        "text": "now a class by itself doesn't actually"
+      },
+      {
+        "start": 645.6,
+        "end": 649.509,
+        "text": "do anything instead it's used to"
+      },
+      {
+        "start": 647.519,
+        "end": 651.03,
+        "text": "instantiate objects which are actual"
+      },
+      {
+        "start": 649.519,
+        "end": 652.949,
+        "text": "chunks of data that live in your"
+      },
+      {
+        "start": 651.04,
+        "end": 654.87,
+        "text": "computer's memory often you'll want to"
+      },
+      {
+        "start": 652.959,
+        "end": 656.31,
+        "text": "reference the same object over and over"
+      },
+      {
+        "start": 654.88,
+        "end": 658.31,
+        "text": "again in your code when data is"
+      },
+      {
+        "start": 656.32,
+        "end": 660.069,
+        "text": "long-lived it can't go in the call stack"
+      },
+      {
+        "start": 658.32,
+        "end": 661.829,
+        "text": "instead most languages have a separate"
+      },
+      {
+        "start": 660.079,
+        "end": 663.509,
+        "text": "area of memory called the heap which"
+      },
+      {
+        "start": 661.839,
+        "end": 665.509,
+        "text": "unlike the call stack can grow and"
+      },
+      {
+        "start": 663.519,
+        "end": 667.75,
+        "text": "shrink based on how your application is"
+      },
+      {
+        "start": 665.519,
+        "end": 669.43,
+        "text": "used it also allows you to pass objects"
+      },
+      {
+        "start": 667.76,
+        "end": 671.19,
+        "text": "by reference which means you can use the"
+      },
+      {
+        "start": 669.44,
+        "end": 672.949,
+        "text": "same object in multiple variables"
+      },
+      {
+        "start": 671.2,
+        "end": 674.23,
+        "text": "without increasing the memory footprint"
+      },
+      {
+        "start": 672.959,
+        "end": 675.91,
+        "text": "because it always points to the same"
+      },
+      {
+        "start": 674.24,
+        "end": 677.509,
+        "text": "chunk of memory in the heap now what's"
+      },
+      {
+        "start": 675.92,
+        "end": 678.949,
+        "text": "interesting is that if we go back to the"
+      },
+      {
+        "start": 677.519,
+        "end": 680.71,
+        "text": "cpu that we talked about in the"
+      },
+      {
+        "start": 678.959,
+        "end": 682.71,
+        "text": "beginning you'll notice that it contains"
+      },
+      {
+        "start": 680.72,
+        "end": 684.949,
+        "text": "multiple threads a thread takes the"
+      },
+      {
+        "start": 682.72,
+        "end": 686.87,
+        "text": "physical cpu core and breaks it into"
+      },
+      {
+        "start": 684.959,
+        "end": 688.31,
+        "text": "virtual cores that allow it to run code"
+      },
+      {
+        "start": 686.88,
+        "end": 689.67,
+        "text": "simultaneously there are some"
+      },
+      {
+        "start": 688.32,
+        "end": 691.269,
+        "text": "programming languages that support"
+      },
+      {
+        "start": 689.68,
+        "end": 693.19,
+        "text": "parallelism where you can write code"
+      },
+      {
+        "start": 691.279,
+        "end": 695.269,
+        "text": "that literally executes on two different"
+      },
+      {
+        "start": 693.2,
+        "end": 696.79,
+        "text": "threads at the same time however many"
+      },
+      {
+        "start": 695.279,
+        "end": 698.15,
+        "text": "languages out there are only single"
+      },
+      {
+        "start": 696.8,
+        "end": 700.069,
+        "text": "threaded but that doesn't mean they"
+      },
+      {
+        "start": 698.16,
+        "end": 701.67,
+        "text": "can't do two things at the same time"
+      },
+      {
+        "start": 700.079,
+        "end": 704.15,
+        "text": "instead they implement concurrency"
+      },
+      {
+        "start": 701.68,
+        "end": 705.829,
+        "text": "models like an event loop or co-routines"
+      },
+      {
+        "start": 704.16,
+        "end": 707.59,
+        "text": "that can pause or delay the normal"
+      },
+      {
+        "start": 705.839,
+        "end": 709.59,
+        "text": "execution of code to handle multiple"
+      },
+      {
+        "start": 707.6,
+        "end": 711.509,
+        "text": "jobs on a single thread at the same time"
+      },
+      {
+        "start": 709.6,
+        "end": 713.829,
+        "text": "now in modern computing we're rarely"
+      },
+      {
+        "start": 711.519,
+        "end": 715.35,
+        "text": "working with the bare metal cpu and ram"
+      },
+      {
+        "start": 713.839,
+        "end": 717.269,
+        "text": "instead we work in the cloud with a"
+      },
+      {
+        "start": 715.36,
+        "end": 719.35,
+        "text": "virtual machine which is just a piece of"
+      },
+      {
+        "start": 717.279,
+        "end": 721.269,
+        "text": "software that simulates hardware that"
+      },
+      {
+        "start": 719.36,
+        "end": 722.79,
+        "text": "allows us to take really big computers"
+      },
+      {
+        "start": 721.279,
+        "end": 724.79,
+        "text": "and split them up into a bunch of"
+      },
+      {
+        "start": 722.8,
+        "end": 726.23,
+        "text": "smaller virtual computers these machines"
+      },
+      {
+        "start": 724.8,
+        "end": 728.23,
+        "text": "are the backbone of the internet and are"
+      },
+      {
+        "start": 726.24,
+        "end": 730.389,
+        "text": "connected via the internet protocol each"
+      },
+      {
+        "start": 728.24,
+        "end": 732.23,
+        "text": "machine has a unique ip address to"
+      },
+      {
+        "start": 730.399,
+        "end": 734.71,
+        "text": "identify it on the network that ip"
+      },
+      {
+        "start": 732.24,
+        "end": 736.47,
+        "text": "address is usually alias to a url that"
+      },
+      {
+        "start": 734.72,
+        "end": 738.31,
+        "text": "is registered in a global database"
+      },
+      {
+        "start": 736.48,
+        "end": 740.389,
+        "text": "called the domain name service now to"
+      },
+      {
+        "start": 738.32,
+        "end": 742.87,
+        "text": "establish a connection the two computers"
+      },
+      {
+        "start": 740.399,
+        "end": 744.79,
+        "text": "will perform a tcp handshake which will"
+      },
+      {
+        "start": 742.88,
+        "end": 746.949,
+        "text": "allow them to exchange messages called"
+      },
+      {
+        "start": 744.8,
+        "end": 749.509,
+        "text": "packets on top of that there's usually a"
+      },
+      {
+        "start": 746.959,
+        "end": 751.43,
+        "text": "security layer like ssl to encrypt and"
+      },
+      {
+        "start": 749.519,
+        "end": 753.35,
+        "text": "decrypt the messages over the network"
+      },
+      {
+        "start": 751.44,
+        "end": 755.11,
+        "text": "now the two computers can securely share"
+      },
+      {
+        "start": 753.36,
+        "end": 757.19,
+        "text": "data with the hypertext transfer"
+      },
+      {
+        "start": 755.12,
+        "end": 758.949,
+        "text": "protocol the client may request a web"
+      },
+      {
+        "start": 757.2,
+        "end": 761.19,
+        "text": "page then the server will respond with"
+      },
+      {
+        "start": 758.959,
+        "end": 763.269,
+        "text": "some html modern servers provide a"
+      },
+      {
+        "start": 761.2,
+        "end": 765.03,
+        "text": "standardized way for a client to request"
+      },
+      {
+        "start": 763.279,
+        "end": 767.35,
+        "text": "data which is called an application"
+      },
+      {
+        "start": 765.04,
+        "end": 769.59,
+        "text": "programming interface or api the most"
+      },
+      {
+        "start": 767.36,
+        "end": 771.35,
+        "text": "common architecture is rest where urls"
+      },
+      {
+        "start": 769.6,
+        "end": 773.11,
+        "text": "are mapped to different data entities"
+      },
+      {
+        "start": 771.36,
+        "end": 775.269,
+        "text": "available on the server and that brings"
+      },
+      {
+        "start": 773.12,
+        "end": 776.71,
+        "text": "us to our final topic mother effin"
+      },
+      {
+        "start": 775.279,
+        "end": 778.55,
+        "text": "printers you're gonna need to learn how"
+      },
+      {
+        "start": 776.72,
+        "end": 779.91,
+        "text": "these things work inside and out because"
+      },
+      {
+        "start": 778.56,
+        "end": 781.509,
+        "text": "every time you go to grandma's house"
+      },
+      {
+        "start": 779.92,
+        "end": 783.11,
+        "text": "she's going to ask you to fix it which"
+      },
+      {
+        "start": 781.519,
+        "end": 785.11,
+        "text": "shouldn't be a problem for a computer"
+      },
+      {
+        "start": 783.12,
+        "end": 789.12,
+        "text": "scientist like you thanks for watching"
+      },
+      {
+        "start": 785.12,
+        "end": 789.12,
+        "text": "and i will see you in the next one"
+      }
+    ]
+  },
+  "quality_flags": {
+    "chapters_total": 9,
+    "chapters_matched": 9,
+    "per_chapter": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "trusted": true,
+    "transcript_source": "auto",
+    "notes": [
+      "自动字幕（平台 ASR 生成），可能含识别错误；与官方章节矛盾时按规则弃用"
+    ]
+  }
+}
