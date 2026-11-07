@@ -5,6 +5,8 @@ import './pet.css'
 const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/pet/`
 const POSTER = `${ASSET_ROOT}standing.png`
 const PET_SCALE_STORAGE_KEY = 'ulearnbetter.assistant.petScale'
+/** Long enough to be deliberate, short enough not to feel stuck; only used for touch and pen. */
+const LONG_PRESS_MS = 500
 
 /** Size is a viewing preference, so it survives a refresh even though the position does not. */
 function readPetScale(): number {
@@ -44,6 +46,9 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
   const dragRef = useRef<Drag | null>(null)
   const frameRef = useRef<number | null>(null)
   const suppressClickRef = useRef(false)
+  // Touch screens have no right-click, so a steady press opens the same settings menu.
+  const longPressTimerRef = useRef<number | null>(null)
+  const longPressFiredRef = useRef(false)
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null)
   const [dragging, setDragging] = useState(false)
   const [temporary, setTemporary] = useState<PetMotion | null>(null)
@@ -173,11 +178,26 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
       : { left, right: 'auto', top: rect.bottom + 10, bottom: 'auto' })
   }
 
+  function openMenu() {
+    setMenu(true)
+    placeMenu()
+  }
+
   function toggleMenu() {
     const next = !menu
     setMenu(next)
     if (next) placeMenu()
   }
+
+  function cancelLongPress() {
+    if (longPressTimerRef.current === null) return
+    window.clearTimeout(longPressTimerRef.current)
+    longPressTimerRef.current = null
+  }
+
+  useEffect(() => () => {
+    if (longPressTimerRef.current !== null) window.clearTimeout(longPressTimerRef.current)
+  }, [])
 
   function updateScale(value: number) {
     const next = clampPetScale(value)
@@ -200,17 +220,31 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
     if (event.button !== 0) return
     setMenu(false)
     suppressClickRef.current = false
+    longPressFiredRef.current = false
+    cancelLongPress()
     const bounds = containerRef.current!.getBoundingClientRect()
     dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, left: bounds.x, top: bounds.y, moved: false }
     event.currentTarget.setPointerCapture(event.pointerId)
+    if (event.pointerType === 'mouse') return
+    longPressTimerRef.current = window.setTimeout(() => {
+      longPressTimerRef.current = null
+      longPressFiredRef.current = true
+      suppressClickRef.current = true
+      dragRef.current = null
+      setDragging(false)
+      ;(navigator as Navigator & { vibrate?: (pattern: number) => boolean }).vibrate?.(10)
+      openMenu()
+    }, LONG_PRESS_MS)
   }
 
   function pointerMove(event: PointerEvent<HTMLButtonElement>) {
     const drag = dragRef.current
     if (!drag || drag.pointerId !== event.pointerId) return
+    if (longPressFiredRef.current) return
     const dx = event.clientX - drag.startX
     const dy = event.clientY - drag.startY
     if (!drag.moved && Math.hypot(dx, dy) < 7) return
+    cancelLongPress()
     drag.moved = true
     suppressClickRef.current = true
     setDragging(true)
@@ -221,8 +255,9 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
   }
 
   function endDrag() {
+    cancelLongPress()
     const drag = dragRef.current
-    if (!drag) return
+    if (!drag) { setDragging(false); return }
     if (drag.moved) setTemporary('drag')
     dragRef.current = null
     setDragging(false)
@@ -239,7 +274,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
       <button ref={launcherRef} type="button" className="ula-launcher ula-pet-launcher"
         aria-label={`${open ? '关闭' : '打开'}学习助手${unread ? '，有新回答' : ''}`}
         aria-expanded={open} aria-controls="ula-panel" data-testid="assistant-launcher"
-        title={open ? '点击收起学习助手；拖动调整位置；右键查看桌宠设置' : '点击打开学习助手；拖动调整位置；右键查看桌宠设置'}
+        title={open ? '点击收起学习助手；拖动调整位置；长按或右键查看桌宠设置' : '点击打开学习助手；拖动调整位置；长按或右键查看桌宠设置'}
         onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={endDrag}
         onPointerCancel={endDrag} onLostPointerCapture={endDrag}
         onClick={() => {
@@ -279,7 +314,7 @@ export function PetLauncher({ open, replyVisible = open, motion, completionId, s
           </select>
         </label>
         <button type="button" onClick={() => { setPosition(null); setMenu(false); launcherRef.current?.focus() }}>回到右下角</button>
-        <p>点击提问 · 拖动换位置</p>
+        <p>点击提问 · 拖动换位置 · 长按/右键设置</p>
       </div>}
     </div>
   )
