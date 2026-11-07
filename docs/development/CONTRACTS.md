@@ -285,3 +285,8 @@ selects them. HTTP errors never silently switch to mock. `getTopicLearn` returns
 submitted events (idempotent by id). IDs in route segments are percent encoded.
 
 C0 stays on codex/s2-integration until the owner approves merging main.
+
+## C0.1 integration clarification
+
+Manifest importanceHint accepts null when no evidence supports a score. This
+matches the notes task: lack of evidence must not create invented importance.
