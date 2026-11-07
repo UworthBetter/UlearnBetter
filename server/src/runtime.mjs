@@ -7,6 +7,7 @@
 import { CopilotRuntime } from '@copilotkit/runtime'
 import { BuiltInAgent } from '@copilotkit/runtime/v2'
 import { searchNotes, readNote } from './notes.mjs'
+import { isValidTz } from './record/derive/time.mjs'
 
 /**
  * Guidance prepended as system context. Note/subtitle/page material reaching
@@ -20,6 +21,11 @@ export const SYSTEM_INSTRUCTIONS = [
   'When the current material is insufficient, say so plainly and separate what the material supports from your own added explanation.',
   'Do not claim a source, calculation or example is verified unless it is; distinguish grounded facts from suggestions.',
   'To navigate, call the provided frontend tools (focus a concept, open a card, close a card) rather than describing clicks.',
+  // learning.context/0.2 (record views); 0.1 snapshots remain valid and simply have no record fields.
+  'The scene context may be learning.context/0.1 or learning.context/0.2. Version 0.2 adds view, layer and record: the current goal, today\'s plan (todayPlan.entries with why), pendingCount (organizing proposals awaiting the learner), the selected material and its identification, mastery and stats readings. You may cite these.',
+  'When explaining why something is in today\'s plan, quote only todayPlan.entries[].why (or the why returned by get_learning_record); never invent other reasons.',
+  'You cannot confirm, accept, reject or change any organizing result, goal assignment or correction on the learner\'s behalf, and must never claim you did. To let the learner review or confirm, call open_adjust (or navigate) and ask them to press the button themselves.',
+  'get_learning_record returns read-only, rule-derived summaries (today | stats | panorama) computed from the learner\'s record without any model; numbers from it are authoritative. If record.source is "mock", say the figures are sample data.',
 ].join(' ')
 
 /**
@@ -30,9 +36,9 @@ export const SYSTEM_INSTRUCTIONS = [
  * (CopilotKit frontend tools) and round-trip through the runtime natively;
  * they are intentionally NOT reimplemented here.
  */
-export function buildRuntime(config, adapter) {
+export function buildRuntime(config, adapter, { record = null } = {}) {
   const actions = () => {
-    if (!config.notesRoot) return []
+    if (!config.notesRoot && !record) return []
     // CopilotKit resolves this action factory for each HTTP run. Do not share
     // counters by thread or by a client-supplied request id.
     let remaining = config.maxToolCalls
@@ -48,11 +54,29 @@ export function buildRuntime(config, adapter) {
       try {
         return await fn(args)
       } catch (err) {
-        return { ok: false, message: `Notes tool failed: ${err?.message || 'unknown error'}` }
+        return { ok: false, message: `Tool failed: ${err?.message || 'unknown error'}` }
       }
     }
 
+    const recordTools = record ? [
+      {
+        name: 'get_learning_record',
+        description:
+          'Read-only summary of the learner\'s learning record, derived by fixed rules (no model): part="today" → today\'s plan with why; "stats" → this week\'s minutes, streak, recall rate, learned/total; "panorama" → goals, topics, gaps and next steps. Cannot change anything.',
+        parameters: [
+          { name: 'part', type: 'string', enum: ['today', 'stats', 'panorama'], description: 'today | stats | panorama', required: true },
+          { name: 'tz', type: 'string', description: 'IANA time zone of the learner, e.g. Asia/Shanghai. Defaults to UTC.', required: false },
+        ],
+        handler: guard(async ({ part, tz }) => {
+          const zone = typeof tz === 'string' && isValidTz(tz) ? tz : 'UTC'
+          return { ok: true, source: 'record', tz: zone, data: record.assistantSummary(part, zone) }
+        }),
+      },
+    ] : []
+    if (!config.notesRoot) return recordTools
+
     return [
+      ...recordTools,
       {
         name: 'search_notes',
         description:

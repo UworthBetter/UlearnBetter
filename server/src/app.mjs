@@ -16,6 +16,9 @@ import { copilotRuntimeNodeHttpEndpoint } from '@copilotkit/runtime'
 import { loadConfig, describeConfig, ConfigError } from './config.mjs'
 import { buildRuntime } from './runtime.mjs'
 import { buildServiceAdapter } from './providers.mjs'
+import { loadRecordConfig } from './record/config.mjs'
+import { createRecordService } from './record/service.mjs'
+import { createRecordRouter } from './record/routes.mjs'
 
 function applyCors(res, origin, allowed) {
   if (allowed === '*') {
@@ -24,7 +27,7 @@ function applyCors(res, origin, allowed) {
     res.setHeader('Access-Control-Allow-Origin', origin)
     res.setHeader('Vary', 'Origin')
   }
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CopilotKit-Runtime-Client-GQL-Version')
   res.setHeader('Access-Control-Max-Age', '600')
 }
@@ -32,10 +35,14 @@ function applyCors(res, origin, allowed) {
 /**
  * Build the Express app.
  *
+ * The record layer (/api/record/*) is independent of the model
+ * configuration: it works when no provider is configured.
+ *
  * @param {Record<string,string|undefined>} env
- * @returns {Promise<{ app: import('express').Express, ready: boolean, reason: string|null, config: object|null }>}
+ * @param {{record?: {now?: () => Date, organizer?: object, llm?: object}}} [options] test hooks
+ * @returns {Promise<{ app: import('express').Express, ready: boolean, reason: string|null, config: object|null, record: object }>}
  */
-export async function createApp(env = {}) {
+export async function createApp(env = {}, options = {}) {
   let config = null
   let reason = null
   let adapter = null
@@ -51,10 +58,32 @@ export async function createApp(env = {}) {
   if (config) {
     try {
       adapter = await buildServiceAdapter(config)
-      runtime = buildRuntime(config, adapter)
     } catch (err) {
       // Adapter construction failed (e.g. a missing optional SDK). Surface it
       // as a readiness problem rather than crashing the health endpoint.
+      reason = `Provider initialization failed: ${err?.message || 'unknown error'}`
+      adapter = null
+    }
+  }
+
+  // Record layer: built before the runtime so the assistant can read it, but
+  // never dependent on the model being configured.
+  const recordConfig = loadRecordConfig(env)
+  let llm = { model: null, modelName: null, reason: reason || 'Model provider is not configured (ASSISTANT_PROVIDER).' }
+  if (recordConfig.organizer === 'llm' && adapter && typeof adapter.getLanguageModel === 'function') {
+    try {
+      llm = { model: adapter.getLanguageModel(), modelName: config.model, reason: null }
+    } catch (err) {
+      llm = { model: null, modelName: config.model, reason: `Model initialization failed: ${err?.message || 'unknown error'}` }
+    }
+  }
+  const record = createRecordService(recordConfig, { llm, ...(options.record || {}) })
+  await record.init()
+
+  if (adapter) {
+    try {
+      runtime = buildRuntime(config, adapter, { record })
+    } catch (err) {
       reason = `Provider initialization failed: ${err?.message || 'unknown error'}`
       adapter = null
       runtime = null
@@ -88,13 +117,17 @@ export async function createApp(env = {}) {
     next(err)
   })
 
-  app.get('/health', (_req, res) => {
+  app.get('/health', async (_req, res) => {
+    try { await record.refresh() } catch { /* reported through record.reason */ }
     res.json({
       status: 'ok',
       ready,
       ...(ready ? { config: describeConfig(config) } : { reason }),
+      record: record.health(),
     })
   })
+
+  app.use('/api/record', createRecordRouter(record))
 
   // Build the CopilotKit handler once when ready.
   const copilotHandler = ready
@@ -126,5 +159,5 @@ export async function createApp(env = {}) {
 
   app.use((_req, res) => res.status(404).json({ error: 'not_found' }))
 
-  return { app, ready, reason, config: config ? describeConfig(config) : null }
+  return { app, ready, reason, config: config ? describeConfig(config) : null, record }
 }
