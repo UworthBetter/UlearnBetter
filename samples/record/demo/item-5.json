@@ -1,0 +1,40 @@
+{
+  "sample": true,
+  "id": "i-5",
+  "kind": "notes",
+  "title": "损坏样本",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "topicId": "t-5"
+  },
+  "contentHash": null,
+  "topicId": "t-5",
+  "pipeline": {
+    "state": "failed",
+    "steps": [
+      {
+        "key": "read",
+        "state": "pending",
+        "note": "合成样例"
+      }
+    ],
+    "reason": "合成失败状态"
+  },
+  "status": "failed",
+  "identity": {
+    "what": "损坏样本",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [],
+  "conceptCount": 0
+}

@@ -1,0 +1,13 @@
+{
+  "sample": true,
+  "id": "g-lab",
+  "title": "纸上实验",
+  "intent": null,
+  "status": "active",
+  "origin": "user",
+  "confirmedAt": "2026-11-07T12:00:00Z",
+  "colorKey": "amber",
+  "folders": [
+    "实验"
+  ]
+}

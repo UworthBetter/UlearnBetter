@@ -1,0 +1,143 @@
+{
+  "type": "object",
+  "properties": {
+    "goalProposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "intent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "fromSubjects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "intent",
+          "reason",
+          "fromSubjects"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "assignments": {
+      "type": "array",
+      "items": {
+        "$ref": "assignment.schema.json"
+      }
+    },
+    "ideaAttachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "conceptRef": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "conceptRef",
+          "confidence",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "relationCandidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "a": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "b": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "a",
+          "b",
+          "kind",
+          "reason",
+          "confirmed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "autoAccepted": {
+      "type": "array",
+      "items": {
+        "$ref": "assignment.schema.json"
+      }
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "goalProposals",
+    "assignments",
+    "ideaAttachments",
+    "relationCandidates",
+    "autoAccepted"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proposals.schema.json",
+  "title": "proposals"
+}

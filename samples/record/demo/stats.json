@@ -1,0 +1,36 @@
+{
+  "sample": true,
+  "range": "week",
+  "tz": "America/Los_Angeles",
+  "weekMinutes": 0.6666666666666666,
+  "streakDays": 1,
+  "todayDone": true,
+  "learned": 1,
+  "total": 9,
+  "recallRate": null,
+  "trend": null,
+  "days": [
+    {
+      "date": "2026-11-07",
+      "minutes": 0.6666666666666666,
+      "beforeStart": false
+    }
+  ],
+  "goals": [
+    {
+      "goalId": "g-lab",
+      "title": "纸上实验",
+      "learned": 1,
+      "total": 9,
+      "history": []
+    },
+    {
+      "goalId": "g-craft",
+      "title": "手作研究",
+      "learned": 1,
+      "total": 9,
+      "history": []
+    }
+  ],
+  "sharedTopicsNote": "共享主题同时计入两个目标"
+}

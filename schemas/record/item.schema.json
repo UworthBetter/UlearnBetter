@@ -1,0 +1,266 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "kind": {
+      "enum": [
+        "notes",
+        "video",
+        "idea",
+        "article",
+        "pdf"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "addedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ref": {
+      "type": "object",
+      "properties": {
+        "topicId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "contentHash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "topicId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pipeline": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "queued",
+            "running",
+            "done",
+            "failed",
+            "unsupported"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "enum": [
+                  "read",
+                  "identify",
+                  "extract",
+                  "classify",
+                  "compile"
+                ]
+              },
+              "state": {
+                "enum": [
+                  "done",
+                  "running",
+                  "pending",
+                  "skipped",
+                  "failed"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "state",
+              "note"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "steps",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "status": {
+      "enum": [
+        "organizing",
+        "pending",
+        "done",
+        "failed"
+      ]
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "what": {
+          "type": "string"
+        },
+        "about": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "route": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "relation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "by": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "component",
+                "compiler",
+                "user"
+              ]
+            },
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "model": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "promptVersion": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "mock": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "version",
+            "model",
+            "promptVersion",
+            "mock"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "what",
+        "about",
+        "route",
+        "relation",
+        "by"
+      ],
+      "additionalProperties": false
+    },
+    "goalIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+      }
+    },
+    "conceptCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "title",
+    "addedAt",
+    "ref",
+    "contentHash",
+    "topicId",
+    "pipeline",
+    "status",
+    "identity",
+    "goalIds",
+    "conceptCount"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "item.schema.json",
+  "title": "item"
+}

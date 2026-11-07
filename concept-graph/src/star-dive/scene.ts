@@ -1,3 +1,6 @@
+import { createElement } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import MasteryBar from '../views/recall/MasteryBar'
 /*
  * Star Dive scene engine — the prototype's canvas/DOM runtime (sky, constellation layout, links,
  * focus + orbit cards, expanded panel, timeline HUD, main loop), ported 1:1 but scoped to a root
@@ -50,6 +53,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   const DPR = Math.min(2, devicePixelRatio || 1)
   const META = DATA.meta
   let nodes: StarNode[] = []
+  let masteryRoot: Root|null = null
   const byId: Record<string, StarNode> = Object.create(null)
   let edges: [StarNode, StarNode][] = []
   const cam = { x: 0, y: 0, k: 1 }, camT = { x: 0, y: 0, k: 1 }
@@ -161,8 +165,9 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     layer.innerHTML = ''
     nodes = DATA.concepts.map((c, i) => {
       const sh = SHAPES[c.shape] || SHAPES.definition
-      const r = 3.6 + c.cards.length * .9 + c.relations.length * .35
+      const r = c.importance ? 4 + c.importance * 1.3 : 3.6 + c.cards.length * .9 + c.relations.length * .35
       const b = el('button', 'star') as HTMLButtonElement
+      b.dataset.mastery = String(c.masteryLevel ?? 0); b.classList.toggle('due', !!c.due && Date.parse(c.due) <= Date.now())
       b.type = 'button'; b.dataset.id = c.id; b.setAttribute('aria-label', c.label + ' ' + (c.en || ''))
       b.style.cssText = `--c:${sh.c};--c-deep:${sh.deep};--c-glow:${sh.glow};--c-glow2:${sh.glow2};--d:${(-i * .73).toFixed(2)}s`
       b.innerHTML = `<span class="hit"></span><span class="ring"></span>
@@ -323,6 +328,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   }
   function renderFocus(n: StarNode) {
     const c = n.c, sh = SHAPES[c.shape] || SHAPES.definition
+    masteryRoot?.unmount(); masteryRoot = null
     focusLayer.innerHTML = ''; focusLayer.classList.remove('receded')
     const rel = [...new Set([...c.relations, ...nodes.filter((m) => m.c.relations.includes(c.id)).map((m) => m.c.id)])].filter((r) => byId[r])
     const ts = [...new Set(c.cards.flatMap((k) => cardTs(k)))].sort((a, b) => a - b).slice(0, 6)
@@ -339,6 +345,10 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     mc.querySelectorAll<HTMLElement>('[data-go]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); focusStar(b.dataset.go!) }))
     mc.addEventListener('click', (e) => e.stopPropagation())
     focusLayer.appendChild(mc)
+    if (c.masteryLevel !== undefined) {
+      const host = el('div', 'mastery-host'); mc.querySelector('.inner')!.appendChild(host)
+      masteryRoot = createRoot(host); masteryRoot.render(createElement(MasteryBar, {level:c.masteryLevel,due:c.due ?? null}))
+    }
     orbitEls = c.cards.map((card, i) => {
       const r = resolveCard(c, card), ui = moduleUi(r)
       const wrap = el('div', 'orbit')
@@ -522,7 +532,12 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   }
 
   const sig = { signal: life.signal }
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') back() }, sig)
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !e.defaultPrevented) back() }, sig)
+  window.addEventListener('learning-mastery', ((e: CustomEvent) => {
+    const {topicId,mastery} = e.detail || {}; if(topicId !== META.topic_id || !Array.isArray(mastery))return
+    for(const m of mastery) {const id=String(m.subject).split('/').pop()!;const n=byId[id];if(!n)continue;n.c.masteryLevel=m.level;n.c.due=m.due;n.el.dataset.mastery=String(m.level);n.el.classList.toggle('due',!!m.due&&Date.parse(m.due)<=Date.now())}
+    if(state.focus) {const c=byId[state.focus]?.c;if(c&&masteryRoot)masteryRoot.render(createElement(MasteryBar,{level:c.masteryLevel??0,due:c.due??null}))}
+  }) as EventListener, sig)
   document.addEventListener('click', (e) => {
     const t = e.target as Element | null
     if (t && root.contains(t) && !t.closest('.star,.main-card,.orbit-card,.panel,.timeline,a,button')) back()
@@ -576,6 +591,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
       timers.forEach((id) => clearTimeout(id)); timers.clear()
       life.abort()
       for (const id of ['#stars', '#focus', '#panelWrap', '#timeline']) { const e = root.querySelector(id); if (e) e.innerHTML = '' }
+      masteryRoot?.unmount(); masteryRoot = null
       panelWrap.classList.remove('on'); focusLayer.classList.remove('receded'); root.classList.remove('focused')
       if (w.__starDive && w.__starDive.data === DATA) delete w.__starDive
       delete w.StarDive

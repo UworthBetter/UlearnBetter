@@ -1,0 +1,20 @@
+{
+  "sample": true,
+  "date": "2026-11-07",
+  "tz": "America/Los_Angeles",
+  "algorithm": "today-v0",
+  "entries": [
+    {
+      "kind": "review",
+      "subject": "concept:t-0/c-0",
+      "title": "观察",
+      "why": "合成记录中的回忆结果为忘了，现已到期",
+      "topicId": "t-0",
+      "conceptId": "c-0",
+      "goalIds": [
+        "g-lab",
+        "g-craft"
+      ]
+    }
+  ]
+}

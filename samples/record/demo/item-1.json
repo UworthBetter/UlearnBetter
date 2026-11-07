@@ -1,0 +1,42 @@
+{
+  "sample": true,
+  "id": "i-1",
+  "kind": "notes",
+  "title": "纸桥搭建",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "topicId": "t-1"
+  },
+  "contentHash": null,
+  "topicId": "t-1",
+  "pipeline": {
+    "state": "done",
+    "steps": [
+      {
+        "key": "read",
+        "state": "done",
+        "note": "合成样例"
+      }
+    ],
+    "reason": null
+  },
+  "status": "pending",
+  "identity": {
+    "what": "纸桥搭建",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [
+    "g-lab"
+  ],
+  "conceptCount": 3
+}

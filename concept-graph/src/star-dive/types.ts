@@ -34,6 +34,9 @@ export interface CardSpec {
 export interface StarDiveConcept {
   id: string
   label: string
+  masteryLevel?: 0|1|2|3
+  due?: string|null
+  importance?: 1|2|3
   en?: string
   summary: string
   shape: ConceptShape | string

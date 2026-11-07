@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "intent": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "active",
+        "paused",
+        "done"
+      ]
+    },
+    "origin": {
+      "enum": [
+        "user",
+        "proposed"
+      ]
+    },
+    "confirmedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "colorKey": {
+      "enum": [
+        "amber",
+        "cyan",
+        "violet"
+      ]
+    },
+    "folders": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "intent",
+    "status",
+    "origin",
+    "confirmedAt",
+    "colorKey",
+    "folders"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "goal.schema.json",
+  "title": "goal"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "g-quant",
+    "title": "量化交易",
+    "intent": "搭一套自己的策略研究与回测流程",
+    "folders": ["量化", "策略学习"]
+  },
+  {
+    "id": "g-ai",
+    "title": "AI 前沿",
+    "intent": "跟进大模型与 AI 工程的最新进展",
+    "folders": ["AI"]
+  },
+  {
+    "id": "g-course",
+    "title": "课业",
+    "intent": null,
+    "folders": ["课业"]
+  }
+]

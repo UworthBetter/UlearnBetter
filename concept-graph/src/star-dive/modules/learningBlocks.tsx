@@ -26,7 +26,7 @@ function FunctionDemo({ block: b, ctx }: { block: any; ctx: ModuleContext }) {
 
 function LearningBlock({ block: b, ctx }: { block: any; ctx: ModuleContext }) {
   const [step, setStep] = useState(0)
-  const [checked, setChecked] = useState<Record<string, boolean>>({})
+  const [checked, setChecked] = useState<Record<string, boolean>>(() => b.recordChecked || {})
   const [selected, setSelected] = useState<string | null>(null)
   const md = (s: any) => <SafeMarkdown text={text(s)} />
   const steps = list(b.steps)
@@ -60,8 +60,8 @@ function LearningBlock({ block: b, ctx }: { block: any; ctx: ModuleContext }) {
       {list(b.edges).map((edge, i) => <p key={i}>{text(list(b.nodes).find((n) => n.id === edge.from)?.label || edge.from)} → {text(list(b.nodes).find((n) => n.id === edge.to)?.label || edge.to)} {text(edge.label)}</p>)}
     </>}
     {b.shape === 'procedure' && list(b.groups).map((g, gi) => <section key={gi}><h4>{text(g.title)}</h4>{list(g.items).map((item, i) => {
-      const id = `${gi}:${i}`
-      return <div key={id}><label><input type="checkbox" checked={!!checked[id]} onChange={(e) => { const next = { ...checked, [id]: e.target.checked }; setChecked(next); ctx.reportInteraction({ parameters: { ...next }, readouts: { completed: Object.values(next).filter(Boolean).length, total: tasks.length } }) }} /> {text(item.text)}</label>{item.cmd && <pre style={{ whiteSpace: 'pre-wrap' }}>{text(item.cmd)}</pre>}{item.verify && <p>检查：{text(item.verify)}</p>}{item.warn && <p>注意：{text(item.warn)}</p>}{list(item.branch).map((r, j) => <p key={j}>{text(r.if)} → {text(r.then)}</p>)}</div>
+      const id = typeof item.id === 'string' ? item.id : `${gi}:${i}`
+      return <div key={id}><label><input type="checkbox" checked={!!checked[id]} onChange={(e) => { const next = { ...checked, [id]: e.target.checked }; setChecked(next); if (b.recordTopicId && item.id) window.dispatchEvent(new CustomEvent('learning-checklist', {detail:{topicId:b.recordTopicId,procedureId:b.id,itemId:String(item.id),checked:e.target.checked}})); ctx.reportInteraction({ parameters: { ...next }, readouts: { completed: Object.values(next).filter(Boolean).length, total: tasks.length } }) }} /> {text(item.text)}</label>{item.cmd && <pre style={{ whiteSpace: 'pre-wrap' }}>{text(item.cmd)}</pre>}{item.verify && <p>检查：{text(item.verify)}</p>}{item.warn && <p>注意：{text(item.warn)}</p>}{list(item.branch).map((r, j) => <p key={j}>{text(r.if)} → {text(r.then)}</p>)}</div>
     })}</section>)}
     {list(b.warnings).map((w, i) => <p key={i}>注意：{text(w)}</p>)}
     {b.shape === 'variation' && <>

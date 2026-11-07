@@ -263,6 +263,8 @@ def _stats(doc: dict, idx: TopicIndex, issues: List[dict], cache: dict,
         "concepts": len(doc.get("concepts", [])),
         "concept_ids_from_frontmatter": sum(
             1 for i in concept_infos if i["id_origin"] == "frontmatter"),
+        "concept_ids_by_origin": _count_by(concept_infos,
+                                           lambda i: i.get("id_origin", "?")),
         "blocks_by_shape": blocks_by_shape,
         "procedures": len(doc.get("procedures", [])),
         "procedure_items": sum(len(g.get("items", []))
@@ -321,8 +323,9 @@ def render_markdown(report: dict) -> str:
            s["notes_by_class"].get("resource", 0),
            s["notes_by_class"].get("home", 0),
            s["notes_by_class"].get("other", 0)))
-    ap("- 概念：%d 个（frontmatter id：%d 个）"
-        % (s["concepts"], s["concept_ids_from_frontmatter"]))
+    ap("- 概念：%d 个（id 来源：%s）"
+       % (s["concepts"], " · ".join("%s %d" % (k, v)
+                                    for k, v in s["concept_ids_by_origin"].items())))
     ap("- 块：" + " · ".join("%s %d" % (k, v)
                              for k, v in s["blocks_by_shape"].items()))
     ap("- 实操清单：%d 份 / %d 项" % (s["procedures"], s["procedure_items"]))
@@ -348,6 +351,23 @@ def render_markdown(report: dict) -> str:
             ap("- `%s`：%s" % (i.get("note") or "-", i.get("detail", "")))
         if len(by_kind[kind]) > 12:
             ap("- … 其余 %d 条见 report.json" % (len(by_kind[kind]) - 12))
+    dec = report.get("decisions")
+    if dec:
+        ap("")
+        ap("## 修正评估（--decisions，只读）")
+        ap("")
+        ap("- 共 %d 条：applied %d · orphaned %d · inherited %d ·"
+           " 跳过（其它主题）%d · 解析失败 %d"
+           % (dec["total"], dec["statuses"]["applied"],
+              dec["statuses"]["orphaned"], dec["statuses"]["inherited"],
+              dec["skippedOtherTopic"], dec["parseErrors"]))
+        ap("- 叠加由后端完成，本报告不修改 learn.json。")
+        for e in dec["entries"]:
+            ap("- `%s` %s → `%s`（%s%s）"
+               % (e.get("overrideId") or "-", e.get("op") or "-",
+                  e.get("target") or "-", e["status"],
+                  "；最后已知标签「%s」" % e["lastKnownLabel"]
+                  if e.get("lastKnownLabel") else ""))
     ap("")
     ap("## 已知限制")
     for note in report["limitations"]:

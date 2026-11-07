@@ -19,6 +19,7 @@ from typing import Dict, List, Optional, Tuple
 from mdparse import (CIRCLED, Fence, NoteDoc, ORDERED_RE, Section, Table,
                      TASK_RE, BULLET_RE, find_timestamps, highlights,
                      normalize_for_match, parse_mermaid, slugify, strip_md)
+from ids import block_anchor
 from topic import ScannedNote, TopicIndex
 
 POINT_CAP = 6
@@ -164,6 +165,8 @@ def build_comparisons(note: ScannedNote, concept_lookup, src_of,
         head_text = " ".join(tbl.header)
         block = {
             "id": None,
+            # 内容锚点（ids.py 消费）：小节标题 + 表头，行序重排不影响
+            "_anchor": block_anchor(sec.heading or "对比表", head_text),
             "shape": "comparison",
             "title": (sec.heading or "对比表").strip(),
             "grounding": "note",
@@ -253,6 +256,8 @@ def build_processes(note: ScannedNote, src_of, issues: List[dict]) -> List[dict]
             else ("time" if re.search(r"历史|时间线|时间轴", heading) else "causal")
         out.append({
             "id": None,
+            # 内容锚点（ids.py 消费）：小节标题，步骤顺序重排不影响
+            "_anchor": block_anchor(heading),
             "shape": "process",
             "title": heading,
             "grounding": "note",

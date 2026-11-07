@@ -5,8 +5,14 @@ import './pet.css'
 const ASSET_ROOT = `${import.meta.env.BASE_URL}assets/pet/`
 const POSTER = `${ASSET_ROOT}standing.png`
 
+function availableHeight() {
+  const bar = document.querySelector('.ula-dock .ula-barwrap')
+  return bar ? Math.max(0, bar.getBoundingClientRect().top - 12) : window.innerHeight
+}
+
 interface PetLauncherProps {
   open: boolean
+  replyVisible?: boolean
   motion: PetMotion
   completionId: string | null
   scene: string
@@ -24,7 +30,7 @@ interface Drag {
   moved: boolean
 }
 
-export function PetLauncher({ open, motion, completionId, scene, demoMode, launcherRef, onToggle }: PetLauncherProps) {
+export function PetLauncher({ open, replyVisible = open, motion, completionId, scene, demoMode, launcherRef, onToggle }: PetLauncherProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef<Drag | null>(null)
@@ -40,9 +46,9 @@ export function PetLauncher({ open, motion, completionId, scene, demoMode, launc
   const [settledId, setSettledId] = useState<string | null>(null)
   const [readId, setReadId] = useState<string | null>(null)
   const [greeting, setGreeting] = useState(false)
-  // A completed reply visible in the dialog is already read, including one arriving while open.
-  if (open && completionId !== null && readId !== completionId) setReadId(completionId)
-  const unread = completionId !== null && completionId !== readId && !open
+  // A completed reply visible in the history or answer card is already read.
+  if (replyVisible && completionId !== null && readId !== completionId) setReadId(completionId)
+  const unread = completionId !== null && completionId !== readId && !replyVisible
   const freshReply = completionId !== null && completionId !== settledId
   const replyMotion = unread ? 'new-message' : 'task-complete'
   const current = freshReply && unread ? 'new-message' : dragging ? 'drag' : temporary ?? (freshReply ? replyMotion : motion)
@@ -80,10 +86,20 @@ export function PetLauncher({ open, motion, completionId, scene, demoMode, launc
     function constrain() {
       const bounds = containerRef.current?.getBoundingClientRect()
       if (!bounds) return
-      setPosition(clampPetPosition(bounds.x, bounds.y, bounds.width, bounds.height, window.innerWidth, window.innerHeight))
+      // Keep the default CSS placement responsive; only constrain a manually moved pet.
+      const style = getComputedStyle(containerRef.current!)
+      const width = bounds.width || Number.parseFloat(style.width)
+      const height = bounds.height || Number.parseFloat(style.height)
+      setPosition((currentPosition) => currentPosition
+        ? clampPetPosition(currentPosition.x, currentPosition.y, width, height, window.innerWidth, availableHeight())
+        : null)
     }
+    const bar = document.querySelector('.ula-dock .ula-barwrap')
+    const observer = new ResizeObserver(constrain)
+    if (bar) observer.observe(bar)
     window.addEventListener('resize', constrain)
     return () => {
+      observer.disconnect()
       window.removeEventListener('resize', constrain)
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current)
     }
@@ -130,7 +146,7 @@ export function PetLauncher({ open, motion, completionId, scene, demoMode, launc
     suppressClickRef.current = true
     setDragging(true)
     const bounds = containerRef.current!.getBoundingClientRect()
-    const next = clampPetPosition(drag.left + dx, drag.top + dy, bounds.width, bounds.height, window.innerWidth, window.innerHeight)
+    const next = clampPetPosition(drag.left + dx, drag.top + dy, bounds.width, bounds.height, window.innerWidth, availableHeight())
     if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current)
     frameRef.current = window.requestAnimationFrame(() => { setPosition(next); frameRef.current = null })
   }

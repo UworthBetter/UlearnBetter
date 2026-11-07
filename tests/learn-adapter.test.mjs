@@ -34,3 +34,21 @@ test('procedure nodes have no invented prerequisite relation', () => {
   assert.equal(result.concepts.length, 2)
   assert.deepEqual(result.concepts[1].relations, [])
 })
+
+test('record overlay changes visible data without changing the compiled document',()=>{
+ const input=fixture();input.concepts.push({id:'hidden',label:'hidden',one_liner:'hidden',blocks:[block('hidden-block')]});input.relations=[{a:'ma',b:'hidden'}]
+ const before=structuredClone(input)
+ const result=adaptLearnDocument(input,{renames:{ma:'新名称'},hidden:['hidden'],pins:{ma:3},mastery:[{subject:'concept:finance/ma',level:2,due:'2026-11-01T00:00:00Z'}],checklist:{}})
+ assert.equal(result.concepts.length,1);assert.equal(result.concepts[0].label,'新名称');assert.deepEqual(result.concepts[0].relations,[]);assert.equal(result.concepts[0].masteryLevel,2);assert.equal(result.concepts[0].importance,3);assert.deepEqual(input,before)
+})
+test('procedure item stable IDs restore backend checklist values',()=>{
+ const input=fixture();input.procedures=[{...block('p','procedure'),groups:[{title:'准备',items:[{id:'paper',text:'准备纸张'}]}]}]
+ const overlay={renames:{},hidden:[],pins:{},mastery:[],checklist:{'procitem:finance/p/paper':true}}
+ const card=adaptLearnDocument(input,overlay).concepts.find(c=>c.id==='p').cards[0]
+ assert.equal(card.block.recordChecked.paper,true);assert.equal(card.block.recordTopicId,'finance')
+})
+
+test('effective thoughts become a card without modifying compiled content',()=>{
+ const input=fixture();const result=adaptLearnDocument(input,{renames:{},hidden:[],pins:{},mastery:[],checklist:{},ideas:{ma:[{itemId:'idea',text:'我想比较两种方法',at:new Date().toISOString()}]}})
+ assert.equal(result.concepts[0].cards.at(-1).title,'我的思考');assert.equal(result.concepts[0].cards.at(-1).block.points[0].text,'我想比较两种方法');assert.equal(input.concepts[0].blocks.length,1)
+})

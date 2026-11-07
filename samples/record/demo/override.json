@@ -1,0 +1,11 @@
+{
+  "sample": true,
+  "id": "o-0",
+  "at": "2026-11-07T12:00:00Z",
+  "target": "concept:t-0/c-0",
+  "op": "rename",
+  "value": {
+    "label": "观察光线"
+  },
+  "reason": null
+}

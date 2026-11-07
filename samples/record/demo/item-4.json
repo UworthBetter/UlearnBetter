@@ -1,0 +1,40 @@
+{
+  "sample": true,
+  "id": "i-4",
+  "kind": "video",
+  "title": "待看视频",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "url": "https://example.com/video"
+  },
+  "contentHash": null,
+  "topicId": null,
+  "pipeline": {
+    "state": "queued",
+    "steps": [
+      {
+        "key": "read",
+        "state": "pending",
+        "note": "合成样例"
+      }
+    ],
+    "reason": "本轮不自动解析"
+  },
+  "status": "organizing",
+  "identity": {
+    "what": "待看视频",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [],
+  "conceptCount": 0
+}

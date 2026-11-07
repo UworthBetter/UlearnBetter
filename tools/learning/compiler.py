@@ -18,12 +18,13 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import blocks as B
+import ids as SID
 from mdparse import (VIDEO_URL_RE, highlights, hms_to_sec, normalize_for_match,
-                     slugify, strip_md, wiki_targets)
+                     strip_md, wiki_targets)
 from topic import (CLASS_CHAPTER, ScannedNote, TopicIndex, scan_topic,
                    sha1_text)
 
-COMPILER_VERSION = "notes-compiler/0.1.1"
+COMPILER_VERSION = "notes-compiler/0.2.0"
 SCHEMA = "learning.learn/0.1"
 
 
@@ -101,24 +102,41 @@ def _video_meta_from_resources(idx: TopicIndex) -> Dict[str, dict]:
 # ---------------------------------------------------------------- 编译
 
 class CompileResult:
-    def __init__(self, doc, report, cache):
+    def __init__(self, doc, report, cache, manifest, id_map):
         self.doc = doc
         self.report = report
         self.cache = cache
+        self.manifest = manifest
+        self.id_map = id_map
 
 
 def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
                   previous: Optional[dict] = None,
-                  previous_cache: Optional[dict] = None) -> CompileResult:
+                  previous_cache: Optional[dict] = None,
+                  id_map: Optional[dict] = None) -> CompileResult:
     idx = scan_topic(topic_dir)
     issues: List[dict] = list(idx.issues)
+
+    # ---- 稳定主题 ID：frontmatter > 映射文件 > 目录名 slug（ids.py）
+    topic_id, topic_origin = SID.resolve_topic_id(idx, id_map)
+    if id_map is None:
+        id_map = SID.new_map(topic_id, topic_origin, idx.root.name)
+    else:
+        if id_map.get("topicId") and id_map["topicId"] != topic_id:
+            issues.append({
+                "kind": "topic_id_changed", "note": "<topic>",
+                "detail": "主题 ID 由 %s 变为 %s（frontmatter topic_id 优先）"
+                          % (id_map["topicId"], topic_id)})
+        id_map["topicId"] = topic_id
+        id_map["topicIdOrigin"] = topic_origin
+        id_map["dirName"] = idx.root.name
 
     sources, src_map = harvest_sources(idx)
 
     def src_of(video_id: str) -> Optional[str]:
         return src_map.get(video_id)
 
-    registry = _concept_registry(idx, issues)
+    registry = _concept_registry(idx, id_map, issues)
     concept_by_norm = registry["by_norm"]
     shared_signature = sha1_text(json.dumps({"sources": src_map, "concepts": concept_by_norm},
                                            ensure_ascii=False, sort_keys=True))
@@ -130,7 +148,7 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     # ---- 概念（带增量缓存）
     cache_topic = {}
     if previous_cache:
-        cache_topic = previous_cache.get("topics", {}).get(idx.topic_id, {})
+        cache_topic = previous_cache.get("topics", {}).get(topic_id, {})
     prev_concepts = {c["id"]: c for c in (previous or {}).get("concepts", [])}
     concepts: List[dict] = []
     contrasts: List[Tuple[str, str, dict]] = []
@@ -152,7 +170,7 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
             continue
         concept, concept_contrasts = _build_concept(
             info, idx, src_of, concept_by_norm, extractor, issues,
-            struct_block if anchor == info["id"] else None)
+            struct_block if anchor == info["id"] else None, id_map)
         for a, b in concept_contrasts:
             contrasts.append((a, b, {"note": note.rel_path}))
         concepts.append(concept)
@@ -163,19 +181,29 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     proc_cache_in = cache_topic.get("procedures", {})
     prev_procs = {p.get("id"): p for p in (previous or {}).get("procedures", [])}
     proc_cache_out: Dict[str, dict] = {}
+    used_proc_ids: set = set()
     for practice in idx.practices:
-        block_id = "proc.%s" % slugify(practice.doc.title)
+        block_id = SID.procedure_id(practice, id_map, used_proc_ids, issues)
+        used_proc_ids.add(block_id)
         deps = {practice.rel_path: practice.note_hash}
         deps["@shared-registry"] = shared_signature
         cached = _reusable(prev_procs.get(block_id),
                            proc_cache_in.get(practice.rel_path),
                            deps, previous_cache or {}, extractor.name)
         if cached is not None:
+            cached["id"] = block_id
             procedures.append(cached)
             issues.append({"kind": "cache_reused", "note": practice.rel_path,
                            "detail": "依赖未变化，复用上一版实操块 %s" % block_id})
+            for g in cached.get("groups", []):
+                SID.assign_procitem_ids(block_id, g["items"], id_map,
+                                        practice.rel_path)
         else:
             block, preserved = B.build_procedure(practice, src_of, issues)
+            block["id"] = block_id
+            for g in block.get("groups", []):
+                SID.assign_procitem_ids(block_id, g["items"], id_map,
+                                        practice.rel_path)
             if preserved:
                 block["preserved"] = preserved
             procedures.append(block)
@@ -188,8 +216,8 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     doc = {
         "schema": SCHEMA,
         "topic": {
-            "id": idx.topic_id,
-            "title": idx.topic_id,
+            "id": topic_id,
+            "title": idx.root.name,
             "flags": {"disclaimer": None, "asof": None},
             "generated": {
                 "at": now or datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -197,7 +225,7 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
                 "compiler_version": COMPILER_VERSION,
                 "model": None,
                 "extractor": extractor.name,
-                "notes_dir": str(topic_dir),
+                "notes_dir": idx.root.name,
             },
         },
         "sources": sources,
@@ -210,50 +238,38 @@ def compile_topic(topic_dir: Path, extractor, now: Optional[str] = None,
     cache = {
         "compiler_version": COMPILER_VERSION,
         "extractor": extractor.name,
-        "topics": {idx.topic_id: {
+        "topics": {topic_id: {
             "files": {n.rel_path: n.note_hash for n in idx.notes},
             "concepts": concept_cache,
             "procedures": proc_cache_out,
         }},
     }
+    # 概念表回写映射（标题历史），随后产出 manifest
+    SID.update_concept_map(id_map, registry["assigned"])
+    from manifest import build_manifest
+    manifest = build_manifest(doc, idx, topic_origin,
+                              stem_to_cid={i["note"].stem: i["id"]
+                                           for i in registry["list"]})
     from reporting import build_report
     report = build_report(doc, idx, issues, cache, registry["list"])
-    return CompileResult(doc, report, cache)
+    return CompileResult(doc, report, cache, manifest, id_map)
 
 
 # ---------------------------------------------------------------- 概念注册
 
-def _concept_registry(idx: TopicIndex, issues: List[dict]) -> dict:
-    """分配稳定 id（frontmatter id 优先，否则标题 slug），建索引与分组。"""
+def _concept_registry(idx: TopicIndex, id_map: dict, issues: List[dict]) -> dict:
+    """分配稳定 id（ids.py 规则：frontmatter > 映射 > 继承 > 标题 slug），
+    建索引与分组。"""
     stem_group = _groups_from_home(idx)
+    assigned = SID.assign_concept_ids(idx, id_map, issues)
     list_: List[dict] = []
     by_norm: Dict[str, str] = {}
-    used_ids: set = set()
 
     for note in idx.concepts:
+        info = assigned[note.rel_path]
         doc = note.doc
-        fm_id = doc.frontmatter.get("id")
-        if isinstance(fm_id, str) and fm_id.strip():
-            cid = slugify(fm_id)
-            origin = "frontmatter"
-        else:
-            cid = slugify(doc.title or note.stem)
-            origin = "title-slug"
-        base, n = cid, 2
-        while cid in used_ids:
-            cid = "%s-%d" % (base, n)
-            n += 1
-        if cid != base:
-            issues.append({"kind": "concept_id_collision", "note": note.rel_path,
-                           "detail": "id 冲突，改用 %s" % cid})
-        used_ids.add(cid)
-
-        aliases = doc.frontmatter.get("aliases")
-        alias_list: List[str] = []
-        if isinstance(aliases, list):
-            alias_list = [str(a) for a in aliases if a]
-        elif isinstance(aliases, str) and aliases.strip():
-            alias_list = [aliases.strip()]
+        cid = info["id"]
+        alias_list = info["aliases"]
 
         deps = {note.rel_path: note.note_hash}
         chapters: List[str] = []
@@ -266,7 +282,7 @@ def _concept_registry(idx: TopicIndex, issues: List[dict]) -> dict:
         if idx.home is not None:
             deps[idx.home.rel_path] = idx.home.note_hash
 
-        label = strip_md(doc.h1 or doc.title) or note.stem
+        label = info["label"]
         for probe in [label] + alias_list:
             norm = normalize_for_match(probe)
             if norm and norm not in by_norm:
@@ -275,7 +291,7 @@ def _concept_registry(idx: TopicIndex, issues: List[dict]) -> dict:
 
         list_.append({
             "id": cid, "note": note, "label": label, "aliases": alias_list,
-            "id_origin": origin, "group": stem_group.get(note.stem),
+            "id_origin": info["id_origin"], "group": stem_group.get(note.stem),
             "chapters": chapters, "deps": deps,
         })
 
@@ -292,7 +308,7 @@ def _concept_registry(idx: TopicIndex, issues: List[dict]) -> dict:
                               % (alias, other)})
             else:
                 seen_alias[norm] = info["id"]
-    return {"list": list_, "by_norm": by_norm}
+    return {"list": list_, "by_norm": by_norm, "assigned": assigned}
 
 
 def _groups_from_home(idx: TopicIndex) -> Dict[str, str]:
@@ -322,7 +338,7 @@ def _groups_from_home(idx: TopicIndex) -> Dict[str, str]:
 # ---------------------------------------------------------------- 单概念
 
 def _build_concept(info, idx, src_of, concept_by_norm, extractor, issues,
-                   struct_block) -> Tuple[dict, List[Tuple[str, str]]]:
+                   struct_block, id_map=None) -> Tuple[dict, List[Tuple[str, str]]]:
     note: ScannedNote = info["note"]
     doc = note.doc
     cid = info["id"]
@@ -375,17 +391,11 @@ def _build_concept(info, idx, src_of, concept_by_norm, extractor, issues,
         return None
 
     comps = B.build_comparisons(note, lookup, src_of, issues)
-    for i, b in enumerate(comps, start=1):
-        b["id"] = "%s.cmp%d" % (cid, i)
-        used_ids.add(b["id"])
     blocks_.extend(comps)
     contrasts = B.contrast_pairs(comps)
 
     # ---- process
     procs = B.build_processes(note, src_of, issues)
-    for i, b in enumerate(procs, start=1):
-        b["id"] = "%s.proc%d" % (cid, i)
-        used_ids.add(b["id"])
     blocks_.extend(procs)
 
     # ---- 注入块（标注 / LLM 接口），逐块校验，失败丢弃并记录
@@ -406,6 +416,9 @@ def _build_concept(info, idx, src_of, concept_by_norm, extractor, issues,
     if struct_block is not None:
         blocks_.append(struct_block)
         used_ids.add(struct_block["id"])
+
+    # ---- 基于内容锚点分配块 ID（ids.py；definition/structure 保持原格式）
+    SID.assign_block_ids(cid, blocks_, id_map, note.rel_path)
 
     preserved = B.collect_preserved(note, issues)
     if overflow:

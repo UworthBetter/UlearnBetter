@@ -123,7 +123,7 @@
         "aliases": { "type": "array", "items": { "type": "string" } },
         "note": { "type": "string", "description": "概念卡相对路径" },
         "note_hash": { "type": "string", "pattern": "^sha1:[0-9a-f]{40}$" },
-        "id_origin": { "enum": ["frontmatter", "title-slug"] },
+        "id_origin": { "enum": ["frontmatter", "title-slug", "id-map", "inherited"], "description": "ID 来源：frontmatter=概念卡显式标注；title-slug=首次编译的标题 slug；id-map=沿用 learn-ids.json 映射（改标题不改路径）；inherited=路径消失后按标题/别名继承" },
         "one_liner": { "type": "string", "description": "一句话定义原文" },
         "key": { "type": ["string", "null"], "description": "一句话定义中的 ==高亮== 片段" },
         "group": { "type": ["string", "null"], "description": "学习主页核心概念卡表的分组" },

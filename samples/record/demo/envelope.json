@@ -1,0 +1,10 @@
+{
+  "sample": true,
+  "schema": "learning.record-api/0.1",
+  "data": null,
+  "meta": {
+    "source": "mock",
+    "generatedAt": "2026-11-07T12:00:00Z",
+    "warnings": []
+  }
+}

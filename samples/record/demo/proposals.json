@@ -1,0 +1,36 @@
+{
+  "sample": true,
+  "goalProposals": [],
+  "assignments": [
+    {
+      "id": "a-0",
+      "subject": "item:i-1",
+      "goalId": "g-craft",
+      "confidence": 0.6,
+      "reason": "合成待确认归属",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "folder",
+        "version": "0.1",
+        "model": null,
+        "promptVersion": null,
+        "mock": true
+      },
+      "state": "proposed",
+      "autoAccepted": false,
+      "changeLogId": "log-0",
+      "createdAt": "2026-11-07T12:00:00Z"
+    }
+  ],
+  "ideaAttachments": [
+    {
+      "subject": "item:i-3",
+      "conceptRef": "concept:t-0/c-0",
+      "confidence": 0.5,
+      "reason": "合成挂载提议"
+    }
+  ],
+  "relationCandidates": [],
+  "autoAccepted": []
+}

@@ -5,7 +5,10 @@
   z-index: 70;
   width: 168px;
   height: 149px;
+  pointer-events: auto;
 }
+
+.ula-dock .ula-pet { bottom: max(calc(var(--ub-agent-bar-height, 120px) + 12px), env(safe-area-inset-bottom)); }
 
 .ula-launcher.ula-pet-launcher {
   position: relative;
@@ -74,19 +77,34 @@
 .ula-pet-menu select { display: block; margin: 5px 0 8px; font: inherit; }
 .ula-pet-menu p { margin: 8px 0 0; color: var(--ula-muted); font-size: 12px; }
 .ula-pet-menu :focus-visible { outline: 2px solid var(--ula-amber); outline-offset: 2px; }
+.ula-dock .ula-pet-menu {
+  bottom: calc(var(--ub-agent-bar-height, 120px) + 176px);
+  max-height: max(96px, calc(100dvh - var(--ub-agent-bar-height, 120px) - 192px));
+}
 
-.ula-root .ula-panel { bottom: 174px; height: min(720px, calc(100dvh - 198px)); }
+.ula-root:not(.ula-dock) .ula-panel { bottom: 174px; height: min(720px, calc(100dvh - 198px)); }
 
 @media (max-height: 650px) and (min-width: 761px) {
-  .ula-root .ula-panel-open { top: 12px; bottom: 12px; height: auto; }
+  .ula-root:not(.ula-dock) .ula-panel-open { top: 12px; bottom: 12px; height: auto; }
   .ula-root[data-open='true'] .ula-pet { display: none; }
 }
 
 @media (max-width: 760px) {
+  .ula-root.ula-dock[data-open='true'] { z-index: 130; }
   .ula-pet { width: 112px; height: 100px; right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); }
-  .ula-root .ula-panel-open { inset: 0; width: auto; height: 100dvh; }
+  .ula-root:not(.ula-dock) .ula-panel-open { inset: 0; width: auto; height: 100dvh; }
+  .ula-root.ula-dock .ula-panel-open { inset: 0; width: auto; height: 100dvh; }
   .ula-pet-menu { bottom: 122px; max-height: calc(100dvh - 138px); }
+  .ula-dock .ula-pet-menu {
+    bottom: calc(var(--ub-agent-bar-height, 120px) + 124px);
+    max-height: max(96px, calc(100dvh - var(--ub-agent-bar-height, 120px) - 140px));
+  }
   .ula-root[data-open='true'] .ula-pet { display: none; }
+}
+
+@media (max-width: 1100px) {
+  .ula-dock[data-card='true'] .ula-pet,
+  .ula-dock[data-open='true'] .ula-pet { display: none; }
 }
 
 @media (max-height: 480px) {

@@ -1,0 +1,59 @@
+{
+  "type": "object",
+  "properties": {
+    "subject": {
+      "type": "string",
+      "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+    },
+    "level": {
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "due": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "visitSeconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "rememberedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lastRecall": {
+      "enum": [
+        "remembered",
+        "forgot",
+        "skipped",
+        null
+      ]
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "subject",
+    "level",
+    "due",
+    "visitSeconds",
+    "rememberedCount",
+    "lastRecall"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mastery.schema.json",
+  "title": "mastery"
+}

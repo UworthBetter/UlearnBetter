@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "tz": {
+      "type": "string"
+    },
+    "algorithm": {
+      "const": "today-v0"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "review",
+              "new",
+              "practice"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "topicId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+          },
+          "conceptId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "goalIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "subject",
+          "title",
+          "why",
+          "topicId",
+          "conceptId",
+          "goalIds"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 5
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "date",
+    "tz",
+    "algorithm",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "today.schema.json",
+  "title": "today"
+}

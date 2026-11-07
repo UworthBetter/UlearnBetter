@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "learning.record-api/0.1"
+    },
+    "data": {},
+    "meta": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "enum": [
+            "record",
+            "mock"
+          ]
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "source",
+        "generatedAt",
+        "warnings"
+      ],
+      "additionalProperties": false
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema",
+    "data",
+    "meta"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "envelope.schema.json",
+  "title": "envelope"
+}

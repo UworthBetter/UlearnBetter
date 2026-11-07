@@ -57,3 +57,21 @@ test('unknown operations and handler failures return explicit failure', async ()
   assert.equal(result.ok, false)
   assert.ok(!result.message.includes('private'))
 })
+
+test('shell and scene bindings remain independent with record context 0.2', async()=>{
+ const session=createLearningSession()
+ const cleanup=session.bindShellActions(a=>({ok:a.to==='today',message:'shell'}))
+ session.bindActions(()=>({ok:true,message:'scene'}))
+ session.updateScene({...scene('x'),layer:'adjust',record:null})
+ session.selectText('selection');session.updateScene({...scene('y'),layer:'stats',record:null})
+ assert.equal(session.capture().schema,'learning.context/0.2');assert.equal(session.capture().selection,null)
+ assert.equal((await session.execute({type:'navigate',to:'today'})).message,'shell')
+ assert.equal((await session.execute({type:'close_card'})).message,'scene')
+ cleanup();assert.equal((await session.execute({type:'open_adjust'})).ok,false)
+})
+
+test('scene teardown preserves shell record data during demo-to-record replacement',()=>{
+ const session=createLearningSession();const record={source:'record',goal:{id:'g',title:'学习目标'},todayPlan:{date:'2026-11-07',entries:[]},pendingCount:2,selectedItem:null,mastery:null,stats:null}
+ session.updateRecord({record,layer:null});session.updateScene(scene('demo'));session.updateScene({view:'none',topic:null,concept:null,card:null,interaction:null});session.updateScene(scene('record'))
+ assert.equal(session.capture().record.goal.id,'g');assert.equal(session.capture().record.pendingCount,2)
+})

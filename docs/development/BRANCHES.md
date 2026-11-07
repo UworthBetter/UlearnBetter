@@ -24,3 +24,22 @@
 工具不再使用工作目录后，再统一移除目录与已合并分支。
 
 本地浏览器测试记录 `.playwright-mcp/` 已忽略，不删除现有内容，也不提交。
+
+## Sprint 2 integration
+
+`codex/s2-integration` starts from local main `1fa4e0e`. C0 is
+`98562d4b871d34e0459cb1d9ad7dee17b88a1641`. Deliveries were merged in order:
+
+| Branch | Source | Integrated merge |
+| --- | --- | --- |
+| `codex/s2-notes` | `70ade72` | `8b75b07` |
+| `origin/codex/s2-backend` | `2f64913` | `edceeec` |
+| `codex/s2-ui` | `6157c72` | `11af2dd` |
+
+Integration fixes are in `f3d624f`. All checks pass; acceptance 1–7 passes
+with compiled synthetic notes and the real record API. Real-model acceptance
+8–10 remains unverified. See [the delivery report](S2_INTEGRATION_HANDOFF.md).
+
+The owner requested no merge to main and no push. Main stays at `1fa4e0e`;
+no commits from this integration run were pushed. The fetched remote C0 and
+backend branch remain unchanged. Other executors' worktrees stay intact.

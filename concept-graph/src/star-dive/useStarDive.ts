@@ -10,7 +10,11 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
     const root = rootRef.current
     if (!root) return
     const scene = createStarDive(root, data, {
-      initialFocus, onContextChange: learningSession.updateScene,
+      initialFocus, onContextChange: context => {
+        const record=learningSession.getSnapshot().record
+        const c=data.concepts.find(c=>c.id===context.concept?.id)
+        learningSession.updateScene({...context,...(record?{record:{...record,mastery:c?{subject:`concept:${data.meta.topic_id}/${c.id}`,level:c.masteryLevel??0,due:c.due??null}:null}}:{})})
+      },
     })
     handle.current = scene
     const unbind = learningSession.bindActions((action) => {
@@ -19,6 +23,7 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
         scene.closeCard()
         return { ok: true, message: '已关闭卡片' }
       }
+      if (action.type !== 'focus_concept') return { ok: false, message: '不支持的星图动作' }
       if (!data.concepts.some((c) => c.id === action.conceptId)) return { ok: false, message: '概念不存在' }
       // The scene starts after document.fonts.ready; commands must not claim success before init.
       if (learningSession.getSnapshot().view !== 'star-dive') return { ok: false, message: '星图尚未就绪' }
@@ -39,7 +44,8 @@ export function useStarDive(rootRef: RefObject<HTMLElement | null>, data: StarDi
       unbind()
       document.removeEventListener('selectionchange', onSelection)
       scene.destroy()
-      learningSession.reset()
+      // The shell owns record/layer context across scene replacements.
+      learningSession.updateScene({view:'none',topic:null,concept:null,card:null,interaction:null})
       if (handle.current === scene) handle.current = null
     }
   }, [rootRef, data, initialFocus])

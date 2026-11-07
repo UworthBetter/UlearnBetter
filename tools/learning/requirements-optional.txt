@@ -1,0 +1,6 @@
+# 可选依赖（不进零依赖核心；核心模块导入它们前必须做 try/except）
+#
+# rapidfuzz —— 别名 / 近似名候选打分（POSITIONING §4.2，裁决 7 同名
+# 候选辅助）。核心 organizers.py / compiler.py 不依赖它；如实现
+# 同名候选辅助 Organizer，放独立模块并在文档标注需要本依赖。
+# rapidfuzz>=3
