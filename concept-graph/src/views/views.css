@@ -35,11 +35,9 @@
 .ub button,
 .ub input { font: inherit; color: inherit; }
 .ub button { cursor: pointer; }
-.ub-star, .ub-const, .ub-gaplabel, .ub-ritem, .ub-kstrip, .ub-tcard, .ub-gcard, .ub-mrow, .ub-arow, .ub-cchip, .ub-opt {
+.ub-ritem, .ub-kstrip, .ub-tcard, .ub-gcard, .ub-mrow, .ub-arow, .ub-cchip, .ub-opt {
   color: inherit;
 }
-.ub-star { border: 0; background: transparent; padding: 0; }
-.ub-star .hit { position: absolute; left: -16px; top: -16px; width: 32px; height: 32px; border-radius: 50%; }
 .ub :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
 .ub-glass {
@@ -233,37 +231,6 @@
 .ub-foot { display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid rgba(255, 255, 255, 0.07); padding-top: 12px; }
 .ub-gdot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 
-.ub-sky { position: absolute; inset: 0; }
-.ub-sky svg.links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.ub-star { position: absolute; width: 0; height: 0; }
-.ub-star .core {
-  position: absolute; border-radius: 50%; transform: translate(-50%, -50%);
-  background: radial-gradient(circle at 40% 38%, #fff, var(--c) 55%, #7a4a16);
-  box-shadow: 0 0 10px var(--c);
-}
-.ub-star .due {
-  position: absolute; border-radius: 50%; border: 1px solid rgba(255, 190, 100, 0.85);
-  transform: translate(-50%, -50%); animation: ub-pulse 2.2s ease-out infinite;
-}
-@keyframes ub-pulse { from { opacity: 0.9; } to { opacity: 0.25; } }
-.ub-star .name { position: absolute; top: 10px; left: 0; transform: translateX(-50%); white-space: nowrap; font-size: 12px; text-shadow: 0 0 8px #040919; }
-.ub-goalname { position: absolute; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
-.ub-goalname h2 { margin: 4px 0 0; font-size: 26px; font-weight: 300; letter-spacing: 0.18em; color: rgba(255, 232, 200, 0.42); }
-.ub-goalname.cy h2 { color: rgba(190, 234, 255, 0.42); }
-.ub-const {
-  position: absolute; transform: translate(-50%, 0); display: flex; gap: 8px; align-items: center;
-  padding: 6px 12px; border-radius: 999px; background: rgba(14, 24, 58, 0.72); border: 1px solid rgba(255, 255, 255, 0.12); white-space: nowrap;
-}
-.ub-const.pend { border-style: dashed; border-color: rgba(201, 182, 255, 0.65); }
-.ub-const span { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
-.ub-gaplabel {
-  position: absolute; transform: translate(-50%, -50%); font-size: 11.5px; color: #ffc4b6;
-  padding: 3px 10px; border-radius: 999px; border: 1px dashed rgba(255, 150, 130, 0.7); background: rgba(40, 16, 30, 0.55);
-}
-.ub-next {
-  position: absolute; width: 18px; height: 18px; margin: -28px 0 0 -9px; border-radius: 50%; display: grid; place-items: center;
-  font-size: 11px; background: var(--amber); color: #2a1700; font-family: var(--mono);
-}
 .ub-rail {
   position: fixed; top: 76px; right: 24px; bottom: calc(var(--ub-agent-bar-height, 96px) + 16px);
   width: var(--ub-rail-width, 332px); z-index: 6; padding: 16px; overflow: auto; border-radius: 18px;
@@ -306,8 +273,6 @@
   .ub-home, .ub-lib { padding: 88px 16px 128px; }
   .ub-today, .ub-goals, .ub-kpis, .ub-srow, .ub-srow.three, .ub-lib-body { grid-template-columns: 1fr; }
   .ub-pano { overflow: auto; }
-  .ub-sky { position: relative; height: 720px; margin-top: 108px; }
-  .ub-goalname h2 { font-size: 18px; letter-spacing: 0.06em; }
   .ub-zoom .ub-muted { display: none; }
   .ub-rail { position: static; width: auto; margin: 12px 16px 150px; bottom: auto; right: auto; top: auto; }
   .ub-kstrip { margin-left: 0; width: 100%; overflow: auto; }

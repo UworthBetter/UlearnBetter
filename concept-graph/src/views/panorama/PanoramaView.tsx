@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ViewProps } from '../../record/view-props.ts'
 import type { Panorama } from '../../record/types.ts'
 import { goalSwatch } from '../format.ts'
-import { layoutPanorama, type LayoutInput, type PanoramaLayout } from './layout.ts'
+import { layoutPanorama, type LayoutInput } from './layout.ts'
+import PanoramaSky from './PanoramaSky.tsx'
+import { measureSafeArea, sameSafeArea, type SafeArea } from './viewport.ts'
 import '../views.css'
 
 export default function PanoramaView({ client, route, navigate, openAdjust, reportScene }: ViewProps) {
@@ -10,13 +12,17 @@ export default function PanoramaView({ client, route, navigate, openAdjust, repo
   const [data, setData] = useState<Panorama | null>(null)
   const [source, setSource] = useState<'record' | 'mock' | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [size, setSize] = useState({ width: 1100, height: 760 })
+  const [safe, setSafe] = useState<SafeArea>(() => measureSafeArea())
+  // 布局只随窗口尺寸重排；助手栏高度这类变化只影响适配，不打乱用户已拖好的星图。
+  const [layoutSize, setLayoutSize] = useState(() => ({ w: safe.x1 - safe.x0, h: safe.y1 - safe.y0 }))
+  const [loads, setLoads] = useState(0)
 
   useEffect(() => {
     let live = true
     client.getPanorama(goalId ?? undefined).then((env) => {
       if (!live) return
       setData(focusGoal(env.data, goalId))
+      setLoads((count) => count + 1)
       setSource(env.meta.source)
     }, (reason: unknown) => {
       if (live) setError(reason instanceof Error ? reason.message : '全景没有加载出来')
@@ -42,21 +48,30 @@ export default function PanoramaView({ client, route, navigate, openAdjust, repo
   }, [data, goalId, reportScene, source])
 
   useEffect(() => {
-    function measure() {
-      const narrow = window.innerWidth <= 900
-      const rail = narrow ? 0 : Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ub-rail-width')) || 332
-      const bar = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ub-agent-bar-height')) || 140
-      setSize({
-        width: Math.max(narrow ? 280 : 480, window.innerWidth - (narrow ? 24 : rail + 48)),
-        height: narrow ? 720 : Math.max(420, window.innerHeight - bar - 96),
+    // 摘要栏宽度和助手栏高度由外壳写在根元素样式上，变化时也要重算可视区域。
+    const measure = () => setSafe((prev) => {
+      const next = measureSafeArea()
+      return sameSafeArea(prev, next) ? prev : next
+    })
+    const resize = () => {
+      measure()
+      const next = measureSafeArea()
+      setLayoutSize((prev) => {
+        const size = { w: next.x1 - next.x0, h: next.y1 - next.y0 }
+        return prev.w === size.w && prev.h === size.h ? prev : size
       })
     }
     measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    window.addEventListener('resize', resize)
+    const observer = new MutationObserver(measure)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] })
+    return () => {
+      window.removeEventListener('resize', resize)
+      observer.disconnect()
+    }
   }, [])
 
-  const layout = data ? layoutPanorama(toLayout(data), size.width, size.height) : null
+  const layout = useMemo(() => (data ? layoutPanorama(toLayout(data), layoutSize.w, layoutSize.h) : null), [data, layoutSize])
   const oneGoal = (data?.goals.length ?? 0) <= 1
   const head = data && goalId
     ? {
@@ -79,7 +94,7 @@ export default function PanoramaView({ client, route, navigate, openAdjust, repo
         <span className="ub-muted">点星座进入潜航</span>
       </div>
       {error && <p role="alert">{error}</p>}
-      {layout && <Sky layout={layout} onTopic={(topicId) => navigate({ view: 'star-dive', topicId })} onConcept={(topicId, conceptId) => navigate({ view: 'star-dive', topicId, conceptId })} />}
+      {layout && <PanoramaSky key={`${loads}:${layoutSize.w}x${layoutSize.h}`} layout={layout} safe={safe} onTopic={(topicId) => navigate({ view: 'star-dive', topicId })} onConcept={(topicId, conceptId) => navigate({ view: 'star-dive', topicId, conceptId })} />}
       {data && layout && (
         <aside className="ub-rail ub-glass" aria-label="全景摘要">
           <h2>{head.concepts}{'\u00A0'}颗星 · {head.topics}{'\u00A0'}个主题 · {head.goals}{'\u00A0'}个目标</h2>
@@ -135,82 +150,6 @@ export default function PanoramaView({ client, route, navigate, openAdjust, repo
         </aside>
       )}
     </section>
-  )
-}
-
-function Sky({
-  layout, onTopic, onConcept,
-}: {
-  layout: PanoramaLayout
-  onTopic: (topicId: string) => void
-  onConcept: (topicId: string, conceptId: string) => void
-}) {
-  return (
-    <div className="ub-sky">
-      <svg className="links" aria-hidden="true">
-        {layout.links.map((link, index) => (
-          <line
-            key={`${link.kind}-${index}`}
-            x1={link.x1}
-            y1={link.y1}
-            x2={link.x2}
-            y2={link.y2}
-            stroke={link.kind === 'tether' ? 'rgba(201,182,255,.7)' : 'rgba(201,182,255,.85)'}
-            strokeDasharray={link.kind === 'confirmed' ? undefined : '5 5'}
-            strokeWidth="1.4"
-          />
-        ))}
-        {layout.next.length > 1 && (
-          <polyline
-            points={layout.next.map((step) => `${step.x},${step.y}`).join(' ')}
-            fill="none"
-            stroke="#ffb547"
-            strokeDasharray="2 6"
-            strokeWidth="1.6"
-          />
-        )}
-        {layout.gaps.map((gap) => (
-          <ellipse key={`${gap.topicId}/${gap.group}`} cx={gap.x} cy={gap.y} rx={gap.rx} ry={gap.ry} fill="none" stroke="rgba(255,150,130,.75)" strokeDasharray="6 5" />
-        ))}
-      </svg>
-      {layout.goals.map((goal) => (
-        <div key={goal.id} className={goal.colorKey === 'cyan' ? 'ub-goalname cy' : 'ub-goalname'} style={{ left: goal.x, top: goal.y }}>
-          <div className="ub-eyebrow">目标</div>
-          <h2>{goal.title}</h2>
-        </div>
-      ))}
-      {layout.stars.map((star) => {
-        const step = layout.next.find((item) => item.key === star.key)
-        const color = star.colorKey === 'cyan' ? '#86dcff' : star.colorKey === 'violet' ? '#c9b6ff' : '#ffb547'
-        return (
-          <button
-            key={star.key}
-            type="button"
-            className="ub-star"
-            style={{ left: star.x, top: star.y }}
-            onClick={() => onConcept(star.topicId, star.conceptId)}
-            aria-label={star.label}
-          >
-            {star.due && <span className="due" style={{ width: star.radius * 5, height: star.radius * 5 }} />}
-            <span className="core" style={{ width: star.radius * 2, height: star.radius * 2, ['--c' as string]: color, opacity: 0.35 + star.level * 0.2 }} />
-            <span className="hit" />
-            {star.importance >= 2 && <span className="name">{star.label}</span>}
-            {step && <span className="ub-next">{step.index}</span>}
-          </button>
-        )
-      })}
-      {layout.gaps.map((gap) => (
-        <button key={`label-${gap.topicId}/${gap.group}`} type="button" className="ub-gaplabel" style={{ left: gap.x, top: gap.y + gap.ry * 0.15 }} onClick={() => onTopic(gap.topicId)}>
-          缺口 · {gap.group} 0/{gap.count}
-        </button>
-      ))}
-      {layout.topics.map((topic) => (
-        <button key={topic.topicId} type="button" className={topic.pending ? 'ub-const pend' : 'ub-const'} style={{ left: topic.x, top: topic.y }} onClick={() => onTopic(topic.topicId)}>
-          <b>{topic.title}</b>
-          <span>{topic.learned}/{topic.total}</span>
-        </button>
-      ))}
-    </div>
   )
 }
 
