@@ -33,6 +33,19 @@ function inside(root, candidate) {
   return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel))
 }
 
+/** Child directory by name, tolerating NFC/NFD differences (macOS / zip-extracted Chinese names). */
+async function childDir(parent, name) {
+  const direct = await realDir(path.join(parent, name))
+  if (direct) return direct
+  try {
+    const want = name.normalize('NFC')
+    const hit = (await fs.readdir(parent, { withFileTypes: true })).find((e) => e.isDirectory() && e.name.normalize('NFC') === want)
+    return hit ? realDir(path.join(parent, hit.name)) : null
+  } catch {
+    return null
+  }
+}
+
 async function realDir(p) {
   try {
     const real = await fs.realpath(p)
@@ -65,9 +78,8 @@ export function createTopicNotes({ notesDir }) {
       const title = segment(entry.manifest.topic?.title)
       const folder = segment(entry.manifest.folderHint)
       if (realNotesRoot && title) {
-        const candidates = [folder ? path.join(realNotesRoot, folder, title) : null, path.join(realNotesRoot, title)].filter(Boolean)
-        for (const c of candidates) {
-          const real = await realDir(c)
+        const folderDir = folder ? await childDir(realNotesRoot, folder) : null
+        for (const real of [folderDir ? await childDir(folderDir, title) : null, await childDir(realNotesRoot, title)]) {
           if (real && inside(realNotesRoot, real)) return { root: real, origin: 'vault' }
         }
       }
@@ -101,7 +113,17 @@ export function createTopicNotes({ notesDir }) {
 
   async function list(entry) {
     const found = await rootOf(entry)
-    if (!found) return { available: false, origin: null, files: [], reason: '这个主题没有找到笔记原文（视频整理会自动保存；手工笔记请设置 RECORD_NOTES_DIR）' }
+    if (!found) {
+      const m = entry.manifest
+      const tried = [`${path.join(path.dirname(entry.learnPath), 'notes')}`]
+      if (notesRoot) tried.push(path.join(notesRoot, segment(m.folderHint) || '', segment(m.topic?.title) || ''))
+      return {
+        available: false, origin: null, files: [],
+        reason: `没有找到这个主题的笔记原文。已查找：${tried.join('；')}。` +
+          (notesRoot ? '' : '未设置 RECORD_NOTES_DIR。') +
+          '演示数据请重新执行 npm run demo（会把笔记装进每个主题目录）；用视频生成的旧主题请在资料页点「重新整理」。',
+      }
+    }
     const files = await walk(found.root)
     return {
       available: true,

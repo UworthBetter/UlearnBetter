@@ -65,6 +65,38 @@ export function shiftText(name, text, n) {
   return JSON.stringify(shiftValue(JSON.parse(text), n), null, 2) + '\n'
 }
 
+/** Find a child directory by name, tolerating NFC/NFD differences in Chinese file names. */
+async function childDir(parent, name) {
+  if (!name) return null
+  try {
+    const want = name.normalize('NFC')
+    const hit = (await readdir(parent, { withFileTypes: true })).find((e) => e.isDirectory() && e.name.normalize('NFC') === want)
+    return hit ? path.join(parent, hit.name) : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * 把每个演示主题的笔记原文装进 learn/<topicId>/notes/。阅读窗口优先读这里，
+ * 不依赖 RECORD_NOTES_DIR 或目录名，Windows / macOS 都能找到。已有的不覆盖。
+ */
+export async function installTopicNotes(learnDir) {
+  const installed = []
+  for (const topic of await readdir(learnDir)) {
+    const target = path.join(learnDir, topic, 'notes')
+    if (existsSync(target)) continue
+    let manifest
+    try { manifest = JSON.parse(await readFile(path.join(learnDir, topic, 'manifest.json'), 'utf8')) } catch { continue }
+    const folder = await childDir(DEMO_NOTES, manifest.folderHint)
+    const src = (folder && await childDir(folder, manifest.topic?.title)) || await childDir(DEMO_NOTES, manifest.topic?.title)
+    if (!src) continue
+    await cp(src, target, { recursive: true, filter: (f) => !f.endsWith('.generation.json') })
+    installed.push(topic)
+  }
+  return installed
+}
+
 /**
  * 准备演示数据目录。返回 {learnDir, dataDir, shiftDays, meta}。
  * today 默认取 meta.tz 的今天；最后一个演示学习日平移到 today − 1。
@@ -79,6 +111,7 @@ export async function prepareDemo({ target = path.join(ROOT, 'server/.data/demo'
   if (keep && existsSync(dataDir) && existsSync(learnDir)) {
     // 旧版演示目录没有笔记原文：--keep 时补上，阅读窗口才能打开
     if (!existsSync(notesDir)) await cp(DEMO_NOTES, notesDir, { recursive: true, filter: (src) => !src.endsWith('.generation.json') })
+    await installTopicNotes(learnDir)
     return { learnDir, dataDir, notesDir, shiftDays: 0, meta, kept: true }
   }
   await rm(target, { recursive: true, force: true })
@@ -86,6 +119,7 @@ export async function prepareDemo({ target = path.join(ROOT, 'server/.data/demo'
   await cp(DEMO_LEARN, learnDir, { recursive: true })
   // 笔记原文给应用内阅读窗口用（只复制 .md 目录树，生成日志留在仓库里）
   await cp(DEMO_NOTES, notesDir, { recursive: true, filter: (src) => !src.endsWith('.generation.json') })
+  await installTopicNotes(learnDir)
   // 编译时间随记录一起平移（只改 generated.at / generatedAt，内容不变）
   for (const topic of await readdir(learnDir)) {
     const lp = path.join(learnDir, topic, 'learn.json')
