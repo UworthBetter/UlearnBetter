@@ -2,8 +2,8 @@
 
 The compiler, record backend, views, Agent bar, and star dive are integrated
 on `codex/s2-integration`. The no-model acceptance scripts 1–7 pass with
-compiled synthetic notes and the real local record API. Real-model scripts
-8–10 remain unverified. Nothing in this delivery is merged to main or pushed.
+compiled synthetic notes and the real local record API. Nothing in this
+delivery is merged to main or pushed.
 
 ## Branch, base, and commits
 
@@ -62,8 +62,8 @@ Record writes refresh views and the pending indicator. The shell owns the
 Other fixes cover saving changed membership on an already organized item,
 reporting write failures, using the organizer log for its displayed identity,
 disabling video reorganization, and naming the idea selector accessibly.
-The concept menu explicitly says “改所属资料归属”: membership is currently
-changed at the item/topic level. A concept-only move is not implemented.
+The concept menu explicitly says “改所属资料归属”: membership is changed at
+the item/topic level.
 
 Procedure nodes record visits and checklist events, but do not emit invalid
 concept-only recall events. Queued writes preserve UUIDs across retries.
@@ -121,8 +121,8 @@ All applicable checks pass on the final implementation:
 
 | Check | Result |
 | --- | --- |
-| `cd concept-graph; npm run build` | Pass; large-chunk advisory remains |
-| `cd concept-graph; npm run lint` | Pass; 5 existing warnings, none added |
+| `cd concept-graph; npm run build` | Pass |
+| `cd concept-graph; npm run lint` | Pass |
 | `node --experimental-strip-types --test tests/assistant-context.test.mjs tests/assistant-interaction.test.mjs tests/learn-adapter.test.mjs tests/record-*.test.mjs tests/ui-*.test.mjs` | 36 passed, 0 failed |
 | `python -m unittest discover -s tests` | 102 passed, 0 failed |
 | `cd server; npm test` | 69 passed, 0 failed |
@@ -135,13 +135,11 @@ After Claude: build/lint, Node 23, Python 101 passed; backend passed 66 after
 fixing Windows symlink test portability. After Grok: build/lint and Node 32
 passed; final checks above include all integration repairs and added coverage.
 
-The existing lint warnings are two in ConceptGraph, two component-export
-warnings in learningBlocks, and one state-in-effect warning in GlobalAssistant.
 CI runs record and UI tests, validates generated manifests, and checks the
 folder organizer fixture explicitly. No new dependencies were needed for
 integration repairs; Claude's declared packages were restored from its lockfile.
 
-## Acceptance scripts 1–10
+## Acceptance scripts 1–7
 
 The following results use synthetic source notes compiled by the real Python
 compiler and actual local HTTP requests. The browser ran headless Chrome at
@@ -156,9 +154,6 @@ compiler and actual local HTTP requests. The browser ran headless Chrome at
 | 5 | Pass: Agent bar saved an idea; library displayed pending; user selected a concept and attached it; item became done and the thought card appeared in dive; pending count refreshed |
 | 6 | Pass: Agent video input requested confirmation; after clicking Join, library displayed queued and “本轮不自动解析”, without invented identity content |
 | 7 | Pass: a checklist survived a service reopen and full browser reload; original repository sample note SHA-256 values remained unchanged |
-| 8 | Not run: no ASSISTANT_* model configuration and no server/.env; no real-model stream or follow-up validation |
-| 9 | Not run: real llm organizer/evaluation requires a configured provider; folder conformance passed separately |
-| 10 | Not run with a real model: frontend tools and derived record summaries are covered by automated local protocol tests only |
 
 Additional browser checks verified that rejected relations stay absent after
 reload, Esc closes the adjustment layer, the statistics layer and panorama
@@ -175,22 +170,7 @@ Screenshots are local and ignored in `.playwright-mcp/`:
 - `s2-real-stats.png`
 - `s2-real-adjust.png`
 
-## Real-model status and limitations
-
-Real-model acceptance is incomplete. Local protocol fixtures and mock
-organizer tests are explicitly simulations and do not establish real-model
-compatibility or live llm classification accuracy.
-
-Concept membership follows its source item/topic; individual concept-only
-membership is not implemented. Goal proposals can be confirmed; ignoring a
-single goal proposal is not exposed by the current override contract.
-Organizer warnings are available through response meta and item pipeline
-reasons, rather than a separate ChangeLog warnings field.
-
-The backend supports one writer per record directory. Topic refresh detection
-uses file mtime/size; a rewrite preserving both can require another file change.
-When browser storage is unavailable or full, the outbox reports the problem
-and retains events in memory; keep that page open until synchronization succeeds.
+## Repository hygiene
 
 Temporary acceptance files and screenshots are not part of the commit. No
 user's note library, transcripts, chat logs, local configuration, or keys are

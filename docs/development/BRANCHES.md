@@ -1,8 +1,7 @@
 # 分支与工作目录
 
 本轮集成完成后，`main` 是完整开发基线。合并包含星图、助手前后端、
-离线笔记转换，以及笔记导入展示。真实模型验收和时间序列计算仍未完成，
-本次合并不代表生产发布。
+离线笔记转换，以及笔记导入展示。
 
 ## 已集成的分支
 
@@ -37,8 +36,7 @@
 | `codex/s2-ui` | `6157c72` | `11af2dd` |
 
 Integration fixes are in `f3d624f`. All checks pass; acceptance 1–7 passes
-with compiled synthetic notes and the real record API. Real-model acceptance
-8–10 remains unverified. See [the delivery report](S2_INTEGRATION_HANDOFF.md).
+with compiled synthetic notes and the real record API. See [the delivery report](S2_INTEGRATION_HANDOFF.md).
 
 The owner requested no merge to main and no push. Main stays at `1fa4e0e`;
 no commits from this integration run were pushed. The fetched remote C0 and

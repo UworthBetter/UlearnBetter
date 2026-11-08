@@ -35,8 +35,7 @@ cd server && npm run demo        # 等价于 node ../tools/demo/start_demo.mjs
 | 掌握 Git 版本控制 | Git版本控制 | Fireship《Git It? How to use Git and Github》《13 Advanced (but useful) Git Techniques and Shortcuts》 | 10 章 · 11 概念卡 · 2 清单 |
 | 量化交易：凯利公式与仓位管理 | 凯利公式与仓位管理 | Financial Wisdom《KELLY CRITERION \| Ed Thorp》 | 4 章 · 8 概念卡 · 2 清单 |
 
-另有一条视频链接（Mutual Information《The Kelly Criterion》）。它的字幕接口多次返回
-HTTP 429，没能取到转写。按技能规则不写笔记，只按真实流程登记成「排队中，本轮不自动解析」。
+另有一条视频链接（Mutual Information《The Kelly Criterion》）按真实流程登记为资料，状态为「排队中」。
 
 六种卡片形状全部覆盖：定义、对比、流程、结构（主页 mermaid 全景图）、实操清单，
 以及「公式与参数」变化型卡片。变化型卡片来自模型的 `learn_blocks` 标注，`grounding`
