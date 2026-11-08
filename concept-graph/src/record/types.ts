@@ -20,6 +20,9 @@ export interface GoalProposal {id: string; title: string; intent: string|null; r
 export interface IdeaAttachment {subject: SubjectRef; conceptRef: SubjectRef; confidence: number; reason: string}
 export interface RelationCandidate {id: string; a: SubjectRef; b: SubjectRef; kind: string; reason: string; confirmed: boolean}
 export interface Proposals {goalProposals: GoalProposal[]; assignments: Assignment[]; ideaAttachments: IdeaAttachment[]; relationCandidates: RelationCandidate[]; autoAccepted: Assignment[]}
+export interface NoteFile {path: string; title: string; folder: string}
+export interface TopicNotes {topicId: string; title: string; available: boolean; origin: 'topic'|'vault'|null; files: NoteFile[]; reason: string|null}
+export interface NoteContent {topicId: string; path: string; title: string; text: string; modifiedAt: string}
 export interface TopicSummary {topicId: string; title: string; conceptCount: number; generatedAt: string; compilerVersion: string}
 export interface TopicOverlay {ideas?: Record<string,{itemId: string|null; text: string; at: string}[]>; renames: Record<string,string>; hidden: string[]; pins: Record<string,1|2|3>; mastery: MasteryState[]; checklist: Record<string,boolean>}
 export interface TopicLearn {learn: JsonValue; overlay: TopicOverlay}

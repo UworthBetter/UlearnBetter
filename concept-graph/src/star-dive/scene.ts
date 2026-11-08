@@ -476,6 +476,14 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     panelWrap.addEventListener('pointerup', end, { signal })
     panelWrap.addEventListener('pointercancel', end, { signal })
   }
+  /** A note evidence chip links into the in-app notes reader (#/notes/<topic>?f=<path>&h=<heading>). */
+  function noteChip(note: string | undefined, sourceId: string) {
+    if (!note || !META.topic_id) return `<span class="chip">${esc(note || sourceId)}</span>`
+    const [file, heading] = note.split('#')
+    const q = new URLSearchParams({ f: file })
+    if (heading) q.set('h', heading)
+    return `<a class="chip note" href="#/notes/${encodeURIComponent(META.topic_id)}?${esc(q.toString())}" title="在笔记中打开">📄 ${esc(note)}</a>`
+  }
   function openPanel(c: StarDiveConcept, card: CardSpec, fromEl: HTMLElement) {
     closePanel(true)
     const r = resolveCard(c, card), ui = moduleUi(r)
@@ -489,7 +497,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
       <div><div class="crumb">${esc(c.label)} · ${esc(ui.text)}</div><h3>${esc(r.spec.title || '')}</h3></div>
       <button class="p-close" type="button" aria-label="关闭">×</button></div>
     <div class="p-body"></div>
-    ${refs.length ? `<div class="p-foot"><span class="lbl">出处</span>${refs.map((ref) => ref.url && /^https?:\/\//.test(ref.url) ? `<a class="chip ts" href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.startSec != null ? fmt(ref.startSec) : ref.sourceId)}</a>` : `<span class="chip">${esc(ref.note || ref.sourceId)}</span>`).join('')}</div>` : ''}`
+    ${refs.length ? `<div class="p-foot"><span class="lbl">出处</span>${refs.map((ref) => ref.url && /^https?:\/\//.test(ref.url) ? `<a class="chip ts" href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.startSec != null ? fmt(ref.startSec) : ref.sourceId)}</a>` : noteChip(ref.note, ref.sourceId)).join('')}</div>` : ''}`
     p.addEventListener('click', (e) => e.stopPropagation())
     p.querySelector('.p-close')!.addEventListener('click', () => closePanel())
     panelWrap.appendChild(p); panelWrap.classList.add('on')

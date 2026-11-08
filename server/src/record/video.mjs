@@ -20,7 +20,7 @@
  */
 
 import { spawn } from 'node:child_process'
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { generateText, jsonSchema, Output } from 'ai'
@@ -424,7 +424,7 @@ function renderNotes(spec, video) {
  * @param {string} opts.dataDir  RECORD_DATA_DIR (workspace for builds)
  */
 export function createVideoPipeline({ llm, learnDir, dataDir }) {
-  const python = process.env.PYTHON_BIN || 'python'
+  const python = process.env.PYTHON_BIN || (process.platform === 'win32' ? 'python' : 'python3')
   const ready = Boolean(llm?.model && learnDir)
   const reason = !learnDir
     ? 'RECORD_LEARN_DIR 未配置，编译产物无处写入'
@@ -540,6 +540,12 @@ export function createVideoPipeline({ llm, learnDir, dataDir }) {
       await mkdir(target, { recursive: true })
       await writeFile(path.join(target, 'learn.json'), JSON.stringify(learnJson, null, 2), 'utf8')
       await writeFile(path.join(target, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf8')
+      // Keep the markdown alongside the compiled topic so the in-app notes reader can open it.
+      const notesTmp = path.join(target, '.notes-new')
+      await rm(notesTmp, { recursive: true, force: true })
+      await cp(notesDir, notesTmp, { recursive: true })
+      await rm(path.join(target, 'notes'), { recursive: true, force: true })
+      await rename(notesTmp, path.join(target, 'notes'))
 
       return {
         topicId,

@@ -6,6 +6,7 @@
 
 import { createStore } from './store.mjs'
 import { createTopicIndex } from './topics.mjs'
+import { createTopicNotes, NotesError } from './topic-notes.mjs'
 import { buildOverlay } from './derive/overlay.mjs'
 import { buildView } from './derive/view.mjs'
 import { computeToday, todayIn } from './derive/today.mjs'
@@ -47,6 +48,7 @@ export function createRecordService(cfg, opts = {}) {
   const nowIso = () => now().toISOString()
   const store = createStore(cfg.dataDir)
   const topics = createTopicIndex(cfg.learnDir)
+  const topicNotes = createTopicNotes({ notesDir: cfg.notesDir })
   let organizer = null
   let organizerError = null
   if (!cfg.error) {
@@ -573,6 +575,30 @@ export function createRecordService(cfg, opts = {}) {
         generatedAt: e.manifest.generatedAt,
         compilerVersion: e.manifest.compilerVersion,
       }))
+    },
+
+    // notes reader (read-only markdown behind a topic)
+    async listTopicNotes(topicId) {
+      requireReady()
+      if (!isId(topicId)) throw new RecordError(400, 'invalid_id', '主题 ID 不合法')
+      const entry = topics.get(topicId)
+      if (!entry) throw new RecordError(404, 'not_found', '主题不存在')
+      const ov = overlay()
+      const out = await topicNotes.list(entry)
+      return { topicId, title: ov.label(ref.topic(topicId), entry.manifest.topic.title), ...out }
+    },
+
+    async readTopicNote(topicId, notePath) {
+      requireReady()
+      if (!isId(topicId)) throw new RecordError(400, 'invalid_id', '主题 ID 不合法')
+      const entry = topics.get(topicId)
+      if (!entry) throw new RecordError(404, 'not_found', '主题不存在')
+      try {
+        return { topicId, ...(await topicNotes.read(entry, notePath)) }
+      } catch (err) {
+        if (err instanceof NotesError) throw new RecordError(err.status, err.code, err.message)
+        throw err
+      }
     },
 
     async getTopicLearn(topicId, tz) {

@@ -24,6 +24,7 @@ import { parseEnvFile } from './build_record.mjs'
 const HERE = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(HERE, '../..')
 export const DEMO_LEARN = path.join(ROOT, 'samples/demo/learn')
+export const DEMO_NOTES = path.join(ROOT, 'samples/demo/notes')
 export const DEMO_RECORD = path.join(ROOT, 'samples/demo/record')
 const RECORD_FILES = new Set(['goals.json', 'items.json', 'assignments.json', 'changelog.jsonl', 'overrides.jsonl', 'events.jsonl'])
 
@@ -72,12 +73,15 @@ export async function prepareDemo({ target = path.join(ROOT, 'server/.data/demo'
   const meta = JSON.parse(await readFile(path.join(DEMO_RECORD, 'demo-meta.json'), 'utf8'))
   const learnDir = path.join(target, 'learn')
   const dataDir = path.join(target, 'record')
+  const notesDir = path.join(target, 'notes')
   const day = today || todayIn()
   const shiftDays = dayDiff(meta.anchorDate, addDays(day, -1))
-  if (keep && existsSync(dataDir) && existsSync(learnDir)) return { learnDir, dataDir, shiftDays: 0, meta, kept: true }
+  if (keep && existsSync(dataDir) && existsSync(learnDir)) return { learnDir, dataDir, notesDir, shiftDays: 0, meta, kept: true }
   await rm(target, { recursive: true, force: true })
   await mkdir(dataDir, { recursive: true })
   await cp(DEMO_LEARN, learnDir, { recursive: true })
+  // 笔记原文给应用内阅读窗口用（只复制 .md 目录树，生成日志留在仓库里）
+  await cp(DEMO_NOTES, notesDir, { recursive: true, filter: (src) => !src.endsWith('.generation.json') })
   // 编译时间随记录一起平移（只改 generated.at / generatedAt，内容不变）
   for (const topic of await readdir(learnDir)) {
     const lp = path.join(learnDir, topic, 'learn.json')
@@ -94,7 +98,7 @@ export async function prepareDemo({ target = path.join(ROOT, 'server/.data/demo'
     await writeFile(path.join(dataDir, f), shiftText(f, await readFile(path.join(DEMO_RECORD, f), 'utf8'), shiftDays))
   }
   await writeFile(path.join(target, 'prepared.json'), JSON.stringify({ preparedAt: new Date().toISOString(), today: day, shiftDays, anchorDate: meta.anchorDate }, null, 2) + '\n')
-  return { learnDir, dataDir, shiftDays, meta, kept: false }
+  return { learnDir, dataDir, notesDir, shiftDays, meta, kept: false }
 }
 
 async function main() {
@@ -114,6 +118,7 @@ async function main() {
     PORT: apiPort,
     RECORD_LEARN_DIR: prepared.learnDir,
     RECORD_DATA_DIR: prepared.dataDir,
+    RECORD_NOTES_DIR: prepared.notesDir,
     RECORD_ORGANIZER: process.env.RECORD_ORGANIZER || (modelConfigured ? 'llm' : 'folder'),
     ASSISTANT_ALLOWED_ORIGINS: process.env.ASSISTANT_ALLOWED_ORIGINS || origins,
     COPILOTKIT_TELEMETRY_DISABLED: process.env.COPILOTKIT_TELEMETRY_DISABLED || 'true',
@@ -123,6 +128,7 @@ async function main() {
     (prepared.kept ? '沿用上次的演示目录（--keep）' : `时间已平移 ${prepared.shiftDays} 天（最后学习日 = 昨天）`))
   console.log(`  RECORD_LEARN_DIR=${prepared.learnDir}`)
   console.log(`  RECORD_DATA_DIR=${prepared.dataDir}`)
+  console.log(`  RECORD_NOTES_DIR=${prepared.notesDir}`)
   console.log(`  RECORD_ORGANIZER=${serverEnv.RECORD_ORGANIZER}`)
   console.log(modelConfigured ? '  模型：已从 server/.env 或环境变量读取（助手与 llm 整理可用）'
     : '  模型：未配置 —— 记录层与各视图可用；助手入口返回 503「未配置」，整理器用 folder')

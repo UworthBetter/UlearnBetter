@@ -410,7 +410,9 @@ function Detail({
       <div className="ub-foot">
         <button type="button" className="ub-btn" onClick={() => onPanorama(detail.goalIds[0])}>在全景中看</button>
         {detail.topicId && <button type="button" className="ub-btn" onClick={() => onDive(detail.topicId!, null)}>潜航</button>}
-        <span className="ub-note">打开原笔记：{notePath ?? '这份资料没有笔记相对路径'}</span>
+        {detail.topicId
+          ? <a className="ub-btn" href={`#/notes/${encodeURIComponent(detail.topicId)}`}>打开笔记</a>
+          : <span className="ub-note">打开原笔记：{notePath ?? '这份资料还没有生成笔记'}</span>}
         <button type="button" className="ub-btn" disabled={detail.kind === 'video' ? detail.pipeline.state === 'running' : !['notes','idea'].includes(detail.kind)} onClick={() => void client.organizeItem(detail.id).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'重新整理失败'))}>重新整理</button>
         {detail.changeLogIds[0] && (
           <button type="button" className="ub-btn" onClick={() => void client.undoChangeLog(detail.changeLogIds[0]).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'撤销失败'))}>撤销这次整理</button>

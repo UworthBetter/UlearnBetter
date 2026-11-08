@@ -25,6 +25,8 @@ export class RecordError extends Error { code: string; status: number; construct
 export interface RecordClient {
  listTopics(): Promise<T.Envelope<T.TopicSummary[]>>
  getTopicLearn(id: string): Promise<T.Envelope<T.TopicLearn>>
+ listTopicNotes(id: string): Promise<T.Envelope<T.TopicNotes>>
+ readTopicNote(id: string, path: string): Promise<T.Envelope<T.NoteContent>>
  listGoals(): Promise<T.Envelope<T.Goal[]>>
  createGoal(input: T.CreateGoal): Promise<T.Envelope<T.Goal>>
  updateGoal(id: string, input: Partial<T.Goal>): Promise<T.Envelope<T.Goal>>
@@ -61,6 +63,7 @@ export function createHttpRecordClient(base = '/api/record'): RecordClient {
  const query = (values: object) => {const q = new URLSearchParams(); for (const [k,v] of Object.entries(values)) if (v !== undefined) q.set(k,String(v)); return q.size ? '?' + q : ''}
  return {
  listTopics: () => request('/topics'), getTopicLearn: (v) => request('/topics/'+id(v)+'/learn'+query({tz:tz()})),
+ listTopicNotes: (v) => request('/topics/'+id(v)+'/notes'), readTopicNote: (v,p) => request('/topics/'+id(v)+'/notes/file'+query({path:p})),
  listGoals: () => request('/goals'), createGoal: (v) => request('/goals','POST',v), updateGoal: (v,b) => request('/goals/'+id(v),'PATCH',b),
  getProposals: () => request('/proposals'), listItems: (v = {}) => request('/items'+query(v)), getItem: (v) => request('/items/'+id(v)), addItem: (v) => request('/items','POST',v), organizeItem: (v) => request('/items/'+id(v)+'/organize','POST'),
  listChangeLog: (itemId) => request('/changelog'+query({itemId})), undoChangeLog: (v) => request('/changelog/'+id(v)+'/undo','POST'),
@@ -128,6 +131,8 @@ export function createMockRecordClient(fixtures: MockFixtures = {'assignment': f
  addEvents: input => {const batch=Array.isArray(input)?input:[input];if(batch.length>50)throw new RecordError('batch_limit','最多 50 条',422);for(const e of batch)if(!events.some(v=>v.id===e.id))events.push(structuredClone(e));return result(batch)},
  getMastery: topicId => result(masteries().filter(m=>!topicId||m.subject.startsWith('concept:'+topicId+'/'))), getToday: (date,tz) => result({...f.today,...(date?{date}:{}),...(tz?{tz}:{})}),
  getStats: (range,tz) => result({...f.stats,...(range?{range}:{}),...(tz?{tz}:{})}), getPanorama: goalId => {if(goalId)find(goals,goalId);return result(f.panorama)},
+ listTopicNotes: topicId => result({topicId,title:topicId,available:false,origin:null,files:[],reason:'示例数据不含笔记原文'}),
+ readTopicNote: () => {throw new RecordError('notes_unavailable','示例数据不含笔记原文',404)},
  }
  return Object.fromEntries(Object.entries(client).map(([key, fn]) => [key, async (...args: unknown[]) => fn(...args)])) as unknown as RecordClient
 }
