@@ -6,6 +6,7 @@
 
 import { createStore } from './store.mjs'
 import { createTopicIndex } from './topics.mjs'
+import { createTopicNotes, NotesError } from './topic-notes.mjs'
 import { buildOverlay } from './derive/overlay.mjs'
 import { buildView } from './derive/view.mjs'
 import { computeToday, todayIn } from './derive/today.mjs'
@@ -15,6 +16,7 @@ import { masteryFromFacts, collectFacts } from './derive/mastery.mjs'
 import { checklistState } from './derive/view.mjs'
 import { createOrganizer } from './organizers/index.mjs'
 import { filterRejected } from './organizers/common.mjs'
+import { createVideoPipeline, queuedPipeline, runningPipeline, failedPipeline } from './video.mjs'
 import { validate } from './schemas.mjs'
 import { canonicalJson, isId, newId, parseRef, ref } from './ids.mjs'
 
@@ -46,6 +48,7 @@ export function createRecordService(cfg, opts = {}) {
   const nowIso = () => now().toISOString()
   const store = createStore(cfg.dataDir)
   const topics = createTopicIndex(cfg.learnDir)
+  const topicNotes = createTopicNotes({ notesDir: cfg.notesDir })
   let organizer = null
   let organizerError = null
   if (!cfg.error) {
@@ -55,6 +58,7 @@ export function createRecordService(cfg, opts = {}) {
       organizerError = err.message
     }
   }
+  const video = createVideoPipeline({ llm: opts.llm || null, learnDir: cfg.learnDir, dataDir: cfg.dataDir })
   let loaded = false
   let loadError = null
   const st = store.state
@@ -211,14 +215,24 @@ export function createRecordService(cfg, opts = {}) {
         conceptCount: 0,
       }
     }
-    // video (queued; this round does not parse videos)
+    // video: pipeline state is real once organize has run; before that it sits queued.
+    const pipeline = item.pipeline || queuedPipeline()
+    const entry = item.topicId ? topics.get(item.topicId) : null
+    const m = entry?.manifest
+    const visibleConcepts = entry ? m.concepts.filter((c) => !ov.hidden(ref.concept(item.topicId, c.id))).length : 0
     return {
       ...base,
-      pipeline: { ...item.pipeline, steps: item.pipeline.steps.map((s) => ({ ...s })) },
-      status: 'organizing',
-      identity: { what: '视频链接', about: null, route: null, relation: null, by: { ...SYSTEM_BY } },
+      pipeline: { ...pipeline, steps: (pipeline.steps || []).map((s) => ({ ...s })) },
+      status: pipeline.state === 'failed' ? 'failed' : pipeline.state === 'done' ? 'done' : 'organizing',
+      identity: {
+        what: entry ? '视频课程' : '视频链接',
+        about: item.about ?? m?.identity.about ?? null,
+        route: m?.identity.route ?? null,
+        relation: null,
+        by: pipeline.state === 'done' ? { ...item.videoMeta?.by, mock: false } : { ...SYSTEM_BY },
+      },
       goalIds,
-      conceptCount: 0,
+      conceptCount: visibleConcepts,
     }
   }
 
@@ -259,6 +273,19 @@ export function createRecordService(cfg, opts = {}) {
     }
     if (item.kind === 'idea') {
       return { subject, kind: 'idea', title: item.ref.text, about: null, folderHint: null, conceptLabels: [] }
+    }
+    // A video item whose pipeline compiled a topic behaves like notes input
+    // for assignment purposes: the organizer classifies it into goals.
+    if (item.kind === 'video' && item.topicId && topics.get(item.topicId)) {
+      const m = topics.get(item.topicId).manifest
+      return {
+        subject,
+        kind: 'notes',
+        title: item.title,
+        about: item.about ?? m.identity.about ?? null,
+        folderHint: null,
+        conceptLabels: m.concepts.slice(0, 30).map((c) => ov.label(ref.concept(item.topicId, c.id), c.label)),
+      }
     }
     return null
   }
@@ -382,6 +409,66 @@ export function createRecordService(cfg, opts = {}) {
   }
 
   /**
+   * Kick off the video pipeline (ingest → model notes → compile → learn dir)
+   * for one queued video item. The heavy work runs outside the store lock and
+   * reports progress through persisted item patches; assignment proposals are
+   * generated afterwards through the normal organize flow.
+   */
+  async function startVideoOrganize(item) {
+    if (!video.ready) throw new RecordError(409, 'not_organizable', video.reason)
+    if (item.pipeline?.state === 'running') throw new RecordError(409, 'already_organizing', '这条视频正在整理中')
+    await store.exclusive(async () => {
+      await store.replace('items', st.items.map((i) => (i.id === item.id ? { ...i, pipeline: runningPipeline() } : i)))
+    })
+    const run = video.run({ itemId: item.id, url: item.ref.url, prevTopicId: item.topicId ?? null }, {
+      async patch(mut) {
+        await store.exclusive(async () => {
+          await store.replace('items', st.items.map((i) => (i.id === item.id ? mut({ ...i }) : i)))
+        })
+      },
+      async finish(result) {
+        await store.exclusive(async () => {
+          await store.replace('items', st.items.map((i) => (i.id === item.id
+            ? {
+                ...i,
+                title: result.videoTitle,
+                about: result.about,
+                topicId: result.topicId,
+                videoMeta: {
+                  by: result.by,
+                  transcriptSource: result.transcriptSource,
+                  segmentCount: result.segmentCount,
+                  trusted: result.trusted,
+                },
+                pipeline: { state: 'done', steps: result.steps, reason: null },
+              }
+            : i)))
+          await store.append('changelog', [{
+            id: newId('log'), at: nowIso(), trigger: ref.item(item.id), organizer: { ...result.by },
+            changes: [{ summary: `视频整理完成：《${result.videoTitle}》（${result.conceptCount} 颗概念）` }],
+            undone: false, _itemIds: [item.id], _warnings: [],
+          }])
+        })
+        await topics.refresh()
+        // Assignment/goal proposals through the normal organizer; advisory only.
+        try {
+          await store.exclusive(() => organizeLocked([item.id], ref.item(item.id)))
+        } catch { /* proposals are best-effort */ }
+      },
+      async fail(err) {
+        const message = String(err?.message || err || '整理失败').slice(0, 200)
+        await store.exclusive(async () => {
+          await store.replace('items', st.items.map((i) => (i.id === item.id ? { ...i, pipeline: failedPipeline(message) } : i)))
+        })
+      },
+    })
+    // The pipeline reports its own failures through io.fail; this catch only
+    // guards against an unexpected crash between fail() and the rethrow.
+    run.catch((err) => console.error('[record] video pipeline crashed:', err?.message || err))
+    return ['已开始整理：解析字幕 → 生成笔记（模型）→ 编译入库，进度见详情页']
+  }
+
+  /**
    * A new or edited goal re-runs the organizer once (one ChangeLog, trigger
    * goal:<id>) over all compiled notes items the user has not reassigned by
    * hand, plus `extraItemIds` (materials cited by a confirmed goal proposal).
@@ -391,7 +478,9 @@ export function createRecordService(cfg, opts = {}) {
   async function reorganizeForGoal(goalId, extraItemIds) {
     const ov = overlay()
     const ids = st.items
-      .filter((i) => (i.kind === 'notes' && topics.get(i.topicId) && !ov.hasReassign(i.id)) || extraItemIds.includes(i.id))
+      .filter((i) => (i.kind === 'notes' && topics.get(i.topicId) && !ov.hasReassign(i.id))
+        || (i.kind === 'video' && i.topicId && topics.get(i.topicId) && !ov.hasReassign(i.id))
+        || extraItemIds.includes(i.id))
       .map((i) => i.id)
     if (!ids.length) return []
     return (await organizeLocked(ids, ref.goal(goalId))).warnings
@@ -486,6 +575,30 @@ export function createRecordService(cfg, opts = {}) {
         generatedAt: e.manifest.generatedAt,
         compilerVersion: e.manifest.compilerVersion,
       }))
+    },
+
+    // notes reader (read-only markdown behind a topic)
+    async listTopicNotes(topicId) {
+      requireReady()
+      if (!isId(topicId)) throw new RecordError(400, 'invalid_id', '主题 ID 不合法')
+      const entry = topics.get(topicId)
+      if (!entry) throw new RecordError(404, 'not_found', '主题不存在')
+      const ov = overlay()
+      const out = await topicNotes.list(entry)
+      return { topicId, title: ov.label(ref.topic(topicId), entry.manifest.topic.title), ...out }
+    },
+
+    async readTopicNote(topicId, notePath) {
+      requireReady()
+      if (!isId(topicId)) throw new RecordError(400, 'invalid_id', '主题 ID 不合法')
+      const entry = topics.get(topicId)
+      if (!entry) throw new RecordError(404, 'not_found', '主题不存在')
+      try {
+        return { topicId, ...(await topicNotes.read(entry, notePath)) }
+      } catch (err) {
+        if (err instanceof NotesError) throw new RecordError(err.status, err.code, err.message)
+        throw err
+      }
     },
 
     async getTopicLearn(topicId, tz) {
@@ -705,19 +818,14 @@ export function createRecordService(cfg, opts = {}) {
         }
         const item = {
           id: newId('i'), kind: 'video', title: url, addedAt: at, ref: { url }, contentHash: null, topicId: null,
-          pipeline: {
-            state: 'queued',
-            steps: [
-              { key: 'read', state: 'pending', note: '排队中：本轮不自动解析视频' },
-              { key: 'identify', state: 'pending', note: '尚未读取，不做识别' },
-              { key: 'extract', state: 'pending', note: '' },
-              { key: 'classify', state: 'pending', note: '' },
-              { key: 'compile', state: 'pending', note: '' },
-            ],
-            reason: '排队中，本轮不自动解析',
-          },
+          pipeline: video.ready ? queuedPipeline() : queuedPipeline(video.reason),
         }
         await store.replace('items', [...st.items, item])
+        // Auto-start the real pipeline when it is usable; otherwise the item
+        // stays queued with an explicit reason and 重新整理 reports the gap.
+        if (video.ready) {
+          try { void startVideoOrganize(item) } catch { /* stays queued */ }
+        }
         const ov = overlay()
         return { item: itemView(item, ov, pendingSets(ov)), created: true, warnings: [] }
       })
@@ -726,7 +834,11 @@ export function createRecordService(cfg, opts = {}) {
     async organizeItem(id) {
       requireReady()
       const item = findItem(id)
-      if (item.kind !== 'notes' && item.kind !== 'idea') throw new RecordError(409, 'not_organizable', '视频链接本轮不自动解析，无法整理')
+      if (item.kind === 'video') {
+        const warnings = await startVideoOrganize(item)
+        return { log: null, warnings }
+      }
+      if (item.kind !== 'notes' && item.kind !== 'idea') throw new RecordError(409, 'not_organizable', '该类型暂不支持整理')
       if (item.kind === 'notes' && !topics.get(item.topicId)) throw new RecordError(409, 'not_organizable', '编译产物不在 RECORD_LEARN_DIR 中')
       const { log, warnings } = await store.exclusive(() => organizeLocked([item.id], ref.item(item.id)))
       return { log: outLog(log, overlay()), warnings }

@@ -572,7 +572,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     }
     try {
       await record.client.addItem({ kind: 'video', url })
-      setNotice('已作为视频资料加入。本轮不自动解析。')
+      setNotice('已作为视频资料加入，正在后台解析字幕并生成笔记。')
     } catch (error) {
       setNotice(error instanceof Error ? error.message : '这条视频没有加入。')
     }

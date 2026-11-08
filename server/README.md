@@ -174,6 +174,22 @@ RECORD_LEARN_DIR/<topicId>/       编译产物（Zcode），只读
   「笔记已更新」并重新整理。用户的 `reassign` / 接受过的归属保留。
 - 主题从目录消失时资料保留，流水线显示 `failed`，相关修正标 `orphaned`。
 
+### 笔记原文（应用内阅读窗口）
+
+`GET /api/record/topics/:topicId/notes` 列出主题背后的 `.md` 笔记，
+`GET /api/record/topics/:topicId/notes/file?path=<相对路径>` 读取一篇（原文返回，不记日志，上限 1 MB）。
+前端 `#/notes/<topicId>?f=<路径>&h=<标题>` 用它渲染 Obsidian 风格的阅读窗口。
+
+查找顺序（取第一个存在的目录）：
+
+1. `RECORD_LEARN_DIR/<topicId>/notes/`：视频流水线编译后把生成的笔记装在这里；
+2. `RECORD_NOTES_DIR/<manifest.folderHint>/<manifest.topic.title>/`；
+3. `RECORD_NOTES_DIR/<manifest.topic.title>/`。
+
+`RECORD_NOTES_DIR` 可选，指向笔记库根目录（`npm run demo` 自动设为演示笔记副本）。
+路径必须是主题内的 `.md`，经 realpath 校验，`..`、绝对路径、指向外部的软链接一律 400。
+笔记是数据：前端用 markdown-it（`html: false`）渲染，链接只放行 http(s)/mailto，mermaid 以 `strict` 安全级别运行。
+
 ### 叠加（overlay）
 
 `src/record/derive/overlay.mjs` 是唯一的叠加实现：按 `overrides.jsonl` 顺序后写的生效；
