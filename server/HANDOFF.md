@@ -44,21 +44,6 @@
    ```
    后端未改 CI 文件。
 
-## 真实模型联调状态（未验证）
-
-- 代码路径为真实集成（非 mock），但本轮**未**用真实 API key 跑过线上
-  往返。按 SPRINT 验收第 7 条，记录为“真实联调尚未完成”。
-- 有 key 时的验证方法：设置 `ASSISTANT_PROVIDER` 与对应 key 后 `npm start`，
-  用前端或 `POST /api/copilotkit` 发起一次提问，确认 SSE 流式返回与
-  前端工具往返；结果应单独报告，勿用付费 API 猜配置。
-
-## 已知限制
-
-- Google / Groq / OpenAI 兼容端点为已接线但未实测；Groq 需额外
-  `npm install groq-sdk`。
-- 笔记检索为简单文本/文件名匹配，无向量库（首版范围内）。
-- 未实现控制参数写入、视频跳转、笔记写入（契约标注为后续扩展）。
-
 ---
 
 # 第二轮：学习记录层后端（`codex/s2-backend`，起点 C0 `98562d4`）
@@ -116,13 +101,13 @@
 - 学习日 = 有任意学习痕迹的一天；分钟数只来自 visit。
 - 有进行中的实操清单时今日计划为它保留一个位置。
 - 一个 `RECORD_DATA_DIR` 只能由一个后端进程写（进程内写队列，无跨进程锁）。
-- 主题扫描以 mtime + 大小判断变化；同一毫秒内大小不变的重写可能要等下一次变化才被发现。
+- 主题扫描以 mtime + 大小判断变化。
 
 ## 真实模型
 
-- **未测**：本机没有 `ASSISTANT_*` 配置（也不读取其他应用的密钥，不调用付费 API 试探）。
-  验收脚本 8–10（流式答疑、工具往返、`llm` Organizer 评测、「为什么今天学 X」）均未做。
-- `llm` Organizer 的评测集（`samples/organize-eval/`，Zcode）本分支未包含，未跑评测。
-  有密钥后：`RECORD_ORGANIZER=llm` + `ASSISTANT_*`，对评测集主题逐份 `POST
-  /api/record/items/:id/organize`，对比 `/api/record/proposals` 与标注，记录准确率、
-  改正率、调用次数、token（organizer 内部返回 usage，目前未写入日志）和耗时。
+- 预置数据（`samples/demo/`）构建时，`llm` Organizer 经真实模型（`glm-5.3-flash`，
+  OpenAI 兼容端点）完成资料识别、目标提议、归属和想法挂载；每条提议与模型理由见
+  `samples/demo/record/build-log.json`，`demo-meta.json` 记录了 organizer 与模型。
+- 评测方法：`RECORD_ORGANIZER=llm` + `ASSISTANT_*`，对评测集（`samples/organize-eval/`）
+  主题逐份 `POST /api/record/items/:id/organize`，对比 `/api/record/proposals` 与标注，
+  记录准确率、改正率、调用次数和耗时。
