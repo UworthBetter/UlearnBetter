@@ -7,6 +7,10 @@
 
 <sub>应用实拍：在「凯利公式」这颗星上打开“公式与参数”卡，拖动滑块，两条曲线实时重算。</sub>
 
+🎬 **产品功能片（2 分钟）**：[docs/assets/video/ulearnbetter_features_122s_1080p.mp4](docs/assets/video/ulearnbetter_features_122s_1080p.mp4)
+
+<sub>功能片按产品的完整形态制作，其中小挑战卡、学习画像、小原的提醒与成长等画面属于规划中的功能，以本分支实际运行效果为准。</sub>
+
 这是**演示分支**，只保留运行演示所需的代码和数据。开发文档、测试和迭代记录在 [`main`](https://github.com/UworthBetter/UlearnBetter/tree/main) 分支。
 
 ---
