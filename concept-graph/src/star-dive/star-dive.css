@@ -146,19 +146,26 @@
 
 /* ---------- expanded panel ---------- */
 .star-dive #panelWrap{position:fixed;inset:0;z-index:5;display:none;align-items:center;justify-content:center;pointer-events:none;padding:16px}
-.star-dive #panelWrap.on{display:flex}
-.star-dive .panel{width:min(780px,100%);max-height:min(82vh,760px);overflow:auto;padding:24px 28px 26px;pointer-events:auto;
-  transform-origin:center;transition:transform .55s cubic-bezier(.2,.9,.25,1), opacity .45s}
-.star-dive .panel::-webkit-scrollbar{width:8px}.star-dive .panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
-.star-dive .p-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.star-dive #panelWrap.on{display:flex;pointer-events:auto;cursor:grab}
+.star-dive #panelWrap.panning,.star-dive #panelWrap.panning *{cursor:grabbing}
+.star-dive .panel{width:min(780px,100%);max-height:min(82vh,760px);overflow:hidden;display:flex;flex-direction:column;
+  padding:12px 28px 22px;pointer-events:auto;transform-origin:center;cursor:grab;touch-action:none;user-select:none;
+  transition:transform .55s cubic-bezier(.2,.9,.25,1), opacity .45s, box-shadow .2s}
+.star-dive .panel.panning{transition:none;cursor:grabbing;
+  box-shadow:0 36px 90px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.09),0 0 60px rgba(255,170,70,.14)}
+.star-dive .panel.panning, .star-dive .panel.panning *{cursor:grabbing}
+.star-dive .panel a,.star-dive .panel button,.star-dive .panel input,.star-dive .panel textarea,.star-dive .panel select,.star-dive .panel label{cursor:pointer;touch-action:manipulation}
+.star-dive .p-body{overflow:auto;min-height:0;overscroll-behavior:contain}
+.star-dive .p-body::-webkit-scrollbar{width:8px}.star-dive .p-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
+.star-dive .p-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;flex:none}
 .star-dive .p-head .oc-ic{width:38px;height:38px}
 .star-dive .p-head .oc-ic svg{width:18px;height:18px}
 .star-dive .p-head h3{margin:2px 0 3px;font-size:20px;font-weight:700}
 .star-dive .p-head .crumb{font-size:12px;color:var(--ink3);letter-spacing:.04em}
 .star-dive .p-close{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);
-  cursor:pointer;font-size:18px;line-height:1;color:var(--ink2);flex:none}
+  cursor:pointer;touch-action:manipulation;font-size:18px;line-height:1;color:var(--ink2);flex:none}
 .star-dive .p-close:hover{color:var(--amber2);border-color:rgba(255,190,110,.5)}
-.star-dive .p-foot{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:14px}
+.star-dive .p-foot{margin-top:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:none;border-top:1px solid rgba(255,255,255,.07);padding-top:14px}
 .star-dive .p-foot .lbl{font-size:11.5px;color:var(--ink3);letter-spacing:.1em}
 
 /* definition */
