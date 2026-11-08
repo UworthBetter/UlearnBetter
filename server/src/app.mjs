@@ -114,10 +114,12 @@ export async function createApp(env = {}, options = {}) {
   }
 
   // Record layer: built before the runtime so the assistant can read it, but
-  // never dependent on the model being configured.
+  // never dependent on the model being configured. The model is handed to the
+  // record layer whenever it exists (llm organizer AND video pipeline); the
+  // folder organizer simply ignores it.
   const recordConfig = loadRecordConfig(env)
   let llm = { model: null, modelName: null, reason: reason || 'Model provider is not configured (ASSISTANT_PROVIDER).' }
-  if (recordConfig.organizer === 'llm' && bootAdapter && typeof bootAdapter.getLanguageModel === 'function') {
+  if (bootAdapter && typeof bootAdapter.getLanguageModel === 'function') {
     try {
       llm = { model: bootAdapter.getLanguageModel(), modelName: bootConfig.model, reason: null }
     } catch (err) {
