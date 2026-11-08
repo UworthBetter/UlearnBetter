@@ -76,7 +76,11 @@ export async function prepareDemo({ target = path.join(ROOT, 'server/.data/demo'
   const notesDir = path.join(target, 'notes')
   const day = today || todayIn()
   const shiftDays = dayDiff(meta.anchorDate, addDays(day, -1))
-  if (keep && existsSync(dataDir) && existsSync(learnDir)) return { learnDir, dataDir, notesDir, shiftDays: 0, meta, kept: true }
+  if (keep && existsSync(dataDir) && existsSync(learnDir)) {
+    // 旧版演示目录没有笔记原文：--keep 时补上，阅读窗口才能打开
+    if (!existsSync(notesDir)) await cp(DEMO_NOTES, notesDir, { recursive: true, filter: (src) => !src.endsWith('.generation.json') })
+    return { learnDir, dataDir, notesDir, shiftDays: 0, meta, kept: true }
+  }
   await rm(target, { recursive: true, force: true })
   await mkdir(dataDir, { recursive: true })
   await cp(DEMO_LEARN, learnDir, { recursive: true })

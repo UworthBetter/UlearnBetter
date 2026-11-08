@@ -231,7 +231,7 @@ export default function NotesView({ client, route, navigate }: ViewProps) {
             {topicId && <button type="button" className="ub-btn" onClick={() => navigate({ view: 'star-dive', topicId })}>在星图中潜航</button>}
           </div>
         </header>
-        {error && <p className="ub-note nr-error" role="alert">{error}</p>}
+        {error && <p className="ub-note nr-error" role="alert">{error}{/未返回 JSON|无法连接/.test(error) && '：后端可能还是旧版本或没启动。拉取代码后请在 concept-graph/ 和 server/ 各执行一次 npm install，并重启后端（npm run demo）。'}</p>}
         {index && !index.available && <div className="nr-empty"><h2>这个主题还没有笔记原文</h2><p className="ub-muted">{index.reason}</p></div>}
         {missing && <p className="ub-note nr-missing" role="status">笔记库里没有「{missing}」这篇笔记。<button type="button" className="ub-btn txt" onClick={() => setMissing('')}>知道了</button></p>}
         {index?.available && current && !doc && <p className="ub-muted">正在读取笔记…</p>}
