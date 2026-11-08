@@ -1,0 +1,40 @@
+{
+  "sample": true,
+  "id": "i-3",
+  "kind": "idea",
+  "title": "纸张湿度的疑问",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "text": "纸张湿度的疑问"
+  },
+  "contentHash": null,
+  "topicId": null,
+  "pipeline": {
+    "state": "done",
+    "steps": [
+      {
+        "key": "read",
+        "state": "done",
+        "note": "合成样例"
+      }
+    ],
+    "reason": null
+  },
+  "status": "pending",
+  "identity": {
+    "what": "纸张湿度的疑问",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [],
+  "conceptCount": 0
+}

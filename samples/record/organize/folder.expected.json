@@ -1,0 +1,24 @@
+{
+  "sample": true,
+  "schema": "learning.organize/0.1",
+  "organizer": {
+    "kind": "component",
+    "name": "folder",
+    "version": "0.1",
+    "model": null,
+    "promptVersion": null,
+    "mock": false
+  },
+  "assignments": [
+    {
+      "subject": "item:i-0",
+      "goalId": "g-lab",
+      "confidence": 0.9,
+      "reason": "目录名「 实验 」与目标「纸上实验」对应",
+      "evidence": []
+    }
+  ],
+  "goalProposals": [],
+  "ideaAttachments": [],
+  "warnings": []
+}

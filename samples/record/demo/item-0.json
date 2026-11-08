@@ -1,0 +1,43 @@
+{
+  "sample": true,
+  "id": "i-0",
+  "kind": "notes",
+  "title": "光影观察",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "topicId": "t-0"
+  },
+  "contentHash": null,
+  "topicId": "t-0",
+  "pipeline": {
+    "state": "done",
+    "steps": [
+      {
+        "key": "read",
+        "state": "done",
+        "note": "合成样例"
+      }
+    ],
+    "reason": null
+  },
+  "status": "done",
+  "identity": {
+    "what": "光影观察",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [
+    "g-lab",
+    "g-craft"
+  ],
+  "conceptCount": 3
+}

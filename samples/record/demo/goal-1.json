@@ -1,0 +1,13 @@
+{
+  "sample": true,
+  "id": "g-craft",
+  "title": "手作研究",
+  "intent": null,
+  "status": "active",
+  "origin": "user",
+  "confirmedAt": "2026-11-07T12:00:00Z",
+  "colorKey": "cyan",
+  "folders": [
+    "手作"
+  ]
+}

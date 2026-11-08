@@ -1,0 +1,1350 @@
+{
+  "idle": {
+    "state": "idle",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "空闲循环",
+    "semantic_changes": [
+      "眼睑自然闭合后睁开",
+      "视线短暂移向右侧再回正"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -28.0
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 3,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 5,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 5,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 3,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "338cb1bcc4a3c3149666d60b4e41875ef5f096d6c83e7708e8f475a746d71f4e",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "click": {
+    "state": "click",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "点击移动小于7像素",
+    "semantic_changes": [
+      "招呼时视线向侧面再回正",
+      "双眼友好眨动"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.39,
+      "translation": [
+        57.84,
+        -18.610000000000014
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 6,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 10,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 10,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 6,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "f65e4e621fa2c9472894f7823aecb5add55288165fd18fddf2e4dfbad983765a",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "drag": {
+    "state": "drag",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "按住并移动至少7像素",
+    "semantic_changes": [
+      "鼓励表情眨眼后恢复微笑",
+      "两侧加油星星展开后收拢"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -26.80000000000001
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "148efe96de9763c8d1a238639f7dbd707f3c95abc8e9ce9cd067ff93a922b887",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "stretch": {
+    "state": "stretch",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "15分钟未与桌宠互动",
+    "semantic_changes": [
+      "伸展时眼睑从闭合到睁开",
+      "舒展后视线向上再回正"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -23.200000000000045
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "open",
+        "gaze_source_dx": 3,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "open",
+        "gaze_source_dx": 5,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "open",
+        "gaze_source_dx": 5,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 3,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "239ecf8bd09e367f30c02e6cbc54ef1103e2814be83167e990ad49db5a4a5857",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "thinking": {
+    "state": "thinking",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "文档、聊天或设计软件中的真实输入；编码停顿超过30秒",
+    "semantic_changes": [
+      "双眼睁开→闭合→睁开",
+      "独立思考圆点上浮后回落"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "head_hair_body_hands_clothes": "source pixels fixed"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.44,
+      "translation": [
+        40.639999999999986,
+        -39.360000000000014
+      ]
+    },
+    "scale_landmark": {
+      "kind": "width",
+      "description": "head silhouette width at output y=70, alpha >=32"
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          100
+        ]
+      },
+      {
+        "frame": 2,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          98
+        ]
+      },
+      {
+        "frame": 3,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          95
+        ]
+      },
+      {
+        "frame": 4,
+        "eyes": "closed",
+        "thought_circle_offset_source_px": [
+          250,
+          92
+        ]
+      },
+      {
+        "frame": 5,
+        "eyes": "closed",
+        "thought_circle_offset_source_px": [
+          250,
+          90
+        ]
+      },
+      {
+        "frame": 6,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          90
+        ]
+      },
+      {
+        "frame": 7,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          92
+        ]
+      },
+      {
+        "frame": 8,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          94
+        ]
+      },
+      {
+        "frame": 9,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          96
+        ]
+      },
+      {
+        "frame": 10,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          98
+        ]
+      },
+      {
+        "frame": 11,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          100
+        ]
+      },
+      {
+        "frame": 12,
+        "eyes": "open",
+        "thought_circle_offset_source_px": [
+          250,
+          100
+        ]
+      }
+    ],
+    "source_sha256": "f86e54343ce247b174ae1e8326fd1cf9afc49318b9beb5017979bf8f4839d21a",
+    "blink_source": "keyposes/thinking-blink-candidate-v2-alpha.png",
+    "local_edit_scope": "两处精确椭圆眼部蒙版，完全位于固定面部轮廓内；没有关节或肢体裁切",
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual review"
+  },
+  "coding": {
+    "state": "coding",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "支持的编码工具前台出现真实键盘活动",
+    "semantic_changes": [
+      "左右手手指交替按键",
+      "屏幕正面新增代码行和光标变化"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "body_furniture_sleeves_wrists": "fixed source pixels outside distal-finger masks"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.42,
+      "translation": [
+        47.52000000000001,
+        -28.779999999999973
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "hand_pose": 0,
+        "monitor_new_segment": false
+      },
+      {
+        "frame": 2,
+        "hand_pose": 0,
+        "monitor_new_segment": false
+      },
+      {
+        "frame": 3,
+        "hand_pose": 1,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 4,
+        "hand_pose": 1,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 5,
+        "hand_pose": 0,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 6,
+        "hand_pose": 2,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 7,
+        "hand_pose": 2,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 8,
+        "hand_pose": 1,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 9,
+        "hand_pose": 1,
+        "monitor_new_segment": true
+      },
+      {
+        "frame": 10,
+        "hand_pose": 0,
+        "monitor_new_segment": false
+      },
+      {
+        "frame": 11,
+        "hand_pose": 0,
+        "monitor_new_segment": false
+      },
+      {
+        "frame": 12,
+        "hand_pose": 0,
+        "monitor_new_segment": false
+      }
+    ],
+    "review_status": "Repaired complete hand silhouettes reviewed at enlarged size; decoded playback review pending",
+    "source": "source/coding-still-v1.png",
+    "finger_mask": "masks/finger-edit-region.png"
+  },
+  "processing": {
+    "state": "processing",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "本地白名单任务进程运行中",
+    "semantic_changes": [
+      "双眼眨动后恢复专注",
+      "环形进度缺口旋转"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.41,
+      "translation": [
+        50.96000000000001,
+        -34.94999999999999
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "6622b28deacfdf5d29ac37afb0c7fcea3cd250d64edbc6424df46dab4bfe31f4",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "debugging": {
+    "state": "debugging",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "受支持的调试器运行中",
+    "semantic_changes": [
+      "检查时眼睑眨动",
+      "独立问号轻转后归位"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.405,
+      "translation": [
+        52.67999999999998,
+        -24.805000000000007
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "c3f04e1561be96c55d187e729ad1e463983bb58e21031ba1288b99fbc835cf3c",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "error": {
+    "state": "error",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "受跟踪任务返回失败退出码",
+    "semantic_changes": [
+      "担忧表情短暂眨眼",
+      "警示符号展开并回位"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.41,
+      "translation": [
+        50.96000000000001,
+        -27.97999999999996
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "99f04264e7a5d1c31d3c70478f0f30daa7c1ee3674112827e48b98dbc534fc8b",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "drink-water": {
+    "state": "drink-water",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "累计活跃使用60分钟",
+    "semantic_changes": [
+      "抿水时眼睑闭合后睁开",
+      "独立水滴上浮后回落"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -27.600000000000023
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "6d60670f51f907155f4e36ffecc6863c414a0a6484b26a6d55e220c3e9a16dfc",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "task-complete": {
+    "state": "task-complete",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "任务成功完成",
+    "semantic_changes": [
+      "祝贺时友好眨眼",
+      "庆祝星星展开后归位"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -25.600000000000023
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "abeefaaa81ff4739eda5ef9eceee25a7549410a1c094322f347c13400d3afd41",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "new-message": {
+    "state": "new-message",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "允许且启用消息提醒时的新消息元数据",
+    "semantic_changes": [
+      "倾听时眼睑眨动",
+      "独立铃铛左右轻摇"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.4,
+      "translation": [
+        54.400000000000006,
+        -26.80000000000001
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "closed",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "c127c417efd3edf3c2914eff4c5a8675e927986612f122773b1edcdd8a58f7a6",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  },
+  "break-reminder": {
+    "state": "break-reminder",
+    "provider": "Codex built-in ImageGen",
+    "trigger": "连续活跃使用50分钟",
+    "semantic_changes": [
+      "放松时眼睑睁开后闭合",
+      "独立时钟指针转动"
+    ],
+    "fixed_anchor": {
+      "whole_subject_translation": false,
+      "whole_subject_scaling": false,
+      "sole_baseline_target_y": 332,
+      "body_hair_clothes_and_extremities": "fixed original pixels"
+    },
+    "shared_transform": {
+      "uniform_scale": 0.425,
+      "translation": [
+        45.80000000000001,
+        -30.94999999999999
+      ]
+    },
+    "key_pose_schedule": [
+      {
+        "frame": 1,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 2,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 1
+      },
+      {
+        "frame": 3,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 3
+      },
+      {
+        "frame": 4,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 6
+      },
+      {
+        "frame": 5,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 9
+      },
+      {
+        "frame": 6,
+        "eye_pose": "open",
+        "gaze_source_dx": 0,
+        "effect_phase": 10
+      },
+      {
+        "frame": 7,
+        "eye_pose": "open",
+        "gaze_source_dx": 3,
+        "effect_phase": 9
+      },
+      {
+        "frame": 8,
+        "eye_pose": "open",
+        "gaze_source_dx": 5,
+        "effect_phase": 7
+      },
+      {
+        "frame": 9,
+        "eye_pose": "open",
+        "gaze_source_dx": 5,
+        "effect_phase": 4
+      },
+      {
+        "frame": 10,
+        "eye_pose": "original",
+        "gaze_source_dx": 3,
+        "effect_phase": 2
+      },
+      {
+        "frame": 11,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      },
+      {
+        "frame": 12,
+        "eye_pose": "original",
+        "gaze_source_dx": 0,
+        "effect_phase": 0
+      }
+    ],
+    "source_sha256": "cf2759269fb92edaceb056c2fe3fb9d4af82faa3968f9d14160b3bd770ce145b",
+    "eye_layer_sources": [
+      "idle/source/idle-still-v1.png",
+      "idle/keyposes/idle-blink-candidate-v1-alpha.png"
+    ],
+    "effect_subject_overlap_pixels": 0,
+    "review_status": "pending encoded visual and native review"
+  }
+}

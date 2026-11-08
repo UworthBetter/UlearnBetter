@@ -1,0 +1,147 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "subject": {
+      "type": "string",
+      "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+    },
+    "goalId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reason": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "startSec": {
+            "type": "number"
+          },
+          "endSec": {
+            "type": "number"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "sourceId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "by": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "component",
+            "compiler",
+            "user"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "promptVersion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mock": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "name",
+        "version",
+        "model",
+        "promptVersion",
+        "mock"
+      ],
+      "additionalProperties": false
+    },
+    "state": {
+      "enum": [
+        "proposed",
+        "accepted",
+        "rejected"
+      ]
+    },
+    "autoAccepted": {
+      "type": "boolean"
+    },
+    "changeLogId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "subject",
+    "goalId",
+    "confidence",
+    "reason",
+    "evidence",
+    "by",
+    "state",
+    "autoAccepted",
+    "changeLogId",
+    "createdAt"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assignment.schema.json",
+  "title": "assignment"
+}

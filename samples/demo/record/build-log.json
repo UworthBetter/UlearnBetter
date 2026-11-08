@@ -1,0 +1,854 @@
+{
+  "model": "glm-5.3-flash",
+  "provider": "openai-compatible",
+  "steps": [
+    {
+      "at": "2026-10-14T12:00:00.000Z",
+      "what": "add_topic",
+      "topicId": "nn-basics",
+      "itemId": "i-ffe68d3b-c9a5-41a9-ae4b-5bc27bcfe95f",
+      "status": "pending",
+      "goalIds": []
+    },
+    {
+      "at": "2026-10-14T12:02:00.000Z",
+      "what": "confirm_goal_proposal",
+      "proposal": "机器学习入门：理解神经网络",
+      "reason": "资料《神经网络入门》目录提示为「机器学习」，概念包含「神经元与激活」「代价函数」「梯度下降」「反向传播」等，用户暂无对应学习目标。",
+      "goalId": "g-4b9744c4-99ce-4f07-bf93-4edb362ee795"
+    },
+    {
+      "at": "2026-10-14T12:07:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/神经元与激活",
+      "durationSec": 232,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-14T12:12:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/mnist-数据集",
+      "durationSec": 181,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-14T12:22:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/分层结构",
+      "durationSec": 510,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:01:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/mnist-数据集",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:04:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/分层结构",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:06:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:14:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/权重与偏置",
+      "durationSec": 405,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:21:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "durationSec": 323,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-15T12:24:00.000Z",
+      "what": "idea",
+      "itemId": "i-061ff1f0-144d-43f4-9015-2436725496f8",
+      "proposed": "concept:nn-basics/神经元与激活",
+      "confidence": 0.9,
+      "reason": "标题主体描述「每个神经元就是一个函数」以及上一层激活值的加权输入，直接对应概念「神经元与激活」。"
+    },
+    {
+      "at": "2026-10-15T12:25:00.000Z",
+      "what": "attach_idea",
+      "itemId": "i-061ff1f0-144d-43f4-9015-2436725496f8",
+      "conceptRef": "concept:nn-basics/神经元与激活"
+    },
+    {
+      "at": "2026-10-16T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-16T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/权重与偏置",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-16T12:08:00.000Z",
+      "what": "reflection",
+      "subject": "concept:nn-basics/分层结构"
+    },
+    {
+      "at": "2026-10-18T12:00:00.000Z",
+      "what": "add_topic",
+      "topicId": "git-basics",
+      "itemId": "i-f34a7d0b-1caf-404d-9dff-a203e5177bdb",
+      "status": "pending",
+      "goalIds": []
+    },
+    {
+      "at": "2026-10-18T12:02:00.000Z",
+      "what": "confirm_goal_proposal",
+      "proposal": "掌握 Git 版本控制",
+      "reason": "资料《Git版本控制》涵盖「提交 Commit」「分支 Branch」「变基与压缩」「快进合并」等完整版本控制主题，现有目标中均无合适归属。",
+      "goalId": "g-33639007-ffc5-40b0-a95a-bde8912759d5"
+    },
+    {
+      "at": "2026-10-18T12:13:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/提交-commit",
+      "durationSec": 565,
+      "result": "skipped"
+    },
+    {
+      "at": "2026-10-18T12:19:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/暂存区",
+      "durationSec": 277,
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-18T12:29:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/分支-branch",
+      "durationSec": 500,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-18T12:36:00.000Z",
+      "what": "checklist",
+      "topicId": "git-basics",
+      "procedure": "新仓库上手清单",
+      "checked": 3,
+      "of": 11
+    },
+    {
+      "at": "2026-10-19T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/mnist-数据集",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-19T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/分层结构",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/权重与偏置",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:13:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:16:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/分支-branch",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:19:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:28:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/忽略文件",
+      "durationSec": 468,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:33:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/快进合并",
+      "durationSec": 228,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-19T12:36:00.000Z",
+      "what": "idea",
+      "itemId": "i-667052f1-8619-4835-854f-c523071c8534",
+      "proposed": "concept:git-basics/提交-commit",
+      "confidence": 0.9,
+      "reason": "想法标题明确提到「commit」和「合并冲突」，核心是提交粒度实践原则，与概念「提交 Commit」直接对应。"
+    },
+    {
+      "at": "2026-10-19T12:37:00.000Z",
+      "what": "attach_idea",
+      "itemId": "i-667052f1-8619-4835-854f-c523071c8534",
+      "conceptRef": "concept:git-basics/提交-commit"
+    },
+    {
+      "at": "2026-10-21T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-21T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-21T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/忽略文件",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-21T12:12:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-21T12:22:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/relu",
+      "durationSec": 486,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-21T12:30:00.000Z",
+      "what": "learn",
+      "subject": "concept:nn-basics/代价函数",
+      "durationSec": 364,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-23T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/relu",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-23T12:04:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-23T12:07:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/代价函数",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-23T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/分支-branch",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-23T12:13:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-23T12:15:00.000Z",
+      "what": "question",
+      "subject": "concept:nn-basics/代价函数"
+    },
+    {
+      "at": "2026-10-24T12:00:00.000Z",
+      "what": "add_topic",
+      "topicId": "kelly-sizing",
+      "itemId": "i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a",
+      "status": "pending",
+      "goalIds": []
+    },
+    {
+      "at": "2026-10-24T12:02:00.000Z",
+      "what": "confirm_goal_proposal",
+      "proposal": "量化交易：凯利公式与仓位管理",
+      "reason": "资料《凯利公式与仓位管理》及其概念「凯利公式」「分数凯利」「动态调仓」围绕量化交易下的资金管理主题，现有目标均不覆盖。",
+      "goalId": "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66"
+    },
+    {
+      "at": "2026-10-24T12:12:00.000Z",
+      "what": "learn",
+      "subject": "concept:kelly-sizing/凯利公式",
+      "durationSec": 486,
+      "result": "skipped"
+    },
+    {
+      "at": "2026-10-24T12:20:00.000Z",
+      "what": "learn",
+      "subject": "concept:kelly-sizing/交易优势",
+      "durationSec": 399,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-24T12:23:00.000Z",
+      "what": "idea",
+      "itemId": "i-765f5f6a-e203-42a1-8d29-03a154ed59dd",
+      "proposed": "concept:kelly-sizing/仓位与风险换算",
+      "confidence": 0.9,
+      "reason": "想法标题明确提到「凯利公式」以及下注比例过高会亏光、仓位大小的重要性，与凯利公式主题下的「仓位与风险换算」概念直接对应。"
+    },
+    {
+      "at": "2026-10-24T12:24:00.000Z",
+      "what": "attach_idea",
+      "itemId": "i-765f5f6a-e203-42a1-8d29-03a154ed59dd",
+      "conceptRef": "concept:kelly-sizing/仓位与风险换算"
+    },
+    {
+      "at": "2026-10-25T12:01:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/relu",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-25T12:04:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/代价函数",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-25T12:07:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-25T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/忽略文件",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-25T12:12:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-25T12:15:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/交易优势",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-25T12:20:00.000Z",
+      "what": "learn",
+      "subject": "concept:kelly-sizing/真实概率",
+      "durationSec": 207,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-25T12:22:00.000Z",
+      "what": "question",
+      "subject": "concept:kelly-sizing/凯利公式"
+    },
+    {
+      "at": "2026-10-27T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/mnist-数据集",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:04:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/relu",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:07:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-27T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/代价函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:13:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/分层结构",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:16:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/权重与偏置",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:18:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-27T12:21:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:24:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:26:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/真实概率",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-27T12:37:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/贮藏-stash",
+      "durationSec": 555,
+      "result": "skipped"
+    },
+    {
+      "at": "2026-10-27T12:46:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/合并冲突",
+      "durationSec": 475,
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-27T12:59:00.000Z",
+      "what": "checklist",
+      "topicId": "git-basics",
+      "procedure": "新仓库上手清单",
+      "checked": 6,
+      "of": 11
+    },
+    {
+      "at": "2026-10-28T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/代价函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:11:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/合并冲突",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:14:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:17:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:20:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/交易优势",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-28T12:23:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/真实概率",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-28T12:26:00.000Z",
+      "what": "reflection",
+      "subject": "concept:kelly-sizing/交易优势"
+    },
+    {
+      "at": "2026-10-28T12:27:00.000Z",
+      "what": "video_link",
+      "itemId": "i-023a8039-5dac-4dfc-8515-9db9e7efe0a6",
+      "url": "https://www.youtube.com/watch?v=-9JM9suCIHs",
+      "state": "queued",
+      "reason": "排队中，本轮不自动解析"
+    },
+    {
+      "at": "2026-10-31T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/relu",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:04:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:07:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/代价函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-31T12:12:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/分支-branch",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:15:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/合并冲突",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-10-31T12:18:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/快进合并",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:21:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/暂存区",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:24:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/真实概率",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-10-31T12:27:00.000Z",
+      "what": "idea",
+      "itemId": "i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+      "proposed": "concept:git-basics/二分排查-bisect",
+      "confidence": 0.95,
+      "reason": "想法内容讲的是用二分查找定位引入 bug 的提交，与概念「二分排查 Bisect」直接对应。"
+    },
+    {
+      "at": "2026-10-31T12:28:00.000Z",
+      "what": "attach_idea",
+      "itemId": "i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+      "conceptRef": "concept:git-basics/二分排查-bisect"
+    },
+    {
+      "at": "2026-11-01T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-01T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/合并冲突",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-01T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/忽略文件",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-01T12:10:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/真实概率",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-03T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-11-03T12:06:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-03T12:09:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/合并冲突",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-03T12:18:00.000Z",
+      "what": "learn",
+      "subject": "concept:git-basics/修补提交-amend",
+      "durationSec": 479,
+      "result": "forgot"
+    },
+    {
+      "at": "2026-11-03T12:25:00.000Z",
+      "what": "checklist",
+      "topicId": "kelly-sizing",
+      "procedure": "凯利仓位计算清单",
+      "checked": 3,
+      "of": 14
+    },
+    {
+      "at": "2026-11-04T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-04T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/修补提交-amend",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-04T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/交易优势",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-11-04T12:11:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/真实概率",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-04T12:14:00.000Z",
+      "what": "reflection",
+      "subject": "concept:git-basics/合并冲突"
+    },
+    {
+      "at": "2026-11-05T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/sigmoid-函数",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-05T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/修补提交-amend",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-05T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/交易优势",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-05T12:11:00.000Z",
+      "what": "idea",
+      "itemId": "i-753a28bf-db24-4be4-b44f-4224f4d92706",
+      "proposed": "concept:nn-basics/反向传播",
+      "confidence": 0.9,
+      "reason": "想法的核心内容是对「反向传播」机制的解释，最贴合已列出的「反向传播」概念。"
+    },
+    {
+      "at": "2026-11-05T12:12:00.000Z",
+      "what": "attach_idea",
+      "itemId": "i-753a28bf-db24-4be4-b44f-4224f4d92706",
+      "conceptRef": "concept:nn-basics/反向传播"
+    },
+    {
+      "at": "2026-11-06T12:02:00.000Z",
+      "what": "review",
+      "subject": "concept:nn-basics/神经元与激活",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-11-06T12:05:00.000Z",
+      "what": "review",
+      "subject": "concept:git-basics/合并冲突",
+      "result": "forgot"
+    },
+    {
+      "at": "2026-11-06T12:08:00.000Z",
+      "what": "review",
+      "subject": "concept:kelly-sizing/交易优势",
+      "result": "remembered"
+    },
+    {
+      "at": "2026-11-06T12:10:00.000Z",
+      "what": "question",
+      "subject": "concept:git-basics/变基与压缩"
+    }
+  ],
+  "warnings": [
+    "2026-10-15T12:24:00.000Z POST /items: 丢弃：未知资料 item:i-061ff1f0-144d-43f4-9015-2436725496f8",
+    "2026-10-31T12:27:00.000Z POST /items: 丢弃：未知资料 item:i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+    "2026-11-05T12:11:00.000Z POST /items: 丢弃：未知资料 item:i-753a28bf-db24-4be4-b44f-4224f4d92706"
+  ],
+  "snapshot": {
+    "goals": [
+      {
+        "id": "g-4b9744c4-99ce-4f07-bf93-4edb362ee795",
+        "title": "机器学习入门：理解神经网络",
+        "intent": "系统理解神经网络的基本结构与训练原理，包括神经元与激活、代价函数、梯度下降、反向传播等核心概念。",
+        "status": "active",
+        "origin": "proposed",
+        "confirmedAt": "2026-10-14T12:02:00.000Z",
+        "colorKey": "amber",
+        "folders": []
+      },
+      {
+        "id": "g-33639007-ffc5-40b0-a95a-bde8912759d5",
+        "title": "掌握 Git 版本控制",
+        "intent": "掌握 Git 从初始化、暂存提交、分支合并到 GitHub 开源协作的完整流程，并熟悉变基、Revert、Stash 等进阶提效技巧。",
+        "status": "active",
+        "origin": "proposed",
+        "confirmedAt": "2026-10-18T12:02:00.000Z",
+        "colorKey": "cyan",
+        "folders": []
+      },
+      {
+        "id": "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66",
+        "title": "量化交易：凯利公式与仓位管理",
+        "intent": "理解凯利公式如何把胜率与盈亏比换算成最优仓位，学会用分数凯利在充满随机性的市场中控制风险，并随表现动态调仓。",
+        "status": "active",
+        "origin": "proposed",
+        "confirmedAt": "2026-10-24T12:02:00.000Z",
+        "colorKey": "violet",
+        "folders": []
+      }
+    ],
+    "items": [
+      {
+        "id": "i-753a28bf-db24-4be4-b44f-4224f4d92706",
+        "kind": "idea",
+        "title": "反向传播就是把代价对每个权重的偏导一层层往回传，梯度下降再沿负梯度方向挪一小步。",
+        "status": "done",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+        "kind": "idea",
+        "title": "git bisect 本质上就是二分查找：一千个提交最多试十次左右就能定位引入 …",
+        "status": "done",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-023a8039-5dac-4dfc-8515-9db9e7efe0a6",
+        "kind": "video",
+        "title": "https://www.youtube.com/watch?v=-9JM9suCIHs",
+        "status": "organizing",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-765f5f6a-e203-42a1-8d29-03a154ed59dd",
+        "kind": "idea",
+        "title": "凯利公式让我意识到：就算胜率占优，下注比例太高长期也可能亏光，仓位大小和胜率一样…",
+        "status": "done",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a",
+        "kind": "notes",
+        "title": "凯利公式与仓位管理",
+        "status": "done",
+        "goalIds": [
+          "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66"
+        ],
+        "about": "用凯利公式把胜率与盈亏比换算成最优仓位，再用分数凯利在充满随机性的股市里控制风险、随表现动态调仓。"
+      },
+      {
+        "id": "i-667052f1-8619-4835-854f-c523071c8534",
+        "kind": "idea",
+        "title": "提交要小而频繁——以后每完成一个小改动就 commit，合并冲突时只用修一个文件…",
+        "status": "done",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-f34a7d0b-1caf-404d-9dff-a203e5177bdb",
+        "kind": "notes",
+        "title": "Git版本控制",
+        "status": "done",
+        "goalIds": [
+          "g-33639007-ffc5-40b0-a95a-bde8912759d5"
+        ],
+        "about": "两个 Fireship 视频串起 Git 从初始化、暂存提交、分支合并到 GitHub 开源协作的完整流程，并补充 13 个进阶提效技巧。"
+      },
+      {
+        "id": "i-061ff1f0-144d-43f4-9015-2436725496f8",
+        "kind": "idea",
+        "title": "每个神经元就是一个函数：输入上一层所有激活值的加权和，再加上偏置，挤压成 0 到…",
+        "status": "done",
+        "goalIds": [],
+        "about": null
+      },
+      {
+        "id": "i-ffe68d3b-c9a5-41a9-ae4b-5bc27bcfe95f",
+        "kind": "notes",
+        "title": "神经网络入门",
+        "status": "done",
+        "goalIds": [
+          "g-4b9744c4-99ce-4f07-bf93-4edb362ee795"
+        ],
+        "about": "跟随 3Blue1Brown 深度学习三部曲，从神经元与分层结构，到代价函数、梯度下降与反向传播，看懂神经网络如何“学会”识别手写数字。"
+      }
+    ]
+  }
+}

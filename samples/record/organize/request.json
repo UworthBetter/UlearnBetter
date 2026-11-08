@@ -1,0 +1,62 @@
+{
+  "sample": true,
+  "schema": "learning.organize/0.1",
+  "items": [
+    {
+      "subject": "item:i-0",
+      "kind": "notes",
+      "title": "光影观察",
+      "about": null,
+      "folderHint": " 实验 ",
+      "conceptLabels": [
+        "观察"
+      ]
+    },
+    {
+      "subject": "item:i-1",
+      "kind": "notes",
+      "title": "纸桥搭建",
+      "about": null,
+      "folderHint": "手作",
+      "conceptLabels": []
+    },
+    {
+      "subject": "item:i-2",
+      "kind": "idea",
+      "title": "疑问",
+      "about": null,
+      "folderHint": "实验",
+      "conceptLabels": []
+    }
+  ],
+  "goals": [
+    {
+      "id": "g-lab",
+      "title": "纸上实验",
+      "intent": null,
+      "folders": [
+        "实验"
+      ]
+    },
+    {
+      "id": "g-craft",
+      "title": "手作研究",
+      "intent": null,
+      "folders": [
+        "手作"
+      ]
+    }
+  ],
+  "decisions": {
+    "accepted": [],
+    "rejected": [
+      {
+        "subject": "item:i-1",
+        "goalId": "g-craft"
+      }
+    ]
+  },
+  "options": {
+    "allowGoalProposals": true
+  }
+}

@@ -1,0 +1,344 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "target": {
+      "type": "string",
+      "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+    },
+    "op": {
+      "enum": [
+        "accept_assignment",
+        "reject_assignment",
+        "reassign",
+        "rename",
+        "hide",
+        "pin_importance",
+        "attach_idea",
+        "confirm_relation",
+        "reject_relation",
+        "revert"
+      ]
+    },
+    "value": {},
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "at",
+    "target",
+    "op",
+    "value",
+    "reason"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "accept_assignment"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "assignmentId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              }
+            },
+            "required": [
+              "assignmentId"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "reject_assignment"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "assignmentId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              }
+            },
+            "required": [
+              "assignmentId"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "reassign"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "goalIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+                }
+              }
+            },
+            "required": [
+              "goalIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "rename"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "hide"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "hidden": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "hidden"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "pin_importance"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "enum": [
+                  1,
+                  2,
+                  3,
+                  null
+                ]
+              }
+            },
+            "required": [
+              "level"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "attach_idea"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "conceptRef": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              }
+            },
+            "required": [
+              "conceptRef"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "confirm_relation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "a": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              },
+              "b": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              },
+              "kind": {
+                "enum": [
+                  "related",
+                  "uses",
+                  "contrast",
+                  "part_of",
+                  "prereq"
+                ]
+              }
+            },
+            "required": [
+              "a",
+              "b",
+              "kind"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "reject_relation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "a": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              },
+              "b": {
+                "type": "string",
+                "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+              }
+            },
+            "required": [
+              "a",
+              "b"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "op": {
+            "const": "revert"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "object",
+            "properties": {
+              "overrideId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$"
+              }
+            },
+            "required": [
+              "overrideId"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "override.schema.json",
+  "title": "override"
+}

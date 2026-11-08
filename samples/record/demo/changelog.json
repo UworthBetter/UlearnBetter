@@ -1,0 +1,22 @@
+{
+  "sample": true,
+  "id": "log-0",
+  "at": "2026-11-07T12:00:00Z",
+  "trigger": "item:i-1",
+  "organizer": {
+    "kind": "component",
+    "name": "folder",
+    "version": "0.1",
+    "model": null,
+    "promptVersion": null,
+    "mock": true
+  },
+  "changes": [
+    {
+      "assignmentId": "a-0",
+      "summary": "建议归入手作研究",
+      "state": "proposed"
+    }
+  ],
+  "undone": false
+}

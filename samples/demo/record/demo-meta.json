@@ -1,0 +1,30 @@
+{
+  "schema": "ulearnbetter.demo-record/0.1",
+  "builtAt": "2026-11-07T19:28:53.473Z",
+  "anchorDate": "2026-11-06",
+  "tz": "Asia/Shanghai",
+  "organizer": "llm",
+  "organizerLabel": "模型归类（glm-5.3-flash）",
+  "model": "glm-5.3-flash",
+  "provider": "openai-compatible",
+  "learnerScript": "tools/demo/learner-script.json",
+  "note": "学习者行为（停留、回忆、勾选、想法文字）由演示脚本模拟；资料识别、归类、目标与想法挂载提议由真实模型产生，经真实记录层接口写入。",
+  "topics": [
+    "nn-basics",
+    "git-basics",
+    "kelly-sizing"
+  ],
+  "summary": {
+    "goals": [
+      "机器学习入门：理解神经网络",
+      "掌握 Git 版本控制",
+      "量化交易：凯利公式与仓位管理"
+    ],
+    "items": 9,
+    "weekMinutes": 45.1,
+    "streakDays": 4,
+    "recallRate": 0.779,
+    "learned": 18,
+    "total": 31
+  }
+}

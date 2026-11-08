@@ -1,0 +1,479 @@
+{
+  "schema": "ulearnbetter.demo-notes-generation/0.1",
+  "tool": "demo-notes/0.1",
+  "promptVersion": "notes-from-ingest/0.1",
+  "skill": "youtube-obsidian-notes",
+  "model": "glm-5.3-flash",
+  "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+  "mock": false,
+  "generatedAt": "2026-11-07T19:09:26+00:00",
+  "topic": {
+    "name": "神经网络入门",
+    "id": "nn-basics",
+    "folder": "机器学习"
+  },
+  "videos": [
+    {
+      "videoId": "aircAruvnKk",
+      "url": "https://www.youtube.com/watch?v=aircAruvnKk",
+      "title": "But what is a neural network? | Deep learning chapter 1",
+      "channel": "3Blue1Brown",
+      "durationSec": 1120,
+      "uploadDate": "20171005",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "11/12",
+      "ingestedAt": "2026-11-07T10:53:24"
+    },
+    {
+      "videoId": "IHZwWFHWa-w",
+      "url": "https://www.youtube.com/watch?v=IHZwWFHWa-w",
+      "title": "Gradient descent, how neural networks learn | Deep Learning Chapter 2",
+      "channel": "3Blue1Brown",
+      "durationSec": 1233,
+      "uploadDate": "20171016",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "11/11",
+      "ingestedAt": "2026-11-07T10:52:27"
+    },
+    {
+      "videoId": "Ilg3gGewQ5U",
+      "url": "https://www.youtube.com/watch?v=Ilg3gGewQ5U",
+      "title": "Backpropagation, intuitively | Deep Learning Chapter 3",
+      "channel": "3Blue1Brown",
+      "durationSec": 767,
+      "uploadDate": "20171103",
+      "transcriptSource": "auto",
+      "transcriptLang": "en",
+      "chaptersMatched": "4/5",
+      "ingestedAt": "2026-11-07T10:54:03"
+    }
+  ],
+  "plan": {
+    "chapterNotes": [
+      "ch01 认识神经元",
+      "ch02 分层结构",
+      "ch03 边缘检测的期望",
+      "ch04 权重偏置与学习",
+      "ch05 记号与线性代数",
+      "ch06 结语与激活函数",
+      "ch07 训练数据入门",
+      "ch08 代价函数",
+      "ch09 梯度下降",
+      "ch10 网络实际学到了什么",
+      "ch11 反向传播直觉",
+      "ch12 随机梯度下降"
+    ],
+    "concepts": [
+      "神经元与激活",
+      "分层结构",
+      "权重与偏置",
+      "Sigmoid 函数",
+      "ReLU",
+      "代价函数",
+      "梯度下降",
+      "梯度向量",
+      "反向传播",
+      "随机梯度下降",
+      "MNIST 数据集",
+      "局部最小值"
+    ],
+    "checklists": [
+      "手算一个神经元的前向传播",
+      "清点网络参数并做结构实验"
+    ]
+  },
+  "variationAnnotations": [
+    {
+      "concept": "权重与偏置",
+      "accepted": true,
+      "statesDropped": 3,
+      "title": "示意：神经元激活 σ(w·x + b)",
+      "series": [
+        "1/(1+exp(-(w*x+b)))"
+      ]
+    },
+    {
+      "concept": "ReLU",
+      "accepted": false,
+      "reason": "inputs 数量不合法"
+    },
+    {
+      "concept": "代价函数",
+      "accepted": true,
+      "statesDropped": 2,
+      "title": "示意：单样本代价（输出与目标的平方差）",
+      "series": [
+        "(x - y)^2"
+      ]
+    }
+  ],
+  "linkFixes": [],
+  "brokenLinksAfterRepair": 0,
+  "calls": [
+    {
+      "purpose": "plan",
+      "requestId": "20261108030421e9bb59d7b4714306",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 17139,
+      "completionTokens": 6605,
+      "latencyMs": 80761,
+      "thinking": true
+    },
+    {
+      "purpose": "chapter:ch01 认识神经元",
+      "requestId": "20261108030542018f581c5d334918",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5220,
+      "completionTokens": 1035,
+      "latencyMs": 14211,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch03 边缘检测的期望",
+      "requestId": "20261108030542ff7e38791c37495d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4992,
+      "completionTokens": 974,
+      "latencyMs": 15094,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch02 分层结构",
+      "requestId": "20261108030547a0a4b74dfab042f5",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5498,
+      "completionTokens": 1268,
+      "latencyMs": 19069,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch04 权重偏置与学习",
+      "requestId": "20261108030556518aebc267634c35",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4804,
+      "completionTokens": 797,
+      "latencyMs": 10954,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch05 记号与线性代数",
+      "requestId": "202611080305570c5770c553ed4fd7",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5027,
+      "completionTokens": 910,
+      "latencyMs": 13831,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch06 结语与激活函数",
+      "requestId": "202611080306060fde197e75234b45",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4839,
+      "completionTokens": 814,
+      "latencyMs": 12219,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch07 训练数据入门",
+      "requestId": "20261108030607cea62445de7e436d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5016,
+      "completionTokens": 883,
+      "latencyMs": 12662,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch08 代价函数",
+      "requestId": "20261108030611bd51d9d12aef4135",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5168,
+      "completionTokens": 980,
+      "latencyMs": 14174,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch09 梯度下降",
+      "requestId": "20261108030618ca6c742564af409a",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5701,
+      "completionTokens": 1273,
+      "latencyMs": 17746,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch10 网络实际学到了什么",
+      "requestId": "2026110803062013dfdffb7249456e",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5993,
+      "completionTokens": 1301,
+      "latencyMs": 19658,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch11 反向传播直觉",
+      "requestId": "20261108030625fca742356ddb434c",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6274,
+      "completionTokens": 1544,
+      "latencyMs": 22226,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:神经元与激活",
+      "requestId": "202611080306393030eccf61fc49eb",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5235,
+      "completionTokens": 737,
+      "latencyMs": 13295,
+      "thinking": false
+    },
+    {
+      "purpose": "chapter:ch12 随机梯度下降",
+      "requestId": "2026110803063624bd95b7864f4288",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4838,
+      "completionTokens": 1130,
+      "latencyMs": 17626,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:分层结构",
+      "requestId": "202611080306470e9706185c2647bd",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6390,
+      "completionTokens": 901,
+      "latencyMs": 14896,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:权重与偏置",
+      "requestId": "202611080306526a7e98c1e29f418f",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5511,
+      "completionTokens": 870,
+      "latencyMs": 13839,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:ReLU",
+      "requestId": "20261108030702d3c21d54be424da7",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4870,
+      "completionTokens": 584,
+      "latencyMs": 8820,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:代价函数",
+      "requestId": "20261108030706e07d6c12e45a43ce",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5290,
+      "completionTokens": 1068,
+      "latencyMs": 17070,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:梯度下降",
+      "requestId": "20261108030711a55c6a8d83bc4697",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5753,
+      "completionTokens": 1367,
+      "latencyMs": 18436,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:梯度向量",
+      "requestId": "20261108030723bb4544430b3843b6",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5736,
+      "completionTokens": 909,
+      "latencyMs": 12910,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:Sigmoid 函数",
+      "requestId": "20261108030726002caaf6ccf54eef",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5560,
+      "completionTokens": 945,
+      "latencyMs": 12972,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:反向传播",
+      "requestId": "20261108030729b99551997454417b",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6508,
+      "completionTokens": 1050,
+      "latencyMs": 18128,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:随机梯度下降",
+      "requestId": "20261108030736bf83264881584563",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5106,
+      "completionTokens": 816,
+      "latencyMs": 12605,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:MNIST 数据集",
+      "requestId": "2026110803073935c9a06108b2441a",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5075,
+      "completionTokens": 674,
+      "latencyMs": 10551,
+      "thinking": false
+    },
+    {
+      "purpose": "concept:局部最小值",
+      "requestId": "20261108030747e1302bb1cd834c6c",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 6451,
+      "completionTokens": 755,
+      "latencyMs": 11636,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:手算一个神经元的前向传播",
+      "requestId": "20261108030749165dcd1bb0fb4b4a",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 17249,
+      "completionTokens": 619,
+      "latencyMs": 11816,
+      "thinking": false
+    },
+    {
+      "purpose": "checklist:清点网络参数并做结构实验",
+      "requestId": "20261108030749021728305c7a48db",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 17262,
+      "completionTokens": 1000,
+      "latencyMs": 18116,
+      "thinking": false
+    },
+    {
+      "purpose": "home:00-Home",
+      "requestId": "202611080307598932ecad798945fb",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 5549,
+      "completionTokens": 846,
+      "latencyMs": 8766,
+      "thinking": false
+    },
+    {
+      "purpose": "readme:README",
+      "requestId": "202611080308018cc1ee1cecd443c4",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 4980,
+      "completionTokens": 767,
+      "latencyMs": 9467,
+      "thinking": false
+    },
+    {
+      "purpose": "glossary:术语表",
+      "requestId": "2026110803080702f8cf665314458d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 15808,
+      "completionTokens": 783,
+      "latencyMs": 9297,
+      "thinking": false
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "20261108030816e31df8125c094a78",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 15289,
+      "completionTokens": 4175,
+      "latencyMs": 70273,
+      "thinking": true
+    },
+    {
+      "purpose": "annotate:variation",
+      "requestId": "20261108031401ecc800c408f1421d",
+      "model": "glm-5.3-flash",
+      "finish": "stop",
+      "promptTokens": 15300,
+      "completionTokens": 3510,
+      "latencyMs": 56601,
+      "thinking": true
+    }
+  ],
+  "usage": {
+    "calls": 32,
+    "promptTokens": 239431,
+    "completionTokens": 41890
+  },
+  "variationRuns": [
+    {
+      "at": "2026-11-07T19:14:57+00:00",
+      "previous": [
+        {
+          "concept": "Sigmoid 函数",
+          "accepted": false,
+          "reason": "states.when 含非法标识符"
+        },
+        {
+          "concept": "ReLU",
+          "accepted": false,
+          "reason": "states.when 含非法标识符"
+        },
+        {
+          "concept": "代价函数",
+          "accepted": false,
+          "reason": "states.when 含非法标识符"
+        }
+      ]
+    }
+  ],
+  "videoLinkFixes": [
+    {
+      "note": "01-课程笔记/ch06 结语与激活函数.md",
+      "videoId": "aircAruvnKt",
+      "action": "correct",
+      "to": "aircAruvnKk"
+    },
+    {
+      "note": "00-Home.md",
+      "action": "about_to_abstract_callout"
+    },
+    {
+      "note": "00-Home.md",
+      "action": "about_strip_highlight"
+    }
+  ]
+}

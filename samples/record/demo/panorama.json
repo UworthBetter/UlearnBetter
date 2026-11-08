@@ -1,0 +1,179 @@
+{
+  "sample": true,
+  "goals": [
+    {
+      "goal": {
+        "id": "g-lab",
+        "title": "纸上实验",
+        "intent": null,
+        "status": "active",
+        "origin": "user",
+        "confirmedAt": "2026-11-07T12:00:00Z",
+        "colorKey": "amber",
+        "folders": [
+          "实验"
+        ]
+      },
+      "topicIds": [
+        "t-0"
+      ]
+    },
+    {
+      "goal": {
+        "id": "g-craft",
+        "title": "手作研究",
+        "intent": null,
+        "status": "active",
+        "origin": "user",
+        "confirmedAt": "2026-11-07T12:00:00Z",
+        "colorKey": "cyan",
+        "folders": [
+          "手作"
+        ]
+      },
+      "topicIds": [
+        "t-0"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "topicId": "t-0",
+      "title": "光影观察",
+      "goalIds": [
+        "g-lab",
+        "g-craft"
+      ],
+      "groups": [
+        {
+          "name": "基础实验",
+          "concepts": [
+            {
+              "id": "c-0",
+              "label": "观察",
+              "level": 1,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-1",
+              "label": "记录",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-2",
+              "label": "比较",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topicId": "t-1",
+      "title": "纸桥搭建",
+      "goalIds": [
+        "g-lab"
+      ],
+      "groups": [
+        {
+          "name": "基础实验",
+          "concepts": [
+            {
+              "id": "c-0",
+              "label": "观察",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-1",
+              "label": "记录",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-2",
+              "label": "比较",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topicId": "t-2",
+      "title": "颜色混合",
+      "goalIds": [
+        "g-lab"
+      ],
+      "groups": [
+        {
+          "name": "基础实验",
+          "concepts": [
+            {
+              "id": "c-0",
+              "label": "观察",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-1",
+              "label": "记录",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            },
+            {
+              "id": "c-2",
+              "label": "比较",
+              "level": 0,
+              "due": null,
+              "importance": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "topicId": "t-1",
+      "group": "基础实验",
+      "count": 3,
+      "why": "三颗可见星全部未学"
+    }
+  ],
+  "nextSteps": [
+    {
+      "kind": "review",
+      "subject": "concept:t-0/c-0",
+      "title": "观察",
+      "why": "合成记录中的回忆结果为忘了，现已到期",
+      "topicId": "t-0",
+      "conceptId": "c-0",
+      "goalIds": [
+        "g-lab",
+        "g-craft"
+      ]
+    }
+  ],
+  "relationCandidates": [],
+  "summary": {
+    "goals": 2,
+    "topics": 3,
+    "concepts": 9,
+    "learned": 1,
+    "recalled": 0,
+    "stable": 0,
+    "unassigned": 0
+  }
+}

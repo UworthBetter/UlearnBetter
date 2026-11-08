@@ -1,0 +1,167 @@
+[
+  {
+    "id": "i-ffe68d3b-c9a5-41a9-ae4b-5bc27bcfe95f",
+    "kind": "notes",
+    "title": "神经网络入门",
+    "addedAt": "2026-10-14T12:00:00.000Z",
+    "ref": {
+      "topicId": "nn-basics"
+    },
+    "contentHash": "sha1:70678bcf9bb44a27dab5bd128f69944f7c9ed9b1",
+    "topicId": "nn-basics",
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：1 条归属提议，1 条已自动接受（≥ 0.85）"
+    },
+    "compileNote": null
+  },
+  {
+    "id": "i-061ff1f0-144d-43f4-9015-2436725496f8",
+    "kind": "idea",
+    "title": "每个神经元就是一个函数：输入上一层所有激活值的加权和，再加上偏置，挤压成 0 到…",
+    "addedAt": "2026-10-15T12:24:00.000Z",
+    "ref": {
+      "text": "每个神经元就是一个函数：输入上一层所有激活值的加权和，再加上偏置，挤压成 0 到 1 之间的数。权重决定它关注哪些像素，偏置决定它多容易被点亮。"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：有挂载提议，等你确认"
+    }
+  },
+  {
+    "id": "i-f34a7d0b-1caf-404d-9dff-a203e5177bdb",
+    "kind": "notes",
+    "title": "Git版本控制",
+    "addedAt": "2026-10-18T12:00:00.000Z",
+    "ref": {
+      "topicId": "git-basics"
+    },
+    "contentHash": "sha1:c0b1b49d50946f0b7cfd9a0794ffdfd89f89f41a",
+    "topicId": "git-basics",
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：1 条归属提议，1 条已自动接受（≥ 0.85）"
+    },
+    "compileNote": null
+  },
+  {
+    "id": "i-667052f1-8619-4835-854f-c523071c8534",
+    "kind": "idea",
+    "title": "提交要小而频繁——以后每完成一个小改动就 commit，合并冲突时只用修一个文件…",
+    "addedAt": "2026-10-19T12:36:00.000Z",
+    "ref": {
+      "text": "提交要小而频繁——以后每完成一个小改动就 commit，合并冲突时只用修一个文件，而不是一百个。"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：有挂载提议，等你确认"
+    }
+  },
+  {
+    "id": "i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a",
+    "kind": "notes",
+    "title": "凯利公式与仓位管理",
+    "addedAt": "2026-10-24T12:00:00.000Z",
+    "ref": {
+      "topicId": "kelly-sizing"
+    },
+    "contentHash": "sha1:4f6ffd1eb62cbe76b57d6da954abc0279e233a60",
+    "topicId": "kelly-sizing",
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：1 条归属提议，1 条已自动接受（≥ 0.85）"
+    },
+    "compileNote": null
+  },
+  {
+    "id": "i-765f5f6a-e203-42a1-8d29-03a154ed59dd",
+    "kind": "idea",
+    "title": "凯利公式让我意识到：就算胜率占优，下注比例太高长期也可能亏光，仓位大小和胜率一样…",
+    "addedAt": "2026-10-24T12:23:00.000Z",
+    "ref": {
+      "text": "凯利公式让我意识到：就算胜率占优，下注比例太高长期也可能亏光，仓位大小和胜率一样重要。"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：有挂载提议，等你确认"
+    }
+  },
+  {
+    "id": "i-023a8039-5dac-4dfc-8515-9db9e7efe0a6",
+    "kind": "video",
+    "title": "https://www.youtube.com/watch?v=-9JM9suCIHs",
+    "addedAt": "2026-10-28T12:27:00.000Z",
+    "ref": {
+      "url": "https://www.youtube.com/watch?v=-9JM9suCIHs"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "pipeline": {
+      "state": "queued",
+      "steps": [
+        {
+          "key": "read",
+          "state": "pending",
+          "note": "排队中：本轮不自动解析视频"
+        },
+        {
+          "key": "identify",
+          "state": "pending",
+          "note": "尚未读取，不做识别"
+        },
+        {
+          "key": "extract",
+          "state": "pending",
+          "note": ""
+        },
+        {
+          "key": "classify",
+          "state": "pending",
+          "note": ""
+        },
+        {
+          "key": "compile",
+          "state": "pending",
+          "note": ""
+        }
+      ],
+      "reason": "排队中，本轮不自动解析"
+    }
+  },
+  {
+    "id": "i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+    "kind": "idea",
+    "title": "git bisect 本质上就是二分查找：一千个提交最多试十次左右就能定位引入 …",
+    "addedAt": "2026-10-31T12:27:00.000Z",
+    "ref": {
+      "text": "git bisect 本质上就是二分查找：一千个提交最多试十次左右就能定位引入 bug 的那一个。"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：有挂载提议，等你确认"
+    }
+  },
+  {
+    "id": "i-753a28bf-db24-4be4-b44f-4224f4d92706",
+    "kind": "idea",
+    "title": "反向传播就是把代价对每个权重的偏导一层层往回传，梯度下降再沿负梯度方向挪一小步。",
+    "addedAt": "2026-11-05T12:11:00.000Z",
+    "ref": {
+      "text": "反向传播就是把代价对每个权重的偏导一层层往回传，梯度下降再沿负梯度方向挪一小步。"
+    },
+    "contentHash": null,
+    "topicId": null,
+    "classify": {
+      "state": "done",
+      "note": "模型归类（glm-5.3-flash）：有挂载提议，等你确认"
+    }
+  }
+]

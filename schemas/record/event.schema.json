@@ -1,0 +1,130 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "kind": {
+      "enum": [
+        "visit",
+        "recall",
+        "checklist",
+        "reflection",
+        "question"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "pattern": "^(goal|item|topic):[A-Za-z0-9._\\-\\u4e00-\\u9fff]{1,120}$|^(concept|procedure|procitem|relation):[A-Za-z0-9._\\-\\u4e00-\\u9fff/~]{1,363}$"
+    },
+    "cardId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sample": {
+      "const": true
+    }
+  },
+  "required": [
+    "id",
+    "at",
+    "kind",
+    "subject",
+    "cardId"
+  ],
+  "additionalProperties": true,
+  "oneOf": [
+    {
+      "properties": {
+        "kind": {
+          "const": "visit"
+        },
+        "durationSec": {
+          "type": "number",
+          "minimum": 3,
+          "maximum": 1800
+        }
+      },
+      "required": [
+        "durationSec"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "recall"
+        },
+        "result": {
+          "enum": [
+            "remembered",
+            "forgot",
+            "skipped"
+          ]
+        }
+      },
+      "required": [
+        "result"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "checklist"
+        },
+        "checked": {
+          "type": "boolean"
+        },
+        "subject": {
+          "type": "string",
+          "pattern": "^procitem:"
+        }
+      },
+      "required": [
+        "checked",
+        "subject"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "reflection"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "question"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "required": [
+        "text"
+      ]
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "event.schema.json",
+  "title": "event"
+}

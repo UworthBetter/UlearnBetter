@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 解析产出（用户数据，不入库；契约样例在 samples/）
+/ingest/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# WordLink 参考检出（Windows 上 con.md 会导致检出不完整）
+/_ref/
+
+# Local model configuration and private generated data
+.env
+.env.*
+!.env.example
+node_modules/
+/server/.data/
+/server/logs/
+/.playwright-mcp/
+
+# 预置数据（真实流水线产出：笔记、编译产物、整理与学习记录、去掉字幕正文的 ingest 元数据）入库。
+# 原始字幕全集 /ingest/、运行副本 /server/.data/、.env 与密钥仍然忽略。
+!/samples/demo/

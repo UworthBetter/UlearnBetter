@@ -1,0 +1,42 @@
+{
+  "sample": true,
+  "id": "i-2",
+  "kind": "notes",
+  "title": "颜色混合",
+  "addedAt": "2026-11-07T12:00:00Z",
+  "ref": {
+    "topicId": "t-2"
+  },
+  "contentHash": null,
+  "topicId": "t-2",
+  "pipeline": {
+    "state": "running",
+    "steps": [
+      {
+        "key": "read",
+        "state": "pending",
+        "note": "合成样例"
+      }
+    ],
+    "reason": null
+  },
+  "status": "organizing",
+  "identity": {
+    "what": "颜色混合",
+    "about": null,
+    "route": null,
+    "relation": null,
+    "by": {
+      "kind": "component",
+      "name": "folder",
+      "version": "0.1",
+      "model": null,
+      "promptVersion": null,
+      "mock": true
+    }
+  },
+  "goalIds": [
+    "g-lab"
+  ],
+  "conceptCount": 3
+}
