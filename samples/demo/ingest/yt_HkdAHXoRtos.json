@@ -1,0 +1,138 @@
+{
+  "schema": "learning.vault.ingest/0.1",
+  "generated_at": "2026-11-07T10:52:55",
+  "tool": "video_ingest 0.1.0",
+  "platform": "youtube",
+  "id": "HkdAHXoRtos",
+  "url": "https://www.youtube.com/watch?v=HkdAHXoRtos",
+  "title": "Git It? How to use Git and Github",
+  "channel": "Fireship",
+  "upload_date": "20181026",
+  "duration_sec": 739,
+  "description": "Learn how to use Git and Github 🐙🐱 in this interactive tutorial by sending a pull request to this repo in exchange for a free AngularFirebase sticker 🔥https://github.com/codediodeio/gimmie-sticker\n\n- PRO https://angularfirebase.com/pro\n- Atlassian https://www.atlassian.com/git/tutorials",
+  "thumbnail": "https://i.ytimg.com/vi_webp/HkdAHXoRtos/maxresdefault.webp",
+  "chapters": [
+    {
+      "start": 0.0,
+      "end": 42.0,
+      "title": "Intro",
+      "origin": "official"
+    },
+    {
+      "start": 42.0,
+      "end": 121.0,
+      "title": "What is Git",
+      "origin": "official"
+    },
+    {
+      "start": 121.0,
+      "end": 160.0,
+      "title": "Initialize Git It",
+      "origin": "official"
+    },
+    {
+      "start": 160.0,
+      "end": 204.0,
+      "title": "Git Ignore File",
+      "origin": "official"
+    },
+    {
+      "start": 204.0,
+      "end": 248.0,
+      "title": "Stage File",
+      "origin": "official"
+    },
+    {
+      "start": 248.0,
+      "end": 292.0,
+      "title": "Commit",
+      "origin": "official"
+    },
+    {
+      "start": 292.0,
+      "end": 339.0,
+      "title": "Branch",
+      "origin": "official"
+    },
+    {
+      "start": 339.0,
+      "end": 377.0,
+      "title": "Fast Forward",
+      "origin": "official"
+    },
+    {
+      "start": 377.0,
+      "end": 432.0,
+      "title": "Stashing",
+      "origin": "official"
+    },
+    {
+      "start": 432.0,
+      "end": 471.0,
+      "title": "Merging",
+      "origin": "official"
+    },
+    {
+      "start": 471.0,
+      "end": 545.0,
+      "title": "When to merge",
+      "origin": "official"
+    },
+    {
+      "start": 545.0,
+      "end": 570.0,
+      "title": "Push to Github",
+      "origin": "official"
+    },
+    {
+      "start": 570.0,
+      "end": 626.0,
+      "title": "Fork",
+      "origin": "official"
+    },
+    {
+      "start": 626.0,
+      "end": 675.0,
+      "title": "Mailing Address",
+      "origin": "official"
+    },
+    {
+      "start": 675.0,
+      "end": 739.0,
+      "title": "Pull Requests",
+      "origin": "official"
+    }
+  ],
+  "transcript": {
+    "source": "auto",
+    "lang": "en",
+    "segment_count": 763,
+    "omitted": "字幕正文未入库（AGENTS.md：不提交字幕全集；第三方版权）。用 tools/video_ingest.py 重新抓取即可复现。"
+  },
+  "quality_flags": {
+    "chapters_total": 15,
+    "chapters_matched": 15,
+    "per_chapter": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "trusted": true,
+    "transcript_source": "auto",
+    "notes": [
+      "自动字幕（平台 ASR 生成），可能含识别错误；与官方章节矛盾时按规则弃用"
+    ]
+  }
+}

@@ -57,6 +57,12 @@ export function createRecordRouter(service) {
   router.get('/health', handle(async () => ({ data: service.health() })))
 
   router.get('/topics', handle(async () => ({ data: service.listTopics() })))
+  router.get('/topics/:topicId/notes', handle(async (req) => ({ data: await service.listTopicNotes(req.params.topicId) })))
+  router.get('/topics/:topicId/notes/file', handle(async (req) => {
+    const p = single(req.query.path, 'path')
+    if (!p) throw new RecordError(400, 'invalid_query', '缺少 path')
+    return { data: await service.readTopicNote(req.params.topicId, p) }
+  }))
   router.get('/topics/:topicId/learn', handle(async (req, w) => ({ data: await service.getTopicLearn(req.params.topicId, tzOf(req, w)) })))
 
   router.get('/goals', handle(async () => ({ data: service.listGoals() })))

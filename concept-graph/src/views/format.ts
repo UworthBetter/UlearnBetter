@@ -165,8 +165,10 @@ export function statusCopy(input: {
 }): string {
   if (input.status === 'failed') return `失败 · ${input.pipelineReason || '整理没有完成'}`
   if (input.status === 'organizing') {
-    const waiting = input.pipelineState === 'queued' || (input.pipelineReason ?? '').includes('不自动解析')
-    if (input.kind === 'video' && waiting) return '整理中 · 排队中，本轮不自动解析'
+    if (input.kind === 'video') {
+      if (input.pipelineState === 'queued') return input.pipelineReason ? `排队 · ${input.pipelineReason}` : '排队 · 等待整理'
+      return '整理中 · 解析字幕 → 生成笔记'
+    }
     return '整理中 · 正在抽取概念'
   }
   if (input.status === 'pending') {

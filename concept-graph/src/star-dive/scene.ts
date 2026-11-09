@@ -422,11 +422,68 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
   /* ================= expanded panel ================= */
   const panelWrap = $('#panelWrap')
   let activeModule: MountedModule | null = null // handle returned by mountModule() for the open panel
+  let panelDrag: AbortController | null = null
   const host = { meta: META, ytUrl, onInteractionChange: (next: InteractionState | null) => {
     if (!state.panel || destroyed) return
     interaction = next
     publishContext()
   } }
+  // Same gesture as the panorama sky: the sheet follows the pointer, capture starts
+  // only after the threshold, and a drag does not become a click.
+  const PANEL_DRAG_THRESHOLD = 4
+  function bindPanelDrag(p: HTMLElement, signal: AbortSignal) {
+    const offset = { x: 0, y: 0 }
+    let gesture: { id: number; sx: number; sy: number; ox: number; oy: number; moved: boolean } | null = null
+    const write = () => {
+      p.dataset.dragX = String(offset.x)
+      p.dataset.dragY = String(offset.y)
+      p.style.transform = `translate(${offset.x}px, ${offset.y}px)`
+    }
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      const target = e.target as Element | null
+      if (target?.closest('a, button, input, textarea, select, label, .p-body svg, .p-body canvas')) return
+      gesture = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: offset.x, oy: offset.y, moved: false }
+    }
+    const onMove = (e: PointerEvent) => {
+      if (!gesture || gesture.id !== e.pointerId) return
+      const dx = e.clientX - gesture.sx
+      const dy = e.clientY - gesture.sy
+      if (!gesture.moved) {
+        if (Math.hypot(dx, dy) < PANEL_DRAG_THRESHOLD) return
+        gesture.moved = true
+        p.classList.add('panning')
+        panelWrap.classList.add('panning')
+        panelWrap.setPointerCapture(e.pointerId)
+      }
+      offset.x = gesture.ox + dx
+      offset.y = gesture.oy + dy
+      write()
+    }
+    const end = (e: PointerEvent) => {
+      if (!gesture || gesture.id !== e.pointerId) return
+      const moved = gesture.moved
+      gesture = null
+      if (panelWrap.hasPointerCapture(e.pointerId)) panelWrap.releasePointerCapture(e.pointerId)
+      p.classList.remove('panning')
+      panelWrap.classList.remove('panning')
+      if (!moved) return
+      const stop = (ev: Event) => { ev.stopPropagation(); ev.preventDefault() }
+      document.addEventListener('click', stop, { capture: true, once: true })
+    }
+    panelWrap.addEventListener('pointerdown', onDown, { signal })
+    panelWrap.addEventListener('pointermove', onMove, { signal })
+    panelWrap.addEventListener('pointerup', end, { signal })
+    panelWrap.addEventListener('pointercancel', end, { signal })
+  }
+  /** A note evidence chip links into the in-app notes reader (#/notes/<topic>?f=<path>&h=<heading>). */
+  function noteChip(note: string | undefined, sourceId: string) {
+    if (!note || !META.topic_id) return `<span class="chip">${esc(note || sourceId)}</span>`
+    const [file, heading] = note.split('#')
+    const q = new URLSearchParams({ f: file })
+    if (heading) q.set('h', heading)
+    return `<a class="chip note" href="#/notes/${encodeURIComponent(META.topic_id)}?${esc(q.toString())}" title="在笔记中打开">📄 ${esc(note)}</a>`
+  }
   function openPanel(c: StarDiveConcept, card: CardSpec, fromEl: HTMLElement) {
     closePanel(true)
     const r = resolveCard(c, card), ui = moduleUi(r)
@@ -438,12 +495,15 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     const refs = evidenceOf(card)
     p.innerHTML = `<div class="p-head"><span class="oc-ic">${ICONS[ui.icon] || ICONS.book}</span>
       <div><div class="crumb">${esc(c.label)} · ${esc(ui.text)}</div><h3>${esc(r.spec.title || '')}</h3></div>
-      <button class="p-close" aria-label="关闭">×</button></div>
+      <button class="p-close" type="button" aria-label="关闭">×</button></div>
     <div class="p-body"></div>
-    ${refs.length ? `<div class="p-foot"><span class="lbl">出处</span>${refs.map((ref) => ref.url && /^https?:\/\//.test(ref.url) ? `<a class="chip ts" href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.startSec != null ? fmt(ref.startSec) : ref.sourceId)}</a>` : `<span class="chip">${esc(ref.note || ref.sourceId)}</span>`).join('')}</div>` : ''}`
+    ${refs.length ? `<div class="p-foot"><span class="lbl">出处</span>${refs.map((ref) => ref.url && /^https?:\/\//.test(ref.url) ? `<a class="chip ts" href="${esc(ref.url)}" target="_blank" rel="noopener">${esc(ref.startSec != null ? fmt(ref.startSec) : ref.sourceId)}</a>` : noteChip(ref.note, ref.sourceId)).join('')}</div>` : ''}`
     p.addEventListener('click', (e) => e.stopPropagation())
     p.querySelector('.p-close')!.addEventListener('click', () => closePanel())
     panelWrap.appendChild(p); panelWrap.classList.add('on')
+    panelDrag?.abort()
+    panelDrag = new AbortController()
+    bindPanelDrag(p, panelDrag.signal)
     activeModule = mountModule(p.querySelector<HTMLElement>('.p-body')!, c, card, host)
     publishContext()
     // FLIP from orbit card
@@ -455,6 +515,7 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     p.style.transition = ''; p.style.transform = ''; p.style.opacity = '1'
   }
   function closePanel(instant?: boolean) {
+    panelDrag?.abort(); panelDrag = null
     if (activeModule) { activeModule.destroy(); activeModule = null }
     interaction = null
     if (!state.panel) return
@@ -462,7 +523,10 @@ export function createStarDive(root: HTMLElement, DATA: StarDiveData, opts: Scen
     publishContext()
     const p = panelWrap.querySelector<HTMLElement>('.panel')
     if (instant || !p) { panelWrap.classList.remove('on'); panelWrap.innerHTML = ''; return }
-    p.style.transform = 'scale(.92)'; p.style.opacity = '0'
+    const x = Number(p.dataset.dragX || 0), y = Number(p.dataset.dragY || 0)
+    p.classList.remove('panning')
+    p.style.transform = `translate(${Number.isFinite(x) ? x : 0}px, ${Number.isFinite(y) ? y : 0}px) scale(.92)`
+    p.style.opacity = '0'
     later(() => { if (!state.panel) { panelWrap.classList.remove('on'); panelWrap.innerHTML = '' } }, 300)
   }
   function back() { if (state.panel) closePanel(); else unfocus() }

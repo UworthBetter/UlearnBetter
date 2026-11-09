@@ -9,6 +9,7 @@ import type { Assignment, Override } from '../../record/types.ts'
 import { classifyAgentInput, classifyDrop } from './classify-input.ts'
 import { buildDemoAnswer } from './demo-answer.ts'
 import { useLearningTools } from './learning-tools.ts'
+import { ModelSettingsDialog } from './ModelSettingsDialog.tsx'
 import { AssistantRuntime } from './runtime.tsx'
 import { SafeMarkdown } from './safe-markdown.tsx'
 import { formatCapturedAt, sameSubject, sceneChip, sceneTitle, selectionPreview, viewLabel } from './scene-label.ts'
@@ -160,6 +161,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   const [nudgeDismissed, setNudgeDismissed] = useState(false)
   const [composeMode, setComposeMode] = useState<'ask' | 'idea'>('ask')
   const [plusOpen, setPlusOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const [dropping, setDropping] = useState(false)
   const [proposals, setProposals] = useState<Assignment[]>([])
   const [proposalTick, setProposalTick] = useState(0)
@@ -349,6 +351,9 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (event.key === 'Escape') {
+        // The settings dialog registers its own capture listener on window;
+        // both run for the same event, so it must be skipped here while open.
+        if (settingsOpen) return
         if (open) {
           event.preventDefault()
           event.stopPropagation()
@@ -399,7 +404,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     }
     window.addEventListener('keydown', onKey, true)
     return () => window.removeEventListener('keydown', onKey, true)
-  }, [open, videoUrl, folderNote, notice, showAnswer, showNudge])
+  }, [open, videoUrl, folderNote, notice, showAnswer, showNudge, settingsOpen])
 
   useEffect(() => {
     const node = logRef.current
@@ -567,7 +572,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
     }
     try {
       await record.client.addItem({ kind: 'video', url })
-      setNotice('已作为视频资料加入。本轮不自动解析。')
+      setNotice('已作为视频资料加入，正在后台解析字幕并生成笔记。')
     } catch (error) {
       setNotice(error instanceof Error ? error.message : '这条视频没有加入。')
     }
@@ -803,6 +808,16 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
           <div className="ula-head-actions">
             <button
               type="button"
+              className="ula-text-button"
+              aria-haspopup="dialog"
+              aria-expanded={settingsOpen}
+              data-testid="assistant-settings"
+              onClick={() => setSettingsOpen(true)}
+            >
+              设置
+            </button>
+            <button
+              type="button"
               className="ula-text-button ula-demo"
               aria-pressed={demoMode}
               data-testid="assistant-demo"
@@ -916,7 +931,8 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
             : <button type="submit" className="ula-icon ula-send" data-testid="assistant-send" aria-label="发送" disabled={!draft.trim()}>↑</button>}
         </form>
         <p className="ula-hint">
-          <kbd>Enter</kbd> 发送 · <kbd>Shift</kbd>+<kbd>Enter</kbd> 换行
+          <kbd>/</kbd> 唤起 · <kbd>Enter</kbd> 发送 · <kbd>Shift</kbd>+<kbd>Enter</kbd> 换行 · 拖入文件夹请走命令行编译 ·
+          助手看得到你当前所在的「{chip}」
         </p>
         {demoMode
           ? <p className="ula-banner" data-testid="assistant-status">演示模式 · 回答在本地生成，未调用真实模型</p>
@@ -932,6 +948,7 @@ function AssistantSession({ initialDemoMode, initialOpen, record }: { initialDem
         )}
         </div>
       </section>
+      {settingsOpen && <ModelSettingsDialog onClose={() => setSettingsOpen(false)} />}
     </div>
   )
 }

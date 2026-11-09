@@ -36,8 +36,14 @@ test('资料状态文案', () => {
     status: 'organizing',
     kind: 'video',
     pipelineState: 'queued',
-    pipelineReason: '本轮不自动解析',
-  }), '整理中 · 排队中，本轮不自动解析')
+    pipelineReason: '未配置模型（ASSISTANT_*），视频笔记无法生成',
+  }), '排队 · 未配置模型（ASSISTANT_*），视频笔记无法生成')
+  assert.equal(statusCopy({
+    ...base,
+    status: 'organizing',
+    kind: 'video',
+    pipelineState: 'running',
+  }), '整理中 · 解析字幕 → 生成笔记')
   assert.equal(statusCopy({ ...base, status: 'organizing', pipelineState: 'running' }), '整理中 · 正在抽取概念')
   assert.equal(statusCopy({
     ...base,

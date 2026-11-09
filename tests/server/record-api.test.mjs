@@ -136,7 +136,7 @@ test('POST /items: idea pending, video queued without fabricated identity, artic
   assert.equal(video.status, 201)
   assertEnvelope(video.body, 'item')
   assert.equal(video.body.data.pipeline.state, 'queued')
-  assert.equal(video.body.data.pipeline.reason, '排队中，本轮不自动解析')
+  assert.ok(video.body.data.pipeline.reason, '没有配置解析能力时应写明排队原因')
   assert.equal(video.body.data.identity.about, null)
   assert.equal(video.body.data.status, 'organizing')
   assert.equal((await call('POST', `/api/record/items/${video.body.data.id}/organize`)).status, 409)

@@ -9,6 +9,7 @@ import { parseRoute, routeHash } from './shell/routes'
 import TodayView from './views/today/TodayView'
 import LibraryView from './views/library/LibraryView'
 import PanoramaView from './views/panorama/PanoramaView'
+const NotesView = lazy(() => import('./views/notes/NotesView'))
 import AdjustLayer from './views/layers/AdjustLayer'
 import RecallPrompt from './views/recall/RecallPrompt'
 import ViewsPreview from './views/dev/ViewsPreview'
@@ -52,7 +53,7 @@ export default function Root() {
  useEffect(()=>{const change=()=>setRoute(parseRoute(location.hash));addEventListener('hashchange',change);return()=>removeEventListener('hashchange',change)},[])
  useEffect(()=>{const unsubscribe=queue.subscribe(()=>setQueueStatus(queue.status()));const retry=()=>void queue.flush();const timer=setInterval(retry,5000);window.addEventListener('online',retry);retry();return()=>{unsubscribe();clearInterval(timer);window.removeEventListener('online',retry)}},[])
  useEffect(()=>{
-   if(route.view!=='star-dive')learningSession.updateScene({view:route.view==='dev'?'none':route.view,topic:null,concept:null,card:null,interaction:null,record:null,layer:route.adjust?'adjust':route.view==='today'?route.layer??null:null})
+   if(route.view!=='star-dive')learningSession.updateScene({view:route.view==='dev'||route.view==='notes'?'none':route.view,topic:null,concept:null,card:null,interaction:null,record:null,layer:route.adjust?'adjust':route.view==='today'?route.layer??null:null})
    else learningSession.updateRecord({record:learningSession.getSnapshot().record,layer:route.adjust?'adjust':null})
    let live=true
    Promise.all([client.getProposals(),client.listGoals(),client.getToday(undefined,Intl.DateTimeFormat().resolvedOptions().timeZone),client.getStats('week',Intl.DateTimeFormat().resolvedOptions().timeZone),client.listItems(),client.getMastery(route.view==='star-dive'?route.topicId:undefined)]).then(([p,g,t,s,items,mastery])=>{
@@ -101,11 +102,11 @@ export default function Root() {
  const props={client,route:route as RecordRoute,navigate,openAdjust,reportScene}
  const active=recalls[0]
  return <div className="ub-shell" style={{'--ub-rail-width':route.view==='panorama'?'332px':'0px'} as CSSProperties}>
- <header className="ub-topbar"><a className="ub-brand" href="#/today">ULEARNBETTER <span>学习留下的星光</span></a><nav aria-label="主导航">{([['today','今天'],['panorama','全景'],['library','资料']] as const).map(([view,label])=><a key={view} href={'#/'+view} aria-current={route.view===view?'page':undefined}>{label}{view==='library'&&(snapshot.record?.pendingCount??0)>0&&<span className="ub-pending" aria-label={`${snapshot.record?.pendingCount} 项待确认`}/>}</a>)}</nav>{(mockSeen||snapshot.record?.source==='mock')&&<span className="ub-mock">示例数据</span>}</header>
+ <header className="ub-topbar"><a className="ub-brand" href="#/today">ULEARNBETTER <span>学习留下的星光</span></a><nav aria-label="主导航">{([['today','今天'],['panorama','全景'],['library','资料'],['notes','笔记']] as const).map(([view,label])=><a key={view} href={'#/'+view} aria-current={route.view===view?'page':undefined}>{label}{view==='library'&&(snapshot.record?.pendingCount??0)>0&&<span className="ub-pending" aria-label={`${snapshot.record?.pendingCount} 项待确认`}/>}</a>)}</nav>{(mockSeen||snapshot.record?.source==='mock')&&<span className="ub-mock">示例数据</span>}{import.meta.env.VITE_UB_DEMO==='1'&&<span className="ub-mock" title="预置数据：笔记由真实视频字幕经模型与编译器生成，识别与归类由模型完成；学习记录（停留、回忆、勾选、想法文字）由学习者脚本模拟">预置数据</span>}</header>
  {error&&<div className="ub-service-error" role="alert">{error} <button onClick={()=>setReload(v=>v+1)}>重试</button><a href="?record=mock#/today">查看示例数据</a></div>}
  {queueStatus.pending>0&&<div className="ub-sync" role="status">{queueStatus.error||'正在同步学习记录'} · {queueStatus.pending}</div>}
  <main className={route.view==='star-dive'||route.view==='graph'?'ub-immersive':'ub-view'}>
- {route.view==='graph'?<App/>:route.view==='dev'?<ViewsPreview/>:route.view==='today'?<TodayView key={reload} {...props}/>:route.view==='library'?<LibraryView key={reload} {...props}/>:route.view==='panorama'?<PanoramaView key={reload} {...props}/>:<Suspense fallback={<p>正在加载星图…</p>}><StarDive key={route.topicId} topicId={route.topicId} initialFocus={route.conceptId} client={client} queue={queue} onRecall={requestRecall}/></Suspense>}
+ {route.view==='graph'?<App/>:route.view==='dev'?<ViewsPreview/>:route.view==='today'?<TodayView key={reload} {...props}/>:route.view==='library'?<LibraryView key={reload} {...props}/>:route.view==='panorama'?<PanoramaView key={reload} {...props}/>:route.view==='notes'?<Suspense fallback={<p className="ub-muted">正在打开笔记…</p>}><NotesView {...props}/></Suspense>:<Suspense fallback={<p>正在加载星图…</p>}><StarDive key={route.topicId} topicId={route.topicId} initialFocus={route.conceptId} client={client} queue={queue} onRecall={requestRecall}/></Suspense>}
  </main>
  {route.adjust&&<div className="ub ub-overlay"><AdjustLayer client={client} {...route.adjust} navigate={navigate} onClose={()=>{closeAdjust();setReload(v=>v+1)}}/></div>}
  {active&&<div className="ub ub-recall-host"><RecallPrompt subject={active.subject} label={active.label} onResult={result=>{

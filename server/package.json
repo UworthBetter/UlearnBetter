@@ -10,7 +10,9 @@
   "scripts": {
     "start": "node src/index.mjs",
     "dev": "node --watch src/index.mjs",
-    "test": "node --test ../tests/server/*.test.mjs"
+    "test": "node --test ../tests/server/*.test.mjs",
+    "demo": "node ../tools/demo/start_demo.mjs",
+    "demo:prepare": "node ../tools/demo/start_demo.mjs --prepare"
   },
   "dependencies": {
     "@ai-sdk/openai": "3.0.138",

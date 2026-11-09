@@ -25,13 +25,15 @@ async function main() {
       // eslint-disable-next-line no-console
       console.log(
         `[assistant-backend] ready on http://localhost:${port} ` +
-          `(provider=${config.provider} model=${config.model} notes=${config.notesRetrieval})`,
+          `(provider=${config.provider} model=${config.model} notes=${config.notesRetrieval})\n` +
+          `  settings page: http://localhost:${port}/settings`,
       )
     } else {
       // eslint-disable-next-line no-console
       console.error(
         `[assistant-backend] started on http://localhost:${port} but NOT ready: ${reason}\n` +
-          `  /health is up; /api/copilotkit will return 503 until configured. See server/README.md.`,
+          `  /health is up; /api/copilotkit will return 503 until configured.\n` +
+          `  configure via the settings page: http://localhost:${port}/settings (saves to server/.data/settings.json) or server/.env`,
       )
     }
   })

@@ -214,6 +214,14 @@ function Detail({
   const [error, setError] = useState<string | null>(null)
   const [goalPick, setGoalPick] = useState<string[]>([])
   const [starPick, setStarPick] = useState<string>('')
+  const [poll, setPoll] = useState(0)
+  // 视频整理在后台异步推进：进行中每 4 秒刷新详情，读真实进度。
+  const videoBusy = detail?.kind === 'video' && (detail.pipeline.state === 'queued' || detail.pipeline.state === 'running')
+  useEffect(() => {
+    if (!videoBusy) return
+    const timer = setInterval(() => setPoll((v) => v + 1), 4000)
+    return () => clearInterval(timer)
+  }, [videoBusy])
 
   useEffect(() => {
     let live = true
@@ -235,7 +243,7 @@ function Detail({
       if (live) setError(reason instanceof Error ? reason.message : '这份资料没有打开')
     })
     return () => { live = false }
-  }, [client, itemId])
+  }, [client, itemId, poll])
 
   if (error) return <p role="alert">{error}</p>
   if (!detail) return <p className="ub-note">正在打开这份资料…</p>
@@ -402,8 +410,10 @@ function Detail({
       <div className="ub-foot">
         <button type="button" className="ub-btn" onClick={() => onPanorama(detail.goalIds[0])}>在全景中看</button>
         {detail.topicId && <button type="button" className="ub-btn" onClick={() => onDive(detail.topicId!, null)}>潜航</button>}
-        <span className="ub-note">打开原笔记：{notePath ?? '这份资料没有笔记相对路径'}</span>
-        <button type="button" className="ub-btn" disabled={!['notes','idea'].includes(detail.kind)} onClick={() => void client.organizeItem(detail.id).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'重新整理失败'))}>重新整理</button>
+        {detail.topicId
+          ? <a className="ub-btn" href={`#/notes/${encodeURIComponent(detail.topicId)}`}>打开笔记</a>
+          : <span className="ub-note">打开原笔记：{notePath ?? '这份资料还没有生成笔记'}</span>}
+        <button type="button" className="ub-btn" disabled={detail.kind === 'video' ? detail.pipeline.state === 'running' : !['notes','idea'].includes(detail.kind)} onClick={() => void client.organizeItem(detail.id).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'重新整理失败'))}>重新整理</button>
         {detail.changeLogIds[0] && (
           <button type="button" className="ub-btn" onClick={() => void client.undoChangeLog(detail.changeLogIds[0]).then(onChanged).catch(reason=>setError(reason instanceof Error?reason.message:'撤销失败'))}>撤销这次整理</button>
         )}
@@ -430,8 +440,8 @@ async function saveAssignment(
 
 function describeAbout(detail: ItemDetail): string {
   if (detail.kind === 'video' && (detail.pipeline.state === 'queued' || detail.pipeline.state === 'running')) {
-    if ((detail.pipeline.reason ?? '').includes('不自动') || detail.pipeline.state === 'queued') return '排队中，本轮不自动解析'
-    return '还在读字幕，读完再写，不先猜'
+    if (detail.pipeline.state === 'queued') return detail.pipeline.reason || '排队中：整理开始后自动解析'
+    return '正在读字幕、生成笔记，读完后写，不先猜'
   }
   return detail.identity.about ?? '还没有一句话总结'
 }

@@ -1,0 +1,343 @@
+{
+  "schema": "learning.learn-ids/0.1",
+  "topicId": "git-basics",
+  "topicIdOrigin": "frontmatter",
+  "dirName": "Git版本控制",
+  "concepts": {
+    "02-概念卡/二分排查 Bisect.md": {
+      "id": "二分排查-bisect",
+      "label": "二分排查 Bisect",
+      "aliases": [
+        "git bisect",
+        "binary search"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "二分排查 Bisect"
+      ]
+    },
+    "02-概念卡/修补提交 Amend.md": {
+      "id": "修补提交-amend",
+      "label": "修补提交 Amend",
+      "aliases": [
+        "git commit --amend",
+        "amend"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "修补提交 Amend"
+      ]
+    },
+    "02-概念卡/分支 Branch.md": {
+      "id": "分支-branch",
+      "label": "分支 Branch",
+      "aliases": [
+        "branch",
+        "master",
+        "main"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "分支 Branch"
+      ]
+    },
+    "02-概念卡/变基与压缩.md": {
+      "id": "变基与压缩",
+      "label": "变基与压缩",
+      "aliases": [
+        "rebase",
+        "interactive rebase",
+        "squash"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "变基与压缩"
+      ]
+    },
+    "02-概念卡/合并冲突.md": {
+      "id": "合并冲突",
+      "label": "合并冲突",
+      "aliases": [
+        "merge conflict"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "合并冲突"
+      ]
+    },
+    "02-概念卡/快进合并.md": {
+      "id": "快进合并",
+      "label": "快进合并",
+      "aliases": [
+        "fast forward",
+        "fast-forward merge"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "快进合并"
+      ]
+    },
+    "02-概念卡/忽略文件.md": {
+      "id": "忽略文件",
+      "label": "忽略文件",
+      "aliases": [
+        "gitignore",
+        ".gitignore"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "忽略文件"
+      ]
+    },
+    "02-概念卡/提交 Commit.md": {
+      "id": "提交-commit",
+      "label": "提交 Commit",
+      "aliases": [
+        "commit",
+        "快照"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "提交 Commit"
+      ]
+    },
+    "02-概念卡/撤销提交 Revert.md": {
+      "id": "撤销提交-revert",
+      "label": "撤销提交 Revert",
+      "aliases": [
+        "git revert"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "撤销提交 Revert"
+      ]
+    },
+    "02-概念卡/暂存区.md": {
+      "id": "暂存区",
+      "label": "暂存区",
+      "aliases": [
+        "staging area",
+        "git add"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "暂存区"
+      ]
+    },
+    "02-概念卡/贮藏 Stash.md": {
+      "id": "贮藏-stash",
+      "label": "贮藏 Stash",
+      "aliases": [
+        "git stash",
+        "stash pop",
+        "stash apply"
+      ],
+      "idOrigin": "title-slug",
+      "titles": [
+        "贮藏 Stash"
+      ]
+    }
+  },
+  "procedures": {
+    "03-实操清单/Git 提效与自救清单.md": {
+      "id": "proc.git-提效与自救清单",
+      "title": "Git 提效与自救清单"
+    },
+    "03-实操清单/新仓库上手清单.md": {
+      "id": "proc.新仓库上手清单",
+      "title": "新仓库上手清单"
+    }
+  },
+  "blocks": {
+    "02-概念卡/二分排查 Bisect.md": {
+      "comparison.8a392549": [
+        "二分排查-bisect.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "二分排查-bisect.process.69424486"
+      ]
+    },
+    "02-概念卡/修补提交 Amend.md": {
+      "comparison.8a392549": [
+        "修补提交-amend.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "修补提交-amend.process.69424486"
+      ]
+    },
+    "02-概念卡/分支 Branch.md": {
+      "comparison.8a392549": [
+        "分支-branch.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "分支-branch.process.69424486"
+      ]
+    },
+    "02-概念卡/变基与压缩.md": {
+      "comparison.8a392549": [
+        "变基与压缩.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "变基与压缩.process.69424486"
+      ]
+    },
+    "02-概念卡/合并冲突.md": {
+      "comparison.8a392549": [
+        "合并冲突.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "合并冲突.process.69424486"
+      ]
+    },
+    "02-概念卡/快进合并.md": {
+      "comparison.8a392549": [
+        "快进合并.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "快进合并.process.69424486"
+      ]
+    },
+    "02-概念卡/忽略文件.md": {
+      "comparison.8a392549": [
+        "忽略文件.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "忽略文件.process.69424486"
+      ]
+    },
+    "02-概念卡/提交 Commit.md": {
+      "comparison.8a392549": [
+        "提交-commit.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "提交-commit.process.69424486"
+      ]
+    },
+    "02-概念卡/撤销提交 Revert.md": {
+      "comparison.8a392549": [
+        "撤销提交-revert.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "撤销提交-revert.process.69424486"
+      ]
+    },
+    "02-概念卡/暂存区.md": {
+      "comparison.8a392549": [
+        "暂存区.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "暂存区.process.69424486"
+      ]
+    },
+    "02-概念卡/贮藏 Stash.md": {
+      "comparison.8a392549": [
+        "贮藏-stash.comparison.8a392549"
+      ],
+      "process.69424486": [
+        "贮藏-stash.process.69424486"
+      ]
+    }
+  },
+  "procitems": {
+    "03-实操清单/Git 提效与自救清单.md": {
+      "用gitcommitam消息跳过单独的gitadd直接提交已跟踪文件的改动验证gitlog中出现新提交工作目录干净": {
+        "id": "ta41d0ce1",
+        "text": "用 `git commit -am \"消息\"` 跳过单独的 `git add`，直接提交已跟踪文件的改动（验证：`git log` 中出现新提交，工作目录干净）"
+      },
+      "创建别名把常用命令缩短例如把add+commit做成两字母命令验证gitconfiglist中能看到该别名输入别名能正常提交": {
+        "id": "tba0cfc6b",
+        "text": "创建别名把常用命令缩短，例如把 add + commit 做成两字母命令（验证：`git config --list` 中能看到该别名，输入别名能正常提交）"
+      },
+      "忘了分支名时用gitcheckout直接回到上一个工作分支验证gitbranch显示当前已切回原分支": {
+        "id": "t2cce207e",
+        "text": "忘了分支名时，用 `git checkout -` 直接回到上一个工作分支（验证：`git branch` 显示当前已切回原分支）"
+      },
+      "提交信息写错时用gitcommitamendm新消息修补最近一次提交验证gitlog中最新提交信息已更新": {
+        "id": "tad22ccc1",
+        "text": "提交信息写错时，用 `git commit --amend -m \"新消息\"` 修补最近一次提交（验证：`git log` 中最新提交信息已更新）"
+      },
+      "漏加文件时先gitadd<文件>再gitcommitamendnoedit并入上次提交验证gitshowstat中包含新文件": {
+        "id": "te4d9d735",
+        "text": "漏加文件时，先 `git add <文件>` 再 `git commit --amend --no-edit` 并入上次提交（验证：`git show --stat` 中包含新文件）"
+      },
+      "已推送的错误提交用gitrevert<提交>撤销生成反向提交而不篡改历史验证gitlog出现一条revert提交代码回到之前状态": {
+        "id": "t4e1b55fa",
+        "text": "已推送的错误提交用 `git revert <提交>` 撤销，生成反向提交而不篡改历史（验证：`git log` 出现一条 \"Revert...\" 提交，代码回到之前状态）"
+      },
+      "半成品改动用gitstashsave名字命名保存验证gitstashlist中能看到带名字的条目": {
+        "id": "t7a461399",
+        "text": "半成品改动用 `git stash save \"名字\"` 命名保存（验证：`git stash list` 中能看到带名字的条目）"
+      },
+      "恢复时用gitstashlist找到索引再gitstashapply<索引>取回验证gitstatus中改动重新出现": {
+        "id": "t26ffea30",
+        "text": "恢复时用 `git stash list` 找到索引，再 `git stash apply <索引>` 取回（验证：`git status` 中改动重新出现）"
+      },
+      "日志难读时用gitloggraphonelinedecorate查看分支连接关系验证输出为单行、带图形与装饰信息": {
+        "id": "t0366cbc1",
+        "text": "日志难读时，用 `git log --graph --oneline --decorate` 查看分支连接关系（验证：输出为单行、带图形与装饰信息）"
+      },
+      "应用出bug时先gitbisectstart标记当前坏提交gitbisectbad与最后的好提交gitbisectgood<提交>逐个用gitbisectgoodbad二分定位坏提交验证bisect输出指向具体提交哈希结束用gitbisectreset": {
+        "id": "t7304db80",
+        "text": "应用出 bug 时，先 `git bisect start`，标记当前坏提交（`git bisect bad`）与最后的好提交（`git bisect good <提交>`），逐个用 `git bisect good/bad` 二分定位坏提交（验证：bisect 输出指向具体提交哈希，结束用 `git bisect reset`）"
+      },
+      "先gitfetch拉取远程最新代码但不合并验证gitstatus显示本地落后于远程": {
+        "id": "t9566200c",
+        "text": "先 `git fetch` 拉取远程最新代码但不合并（验证：`git status` 显示本地落后于远程）"
+      },
+      "用gitresethardorigin<分支>把本地代码硬重置为远程状态验证gitdifforigin<分支>无差异": {
+        "id": "t82f505d1",
+        "text": "用 `git reset --hard origin/<分支>` 把本地代码硬重置为远程状态（验证：`git diff origin/<分支>` 无差异）"
+      },
+      "残留的未跟踪文件构建产物用gitclean清除验证gitstatus中不再有untracked文件": {
+        "id": "tf688d2cd",
+        "text": "残留的未跟踪文件/构建产物用 `git clean` 清除（验证：`git status` 中不再有 untracked 文件）"
+      }
+    },
+    "03-实操清单/新仓库上手清单.md": {
+      "在项目目录运行gitinit把当前目录变成git仓库验证方式终端输出initializedemptygitrepositoryvscode源代码管理面板出现变更列表": {
+        "id": "tcbd75381",
+        "text": "在项目目录运行 `git init`，把当前目录变成 Git 仓库（验证方式：终端输出 \"Initialized empty Git repository\"；VS Code 源代码管理面板出现变更列表）"
+      },
+      "确认项目里的文件显示为**uuntracked**图标说明文件尚未被跟踪验证方式vscode源代码管理面板查看": {
+        "id": "tfe49a85d",
+        "text": "确认项目里的文件显示为 **U（Untracked）** 图标，说明文件尚未被跟踪（验证方式：VS Code 源代码管理面板查看）"
+      },
+      "了解反悔入口删除隐藏的git目录即可完全取消git初始化验证方式lsa能看到git删除后源代码管理面板恢复nosourcecontrolprovider": {
+        "id": "ta2314c66",
+        "text": "了解\"反悔入口\"：删除隐藏的 `.git` 目录即可完全取消 Git 初始化（验证方式：`ls -a` 能看到 `.git`；删除后源代码管理面板恢复 \"No source control provider\"）"
+      },
+      "在仓库根目录创建gitignore文件验证方式ls可见该文件": {
+        "id": "tb8bffe84",
+        "text": "在仓库根目录创建 `.gitignore` 文件（验证方式：`ls` 可见该文件）"
+      },
+      "写入要排除的路径模式私密的api密钥、依赖目录如nodemodules、无用的日志文件验证方式被排除的文件不再出现在源代码管理变更列表中": {
+        "id": "t90b417cf",
+        "text": "写入要排除的路径/模式：私密的 API 密钥、依赖目录（如 `node_modules`）、无用的日志文件（验证方式：被排除的文件不再出现在源代码管理变更列表中）"
+      },
+      "可选用vscode插件自动生成对应环境的默认忽略规则省去手写验证方式生成的gitignore包含常见条目": {
+        "id": "t98f7af1e",
+        "text": "（可选）用 VS Code 插件自动生成对应环境的默认忽略规则，省去手写（验证方式：生成的 `.gitignore` 包含常见条目）"
+      },
+      "运行gitadd暂存整个工作目录或gitadd<文件名>只暂存单个文件也可在vscode里点**+**号暂存验证方式gitstatus中文件进入staged状态": {
+        "id": "ta4e4e785",
+        "text": "运行 `git add .` 暂存整个工作目录，或 `git add <文件名>` 只暂存单个文件；也可在 VS Code 里点 **+** 号暂存（验证方式：`git status` 中文件进入 staged 状态）"
+      },
+      "运行gitcommitm描述本次改动的信息完成首次提交提交信息可写成多行——第一行摘要、第二行详细说明验证方式命令输出列出本次创建修改删除的文件暂存区清空、工作目录干净": {
+        "id": "t85415ce9",
+        "text": "运行 `git commit -m \"描述本次改动的信息\"` 完成首次提交；提交信息可写成多行——第一行摘要、第二行详细说明（验证方式：命令输出列出本次创建/修改/删除的文件，暂存区清空、工作目录干净）"
+      },
+      "记住撤销暂存用gitreset不要加hard验证方式gitstatus中文件回到unstaged状态": {
+        "id": "t832fb718",
+        "text": "记住撤销暂存用 `git reset`（不要加 `--hard`）（验证方式：`git status` 中文件回到 unstaged 状态）"
+      },
+      "在vscode中安装gitlens插件验证方式插件列表中显示已安装编辑器内出现行内溯源信息": {
+        "id": "t1d048740",
+        "text": "在 VS Code 中安装 GitLens 插件（验证方式：插件列表中显示已安装，编辑器内出现行内溯源信息）"
+      },
+      "打开gitlens面板浏览提交历史逐条查看每次提交改了哪些行验证方式能看到刚做的首次提交及其变更详情": {
+        "id": "tdb3173b8",
+        "text": "打开 GitLens 面板浏览提交历史，逐条查看每次提交改了哪些行（验证方式：能看到刚做的首次提交及其变更详情）"
+      }
+    }
+  }
+}

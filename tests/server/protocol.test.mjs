@@ -6,6 +6,7 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { createApp } from '../../server/src/app.mjs'
+import { createSettingsStore } from '../../server/src/settings/store.mjs'
 import { SYSTEM_INSTRUCTIONS } from '../../server/src/runtime.mjs'
 
 // A local protocol fixture, not a real model. No API key or external request.
@@ -33,11 +34,14 @@ test('AG-UI streams a compatible Chat Completions response with server instructi
   })
   await new Promise((resolve) => model.listen(0, '127.0.0.1', resolve))
   t.after(() => new Promise((resolve) => { model.closeAllConnections(); model.close(resolve) }))
+  // Hermetic settings: never read the real server/.data/settings.json.
+  const settingsDir = await fs.mkdtemp(path.join(os.tmpdir(), 'ulb-protocol-settings-'))
+  t.after(() => fs.rm(settingsDir, { recursive: true, force: true }))
   const { app, ready } = await createApp({
     ASSISTANT_PROVIDER: 'openai-compatible', ASSISTANT_API_KEY: 'local-fixture-not-a-real-key',
     ASSISTANT_MODEL: 'fixture-model', ASSISTANT_BASE_URL: `http://127.0.0.1:${model.address().port}/v1`,
     ASSISTANT_NOTES_ROOT: notesRoot, ASSISTANT_MAX_TOOL_CALLS: '1',
-  })
+  }, { settingsStore: createSettingsStore(path.join(settingsDir, 'settings.json')) })
   assert.equal(ready, true)
   const server = app.listen(0, '127.0.0.1')
   await new Promise((resolve) => server.once('listening', resolve))

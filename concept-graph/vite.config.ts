@@ -18,6 +18,7 @@ const previewPort = Number(process.env.PREVIEW_PORT) || 5173
 const proxy: Record<string, string | ProxyOptions> = {
   '/api/copilotkit': assistantTarget,
   '/api/record': assistantTarget,
+  '/api/settings': assistantTarget,
   '/health': assistantTarget,
 }
 
@@ -32,7 +33,7 @@ const proxy: Record<string, string | ProxyOptions> = {
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: devPort,
+port: devPort,
     // 端口被占用时直接失败：一旦 Vite 悄悄换到 5200，隧道就会再次打开空白页。
     strictPort: true,
     // 监听 0.0.0.0：本地回环与隧道转发共用同一个端口。

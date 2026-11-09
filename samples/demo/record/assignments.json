@@ -1,0 +1,215 @@
+{
+  "assignments": [
+    {
+      "id": "a-4bddc0cf-52db-4db4-a789-d7edc8f4ba1f",
+      "subject": "item:i-ffe68d3b-c9a5-41a9-ae4b-5bc27bcfe95f",
+      "goalId": "g-4b9744c4-99ce-4f07-bf93-4edb362ee795",
+      "confidence": 0.95,
+      "reason": "资料标题「神经网络入门」与目录「机器学习」直接对应目标「机器学习入门：理解神经网络」，概念「神经元与激活」「代价函数」「梯度下降」「反向传播」也逐一吻合目标意图。",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "state": "accepted",
+      "autoAccepted": true,
+      "changeLogId": "log-aa8585bf-5c60-46bd-b9d8-b128f458223c",
+      "createdAt": "2026-10-14T12:02:00.000Z"
+    },
+    {
+      "id": "a-452f08f4-a987-463a-9e00-b165fa63ac41",
+      "subject": "item:i-f34a7d0b-1caf-404d-9dff-a203e5177bdb",
+      "goalId": null,
+      "confidence": 0.05,
+      "reason": "资料《Git版本控制》目录为「编程」，概念如「提交 Commit」「分支 Branch」「合并冲突」等均为版本控制内容，与目标「机器学习入门：理解神经网络」中的神经元、梯度下降、反向传播等概念无关。",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "state": "proposed",
+      "autoAccepted": false,
+      "changeLogId": "log-43f783b0-161c-4e99-8b57-b8882756a3fa",
+      "createdAt": "2026-10-18T12:00:00.000Z",
+      "_superseded": "log-a39af474-1ddb-4c06-815c-9c07ff35fafe"
+    },
+    {
+      "id": "a-44575235-5fb9-4d53-be15-1fa8827e74b6",
+      "subject": "item:i-f34a7d0b-1caf-404d-9dff-a203e5177bdb",
+      "goalId": "g-33639007-ffc5-40b0-a95a-bde8912759d5",
+      "confidence": 0.9,
+      "reason": "标题《Git版本控制》及概念「分支 Branch」「变基与压缩」「撤销提交 Revert」「贮藏 Stash」与目标「掌握 Git 版本控制」直接对应。",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "state": "accepted",
+      "autoAccepted": true,
+      "changeLogId": "log-a39af474-1ddb-4c06-815c-9c07ff35fafe",
+      "createdAt": "2026-10-18T12:02:00.000Z"
+    },
+    {
+      "id": "a-a774311c-3eab-4097-b308-0caad7cb3e5e",
+      "subject": "item:i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a",
+      "goalId": null,
+      "confidence": 0.1,
+      "reason": "资料《凯利公式与仓位管理》（目录提示「量化交易」）与现有目标「机器学习入门：理解神经网络」「掌握 Git 版本控制」均无关联。",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "state": "proposed",
+      "autoAccepted": false,
+      "changeLogId": "log-87554de9-2309-4a31-942b-9c343d2ff609",
+      "createdAt": "2026-10-24T12:00:00.000Z",
+      "_superseded": "log-1f187d73-bda3-4c86-99c5-e9e4dac78d79"
+    },
+    {
+      "id": "a-69337d51-ffde-45c9-8e5f-d8130001ceea",
+      "subject": "item:i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a",
+      "goalId": "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66",
+      "confidence": 0.95,
+      "reason": "标题《凯利公式与仓位管理》与目标「量化交易：凯利公式与仓位管理」直接对应，概念「凯利公式」「分数凯利」「最优仓位」「动态调仓」也与目标意图完全吻合。",
+      "evidence": [],
+      "by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "state": "accepted",
+      "autoAccepted": true,
+      "changeLogId": "log-1f187d73-bda3-4c86-99c5-e9e4dac78d79",
+      "createdAt": "2026-10-24T12:02:00.000Z"
+    }
+  ],
+  "goalProposals": [
+    {
+      "id": "gp-bb66b7b3-2c20-494d-830c-6d9fc6cdf399",
+      "title": "机器学习入门：理解神经网络",
+      "intent": "系统理解神经网络的基本结构与训练原理，包括神经元与激活、代价函数、梯度下降、反向传播等核心概念。",
+      "reason": "资料《神经网络入门》目录提示为「机器学习」，概念包含「神经元与激活」「代价函数」「梯度下降」「反向传播」等，用户暂无对应学习目标。",
+      "fromSubjects": [
+        "item:i-ffe68d3b-c9a5-41a9-ae4b-5bc27bcfe95f"
+      ],
+      "_changeLogId": "log-d941312a-f5ec-44b8-916f-d701c122348d",
+      "_by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "_confirmedGoalId": "g-4b9744c4-99ce-4f07-bf93-4edb362ee795"
+    },
+    {
+      "id": "gp-776c13a4-dc76-49a2-bcc1-94890b52d346",
+      "title": "掌握 Git 版本控制",
+      "intent": "掌握 Git 从初始化、暂存提交、分支合并到 GitHub 开源协作的完整流程，并熟悉变基、Revert、Stash 等进阶提效技巧。",
+      "reason": "资料《Git版本控制》涵盖「提交 Commit」「分支 Branch」「变基与压缩」「快进合并」等完整版本控制主题，现有目标中均无合适归属。",
+      "fromSubjects": [
+        "item:i-f34a7d0b-1caf-404d-9dff-a203e5177bdb"
+      ],
+      "_changeLogId": "log-43f783b0-161c-4e99-8b57-b8882756a3fa",
+      "_by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "_confirmedGoalId": "g-33639007-ffc5-40b0-a95a-bde8912759d5"
+    },
+    {
+      "id": "gp-580238eb-e4e4-408e-90ac-80aa5afedc29",
+      "title": "量化交易：凯利公式与仓位管理",
+      "intent": "理解凯利公式如何把胜率与盈亏比换算成最优仓位，学会用分数凯利在充满随机性的市场中控制风险，并随表现动态调仓。",
+      "reason": "资料《凯利公式与仓位管理》及其概念「凯利公式」「分数凯利」「动态调仓」围绕量化交易下的资金管理主题，现有目标均不覆盖。",
+      "fromSubjects": [
+        "item:i-24a6d2d4-67a3-42ed-b38d-7f69b4869c9a"
+      ],
+      "_changeLogId": "log-87554de9-2309-4a31-942b-9c343d2ff609",
+      "_by": {
+        "kind": "component",
+        "name": "llm",
+        "version": "0.1",
+        "model": "glm-5.3-flash",
+        "promptVersion": "organize-llm/0.1",
+        "mock": false
+      },
+      "_confirmedGoalId": "g-6e2fef45-bc18-4b9d-987e-256d34c7ea66"
+    }
+  ],
+  "ideaAttachments": [
+    {
+      "id": "ia-1ece2499-8a33-4cfa-a855-f74c445f5c95",
+      "subject": "item:i-061ff1f0-144d-43f4-9015-2436725496f8",
+      "conceptRef": "concept:nn-basics/神经元与激活",
+      "confidence": 0.9,
+      "reason": "标题主体描述「每个神经元就是一个函数」以及上一层激活值的加权输入，直接对应概念「神经元与激活」。",
+      "_changeLogId": "log-a4899f96-932e-4a7c-b3fd-a534183cabc9"
+    },
+    {
+      "id": "ia-a5d91200-4b0e-48bf-a5f9-644e334a6ebc",
+      "subject": "item:i-061ff1f0-144d-43f4-9015-2436725496f8",
+      "conceptRef": "concept:nn-basics/权重与偏置",
+      "confidence": 0.85,
+      "reason": "标题明确提到「权重决定它关注哪些像素，偏置决定它多容易被点亮」，对应概念「权重与偏置」。",
+      "_changeLogId": "log-a4899f96-932e-4a7c-b3fd-a534183cabc9"
+    },
+    {
+      "id": "ia-e518ed4a-7cf9-4fd0-859c-78802d6e19a0",
+      "subject": "item:i-667052f1-8619-4835-854f-c523071c8534",
+      "conceptRef": "concept:git-basics/提交-commit",
+      "confidence": 0.9,
+      "reason": "想法标题明确提到「commit」和「合并冲突」，核心是提交粒度实践原则，与概念「提交 Commit」直接对应。",
+      "_changeLogId": "log-90618d53-41a4-4c39-b506-79a1457e16c7"
+    },
+    {
+      "id": "ia-8de53e99-805b-43c0-8840-e03f06f6bbb5",
+      "subject": "item:i-765f5f6a-e203-42a1-8d29-03a154ed59dd",
+      "conceptRef": "concept:kelly-sizing/仓位与风险换算",
+      "confidence": 0.9,
+      "reason": "想法标题明确提到「凯利公式」以及下注比例过高会亏光、仓位大小的重要性，与凯利公式主题下的「仓位与风险换算」概念直接对应。",
+      "_changeLogId": "log-55caf4a7-b75f-4763-a71c-57a1199807ea"
+    },
+    {
+      "id": "ia-cc925729-c8c6-4887-9f6f-0844f94ecd39",
+      "subject": "item:i-b74a121c-ef1f-4152-8f24-9a1953ce68da",
+      "conceptRef": "concept:git-basics/二分排查-bisect",
+      "confidence": 0.95,
+      "reason": "想法内容讲的是用二分查找定位引入 bug 的提交，与概念「二分排查 Bisect」直接对应。",
+      "_changeLogId": "log-4611a32a-0aa2-4e0f-aa9f-d4a9aab2c256"
+    },
+    {
+      "id": "ia-ef3d4817-c32e-4778-9d8e-506bdc6461b5",
+      "subject": "item:i-753a28bf-db24-4be4-b44f-4224f4d92706",
+      "conceptRef": "concept:nn-basics/反向传播",
+      "confidence": 0.9,
+      "reason": "想法的核心内容是对「反向传播」机制的解释，最贴合已列出的「反向传播」概念。",
+      "_changeLogId": "log-0ed72189-70a8-4a8c-ad6d-333e92e1245b"
+    }
+  ]
+}

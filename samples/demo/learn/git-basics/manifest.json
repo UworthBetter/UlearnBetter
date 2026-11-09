@@ -1,0 +1,357 @@
+{
+  "schema": "learning.manifest/0.1",
+  "topic": {
+    "id": "git-basics",
+    "title": "Git版本控制",
+    "idOrigin": "frontmatter"
+  },
+  "contentHash": "sha1:c0b1b49d50946f0b7cfd9a0794ffdfd89f89f41a",
+  "compilerVersion": "notes-compiler/0.2.0",
+  "generatedAt": "2026-10-18T00:00:00+00:00",
+  "folderHint": "编程",
+  "identity": {
+    "what": "课程笔记：10 章、11 张概念卡、2 份实操清单",
+    "about": "两个 Fireship 视频串起 Git 从初始化、暂存提交、分支合并到 GitHub 开源协作的完整流程，并补充 13 个进阶提效技巧。",
+    "route": "第一阶段 · Git 基础与本地工作流 → 第二阶段 · 合并协作与远程开源 → 第三阶段 · 进阶技巧与效率提升"
+  },
+  "counts": {
+    "chapters": 10,
+    "concepts": 11,
+    "procedures": 2
+  },
+  "source": {
+    "title": "Git It? How to use Git and Github",
+    "author": "Fireship",
+    "duration": 739,
+    "url": "https://www.youtube.com/watch?v=HkdAHXoRtos"
+  },
+  "concepts": [
+    {
+      "id": "二分排查-bisect",
+      "label": "二分排查 Bisect",
+      "aliases": [
+        "git bisect",
+        "binary search"
+      ],
+      "group": "工作流提效",
+      "order": 0,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "修补提交-amend",
+      "label": "修补提交 Amend",
+      "aliases": [
+        "git commit --amend",
+        "amend"
+      ],
+      "group": "撤销与修复",
+      "order": 1,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "分支-branch",
+      "label": "分支 Branch",
+      "aliases": [
+        "branch",
+        "master",
+        "main"
+      ],
+      "group": "分支与合并",
+      "order": 2,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 5 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "变基与压缩",
+      "label": "变基与压缩",
+      "aliases": [
+        "rebase",
+        "interactive rebase",
+        "squash"
+      ],
+      "group": "分支与合并",
+      "order": 3,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "合并冲突",
+      "label": "合并冲突",
+      "aliases": [
+        "merge conflict"
+      ],
+      "group": "分支与合并",
+      "order": 4,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "快进合并",
+      "label": "快进合并",
+      "aliases": [
+        "fast forward",
+        "fast-forward merge"
+      ],
+      "group": "分支与合并",
+      "order": 5,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 2 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "忽略文件",
+      "label": "忽略文件",
+      "aliases": [
+        "gitignore",
+        ".gitignore"
+      ],
+      "group": "核心机制",
+      "order": 6,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "提交-commit",
+      "label": "提交 Commit",
+      "aliases": [
+        "commit",
+        "快照"
+      ],
+      "group": "核心机制",
+      "order": 7,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 8 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 4
+    },
+    {
+      "id": "撤销提交-revert",
+      "label": "撤销提交 Revert",
+      "aliases": [
+        "git revert"
+      ],
+      "group": "撤销与修复",
+      "order": 8,
+      "importanceHint": 1,
+      "importanceFactors": [
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "暂存区",
+      "label": "暂存区",
+      "aliases": [
+        "staging area",
+        "git add"
+      ],
+      "group": "核心机制",
+      "order": 9,
+      "importanceHint": 3,
+      "importanceFactors": [
+        "被 4 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    },
+    {
+      "id": "贮藏-stash",
+      "label": "贮藏 Stash",
+      "aliases": [
+        "git stash",
+        "stash pop",
+        "stash apply"
+      ],
+      "group": "工作流提效",
+      "order": 10,
+      "importanceHint": 2,
+      "importanceFactors": [
+        "被 2 个章节笔记引用",
+        "出现在学习主页全景图"
+      ],
+      "blockCount": 3
+    }
+  ],
+  "groups": [
+    {
+      "name": "工作流提效",
+      "conceptIds": [
+        "二分排查-bisect",
+        "贮藏-stash"
+      ]
+    },
+    {
+      "name": "撤销与修复",
+      "conceptIds": [
+        "修补提交-amend",
+        "撤销提交-revert"
+      ]
+    },
+    {
+      "name": "分支与合并",
+      "conceptIds": [
+        "分支-branch",
+        "变基与压缩",
+        "合并冲突",
+        "快进合并"
+      ]
+    },
+    {
+      "name": "核心机制",
+      "conceptIds": [
+        "忽略文件",
+        "提交-commit",
+        "暂存区"
+      ]
+    }
+  ],
+  "procedures": [
+    {
+      "id": "proc.git-提效与自救清单",
+      "title": "Git 提效与自救清单",
+      "items": [
+        {
+          "id": "ta41d0ce1",
+          "text": "用 `git commit -am \"消息\"` 跳过单独的 `git add`，直接提交已跟踪文件的改动（验证：`git log` 中出现新提交，工作目录干净）"
+        },
+        {
+          "id": "tba0cfc6b",
+          "text": "创建别名把常用命令缩短，例如把 add + commit 做成两字母命令（验证：`git config --list` 中能看到该别名，输入别名能正常提交）"
+        },
+        {
+          "id": "t2cce207e",
+          "text": "忘了分支名时，用 `git checkout -` 直接回到上一个工作分支（验证：`git branch` 显示当前已切回原分支）"
+        },
+        {
+          "id": "tad22ccc1",
+          "text": "提交信息写错时，用 `git commit --amend -m \"新消息\"` 修补最近一次提交（验证：`git log` 中最新提交信息已更新）"
+        },
+        {
+          "id": "te4d9d735",
+          "text": "漏加文件时，先 `git add <文件>` 再 `git commit --amend --no-edit` 并入上次提交（验证：`git show --stat` 中包含新文件）"
+        },
+        {
+          "id": "t4e1b55fa",
+          "text": "已推送的错误提交用 `git revert <提交>` 撤销，生成反向提交而不篡改历史（验证：`git log` 出现一条 \"Revert...\" 提交，代码回到之前状态）"
+        },
+        {
+          "id": "t7a461399",
+          "text": "半成品改动用 `git stash save \"名字\"` 命名保存（验证：`git stash list` 中能看到带名字的条目）"
+        },
+        {
+          "id": "t26ffea30",
+          "text": "恢复时用 `git stash list` 找到索引，再 `git stash apply <索引>` 取回（验证：`git status` 中改动重新出现）"
+        },
+        {
+          "id": "t0366cbc1",
+          "text": "日志难读时，用 `git log --graph --oneline --decorate` 查看分支连接关系（验证：输出为单行、带图形与装饰信息）"
+        },
+        {
+          "id": "t7304db80",
+          "text": "应用出 bug 时，先 `git bisect start`，标记当前坏提交（`git bisect bad`）与最后的好提交（`git bisect good <提交>`），逐个用 `git bisect good/bad` 二分定位坏提交（验证：bisect 输出指向具体提交哈希，结束用 `git bisect reset`）"
+        },
+        {
+          "id": "t9566200c",
+          "text": "先 `git fetch` 拉取远程最新代码但不合并（验证：`git status` 显示本地落后于远程）"
+        },
+        {
+          "id": "t82f505d1",
+          "text": "用 `git reset --hard origin/<分支>` 把本地代码硬重置为远程状态（验证：`git diff origin/<分支>` 无差异）"
+        },
+        {
+          "id": "tf688d2cd",
+          "text": "残留的未跟踪文件/构建产物用 `git clean` 清除（验证：`git status` 中不再有 untracked 文件）"
+        }
+      ]
+    },
+    {
+      "id": "proc.新仓库上手清单",
+      "title": "新仓库上手清单",
+      "items": [
+        {
+          "id": "tcbd75381",
+          "text": "在项目目录运行 `git init`，把当前目录变成 Git 仓库（验证方式：终端输出 \"Initialized empty Git repository\"；VS Code 源代码管理面板出现变更列表）"
+        },
+        {
+          "id": "tfe49a85d",
+          "text": "确认项目里的文件显示为 **U（Untracked）** 图标，说明文件尚未被跟踪（验证方式：VS Code 源代码管理面板查看）"
+        },
+        {
+          "id": "ta2314c66",
+          "text": "了解\"反悔入口\"：删除隐藏的 `.git` 目录即可完全取消 Git 初始化（验证方式：`ls -a` 能看到 `.git`；删除后源代码管理面板恢复 \"No source control provider\"）"
+        },
+        {
+          "id": "tb8bffe84",
+          "text": "在仓库根目录创建 `.gitignore` 文件（验证方式：`ls` 可见该文件）"
+        },
+        {
+          "id": "t90b417cf",
+          "text": "写入要排除的路径/模式：私密的 API 密钥、依赖目录（如 `node_modules`）、无用的日志文件（验证方式：被排除的文件不再出现在源代码管理变更列表中）"
+        },
+        {
+          "id": "t98f7af1e",
+          "text": "（可选）用 VS Code 插件自动生成对应环境的默认忽略规则，省去手写（验证方式：生成的 `.gitignore` 包含常见条目）"
+        },
+        {
+          "id": "ta4e4e785",
+          "text": "运行 `git add .` 暂存整个工作目录，或 `git add <文件名>` 只暂存单个文件；也可在 VS Code 里点 **+** 号暂存（验证方式：`git status` 中文件进入 staged 状态）"
+        },
+        {
+          "id": "t85415ce9",
+          "text": "运行 `git commit -m \"描述本次改动的信息\"` 完成首次提交；提交信息可写成多行——第一行摘要、第二行详细说明（验证方式：命令输出列出本次创建/修改/删除的文件，暂存区清空、工作目录干净）"
+        },
+        {
+          "id": "t832fb718",
+          "text": "记住撤销暂存用 `git reset`（不要加 `--hard`）（验证方式：`git status` 中文件回到 unstaged 状态）"
+        },
+        {
+          "id": "t1d048740",
+          "text": "在 VS Code 中安装 GitLens 插件（验证方式：插件列表中显示已安装，编辑器内出现行内溯源信息）"
+        },
+        {
+          "id": "tdb3173b8",
+          "text": "打开 GitLens 面板浏览提交历史，逐条查看每次提交改了哪些行（验证方式：能看到刚做的首次提交及其变更详情）"
+        }
+      ]
+    }
+  ],
+  "route": [
+    "提交-commit",
+    "暂存区",
+    "分支-branch",
+    "忽略文件",
+    "快进合并",
+    "贮藏-stash",
+    "合并冲突",
+    "修补提交-amend",
+    "撤销提交-revert",
+    "变基与压缩",
+    "二分排查-bisect"
+  ]
+}
