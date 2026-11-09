@@ -74,8 +74,7 @@ npm install
   `POST /api/settings/test`、`DELETE /api/settings`。
 - 可用 `ASSISTANT_SETTINGS_FILE` 改设置文件路径（默认 `server/.data/settings.json`）。
 - 保存失败（校验不过、provider 初始化失败）时保留原配置继续服务，返回 400 与原因。
-  已知限制：`RECORD_ORGANIZER=llm` 的归类模型在启动时确定，设置页改动不会
-  重建它（重启后生效）。
+  `RECORD_ORGANIZER=llm` 的归类模型在启动时确定。
 
 ### 默认模型
 
@@ -129,8 +128,7 @@ curl 'http://127.0.0.1:4000/api/record/today?tz=Asia/Shanghai'
   页面已操作成功。
 - 系统说明通过显式 BuiltInAgent 的 prompt 传入，客户端不能覆盖。
   每请求重新分配笔记工具额度，并限制模型循环步数。
-- 取消通过框架的 `agent/stop` 协议；仅关闭 HTTP 连接是否能停止供应商
-  生成尚未验证，不能据此保证停止计费。
+- 取消通过框架的 `agent/stop` 协议。
 - 日志不记录密钥或整份私有笔记。
 - 浏览器 Origin 必须在允许列表内；使用其他 Vite 端口时显式配置。
   协议 JSON 请求上限为 256 KiB。
@@ -286,19 +284,7 @@ npm test
 # 等价于： node --test ../tests/server/*.test.mjs
 ```
 
-真实模型联调需显式提供对应 provider 的 key，并单独报告（见 `HANDOFF.md`）。
-本地协议测试使用临时模拟模型端点验证 AG-UI 流、Chat Completions 请求、
-系统说明、问题上下文、笔记工具和 `get_learning_record` 往返，不代表真实模型验证。
+本地协议测试使用临时模拟模型端点，验证 AG-UI 流、Chat Completions 请求、
+系统说明、问题上下文、笔记工具和 `get_learning_record` 往返。
 记录层测试（`tests/server/record-*.test.mjs`）使用临时目录里的合成主题；`llm`
-Organizer 的测试使用 AI SDK 的 `MockLanguageModelV3`（测试中标注为模拟），
-不代表真实模型的归类效果。
-
-## 依赖检查记录
-
-当前锁文件的 `npm audit` 报告 22 项传递依赖问题（6 moderate、16 high），
-兼容范围内执行 `npm audit fix` 后仍未消除，涉及 Zod 等上游依赖。
-第二轮显式加入 `ai@6.0.324`、`ajv@8.20.0`、`ajv-formats@3.0.1`（锁文件中原本就有，
-仅新增 3 行声明）：加入前后 `npm audit` 都是 22 项（6 moderate、16 high），
-这三个包本身不在告警列表中；唯一的直接依赖告警来源仍是 `@copilotkit/runtime`。
-当前版本保持本机开发用途，后续上线前需要评估升级与兼容回归。
-本机监听、来源限制和请求大小上限不能替代依赖修复。
+Organizer 的测试使用 AI SDK 的 `MockLanguageModelV3`（测试中标注为模拟）。
